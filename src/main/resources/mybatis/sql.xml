@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookha.main.mapper.UserMapper">
+    <!--  회원가입  -->
+    <insert id="saveUser" parameterType="com.bookha.main.vo.UserVo">
+        INSERT INTO tb_user
+        (
+            USER_ID,
+            USER_PW,
+            USER_NAME,
+            USER_AUTH,
+            APPEND_DATE,
+            UPDATE_DATE
+        )
+        VALUES(
+                  #{userId},
+                  #{userPw},
+                  #{userName},
+                  #{userAuth},
+                  #{appendDate},
+                  #{updateDate}
+              );
+    </insert>
+
+    <select id="getUserAccount" resultType="com.bookha.main.vo.UserVo">
+        SELECT USER_NO AS userNo,
+               USER_ID AS userId,
+               USER_PW AS userPw,
+               USER_NAME AS userName,
+               USER_AUTH AS userAuth,
+               APPEND_DATE AS appendDate,
+               UPDATE_DATE AS updateDate
+        FROM tb_user
+        WHERE USER_ID= #{userId}
+    </select>
+</mapper>
