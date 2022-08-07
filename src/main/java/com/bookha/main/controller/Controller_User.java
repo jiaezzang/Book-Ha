@@ -49,7 +49,7 @@ public class Controller_User {
 
     @GetMapping("/accessDenied")
     public String accessDenied() {
-        return "login/accessDenied";
+        return "error/error";
     }
     
     @GetMapping("/mainpage")
@@ -60,7 +60,7 @@ public class Controller_User {
     
     @GetMapping("/user_account_setting")
     public String user_setting() {
-    	return "error/error";
+    	return "login/user_account_setting";
     }
    
 }
