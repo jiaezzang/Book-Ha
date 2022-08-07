@@ -202,9 +202,9 @@
 									<div class="mt-3 first"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/flower_1.png"
+												style="width: 100px;" />
 										</div>
 										<div>
 											</br>
@@ -215,9 +215,9 @@
 									<div class="mt-3 second"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -227,9 +227,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -239,9 +239,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -251,9 +251,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -275,9 +275,9 @@
 									<div class="mt-3 first"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/animal_1.png"
+												style="width: 100px;" />
 										</div>
 										<div>
 											</br>
@@ -288,9 +288,9 @@
 									<div class="mt-3 second"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -300,9 +300,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -312,9 +312,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -324,9 +324,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -348,9 +348,9 @@
 									<div class="mt-3 first"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/food_1.png"
+												style="width: 100px;" />
 										</div>
 										<div>
 											</br>
@@ -361,9 +361,9 @@
 									<div class="mt-3 second"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -373,9 +373,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -385,9 +385,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -397,9 +397,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -421,9 +421,9 @@
 									<div class="mt-3 first"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/fruit_1.png"
+												style="width: 100px;" />
 										</div>
 										<div>
 											</br>
@@ -434,9 +434,9 @@
 									<div class="mt-3 second"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -446,9 +446,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -458,9 +458,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
@@ -470,9 +470,9 @@
 									<div class="mt-3 third"
 										style="display: inline-block; text-align: center;">
 										<div>
-											<img class="mb-sm-0 mb-2 h-auto rounded-circle"
-												src="../assets/img/elements/reading2.jpg"
-												style="width: 140px;" />
+											<img class="mb-sm-0 mb-2 h-auto"
+												src="../assets/img/achievements/none.png"
+												style="width: 100px;" />
 										</div>
 										<br />
 										<div>
