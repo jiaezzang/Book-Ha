@@ -200,41 +200,41 @@
 					<div class="card h-100">
 						<div class="card-body" style="height:220px; display:flex; justify-content:space-around; align-items:center;">
 							<!-- 동일 라인에 들어가는 컨텐츠 -->
-						  	<div class="rankingtitle1" style="display:inline-block;" >
+						  	<div class="rankingtitle" style="display:inline-block;" >
 						  		<h5>이 주의 출석왕</h5>
 						  	</div>
 						  	<div class="mt-3 first" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle" src="../assets/img/elements/reading2.jpg" style="width:140px;"/>
+						  			<img class="mb-sm-0 mb-2 h-auto" src="../assets/img/achievements/food_4.png" style="width:110px;"/>
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/gold.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>야옹짱</p>
 						  		</div>
 						  	</div>
 						  	
 						  	<div class="mt-3 second" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle"  src="../assets/img/elements/reading2.jpg" style="width:140px;"/>
+						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/animal_5.png" style="width:110px;"/>
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/silver.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>고전파</p>
 						  		</div>
 						  	</div>
 						  	<div class="mt-3 third" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle"  src="../assets/img/elements/reading2.jpg" style="width:140px;" />
+						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/fruit_1.png" style="width:110px;" />
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/bronze.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>독서왕루피</p>
 						  		</div>
 						  	</div>
 						  	<!-- /동일 라인에 들어가는 컨텐츠 -->
@@ -244,40 +244,40 @@
                   <div class="card h-100">
 					  <div class="card-body" style="height:220px; display:flex; justify-content:space-around; align-items:center;">
 					  		<!-- 동일 라인에 들어가는 컨텐츠 -->
-						  	<div class="rankingtitle1" style="display:inline-block;" >
+						  	<div class="rankingtitle" style="display:inline-block;" >
 						  		<h5>이 주의 리뷰왕</h5>
 						  	</div>
 						  	<div class="mt-3 first1" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle" src="../assets/img/elements/reading2.jpg" style="width:140px;"/>
+						  			<img class="mb-sm-0 mb-2 h-auto" src="../assets/img/achievements/fruit_4.png" style="width:110px;"/>
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/gold.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>멍멍짱</p>
 						  		</div>
 						  	</div>
 						  	<div class="mt-3 second1" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle"  src="../assets/img/elements/reading2.jpg" style="width:140px;"/>
+						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/food_5.png" style="width:110px;"/>
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/silver.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>핏쨩</p>
 						  		</div>
 						  	</div>
 						  	<div class="mt-3 third1" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle"  src="../assets/img/elements/reading2.jpg" style="width:140px;" />
+						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/animal_1.png" style="width:110px;" />
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/bronze.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>하이룽</p>
 						  		</div>
 						  	</div>
 						  	<!-- /동일 라인에 들어가는 컨텐츠 -->
@@ -287,40 +287,40 @@
                   <div class="card h-100">
 					  <div class="card-body" style="height:220px; display:flex; justify-content:space-around; align-items:center;">
 					  		<!-- 동일 라인에 들어가는 컨텐츠 -->
-						  	<div class="rankingtitle1" style="display:inline-block;" >
+						  	<div class="rankingtitle" style="display:inline-block;" >
 						  		<h5>이 주의 인증왕</h5>
 						  	</div>
 						  	<div class="mt-3 first1" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle" src="../assets/img/elements/reading2.jpg" style="width:140px;"/>
+						  			<img class="mb-sm-0 mb-2 h-auto" src="../assets/img/achievements/animal_4.png" style="width:110px;"/>
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/gold.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>멍멍짱</p>
 						  		</div>
 						  	</div>
 						  	<div class="mt-3 second1" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle"  src="../assets/img/elements/reading2.jpg" style="width:140px;"/>
+						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/food_2.png" style="width:110px;"/>
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/silver.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>꼬꼬댁</p>
 						  		</div>
 						  	</div>
 						  	<div class="mt-3 third1" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle"  src="../assets/img/elements/reading2.jpg" style="width:140px;" />
+						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/flower_1.png" style="width:110px;" />
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/bronze.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>럭키걸</p>
 						  		</div>
 						  	</div>
 						  	<!-- /동일 라인에 들어가는 컨텐츠 -->
@@ -335,35 +335,35 @@
 						  	</div>
 						  	<div class="mt-3 first1" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle" src="../assets/img/elements/reading2.jpg" style="width:140px;"/>
+						  			<img class="mb-sm-0 mb-2 h-auto" src="../assets/img/achievements/flower_5.png" style="width:110px;"/>
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/gold.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>메이플</p>
 						  		</div>
 						  	</div>
 						  	<div class="mt-3 second1" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle"  src="../assets/img/elements/reading2.jpg" style="width:140px;"/>
+						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/fruit_2.png" style="width:110px;"/>
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/silver.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>주민</p>
 						  		</div>
 						  	</div>
 						  	<div class="mt-3 third1" style="display:inline-block; text-align:center;" >
 						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto rounded-circle"  src="../assets/img/elements/reading2.jpg" style="width:140px;" />
+						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/animal_3.png" style="width:110px;" />
 						  		</div>
 						  		<div>
 						  			<img class="medal" src="../assets/img/icons/medals/bronze.png" style="width:90px"/>
 						  		</div>
 						  		<div>
-						  			<p>닉네임</p>
+						  			<p>내가짱</p>
 						  		</div>
 						  	</div>
 						  	<!-- /동일 라인에 들어가는 컨텐츠 -->
