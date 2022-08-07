@@ -92,6 +92,17 @@
 
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
+						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
+
+					<!-- Tables -->
+					<li class="menu-item"><a href="/ranking.do"
+						class="menu-link"> <i class='menu-icon bx bx-crown'
+							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
+							<div data-i18n="Tables">업적과 순위</div>
+					</a></li>
+
+					<!-- Forms & Tables -->
+					<li class="menu-header small text-uppercase"><span
 						class="menu-header-text">책을 읽고 느낀점을 나눠봐요!</span></li>
 
 					<!-- Tables -->
@@ -101,16 +112,6 @@
 							<div data-i18n="Tables">독후감 나누기</div>
 					</a></li>
 
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/ranking.do"
-						class="menu-link"> <i class='menu-icon bx bx-crown'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">업적과 순위</div>
-					</a></li>
 
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
@@ -633,6 +634,24 @@
 									</div>
 								</div>
 							</div>
+							<!-- 페이징 -->
+							<div class="demo-inline-spacing" style="display:flex; justify-content: center;">
+								<!-- Basic Pagination -->
+								<nav aria-label="Page navigation">
+									<ul class="pagination">
+										<li class="page-item first"><a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-left"></i></a></li>
+										<li class="page-item prev"><a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-left"></i></a></li>
+										<li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+										<li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+										<li class="page-item active"><a class="page-link" href="javascript:void(0);">3</a></li>
+										<li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
+										<li class="page-item"><a class="page-link" href="javascript:void(0);">5</a></li>
+										<li class="page-item next"><a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-right"></i></a></li>
+										<li class="page-item last"><a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-right"></i></a></li>
+									</ul>
+								</nav>
+								<!--/ Basic Pagination -->
+							</div>
 						</div>
 					</div>
 					<!--/ Hoverable Table rows -->
@@ -657,11 +676,11 @@
 											placeholder="Enter Name">
 									</div>
 								</div>
+								<!-- 사진업로드  -->
 								<div class="row g-2">
 									<div>
-										<label for="formFileDisabled" class="form-label">사진</label> <input
-											class="form-control" type="file" id="formFileDisabled"
-											disabled="">
+										<label for="formFile" class="form-label">사진</label> <input
+											class="form-control" type="file" id="formFile"accept=".gif, .jpg, .png">
 									</div>
 								</div>
 							</div>
@@ -692,11 +711,11 @@
 											placeholder="Enter Name">
 									</div>
 								</div>
+								<!-- 사진업로드  -->
 								<div class="row g-2">
 									<div>
-										<label for="formFileDisabled" class="form-label">사진</label> <input
-											class="form-control" type="file" id="formFileDisabled"
-											disabled="">
+										<label for="formFile" class="form-label">사진</label> <input
+											class="form-control" type="file" id="formFile"accept=".gif, .jpg, .png">
 									</div>
 								</div>
 							</div>
@@ -729,31 +748,31 @@
 				</div>
 
 				<!-- Footer -->
-				<footer class="content-footer footer bg-footer-theme">
-					<div
-						class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-						<div class="mb-2 mb-md-0">
-							©
-							<script>
-								document.write(new Date().getFullYear());
-							</script>
-							, made with ❤️ by <a href="https://themeselection.com"
-								target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-						</div>
-						<div>
-							<a href="https://themeselection.com/license/"
-								class="footer-link me-4" target="_blank">License</a> <a
-								href="https://themeselection.com/" target="_blank"
-								class="footer-link me-4">More Themes</a> <a
-								href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-								target="_blank" class="footer-link me-4">Documentation</a>
+<!-- 				<footer class="content-footer footer bg-footer-theme"> -->
+<!-- 					<div -->
+<!-- 						class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
+<!-- 						<div class="mb-2 mb-md-0"> -->
+<!-- 							© -->
+<!-- 							<script> -->
+<!--  								document.write(new Date().getFullYear()); -->
+<!-- 							</script> -->
+<!-- 							, made with ❤️ by <a href="https://themeselection.com" -->
+<!-- 								target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
+<!-- 						</div> -->
+<!-- 						<div> -->
+<!-- 							<a href="https://themeselection.com/license/" -->
+<!-- 								class="footer-link me-4" target="_blank">License</a> <a -->
+<!-- 								href="https://themeselection.com/" target="_blank" -->
+<!-- 								class="footer-link me-4">More Themes</a> <a -->
+<!-- 								href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" -->
+<!-- 								target="_blank" class="footer-link me-4">Documentation</a> -->
 
-							<a
-								href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-								target="_blank" class="footer-link me-4">Support</a>
-						</div>
-					</div>
-				</footer>
+<!-- 							<a -->
+<!-- 								href="https://github.com/themeselection/sneat-html-admin-template-free/issues" -->
+<!-- 								target="_blank" class="footer-link me-4">Support</a> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</footer> -->
 				<!-- / Footer -->
 
 				<div class="content-backdrop fade"></div>

@@ -99,7 +99,7 @@
 	bottom: 3rem;
 	right: 9rem;
 	z-index: 999999;
-	box-shadow: 0 1px 10px 1px #5B9DC9;
+	box-shadow: 0 1px 10px 1px #696cff;
 }
 
 .buy-now2 .btn-buy-now2:hover {
@@ -164,6 +164,16 @@
 
 				<ul class="menu-inner py-1">
 
+					<!-- Forms & Tables -->
+					<li class="menu-header small text-uppercase"><span
+						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
+
+					<!-- Tables -->
+					<li class="menu-item"><a href="/ranking.do"
+						class="menu-link"> <i class='menu-icon bx bx-crown'
+							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
+							<div data-i18n="Tables">업적과 순위</div>
+					</a></li>
 
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
@@ -175,17 +185,6 @@
 							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
 							<!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
 							<div data-i18n="Tables">독후감 나누기</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/ranking.do"
-						class="menu-link"> <i class='menu-icon bx bx-crown'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">업적과 순위</div>
 					</a></li>
 
 					<!-- Forms & Tables -->
@@ -421,30 +420,29 @@
 
 
 						<!-- Footer -->
-						<footer class="content-footer footer bg-footer-theme">
-							<div
-								class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-								<div class="mb-2 mb-md-0">
-									©
-									<script>
-										document
-												.write(new Date().getFullYear());
-									</script>
-									, made with ❤️ by <a href="https://themeselection.com"
-										target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-								</div>
-								<div>
-									<a href="https://themeselection.com/license/"
-										class="footer-link me-4" target="_blank">License</a> <a
-										href="https://themeselection.com/" target="_blank"
-										class="footer-link me-4">More Themes</a> <a
-										href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-										target="_blank" class="footer-link me-4">Documentation</a> <a
-										href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-										target="_blank" class="footer-link me-4">Support</a>
-								</div>
-							</div>
-						</footer>
+<!-- 						<footer class="content-footer footer bg-footer-theme"> -->
+<!-- 							<div -->
+<!-- 								class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
+<!-- 								<div class="mb-2 mb-md-0"> -->
+<!-- 									© -->
+<!-- 									<script> -->
+<!--  						            document.write(new Date().getFullYear()); -->
+<!-- 									</script> -->
+<!-- 									, made with ❤️ by <a href="https://themeselection.com" -->
+<!-- 										target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
+<!-- 								</div> -->
+<!-- 								<div> -->
+<!-- 									<a href="https://themeselection.com/license/" -->
+<!-- 										class="footer-link me-4" target="_blank">License</a> <a -->
+<!-- 										href="https://themeselection.com/" target="_blank" -->
+<!-- 										class="footer-link me-4">More Themes</a> <a -->
+<!-- 										href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" -->
+<!-- 										target="_blank" class="footer-link me-4">Documentation</a> <a -->
+<!-- 										href="https://github.com/themeselection/sneat-html-admin-template-free/issues" -->
+<!-- 										target="_blank" class="footer-link me-4">Support</a> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</footer> -->
 						<!-- / Footer -->
 
 						<div class="content-backdrop fade"></div>
