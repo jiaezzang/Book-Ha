@@ -57,10 +57,6 @@ public class Controller_User {
     	//return "login/mainpage";
     	return "home/home";
     }
-    
-    @GetMapping("/user_account_setting")
-    public String user_setting() {
-    	return "login/user_account_setting";
-    }
+
    
 }
