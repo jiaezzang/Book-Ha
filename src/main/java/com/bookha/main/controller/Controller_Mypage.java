@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bookha.model.Model_LogoHtml;
 import com.bookha.model.Model_ProfileHtml;
 
 @RestController
@@ -25,6 +26,9 @@ public class Controller_Mypage {
 		Model_ProfileHtml profile = new Model_ProfileHtml();
 		mv.addObject("profile", profile.getProfile().toString());
 		
+		Model_LogoHtml logo = new Model_LogoHtml();
+		mv.addObject("logo", logo.getLogo().toString());
+		
 		mv.setViewName("mypage/my_attendance");
 		return mv;
 	}
@@ -39,11 +43,14 @@ public class Controller_Mypage {
 		Model_ProfileHtml profile = new Model_ProfileHtml();
 		mv.addObject("profile", profile.getProfile().toString());
 		
+		Model_LogoHtml logo = new Model_LogoHtml();
+		mv.addObject("logo", logo.getLogo().toString());
+		
 		mv.setViewName("mypage/my_achievements");
 		return mv;
 	}
 	
-	@RequestMapping(value = "/user_account_setting")
+	@RequestMapping(value = "/user_account_setting.do")
 	public ModelAndView user_account_setting(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
@@ -53,9 +60,96 @@ public class Controller_Mypage {
 		Model_ProfileHtml profile = new Model_ProfileHtml();
 		mv.addObject("profile", profile.getProfile().toString());
 		
+		Model_LogoHtml logo = new Model_LogoHtml();
+		mv.addObject("logo", logo.getLogo().toString());
+		
 		mv.setViewName("mypage/user_account_setting");
 		return mv;
 	}
 
+	@RequestMapping(value = "/al_list.do")
+	public ModelAndView al_list(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		//mv.addObject("msg", "get");
+		
+		mv.addObject("title", title);
+		
+		Model_ProfileHtml profile = new Model_ProfileHtml();
+		mv.addObject("profile", profile.getProfile().toString());
+		
+		Model_LogoHtml logo = new Model_LogoHtml();
+		mv.addObject("logo", logo.getLogo().toString());
+		
+		mv.setViewName("mypage/my_album_list");
+		return mv;
+	}
+	
+	@RequestMapping(value = "/re_list.do")
+	public ModelAndView re_list(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		//mv.addObject("msg", "get");
+		
+		mv.addObject("title", title);
+		
+		Model_ProfileHtml profile = new Model_ProfileHtml();
+		mv.addObject("profile", profile.getProfile().toString());
+		
+		Model_LogoHtml logo = new Model_LogoHtml();
+		mv.addObject("logo", logo.getLogo().toString());
+		
+		mv.setViewName("mypage/my_review_list");
+		return mv;
+	}
+	
+	@RequestMapping(value = "/re_view.do")
+	public ModelAndView re_view(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		//mv.addObject("msg", "get");
+		
+		mv.addObject("title", title);
+		
+		Model_ProfileHtml profile = new Model_ProfileHtml();
+		mv.addObject("profile", profile.getProfile().toString());
+		
+		Model_LogoHtml logo = new Model_LogoHtml();
+		mv.addObject("logo", logo.getLogo().toString());
+		
+		mv.setViewName("mypage/my_review_view");
+		return mv;
+	}
+	
+	@RequestMapping(value = "/sh_list.do")
+	public ModelAndView sh_list(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		//mv.addObject("msg", "get");
+		
+		mv.addObject("title", title);
+		
+		Model_ProfileHtml profile = new Model_ProfileHtml();
+		mv.addObject("profile", profile.getProfile().toString());
+		
+		Model_LogoHtml logo = new Model_LogoHtml();
+		mv.addObject("logo", logo.getLogo().toString());
+		
+		mv.setViewName("mypage/my_share_list");
+		return mv;
+	}
+	
+	@RequestMapping(value = "/sh_view.do")
+	public ModelAndView sh_view(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mv = new ModelAndView();
+		//mv.addObject("msg", "get");
+		
+		mv.addObject("title", title);
+		
+		Model_ProfileHtml profile = new Model_ProfileHtml();
+		mv.addObject("profile", profile.getProfile().toString());
+		
+		Model_LogoHtml logo = new Model_LogoHtml();
+		mv.addObject("logo", logo.getLogo().toString());
+		
+		mv.setViewName("mypage/my_share_view");
+		return mv;
+	}
 
 }
