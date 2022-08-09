@@ -103,7 +103,7 @@ String logo = (String) request.getAttribute("logo");
 								class="menu-link">
 									<div data-i18n="Badges">찔끔 챌린지</div>
 							</a></li>
-							<li class="menu-item active"><a href="/sh_list.do"
+							<li class="menu-item"><a href="/sh_list.do"
 								class="menu-link">
 									<div data-i18n="Buttons">나눔과 공유하기</div>
 							</a></li>

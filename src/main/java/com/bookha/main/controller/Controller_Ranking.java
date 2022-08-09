@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bookha.model.Model_LogoHtml;
 import com.bookha.model.Model_ProfileHtml;
 
 @RestController
@@ -28,6 +29,9 @@ public class Controller_Ranking {
 		} else if(this.user_role.equals("admin")) {
 			mv.addObject("profile", profile.getAdminProfile().toString());
 		}
+		
+		Model_LogoHtml logo = new Model_LogoHtml();
+		mv.addObject("logo", logo.getLogo().toString());
 		
 		mv.setViewName("ranking/ranking");
 		return mv;
