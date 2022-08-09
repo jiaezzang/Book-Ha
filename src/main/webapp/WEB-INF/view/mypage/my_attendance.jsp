@@ -54,6 +54,9 @@ html, body {
 	font-size: 14px;
 }
 
+.fc-toolbar-title{
+
+}
 
 .fc-daygrid-day-events {
 	position: relative;
@@ -78,6 +81,14 @@ html, body {
     border-color: #696cff !important;
     background: transparent !important;
     border-radius: 50rem !important;
+}
+
+.fc-myCustomButton-button:hover {
+  color: #fff !important;
+  background-color: #696cff !important;
+  border-color: #696cff !important;
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4) !important;
+  transform: translateY(-1px) !important;
 }
 
 .fc-today-button{
