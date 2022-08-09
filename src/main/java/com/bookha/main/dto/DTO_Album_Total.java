@@ -17,7 +17,6 @@ public class DTO_Album_Total {
 	private int endBlock;
 	
 	private ArrayList<DTO_Album_Board> board;
-	private ArrayList<DTO_Album_Comment> comment;
 	
 	public DTO_Album_Total() {
 		// TODO Auto-generated constructor stub
