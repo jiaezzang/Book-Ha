@@ -54,17 +54,54 @@ html, body {
 	font-size: 14px;
 }
 
-#calendar {
-	max-width: 1100px;
-	margin: 40px auto;
-}
 
 .fc-daygrid-day-events {
 	position: relative;
 	min-height: 7em !important;
+	
+}
+
+.fc-myCustomButton-button{
+	display: inline-block !important;
+    font-weight: 400 !important;
+    line-height: 1.53 !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    user-select: none !important;
+    border: 1px solid transparent !important;
+    padding: 0.4375rem 1.25rem !important;
+    font-size: 0.9375rem !important;
+    border-radius: 0.375rem !important;
+    transition: all 0.2s ease-in-out !important;
+    
+    color: #696cff !important;
+    border-color: #696cff !important;
+    background: transparent !important;
+    border-radius: 50rem !important;
+}
+
+.fc-today-button{
+    color: #fff !important;
+    background-color: #696cff !important;
+    border-color: #696cff !important;
+    box-shadow: 0 0.125rem 0.25rem 0 rgb(105 108 255 / 40%) !important;
+
+}
+
+.fc-button-group{
+    position: relative !important;
+    display: inline-flex !important;
+    vertical-align: middle !important;
+}
+
+.fc-prev-button, .fc-next-button{
+	color: #fff;
+    background-color: #696cff !important;
+    border-color: #696cff !important;
+    box-shadow: 0 0.125rem 0.25rem 0 rgb(105 108 255 / 40%) !important;
 }
 .stamp {
-	width:70%;
+	width:50%;
 	display: block; 
 	margin: 0px auto;
 }
@@ -95,9 +132,19 @@ html, body {
 			},
 			 		    events: [
  		    	{
- 		    		 start : "2022-08-08",
+ 		    		 start : "2022-08-01",
  		    		 image_url : "../assets/img/stamps/stamp.png"
- 		    	}
+ 		    	},
+
+ 		    	{
+		    		 start : "2022-08-15",
+		    		 image_url : "../assets/img/stamps/stamp.png"
+		    	},
+
+		    	{
+		    		 start : "2022-08-29",
+		    		 image_url : "../assets/img/stamps/stamp.png"
+		    	}
  		    ],
  			//image content
  			eventContent: function(arg) {
