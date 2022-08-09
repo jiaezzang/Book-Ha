@@ -125,11 +125,102 @@
 	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
 <script>
-   	$(function() {
-		$('#accordion').accordion({
-			// jQuery UI accordion 본문 축소기능 활성화
-			collapsible: true,
-			active: false
+	$(document).ready(function() {
+		
+		let tag_radio = '';
+		
+		$('button').on('click', function(e) {
+			tag_radio = $(this).text();
+		});
+		
+		$('#board_submit').on("click", function(e) {
+			
+		let f = document.createElement('form');
+		
+		let obj1;
+		obj1 = document.createElement('input');
+		obj1.setAttribute('type', 'hidden');
+		obj1.setAttribute('name', 'b_title');
+		obj1.setAttribute('value', $('#defaultFormControlInput').val());
+		
+		let obj2;
+		obj2 = document.createElement('input');
+		obj2.setAttribute('type', 'hidden');
+		obj2.setAttribute('name', 'user_num');
+//			obj2.setAttribute('value', user_num);
+		obj2.setAttribute('value', 4);
+		
+		let obj3;
+		obj3 = document.createElement('input');
+		obj3.setAttribute('type', 'hidden');
+		obj3.setAttribute('name', 'content');
+		obj3.setAttribute('value', editor.getHTML());
+		
+		let obj4;
+		obj4 = document.createElement('input');
+		obj4.setAttribute('type', 'hidden');
+		obj4.setAttribute('name', 'hash_tag');
+		obj4.setAttribute('value', tag_radio);
+		
+		let obj5;
+		obj5 = document.createElement('input');
+		obj5.setAttribute('type', 'hidden');
+		obj5.setAttribute('name', 'book_img_url');
+			let img_url = $("input[name='bookRadio']:checked").parent().parent().html();
+			let startImgUrl = img_url.indexOf("src=\"");
+			let lastImgUrl = img_url.indexOf("\"", startImgUrl+5);
+			let subImgUrl = img_url.substring(startImgUrl+5, lastImgUrl).replaceAll("amp;", "");
+		obj5.setAttribute('value', subImgUrl);
+		
+		let obj6;
+		obj6 = document.createElement('input');
+		obj6.setAttribute('type', 'hidden');
+		obj6.setAttribute('name', 'book_info_url');
+			let info_url = $("input[name='bookRadio']:checked").parent().parent().find('h6').html();
+			let startInfoUrl = info_url.indexOf("\"");
+			let lastInfoUrl = info_url.lastIndexOf("\"");
+			let subInfoUrl = info_url.substring(startInfoUrl+1, lastInfoUrl).replaceAll("amp;", "");
+		obj6.setAttribute('value', subInfoUrl);
+		
+		let obj7;
+		obj7 = document.createElement('input');
+		obj7.setAttribute('type', 'hidden');
+		obj7.setAttribute('name', 'book_title');
+		obj7.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('a').html());
+		
+		let obj8;
+		obj8 = document.createElement('input');
+		obj8.setAttribute('type', 'hidden');
+		obj8.setAttribute('name', 'book_author');
+		obj8.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_author').html());
+		
+		let obj9;
+		obj9 = document.createElement('input');
+		obj9.setAttribute('type', 'hidden');
+		obj9.setAttribute('name', 'book_publisher');
+		obj9.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_publisher').html());
+		
+		let obj10;
+		obj10 = document.createElement('input');
+		obj10.setAttribute('type', 'hidden');
+		obj10.setAttribute('name', 'book_summary');
+		obj10.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_summary').html());
+		
+		f.appendChild(obj1);
+		f.appendChild(obj2);
+		f.appendChild(obj3);
+		f.appendChild(obj4);
+		f.appendChild(obj5);
+		f.appendChild(obj6);
+		f.appendChild(obj7);
+		f.appendChild(obj8);
+		f.appendChild(obj9);
+		f.appendChild(obj10);
+		
+		f.setAttribute('method', 'post');
+		f.setAttribute('action', '/review_write_ok.do');
+		document.body.appendChild(f);
+		f.submit();
 		});
 	});
 </script>
@@ -272,24 +363,17 @@
 									<tbody>
 										<tr>
 											<td>&nbsp;&nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"># 소설</button>
+												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 소설</button>
 												&nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 수필</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 시</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 인문/사회</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 과학</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 기타</button>
+												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 수필</button>
+												&nbsp;
+												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 시</button>
+												&nbsp;
+												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 인문/사회</button>
+												&nbsp;
+												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 과학</button>
+												&nbsp;
+												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 기타</button>
 											</td>
 										</tr>
 									</tbody>
@@ -408,9 +492,9 @@ $(document).ready(() => {
 		        html += "<img src='" + msg.documents[i].thumbnail + "' style='width: 120px' class='me-4 mb-sm-0 mb-2'/>";
 		        html += "<span>";
 		        html += "<h6><a href='"+ msg.documents[i].url +"'>" + msg.documents[i].title + "</a></h6>";
-		        html += "<strong>저자:</strong> " + msg.documents[i].authors + "<br>";
-		        html += "<strong>출판사:</strong> " + msg.documents[i].publisher + "<br>";
-		        html += "<strong>요약:</strong> " + msg.documents[i].contents + "...<br>";
+		        html += "<strong>저자:</strong> <span class='span_author'>" + msg.documents[i].authors + "</span><br>";
+		        html += "<strong>출판사:</strong> <span class='span_publisher'>" + msg.documents[i].publisher + "</span><br>";
+		        html += "<strong>요약:</strong> <span class='span_summary'>" + msg.documents[i].contents + "...</span><br>";
 		        html += "</span>";
 		        html += "</div>";
 		        html += "</td></tr>";
@@ -449,9 +533,9 @@ $(document).ready(() => {
     		        html += "<img src='" + msg.documents[i].thumbnail + "' style='width: 120px' class='me-4 mb-sm-0 mb-2'/>";
     		        html += "<span>";
     		        html += "<h6><a href='"+ msg.documents[i].url +"'>" + msg.documents[i].title + "</a></h6>";
-    		        html += "<strong>저자:</strong> " + msg.documents[i].authors + "<br>";
-    		        html += "<strong>출판사:</strong> " + msg.documents[i].publisher + "<br>";
-    		        html += "<strong>요약:</strong> " + msg.documents[i].contents + "...<br>";
+    		        html += "<strong>저자:</strong> <span class='span_author'>" + msg.documents[i].authors + "</span><br>";
+    		        html += "<strong>출판사:</strong> <span class='span_publisher'>" + msg.documents[i].publisher + "</span><br>";
+    		        html += "<strong>요약:</strong> <span class='span_summary'>" + msg.documents[i].contents + "...</span><br>";
     		        html += "</span>";
     		        html += "</div>";
     		        html += "</td></tr>";
