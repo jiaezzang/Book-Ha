@@ -127,100 +127,104 @@
 <script>
 	$(document).ready(function() {
 		
-		let tag_radio = '';
-		
-		$('button').on('click', function(e) {
-			tag_radio = $(this).text();
-		});
-		
-		$('#board_submit').on("click", function(e) {
-			
-		let f = document.createElement('form');
-		
-		let obj1;
-		obj1 = document.createElement('input');
-		obj1.setAttribute('type', 'hidden');
-		obj1.setAttribute('name', 'b_title');
-		obj1.setAttribute('value', $('#defaultFormControlInput').val());
-		
-		let obj2;
-		obj2 = document.createElement('input');
-		obj2.setAttribute('type', 'hidden');
-		obj2.setAttribute('name', 'user_num');
-//			obj2.setAttribute('value', user_num);
-		obj2.setAttribute('value', 4);
-		
-		let obj3;
-		obj3 = document.createElement('input');
-		obj3.setAttribute('type', 'hidden');
-		obj3.setAttribute('name', 'content');
-		obj3.setAttribute('value', editor.getHTML());
-		
-		let obj4;
-		obj4 = document.createElement('input');
-		obj4.setAttribute('type', 'hidden');
-		obj4.setAttribute('name', 'hash_tag');
-		obj4.setAttribute('value', tag_radio);
-		
-		let obj5;
-		obj5 = document.createElement('input');
-		obj5.setAttribute('type', 'hidden');
-		obj5.setAttribute('name', 'book_img_url');
-			let img_url = $("input[name='bookRadio']:checked").parent().parent().html();
+	let tag_radio = '';
+   		
+   		$('.btn-check').on('click', function(e) {
+   			tag_radio = $(this).next().text();
+   		});
+   		
+   		$('#board_submit').on("click", function(e) {
+   			
+   			e.stopPropagation();
+   			
+   			let img_url = $("input[name='bookRadio']:checked").parent().parent().html();
 			let startImgUrl = img_url.indexOf("src=\"");
 			let lastImgUrl = img_url.indexOf("\"", startImgUrl+5);
 			let subImgUrl = img_url.substring(startImgUrl+5, lastImgUrl).replaceAll("amp;", "");
-		obj5.setAttribute('value', subImgUrl);
-		
-		let obj6;
-		obj6 = document.createElement('input');
-		obj6.setAttribute('type', 'hidden');
-		obj6.setAttribute('name', 'book_info_url');
+			
 			let info_url = $("input[name='bookRadio']:checked").parent().parent().find('h6').html();
 			let startInfoUrl = info_url.indexOf("\"");
 			let lastInfoUrl = info_url.lastIndexOf("\"");
 			let subInfoUrl = info_url.substring(startInfoUrl+1, lastInfoUrl).replaceAll("amp;", "");
-		obj6.setAttribute('value', subInfoUrl);
-		
-		let obj7;
-		obj7 = document.createElement('input');
-		obj7.setAttribute('type', 'hidden');
-		obj7.setAttribute('name', 'book_title');
-		obj7.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('a').html());
-		
-		let obj8;
-		obj8 = document.createElement('input');
-		obj8.setAttribute('type', 'hidden');
-		obj8.setAttribute('name', 'book_author');
-		obj8.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_author').html());
-		
-		let obj9;
-		obj9 = document.createElement('input');
-		obj9.setAttribute('type', 'hidden');
-		obj9.setAttribute('name', 'book_publisher');
-		obj9.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_publisher').html());
-		
-		let obj10;
-		obj10 = document.createElement('input');
-		obj10.setAttribute('type', 'hidden');
-		obj10.setAttribute('name', 'book_summary');
-		obj10.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_summary').html());
-		
-		f.appendChild(obj1);
-		f.appendChild(obj2);
-		f.appendChild(obj3);
-		f.appendChild(obj4);
-		f.appendChild(obj5);
-		f.appendChild(obj6);
-		f.appendChild(obj7);
-		f.appendChild(obj8);
-		f.appendChild(obj9);
-		f.appendChild(obj10);
-		
-		f.setAttribute('method', 'post');
-		f.setAttribute('action', '/review_write_ok.do');
-		document.body.appendChild(f);
-		f.submit();
+   			
+			let f = document.createElement('form');
+			
+			let obj1;
+			obj1 = document.createElement('input');
+			obj1.setAttribute('type', 'hidden');
+			obj1.setAttribute('name', 'subject');
+			obj1.setAttribute('value', $('#defaultFormControlInput').val());
+			
+			let obj2;
+			obj2 = document.createElement('input');
+			obj2.setAttribute('type', 'hidden');
+			obj2.setAttribute('name', 'user_num');
+// 			obj2.setAttribute('value', user_num);
+			obj2.setAttribute('value', 4);
+			
+			let obj3;
+			obj3 = document.createElement('input');
+			obj3.setAttribute('type', 'hidden');
+			obj3.setAttribute('name', 'content');
+			obj3.setAttribute('value', editor.getHTML());
+			
+			let obj4;
+			obj4 = document.createElement('input');
+			obj4.setAttribute('type', 'hidden');
+			obj4.setAttribute('name', 'hash_tag');
+			obj4.setAttribute('value', tag_radio);
+			
+			let obj5;
+			obj5 = document.createElement('input');
+			obj5.setAttribute('type', 'hidden');
+			obj5.setAttribute('name', 'book_img_url');
+			obj5.setAttribute('value', subImgUrl);
+			
+			let obj6;
+			obj6 = document.createElement('input');
+			obj6.setAttribute('type', 'hidden');
+			obj6.setAttribute('name', 'book_info_url');
+			obj6.setAttribute('value', subInfoUrl);
+			
+			let obj7;
+			obj7 = document.createElement('input');
+			obj7.setAttribute('type', 'hidden');
+			obj7.setAttribute('name', 'book_title');
+			obj7.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('a').html());
+			
+			let obj8;
+			obj8 = document.createElement('input');
+			obj8.setAttribute('type', 'hidden');
+			obj8.setAttribute('name', 'book_author');
+			obj8.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_author').html());
+			
+			let obj9;
+			obj9 = document.createElement('input');
+			obj9.setAttribute('type', 'hidden');
+			obj9.setAttribute('name', 'book_publisher');
+			obj9.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_publisher').html());
+			
+			let obj10;
+			obj10 = document.createElement('input');
+			obj10.setAttribute('type', 'hidden');
+			obj10.setAttribute('name', 'book_summary');
+			obj10.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_summary').html());
+			
+			f.appendChild(obj1);
+			f.appendChild(obj2);
+			f.appendChild(obj3);
+			f.appendChild(obj4);
+			f.appendChild(obj5);
+			f.appendChild(obj6);
+			f.appendChild(obj7);
+			f.appendChild(obj8);
+			f.appendChild(obj9);
+			f.appendChild(obj10);
+			
+			f.setAttribute('method', 'post');
+			f.setAttribute('action', '/review_write_ok.do');
+			document.body.appendChild(f);
+			f.submit();
 		});
 	});
 </script>
@@ -362,18 +366,25 @@
 									<tbody class="table-border-bottom-0">
 									<tbody>
 										<tr>
-											<td>&nbsp;&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 소설</button>
+											<td>
+												&nbsp;&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio1"># 소설</label>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 수필</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio2"># 수필</label>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 시</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio3"># 시</label>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 인문/사회</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 인문/사회</label>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 과학</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio5"># 과학</label>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 기타</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio6"># 기타</label>
 											</td>
 										</tr>
 									</tbody>
