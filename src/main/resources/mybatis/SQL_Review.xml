@@ -5,31 +5,41 @@
 <mapper namespace="com.bookha.main.mapper.Mapper_Review">
     <select id="list" resultType="com.bookha.main.dto.DTO_Review_Board">
         SELECT
-        	re_seq,
-            re_title,
-            re_num,
-            re_hashtag,
-            re_hit,
-            re_date
+        	re_seq as seq,
+        	re_num as user_num,
+            re_subject as subject,
+            re_hashtag as hash_tag,
+            re_hit as hit,
+            date_format(re_date, '%Y-%m-%d') as wdate,
+            datediff(now(), re_date) wgap,
+            re_book_img_url as book_img_url,
+            re_book_title as book_title,
+            user_name
         FROM
         	review_board
+        INNER JOIN
+        	tb_user
+        ON
+        	re_num = user_no
+        ORDER BY
+        	re_seq desc
     </select>
     
     <select id="view" parameterType="int" resultType="com.bookha.main.dto.DTO_Review_Board">
         SELECT
-        	re_seq,
-            re_title,
-            re_num,
-            re_content,
-            re_hashtag,
-            re_hit,
-            re_date,
-            re_book_img_url,
-            re_book_info_url,
-            re_book_title,
-            re_book_author,
-            re_book_publisher,
-            re_book_summary
+        	re_seq as seq,
+            re_subject as subject,
+            re_num as user_num,
+            re_content as content,
+            re_hashtag as hash_tag,
+            re_hit as hit,
+            re_date as wdate,
+            re_book_img_url as book_img_url,
+            re_book_info_url as book_info_url,
+            re_book_title as book_title,
+            re_book_author as book_author,
+            re_book_publisher as book_publisher,
+            re_book_summary as book_summary
         FROM
         	review_board
         WHERE
@@ -48,7 +58,7 @@
     <insert id="write_ok" parameterType="com.bookha.main.dto.DTO_Review_Board">
         INSERT INTO review_board (
             re_seq,
-            re_title,
+            re_subject,
             re_num,
             re_content,
             re_hashtag,
@@ -62,7 +72,7 @@
             re_book_summary
         ) VALUES (
 			0,
-			#{title},
+			#{subject},
 			#{user_num},
 			#{content},
 			#{hash_tag},
@@ -80,7 +90,7 @@
     <select id="modify" parameterType="int" resultType="com.bookha.main.dto.DTO_Review_Board">
         SELECT
         	re_seq,
-            re_title,
+            re_subject,
             re_num,
             re_content,
             re_hashtag,
@@ -102,7 +112,7 @@
     	UPDATE
     		review_board
     	SET
-    		re_title = #{title},
+    		re_subject = #{subject},
     		re_content = #{content},
     		re_hashtag = #{hash_tag},
     		re_book_img_url = #{book_img_url},
@@ -113,14 +123,18 @@
     		re_book_summary = #{book_summary}
     	WHERE
     		re_seq = #{seq}
+    	AND
+    		re_num = #{user_num}
     </update>
     
-    <delete id="delete_ok" parameterType="int">
+    <delete id="delete_ok" parameterType="com.bookha.main.dto.DTO_Review_Board">
     	DELETE
     	FROM
     		review_board
     	WHERE
     		re_seq = #{seq}
+    	AND
+    		re_num = #{user_num}
     </delete>
     
     <select id="comment_list" parameterType="int" resultType="com.bookha.main.dto.DTO_Review_Comment">

@@ -125,7 +125,7 @@
 	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
 <script>
-$(document).ready(function() {
+	$(document).ready(function() {
 		var pageNum = 1;
 		let tag_radio = '';
 		let book_search_is_end = false;
@@ -247,12 +247,51 @@ $(document).ready(function() {
 		});
 		
 		const toastHtml = function(title, message) {
-			let toast = document.getElementById('toastHtml');
-			toast.setAttribute('class', 'bs-toast toast toast-placement-ex m-2 fade bg-danger top-0 end-0 show');
-			$('#toast_title').html(title);
-			$('#toast_content').html(message);
-			setTimeout(() => toast.setAttribute('class', 'bs-toast toast toast-placement-ex m-2 fade bg-danger top-0 end-0 hide'), 2000);
+		// escapeHtml 허용여부
+		toastr.options.escapeHtml = true;
+		// closeButton을 생성여부
+		toastr.options.closeButton = true;
+		// closeButton의 커스텀
+		toastr.options.closeHtml = '';
+		// 메시지 창이 사라질 때의 애니메이션 효과
+		toastr.options.closeMethod = 'fadeOut';
+		// 메시지 창의 애니메이션 효과 시간
+		toastr.options.closeDuration = 300;
+		toastr.options.closeEasing = 'swing';
+		// 새로운 창의 위치, true이면 가장 위 포지션, false면 가장 아래 포지션
+		toastr.options.newestOnTop = false;
+		// 이벤트 옵션// 추가될 때 이벤트
+		//toastr.options.onShown = function() { console.log('hello'); }
+		// 사라질 때 이벤트
+		//toastr.options.onHidden = function() { console.log('goodbye'); }
+		// 클릭될 때 이벤트
+		//toastr.options.onclick = function() { console.log('clicked'); }
+		// 닫기 버튼이 눌릴 때 이벤트
+		//toastr.options.onCloseClick = function() { console.log('close button clicked'); }
+		// 메시지 중복 허용 여부, 두개 이상 메시지가 생성될 때 이 전꺼는 사라짐
+		toastr.options.preventDuplicates = true;
+		// 메시지가 표시되는 시간
+		toastr.options.timeOut = 2000;
+		// 메시지 위로 커서를 올렸을 때 표시되는 시간
+		toastr.options.extendedTimeOut = 60;
+		// 만약 메시지 표시되는 시간과 올렸을 때 표시되는 시간을 0으로 하면 메시지는 사라지지 않는다.
+		// 프로그래스바 표시 여부
+		toastr.options.progressBar = true;
+		// 글자를 오른쪽 정렬 여부
+		toastr.options.rtl = false;
+		//애니메이션 설정 여부
+		toastr.options.showEasing = 'swing';
+		
+		toastr.options.hideEasing = 'linear';
+		toastr.options.closeEasing = 'linear';
+		toastr.options.showMethod = 'fadeIn';
+		toastr.options.hideMethod = 'fadeOut';
+		toastr.options.closeMethod = 'fadeOut';
+		
+		toastr.error(message, title);
 		};
+		
+		
 		
 		$('#board_submit').on("click", function(e) {
 			if($('#defaultFormControlInput').val() == '') {
@@ -282,95 +321,142 @@ $(document).ready(function() {
 			}
 			
 			let img_url = $("input[name='bookRadio']:checked").parent().parent().html();
-		let startImgUrl = img_url.indexOf("src=\"");
-		let lastImgUrl = img_url.indexOf("\"", startImgUrl+5);
-		let subImgUrl = img_url.substring(startImgUrl+5, lastImgUrl).replaceAll("amp;", "");
-		
-		let info_url = $("input[name='bookRadio']:checked").parent().parent().find('h6').html();
-		let startInfoUrl = info_url.indexOf("\"");
-		let lastInfoUrl = info_url.lastIndexOf("\"");
-		let subInfoUrl = info_url.substring(startInfoUrl+1, lastInfoUrl).replaceAll("amp;", "");
+			let startImgUrl = img_url.indexOf("src=\"");
+			let lastImgUrl = img_url.indexOf("\"", startImgUrl+5);
+			let subImgUrl = img_url.substring(startImgUrl+5, lastImgUrl).replaceAll("amp;", "");
 			
-		let f = document.createElement('form');
+			let info_url = $("input[name='bookRadio']:checked").parent().parent().find('h6').html();
+			let startInfoUrl = info_url.indexOf("\"");
+			let lastInfoUrl = info_url.lastIndexOf("\"");
+			let subInfoUrl = info_url.substring(startInfoUrl+1, lastInfoUrl).replaceAll("amp;", "");
+				
+			let f = document.createElement('form');
+			
+			let obj1;
+			obj1 = document.createElement('input');
+			obj1.setAttribute('type', 'hidden');
+			obj1.setAttribute('name', 'subject');
+			obj1.setAttribute('value', $('#defaultFormControlInput').val());
+			
+			let obj2;
+			obj2 = document.createElement('input');
+			obj2.setAttribute('type', 'hidden');
+			obj2.setAttribute('name', 'user_num');
+	//			obj2.setAttribute('value', user_num);
+			obj2.setAttribute('value', 4);
+			
+			let obj3;
+			obj3 = document.createElement('input');
+			obj3.setAttribute('type', 'hidden');
+			obj3.setAttribute('name', 'content');
+			obj3.setAttribute('value', editor.getHTML());
+			
+			let obj4;
+			obj4 = document.createElement('input');
+			obj4.setAttribute('type', 'hidden');
+			obj4.setAttribute('name', 'hash_tag');
+			obj4.setAttribute('value', tag_radio);
+			
+			let obj5;
+			obj5 = document.createElement('input');
+			obj5.setAttribute('type', 'hidden');
+			obj5.setAttribute('name', 'book_img_url');
+			obj5.setAttribute('value', subImgUrl);
+			
+			let obj6;
+			obj6 = document.createElement('input');
+			obj6.setAttribute('type', 'hidden');
+			obj6.setAttribute('name', 'book_info_url');
+			obj6.setAttribute('value', subInfoUrl);
+			
+			let obj7;
+			obj7 = document.createElement('input');
+			obj7.setAttribute('type', 'hidden');
+			obj7.setAttribute('name', 'book_title');
+			obj7.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('a').html());
+			
+			let obj8;
+			obj8 = document.createElement('input');
+			obj8.setAttribute('type', 'hidden');
+			obj8.setAttribute('name', 'book_author');
+			obj8.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_author').html());
+			
+			let obj9;
+			obj9 = document.createElement('input');
+			obj9.setAttribute('type', 'hidden');
+			obj9.setAttribute('name', 'book_publisher');
+			obj9.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_publisher').html());
+			
+			let obj10;
+			obj10 = document.createElement('input');
+			obj10.setAttribute('type', 'hidden');
+			obj10.setAttribute('name', 'book_summary');
+			obj10.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_summary').html());
+			
+			f.appendChild(obj1);
+			f.appendChild(obj2);
+			f.appendChild(obj3);
+			f.appendChild(obj4);
+			f.appendChild(obj5);
+			f.appendChild(obj6);
+			f.appendChild(obj7);
+			f.appendChild(obj8);
+			f.appendChild(obj9);
+			f.appendChild(obj10);
+			
+			f.setAttribute('method', 'post');
+			f.setAttribute('action', '/review_write_ok.do');
+			document.body.appendChild(f);
+			f.submit();
+		});
 		
-		let obj1;
-		obj1 = document.createElement('input');
-		obj1.setAttribute('type', 'hidden');
-		obj1.setAttribute('name', 'subject');
-		obj1.setAttribute('value', $('#defaultFormControlInput').val());
-		
-		let obj2;
-		obj2 = document.createElement('input');
-		obj2.setAttribute('type', 'hidden');
-		obj2.setAttribute('name', 'user_num');
-//			obj2.setAttribute('value', user_num);
-		obj2.setAttribute('value', 4);
-		
-		let obj3;
-		obj3 = document.createElement('input');
-		obj3.setAttribute('type', 'hidden');
-		obj3.setAttribute('name', 'content');
-		obj3.setAttribute('value', editor.getHTML());
-		
-		let obj4;
-		obj4 = document.createElement('input');
-		obj4.setAttribute('type', 'hidden');
-		obj4.setAttribute('name', 'hash_tag');
-		obj4.setAttribute('value', tag_radio);
-		
-		let obj5;
-		obj5 = document.createElement('input');
-		obj5.setAttribute('type', 'hidden');
-		obj5.setAttribute('name', 'book_img_url');
-		obj5.setAttribute('value', subImgUrl);
-		
-		let obj6;
-		obj6 = document.createElement('input');
-		obj6.setAttribute('type', 'hidden');
-		obj6.setAttribute('name', 'book_info_url');
-		obj6.setAttribute('value', subInfoUrl);
-		
-		let obj7;
-		obj7 = document.createElement('input');
-		obj7.setAttribute('type', 'hidden');
-		obj7.setAttribute('name', 'book_title');
-		obj7.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('a').html());
-		
-		let obj8;
-		obj8 = document.createElement('input');
-		obj8.setAttribute('type', 'hidden');
-		obj8.setAttribute('name', 'book_author');
-		obj8.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_author').html());
-		
-		let obj9;
-		obj9 = document.createElement('input');
-		obj9.setAttribute('type', 'hidden');
-		obj9.setAttribute('name', 'book_publisher');
-		obj9.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_publisher').html());
-		
-		let obj10;
-		obj10 = document.createElement('input');
-		obj10.setAttribute('type', 'hidden');
-		obj10.setAttribute('name', 'book_summary');
-		obj10.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_summary').html());
-		
-		f.appendChild(obj1);
-		f.appendChild(obj2);
-		f.appendChild(obj3);
-		f.appendChild(obj4);
-		f.appendChild(obj5);
-		f.appendChild(obj6);
-		f.appendChild(obj7);
-		f.appendChild(obj8);
-		f.appendChild(obj9);
-		f.appendChild(obj10);
-		
-		f.setAttribute('method', 'post');
-		f.setAttribute('action', '/review_write_ok.do');
-		document.body.appendChild(f);
-		f.submit();
+		<!-- TOAST UI Editor 생성 JavaScript 코드 -->
+		const editor = new toastui.Editor({
+		    el: document.querySelector('#editor'),
+		    previewStyle: 'vertical',
+		    previewHighlight: false,
+		    height: '700px',
+		    // 사전입력 항목
+		    initialValue: '# 안녕하세요. 제목입니다.\n### 사전입력 테스트\n본문본문본문\n\n',
+		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
+		    hooks: {
+		    	addImageBlobHook: (blob, callback) => {
+		    		// blob : Java Script 파일 객체
+		    		//console.log(blob);
+		    		
+		    		const formData = new FormData();
+		        	formData.append('image', blob);
+		        	
+		        	let url = '/images/';
+		   			$.ajax({
+		           		type: 'POST',
+		           		enctype: 'multipart/form-data',
+		           		url: '/img_change.do',
+		           		data: formData,
+		           		dataType: 'json',
+		           		processData: false,
+		           		contentType: false,
+		           		cache: false,
+		           		timeout: 600000,
+		           		success: function(data) {
+		           			//console.log('ajax 이미지 업로드 성공');
+		           			url += data.filename;
+		           			
+		           			// callback : 에디터(마크다운 편집기)에 표시할 텍스트, 뷰어에는 imageUrl 주소에 저장된 사진으로 나옴
+		        			// 형식 : ![대체 텍스트](주소)
+		           			callback(url, '사진 대체 텍스트 입력');
+		           		},
+		           		error: function(e) {
+		           			//console.log('ajax 이미지 업로드 실패');
+		           			//console.log(e.abort([statusText]));
+		           			
+		           			callback('image_load_fail', '사진 대체 텍스트 입력');
+		           		}
+		           	});
+		    	}
+		    }
+		});
 	});
-});
 </script>
 </head>
 
@@ -553,56 +639,7 @@ $(document).ready(function() {
 
 							<!-- TOAST UI Editor가 들어갈 div태그 -->
 							<div id="editor"></div>
-
-							<!-- TOAST UI Editor 생성 JavaScript 코드 -->
-							<script>
-		const editor = new toastui.Editor({
-		    el: document.querySelector('#editor'),
-		    previewStyle: 'vertical',
-		    previewHighlight: false,
-		    height: '700px',
-		    // 사전입력 항목
-		    initialValue: '# 안녕하세요. 제목입니다.\n### 사전입력 테스트\n본문본문본문\n\n',
-		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
-		    hooks: {
-		    	addImageBlobHook: (blob, callback) => {
-		    		// blob : Java Script 파일 객체
-		    		//console.log(blob);
-		    		
-		    		const formData = new FormData();
-		        	formData.append('image', blob);
-		        	
-		        	let url = '/images/';
-		   			$.ajax({
-		           		type: 'POST',
-		           		enctype: 'multipart/form-data',
-		           		url: '/img_change.do',
-		           		data: formData,
-		           		dataType: 'json',
-		           		processData: false,
-		           		contentType: false,
-		           		cache: false,
-		           		timeout: 600000,
-		           		success: function(data) {
-		           			//console.log('ajax 이미지 업로드 성공');
-		           			url += data.filename;
-		           			
-		           			// callback : 에디터(마크다운 편집기)에 표시할 텍스트, 뷰어에는 imageUrl 주소에 저장된 사진으로 나옴
-		        			// 형식 : ![대체 텍스트](주소)
-		           			callback(url, '사진 대체 텍스트 입력');
-		           		},
-		           		error: function(e) {
-		           			//console.log('ajax 이미지 업로드 실패');
-		           			//console.log(e.abort([statusText]));
-		           			
-		           			callback('image_load_fail', '사진 대체 텍스트 입력');
-		           		}
-		           	});
-		    	}
-		    }
-		});
-        
-    </script>
+							
 						</div>
 						<!--/ Hoverable Table rows -->
 
@@ -669,9 +706,10 @@ $(document).ready(function() {
 
 	<div class="buy-now">
 		<a
-			href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
-			target="_blank" class="btn btn-outline-primary btn-buy-now"
-			style="background-color: #f5f5f9">작성 완료</a>
+			href="javascript:void(0);"
+			class="btn btn-outline-primary btn-buy-now"
+			style="background-color: #f5f5f9"
+			id="board_submit">작성 완료</a>
 	</div>
 
 	<!-- Core JS -->
