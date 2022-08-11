@@ -7,7 +7,7 @@
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	
-DTO_Review_Board to = (DTO_Review_Board)request.getAttribute("to");
+	DTO_Review_Board to = (DTO_Review_Board)request.getAttribute("to");
 	
 	int user_num = to.getUser_num();
 	int seq = to.getSeq();

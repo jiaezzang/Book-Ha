@@ -15,6 +15,7 @@ import com.bookha.main.dto.DTO_Review_Board;
 import com.bookha.main.dto.DTO_Review_Total;
 import com.bookha.model.Model_LogoHtml;
 import com.bookha.model.Model_ProfileHtml;
+import com.bookha.model.Model_ReviewList;
 
 @RestController
 public class Controller_Reveiw {
@@ -43,9 +44,9 @@ public class Controller_Reveiw {
 		mv.addObject("logo", logo.getLogo().toString());
 		
 		ArrayList<DTO_Review_Board> lists = dao.list();
-		DTO_Review_Total to = new DTO_Review_Total();
-		to.setBoard(lists);
-		mv.addObject("to", to);
+		Model_ReviewList rl = new Model_ReviewList();
+		String reviewTable = rl.getReviewList(lists);
+		mv.addObject("reviewTable", reviewTable);
 		
 		mv.setViewName("review_board/board_list");
 		return mv;

@@ -10,35 +10,7 @@
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
 	
-	DTO_Review_Total to = (DTO_Review_Total)request.getAttribute("to");
-	ArrayList<DTO_Review_Board> lists = to.getBoard();
-	
-	String view = "";
-	for(DTO_Review_Board list : lists) {
-		//System.out.println(list.getBook_img_url());
-		//System.out.println(list.getBook_title());
-		view += "<tr>";
-		view += "<td><i class='fab fa-angular fa-lg text-danger me-2'></i>";
-		view += "<a href='./review_view.do?seq=" + list.getSeq() + "' style='color: gray'> <strong>[책 리뷰]&nbsp;&nbsp;</strong>" + list.getSubject() + "</a> &nbsp;&nbsp;";
-		view += "<span class='badge rounded-pill badge-center h-px-20 w-px-20 bg-danger'>3</span>";
-		if(list.getWgap().equals("0")) {
-			view += "&nbsp;&nbsp;<span class='badge bg-info rounded-pill'>New</span>";
-		}
-		view += "</td>";
-		view += "<td>";
-		view += "<ul class='list-unstyled users-list m-0 d-flex align-items-center'>";
-		view += "<div data-bs-toggle='tooltip' data-bs-placement='top' style='margin: auto; text-align: center;' data-bs-html='true' title='<img src=\"" + list.getBook_img_url() + "\" />'>";
-		view += list.getBook_title() + "</div>";
-		view += "</ul>";
-		view += "</td>";
-		view += "<td style='margin: auto; text-align: center;'>";
-		view += "<button type='button' class='btn rounded-pill btn-outline-primary'>" + list.getHash_tag() + "</button>";
-		view += "</td>";
-		view += "<td style='margin: auto; text-align: center;'>" + list.getHit() + "</td>";
-		view += "<td style='margin: auto; text-align: center;'>" + list.getUser_name() + "</td>";
-		view += "<td style='margin: auto; text-align: center;'>" + list.getWdate() + "</td>";
-		view += "</tr>";
-	}
+	String reviewTable = (String)request.getAttribute("reviewTable");
 %>
 
 <!DOCTYPE html>
@@ -342,7 +314,7 @@
 <!-- 											<td>작성자 1</td> -->
 <!-- 											<td>2022-07-26</td> -->
 <!-- 										</tr> -->
-										<%= view %>
+										<%= reviewTable %>
 									</tbody>
 								</table>
 							</div>

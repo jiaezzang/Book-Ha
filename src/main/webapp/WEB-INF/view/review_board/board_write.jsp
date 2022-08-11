@@ -123,6 +123,10 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script
 	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
 	$(document).ready(function() {

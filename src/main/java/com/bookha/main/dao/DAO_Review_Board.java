@@ -1,11 +1,9 @@
 package com.bookha.main.dao;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bookha.main.dto.DTO_Review_Board;
 import com.bookha.main.dto.DTO_Review_Comment;
