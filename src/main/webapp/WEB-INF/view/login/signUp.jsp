@@ -53,6 +53,163 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/config.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function() {
+        phoneNo();
+
+        $("#chkSameId").on("click", () => {
+          let sendData = {
+            user_mail: $("#userId").val().trim()
+          };
+
+          $.ajax({
+            url:"http://localhost:8080/signUp/chkSameId",
+            type: "post",
+            contentType: "application/json; charset=utf-8",
+            data : JSON.stringify(sendData),
+            dataType:"json",
+            success : function(result){
+              if(result === 0) {
+                $("#signBtn").attr("status", "true");
+                $("#userId").css("border", "1px solid red");
+                alert("아이디가 중복 됩니다.");
+              } else {
+                $("#signBtn").attr("status", "false");
+                // $("#userId").css("border", "1px solid #d9dee3");
+                // $("#userId").css("border", "1px solid #696cff");
+                $("#userId").css("border", "1px solid green");
+              }
+            },
+            error : function(jqXHR,textStatus,errorThrown){
+              console.log(jqXHR);
+              console.log(textStatus);
+              console.log(errorThrown);
+            }
+          });
+
+        }); 
+
+        $("#chkSameNickname").on("click", () => {
+          let sendData = {
+            user_nickname: $("#userNickname").val().trim()
+          };
+
+          $.ajax({
+            url:"http://localhost:8080/signUp/chkSameNickname",
+            type: "post",
+            contentType: "application/json; charset=utf-8",
+            data : JSON.stringify(sendData),
+            dataType:"json",
+            success : function(result){
+              if(result === 0) {
+                $("#signBtn").attr("status", "true");
+                $("#userNickname").css("border", "1px solid red");
+                alert("닉네임이 중복 됩니다.");
+              } else {
+                $("#signBtn").attr("status", "false");
+                // $("#userId").css("border", "1px solid #d9dee3");
+                // $("#userId").css("border", "1px solid #696cff");
+                $("#userNickname").css("border", "1px solid green");
+              }
+            },
+            error : function(jqXHR,textStatus,errorThrown){
+              console.log(jqXHR);
+              console.log(textStatus);
+              console.log(errorThrown);
+            }
+          });
+
+        }); 
+
+        $('#signBtn').on("click", function() {
+          if($(this).attr("status") === "true") {
+            $("#userId").css("border", "1px solid red");
+            return alert("아이디 중복검사를 해주세요.");
+          }
+
+          if($('#userId').val().trim() === ''){
+            return alert('ID를 입력 해주세요.');
+          }
+
+          if($('#password').val().trim() === ''){
+            return alert('비밀번호를 입력 해주세요.');
+          }
+
+          if($('#userName').val().trim() === ''){
+            return alert('이름을 입력 해주세요.');
+          }
+
+          if($(this).attr("status") === "true") {
+            $("#userNickname").css("border", "1px solid red");
+            return alert("닉네임 중복검사를 해주세요.");
+          }
+
+          if($('#userNickname').val().trim() === ''){
+            return alert('닉네임을 입력 해주세요.');
+          }
+
+          if($('#phonenumber').val().trim() === ''){
+            return alert('휴대전화번호를 입력 해주세요.');
+          }
+
+          if($('#option').val().trim() === ''){
+            return alert('질문을 입력 해주세요.');
+          }
+
+          if(!$("#checkbox").prop("checked")){
+            return alert('개인정보 정책에 동의 해주세요.');
+          }
+
+          signUp();
+        })
+      });
+
+      function phoneNo() {
+        $("#phonenumber").on("keyup", () => {
+          $("#phonenumber").val( $("#phonenumber").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
+        });
+      }
+
+      function signUp() {
+        let sendData = {
+          user_mail: $("#userId").val(),
+          user_password: $("#password").val(),
+          user_name: $("#userName").val(),
+          user_nickname: $("#userNickname").val(),
+          user_phonenumber: $("#phonenumber").val().replaceAll("-", ""),
+          // userProfile: $("#"),
+          // userProfile_size: $("#"),
+          // userSelf: $("#"),
+          // user_enterdate: new Date().toLocaleDateString(),
+          // user_final: new Date().toLocaleDateString(),
+          user_enterdate: null,
+          user_final: null,
+          user_role: "USER",
+          user_option: $("#option").val()
+        };
+
+        $.ajax({
+          url:"http://localhost:8080/signUp/new",
+          type: "post",
+          contentType: "application/json; charset=utf-8",
+          data : JSON.stringify(sendData),
+          dataType:"json",
+          success : function(result){
+            window.location.href = "/login";
+          },
+          error : function(jqXHR,textStatus,errorThrown){
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+          }
+        });
+      }
+    </script>
+
   </head>
 
   <body>
@@ -129,60 +286,48 @@
               <h4 class="mb-2">회원가입 🚀</h4>
               <p class="mb-4">자신의 생각과 타인의 생각을 찾아서</p>
 
-              <form id="formAuthentication" class="mb-3" action="/signUp" method="POST">
-                <div class="mb-3">
-                  <label for="username" class="form-label">ID</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="inputEmail4"
-                    name="userId"
-                    placeholder="Email을 입력해주세요"
-                    autofocus
-                  />
+              <div class="mb-3">
+                <label for="username" class="form-label">ID</label>
+                <input type="text" class="form-control" id="userId" name="userId" placeholder="Email을 입력해주세요" autofocus />
+                <span id="chkSameId" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
+              </div>
+              <div class="mb-3 form-password-toggle">
+                <label class="form-label" for="password">Password</label>
+                <div class="input-group input-group-merge">
+                  <input type="password" id="password" class="form-control" name="userPw" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                 </div>
-                <div class="mb-3 form-password-toggle">
-                  <label class="form-label" for="password">Password</label>
-                  <div class="input-group input-group-merge">
-                    <input
-                      type="password"
-                      id="inputPassword4"
-                      class="form-control"
-                      name="userPw"
-                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                      aria-describedby="password"
-                    />
-                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <label for="name" class="form-label">이름</label>
-                  <input type="text" class="form-control" id="userName" name="userName" placeholder="이름" />
-                </div>
-                <div class="mb-3">
-                  <label for="nickname" class="form-label">닉네임</label>
-                  <input type="text" class="form-control" id="userName" name="userName" placeholder="닉네임" />
-                </div>
-<!--                <div class="mb-3">-->
-<!--                  <label for="nickname" class="form-label">닉네임</label>-->
-<!--                  <input type="text" class="form-control" id="nickname" name="nickname" placeholder="닉네임" />-->
-<!--                </div>-->
-<!--                <div class="mb-3">-->
-<!--                  <label for="phonenumber" class="form-label">연락처</label>-->
-<!--                  <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="연락처" />-->
-<!--                </div>-->
+              </div>
+              <div class="mb-3">
+                <label for="name" class="form-label">이름</label>
+                <input type="text" id="userName" class="form-control" name="userName" value="" placeholder="이름" />
+              </div>
+              <div class="mb-3">
+                <label for="nickname" class="form-label">닉네임</label>
+                <input type="text" id="userNickname" class="form-control" name="userNickname" value="" placeholder="닉네임" />
+                <span id="chkSameNickname" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
+              </div>
+             <div class="mb-3">
+               <label for="phonenumber" class="form-label">연락처</label>
+               <input type="text" id="phonenumber"  class="form-control" name="phonenumber" value="" maxlength="13" placeholder="연락처" />
+             </div>
+             <div class="mb-3">
+               <label for="option" class="form-label">질문</label><br>
+               <label class="form-label">고향은 어디십니까??</label>
+               <input type="text" id="option" class="form-control" name="option" value="" placeholder="질문의 답 입력" />
+             </div>
 
                 <div class="mb-3">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
+                    <input class="form-check-input" type="checkbox" id="checkbox" name="terms" .val()="1"/>
                     <label class="form-check-label" for="terms-conditions">
                       개인정보 정책에 동의합니다.
                       <a href="register_policy.html">개인정보 정책</a>
                     </label>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary d-grid w-100">Sign up</button>
-              </form>
+                <button id="signBtn" class="btn btn-primary d-grid w-100" status="true">Sign up</button>
+                  <br>
 
               <p class="text-center">
                 <span>회원가입을 하셨나요?</span>

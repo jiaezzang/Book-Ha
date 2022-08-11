@@ -53,6 +53,40 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/config.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $("#signIn").on("click", function() {
+          signIn();
+        });
+
+      });
+
+      function signIn() {
+        let sendData = {
+          user_mail: $("#username").val(),
+          user_password: $("#password").val()
+        };
+
+        $.ajax({
+          url:"http://localhost:8080/signIn.do",
+          type: "post",
+          contentType: "application/json; charset=utf-8",
+          data : JSON.stringify(sendData),
+          dataType:"json",
+          success : function(result){
+            window.location.href = "/";
+          },
+          error : function(jqXHR,textStatus,errorThrown){
+            alert("Id 또는 PASSWORD를 확인해 주세요.");
+          }
+        });
+      }
+    </script>
   </head>
 
   <body>
@@ -130,7 +164,6 @@
              
               <p class="mb-4">Book-Ha 의 서비스를 제공받기 위해서는 <br/>회원가입이 필요하며, <br/>회원이신분들은 로그인하여주시기 바랍니다.</p>
 
-              <form id="formAuthentication" class="mb-3" action="/login_proc" method="POST">
                 <div class="mb-3">
                   <label for="username" class="form-label">ID</label>
                   <input
@@ -145,9 +178,6 @@
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password">Password</label>
-                    <a href="/forgot_password">
-                      <small>비밀번호 찾기</small>
-                    </a>
                   </div>
                   <div class="input-group input-group-merge">
                     <input
@@ -161,24 +191,27 @@
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
+                
                 <div class="mb-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="remember-me" />
-                    <label class="form-check-label" for="remember-me"> 로그인 정보 저장 </label>
-                  </div>
+                  <button id="signIn" class="btn btn-primary d-grid w-100">Sign in</button>
                 </div>
-                <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
-                </div>
-                <div class="mb-3-ka">
-                	<img src="../KakaoTalk_20220726_144317570.png" type="submit"></img>
-                </div>
-              </form>
-
+                <div onclick="kakaoLogin()">
+                 	<img src="../KakaoTalk_20220726_144317570.png"  /> 
+                 </div>
+    
+                  <br>
               <p class="text-center">
                 <span>처음방문 하셨나요?</span>
                 <a href="/signUp">
                   <span>회원가입</span>
+                </a>
+              </p>
+              <p class="text-center">
+                <a href="/findUserId">
+                  <span>아이디 찾기</span>
+                </a> <span> / </span>
+       	        <a href="/findPw">
+                  <span>비밀번호 찾기</span>
                 </a>
               </p>
             </div>
@@ -202,6 +235,26 @@
 
     <!-- Main JS -->
     <script src="../assets/js/main.js"></script>
+    <script>
+      Kakao.init("f0e137541dcef23154b82f7c348b087a");
+
+      function kakaoLogin() {
+            if(!Kakao.Auth.getAccessToken()) {
+                Kakao.Auth.loginForm({
+                    success: function(result) {
+                        Kakao.Auth.setAccessToken(result.access_token);
+                        location.href = "/kakaoUser/kakao_add";
+                    },
+                    fail: function(err) {
+                        console.log(JSON.stringify(err));
+                    }
+                });
+            } else {
+                return;
+            }
+        }
+
+     </script>
 
   </body>
 </html>
