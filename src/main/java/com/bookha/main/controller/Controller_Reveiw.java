@@ -1,5 +1,7 @@
 package com.bookha.main.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bookha.main.dao.DAO_Review_Board;
 import com.bookha.main.dto.DTO_Review_Board;
+import com.bookha.main.dto.DTO_Review_Total;
 import com.bookha.model.Model_LogoHtml;
 import com.bookha.model.Model_ProfileHtml;
 
@@ -39,6 +42,11 @@ public class Controller_Reveiw {
 		Model_LogoHtml logo = new Model_LogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
+		ArrayList<DTO_Review_Board> lists = dao.list();
+		DTO_Review_Total to = new DTO_Review_Total();
+		to.setBoard(lists);
+		mv.addObject("to", to);
+		
 		mv.setViewName("review_board/board_list");
 		return mv;
 	}
@@ -59,6 +67,11 @@ public class Controller_Reveiw {
 		
 		Model_LogoHtml logo = new Model_LogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
+		
+		int seq = Integer.parseInt(request.getParameter("seq"));
+		dao.view_hit(seq);
+		DTO_Review_Board to = dao.view(seq);
+		mv.addObject("to", to);
 		
 		mv.setViewName("review_board/board_view");
 		return mv;
@@ -90,7 +103,7 @@ public class Controller_Reveiw {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 
-		String b_title = request.getParameter("b_title");
+		String subject = request.getParameter("subject");
 		int user_num = Integer.parseInt(request.getParameter("user_num"));
 		String content = request.getParameter("content");
 		String hash_tag = request.getParameter("hash_tag");
@@ -102,8 +115,9 @@ public class Controller_Reveiw {
 		String book_summary = request.getParameter("book_summary");
 		
 		DTO_Review_Board to = new DTO_Review_Board();
+		
 		to.setSeq(0);
-		to.setTitle(b_title);
+		to.setSubject(subject);
 		to.setUser_num(user_num);
 		to.setContent(content);
 		to.setHash_tag(hash_tag);
