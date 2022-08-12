@@ -8,20 +8,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DTO_Album_Total {
-	private int cpage;
-	private int recordPerPage;
-	private int blockPerPage;
-	private int totalPage;
-	private int totalRecord;
-	private int startBlock;
-	private int endBlock;
+	private int cpage; //현재 페이지
+	private int recordPerPage;  //보여질 게시글 수 
+	private int blockPerPage; //보여질 블록 수 
+	private int totalPage; //총 페이지 수
+	private int totalRecord;//총 게시글 수 
+	private int startBlock; //시작 블록
+	private int endBlock; //마지막 블록
 	
 	private ArrayList<DTO_Album_Board> board;
 	
 	public DTO_Album_Total() {
 		// TODO Auto-generated constructor stub
 		this.cpage = 1;
-		this.recordPerPage = 10;
+		this.recordPerPage = 12;
 		this.blockPerPage = 5;
 		this.totalPage = 1;
 		this.totalRecord = 0;

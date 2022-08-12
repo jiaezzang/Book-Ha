@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class DTO_Album_Board {
-	private int seq;
-	private int user_num;
-	private String title;
-	private String wdate;
-	private String imgName;
-	private int imgSize;
-	private int hit;
+	private int al_seq;
+	private int al_user_num;
+	private String al_subject;
+	private String al_wdate;
+	private String al_imgName;
+	private int al_imgSize;
+	private String user_name;
 }
