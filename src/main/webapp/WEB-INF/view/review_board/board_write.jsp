@@ -123,104 +123,342 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script
 	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
 	$(document).ready(function() {
-		
+		var pageNum = 1;
 		let tag_radio = '';
+		let book_search_is_end = false;
 		
-		$('button').on('click', function(e) {
-			tag_radio = $(this).text();
+		$("#search").on("click", () => {
+			$("#kakao_bookSearch_result").html("");
+			//console.log($("#query").val());
+			
+			if($("#query").val()=='') {
+				return false;	
+			}
+			
+			$.ajax({
+			    method: "GET",
+			    url: "https://dapi.kakao.com/v3/search/book?target=title",
+			    data: { query: $("#query").val(), page: pageNum},
+			    headers: {Authorization: "KakaoAK 4169af87ec57642db130af59093e6bbc"} // ########부분에 본인의 REST API 키를 넣어주세요.
+			
+			})
+			.done((msg) => {
+			    //console.log(msg);
+			    //console.log("검색 문서 수 : "+msg.meta.total_count);
+			    //console.log("중복문서 제외 노출 문서 수 : "+msg.meta.pageable_count);
+			 	//console.log("현재 페이지가 마지막 페이지인지? : "+msg.meta.is_end);
+			 	
+			book_search_is_end = msg.meta.is_end;
+			
+			let search_count = 5;
+			
+			if(msg.meta.total_count < 5) {
+				search_count = msg.meta.total_count;
+			}
+			 	
+			    for (var i = 0; i < search_count; i++){
+			        let html = "";
+			        html += "<label class='list-group-item list-group-item-action'>";
+			        html += "<table>";
+			        html += "<tr><td>";
+			        html += "<input class='form-check-input me-1' type='radio' value='' name='bookRadio'/>";
+			        html += "</td>";
+			        html += "<td>";
+			        html += "<div class='d-grid d-sm-flex p-3'>";
+			        html += "<img src='" + msg.documents[i].thumbnail + "' style='width: 120px' class='me-4 mb-sm-0 mb-2'/>";
+			        html += "<span>";
+			        html += "<h6><a href='"+ msg.documents[i].url +"'>" + msg.documents[i].title + "</a></h6>";
+			        html += "<strong>저자:</strong> <span class='span_author'>" + msg.documents[i].authors + "</span><br>";
+			        html += "<strong>출판사:</strong> <span class='span_publisher'>" + msg.documents[i].publisher + "</span><br>";
+			        html += "<strong>요약:</strong> <span class='span_summary'>" + msg.documents[i].contents + "...</span><br>";
+			        html += "</span>";
+			        html += "</div>";
+			        html += "</td></tr>";
+			        html += "</table>";
+			        html += "</label>";
+			        $("#kakao_bookSearch_result").append(html);
+			        
+			        $("#query").html("");
+			        //console.log($("#kakao_bookSearch_result").html());
+			    }
+			});
+		});
+		$(window).scroll(function(){
+			if($("#query").val()=='') {
+				return false;	
+			}
+			
+			if(book_search_is_end) {
+				return false;
+			}
+			
+	        if (Math.ceil($(window).scrollTop()) + $(window).height() >= $(document).height()) {
+	            pageNum++;
+
+	            $.ajax({
+	                method: "GET",
+	                url: "https://dapi.kakao.com/v3/search/book?target=title",
+	                data: { query: $("#query").val(),  page: pageNum},
+	                headers: {Authorization: "KakaoAK 4169af87ec57642db130af59093e6bbc"} // ########부분에 본인의 REST API 키를 넣어주세요.
+
+	            })
+	            .done(function (msg) {
+	                //console.log(msg);
+	                
+	                book_total_search_count = msg.meta.is_end;
+	                
+				let search_count = 5;
+ 				
+ 				if(msg.meta.total_count < 5) {
+ 					search_count = msg.meta.total_count;
+ 				}
+	                
+	                for (var i = 0; i < search_count; i++){
+	                	let html = "";
+	    		        html += "<label class='list-group-item list-group-item-action'>";
+	    		        html += "<table>";
+	    		        html += "<tr><td>";
+	    		        html += "<input class='form-check-input me-1' type='radio' value='' name='bookRadio'/>";
+	    		        html += "</td>";
+	    		        html += "<td>";
+	    		        html += "<div class='d-grid d-sm-flex p-3'>";
+	    		        html += "<img src='" + msg.documents[i].thumbnail + "' style='width: 120px' class='me-4 mb-sm-0 mb-2'/>";
+	    		        html += "<span>";
+	    		        html += "<h6><a href='"+ msg.documents[i].url +"'>" + msg.documents[i].title + "</a></h6>";
+	    		        html += "<strong>저자:</strong> <span class='span_author'>" + msg.documents[i].authors + "</span><br>";
+	    		        html += "<strong>출판사:</strong> <span class='span_publisher'>" + msg.documents[i].publisher + "</span><br>";
+	    		        html += "<strong>요약:</strong> <span class='span_summary'>" + msg.documents[i].contents + "...</span><br>";
+	    		        html += "</span>";
+	    		        html += "</div>";
+	    		        html += "</td></tr>";
+	    		        html += "</table>";
+	    		        html += "</label>";
+	    		        $("#kakao_bookSearch_result").append(html);
+	                }
+	            });
+	        }
+	    });
+		
+		$('.btn-check').on('click', function(e) {
+			tag_radio = $(this).next().text();
 		});
 		
+		const toastHtml = function(title, message) {
+		// escapeHtml 허용여부
+		toastr.options.escapeHtml = true;
+		// closeButton을 생성여부
+		toastr.options.closeButton = true;
+		// closeButton의 커스텀
+		toastr.options.closeHtml = '';
+		// 메시지 창이 사라질 때의 애니메이션 효과
+		toastr.options.closeMethod = 'fadeOut';
+		// 메시지 창의 애니메이션 효과 시간
+		toastr.options.closeDuration = 300;
+		toastr.options.closeEasing = 'swing';
+		// 새로운 창의 위치, true이면 가장 위 포지션, false면 가장 아래 포지션
+		toastr.options.newestOnTop = false;
+		// 이벤트 옵션// 추가될 때 이벤트
+		//toastr.options.onShown = function() { console.log('hello'); }
+		// 사라질 때 이벤트
+		//toastr.options.onHidden = function() { console.log('goodbye'); }
+		// 클릭될 때 이벤트
+		//toastr.options.onclick = function() { console.log('clicked'); }
+		// 닫기 버튼이 눌릴 때 이벤트
+		//toastr.options.onCloseClick = function() { console.log('close button clicked'); }
+		// 메시지 중복 허용 여부, 두개 이상 메시지가 생성될 때 이 전꺼는 사라짐
+		toastr.options.preventDuplicates = true;
+		// 메시지가 표시되는 시간
+		toastr.options.timeOut = 2000;
+		// 메시지 위로 커서를 올렸을 때 표시되는 시간
+		toastr.options.extendedTimeOut = 60;
+		// 만약 메시지 표시되는 시간과 올렸을 때 표시되는 시간을 0으로 하면 메시지는 사라지지 않는다.
+		// 프로그래스바 표시 여부
+		toastr.options.progressBar = true;
+		// 글자를 오른쪽 정렬 여부
+		toastr.options.rtl = false;
+		//애니메이션 설정 여부
+		toastr.options.showEasing = 'swing';
+		
+		toastr.options.hideEasing = 'linear';
+		toastr.options.closeEasing = 'linear';
+		toastr.options.showMethod = 'fadeIn';
+		toastr.options.hideMethod = 'fadeOut';
+		toastr.options.closeMethod = 'fadeOut';
+		
+		toastr.error(message, title);
+		};
+		
+		
+		
 		$('#board_submit').on("click", function(e) {
+			if($('#defaultFormControlInput').val() == '') {
+				toastHtml('입력 오류!', '제목을 입력하세요.');
+				return false;
+			}
 			
-		let f = document.createElement('form');
-		
-		let obj1;
-		obj1 = document.createElement('input');
-		obj1.setAttribute('type', 'hidden');
-		obj1.setAttribute('name', 'b_title');
-		obj1.setAttribute('value', $('#defaultFormControlInput').val());
-		
-		let obj2;
-		obj2 = document.createElement('input');
-		obj2.setAttribute('type', 'hidden');
-		obj2.setAttribute('name', 'user_num');
-//			obj2.setAttribute('value', user_num);
-		obj2.setAttribute('value', 4);
-		
-		let obj3;
-		obj3 = document.createElement('input');
-		obj3.setAttribute('type', 'hidden');
-		obj3.setAttribute('name', 'content');
-		obj3.setAttribute('value', editor.getHTML());
-		
-		let obj4;
-		obj4 = document.createElement('input');
-		obj4.setAttribute('type', 'hidden');
-		obj4.setAttribute('name', 'hash_tag');
-		obj4.setAttribute('value', tag_radio);
-		
-		let obj5;
-		obj5 = document.createElement('input');
-		obj5.setAttribute('type', 'hidden');
-		obj5.setAttribute('name', 'book_img_url');
+			if(editor.getHTML() == '') {
+				console.log(editor.getHTML());
+				toastHtml('입력 오류!', '본문을 입력하세요.');
+				return false;
+			}
+			
+			if(tag_radio == '') {
+				toastHtml('선택 오류!', '해시태그를 선택하세요.');
+				return false;	
+			}
+			
+			if($("#query").val() == '') {
+				toastHtml('입력 오류!', '읽은 책을 검색하세요.');
+				return false;	
+			}
+			
+			if($("input[name='bookRadio']").length == $("input[name='bookRadio']:not(:checked)").length) {
+				toastHtml('선택 오류!', '읽은 책을 선택하세요.');
+				return false;
+			}
+			
 			let img_url = $("input[name='bookRadio']:checked").parent().parent().html();
 			let startImgUrl = img_url.indexOf("src=\"");
 			let lastImgUrl = img_url.indexOf("\"", startImgUrl+5);
 			let subImgUrl = img_url.substring(startImgUrl+5, lastImgUrl).replaceAll("amp;", "");
-		obj5.setAttribute('value', subImgUrl);
-		
-		let obj6;
-		obj6 = document.createElement('input');
-		obj6.setAttribute('type', 'hidden');
-		obj6.setAttribute('name', 'book_info_url');
+			
 			let info_url = $("input[name='bookRadio']:checked").parent().parent().find('h6').html();
 			let startInfoUrl = info_url.indexOf("\"");
 			let lastInfoUrl = info_url.lastIndexOf("\"");
 			let subInfoUrl = info_url.substring(startInfoUrl+1, lastInfoUrl).replaceAll("amp;", "");
-		obj6.setAttribute('value', subInfoUrl);
+				
+			let f = document.createElement('form');
+			
+			let obj1;
+			obj1 = document.createElement('input');
+			obj1.setAttribute('type', 'hidden');
+			obj1.setAttribute('name', 'subject');
+			obj1.setAttribute('value', $('#defaultFormControlInput').val());
+			
+			let obj2;
+			obj2 = document.createElement('input');
+			obj2.setAttribute('type', 'hidden');
+			obj2.setAttribute('name', 'user_num');
+	//			obj2.setAttribute('value', user_num);
+			obj2.setAttribute('value', 4);
+			
+			let obj3;
+			obj3 = document.createElement('input');
+			obj3.setAttribute('type', 'hidden');
+			obj3.setAttribute('name', 'content');
+			obj3.setAttribute('value', editor.getHTML());
+			
+			let obj4;
+			obj4 = document.createElement('input');
+			obj4.setAttribute('type', 'hidden');
+			obj4.setAttribute('name', 'hash_tag');
+			obj4.setAttribute('value', tag_radio);
+			
+			let obj5;
+			obj5 = document.createElement('input');
+			obj5.setAttribute('type', 'hidden');
+			obj5.setAttribute('name', 'book_img_url');
+			obj5.setAttribute('value', subImgUrl);
+			
+			let obj6;
+			obj6 = document.createElement('input');
+			obj6.setAttribute('type', 'hidden');
+			obj6.setAttribute('name', 'book_info_url');
+			obj6.setAttribute('value', subInfoUrl);
+			
+			let obj7;
+			obj7 = document.createElement('input');
+			obj7.setAttribute('type', 'hidden');
+			obj7.setAttribute('name', 'book_title');
+			obj7.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('a').html());
+			
+			let obj8;
+			obj8 = document.createElement('input');
+			obj8.setAttribute('type', 'hidden');
+			obj8.setAttribute('name', 'book_author');
+			obj8.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_author').html());
+			
+			let obj9;
+			obj9 = document.createElement('input');
+			obj9.setAttribute('type', 'hidden');
+			obj9.setAttribute('name', 'book_publisher');
+			obj9.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_publisher').html());
+			
+			let obj10;
+			obj10 = document.createElement('input');
+			obj10.setAttribute('type', 'hidden');
+			obj10.setAttribute('name', 'book_summary');
+			obj10.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_summary').html());
+			
+			f.appendChild(obj1);
+			f.appendChild(obj2);
+			f.appendChild(obj3);
+			f.appendChild(obj4);
+			f.appendChild(obj5);
+			f.appendChild(obj6);
+			f.appendChild(obj7);
+			f.appendChild(obj8);
+			f.appendChild(obj9);
+			f.appendChild(obj10);
+			
+			f.setAttribute('method', 'post');
+			f.setAttribute('action', '/review_write_ok.do');
+			document.body.appendChild(f);
+			f.submit();
+		});
 		
-		let obj7;
-		obj7 = document.createElement('input');
-		obj7.setAttribute('type', 'hidden');
-		obj7.setAttribute('name', 'book_title');
-		obj7.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('a').html());
-		
-		let obj8;
-		obj8 = document.createElement('input');
-		obj8.setAttribute('type', 'hidden');
-		obj8.setAttribute('name', 'book_author');
-		obj8.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_author').html());
-		
-		let obj9;
-		obj9 = document.createElement('input');
-		obj9.setAttribute('type', 'hidden');
-		obj9.setAttribute('name', 'book_publisher');
-		obj9.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_publisher').html());
-		
-		let obj10;
-		obj10 = document.createElement('input');
-		obj10.setAttribute('type', 'hidden');
-		obj10.setAttribute('name', 'book_summary');
-		obj10.setAttribute('value', $("input[name='bookRadio']:checked").parent().parent().find('.span_summary').html());
-		
-		f.appendChild(obj1);
-		f.appendChild(obj2);
-		f.appendChild(obj3);
-		f.appendChild(obj4);
-		f.appendChild(obj5);
-		f.appendChild(obj6);
-		f.appendChild(obj7);
-		f.appendChild(obj8);
-		f.appendChild(obj9);
-		f.appendChild(obj10);
-		
-		f.setAttribute('method', 'post');
-		f.setAttribute('action', '/review_write_ok.do');
-		document.body.appendChild(f);
-		f.submit();
+		<!-- TOAST UI Editor 생성 JavaScript 코드 -->
+		const editor = new toastui.Editor({
+		    el: document.querySelector('#editor'),
+		    previewStyle: 'vertical',
+		    previewHighlight: false,
+		    height: '700px',
+		    // 사전입력 항목
+		    initialValue: '# 안녕하세요. 제목입니다.\n### 사전입력 테스트\n본문본문본문\n\n',
+		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
+		    hooks: {
+		    	addImageBlobHook: (blob, callback) => {
+		    		// blob : Java Script 파일 객체
+		    		//console.log(blob);
+		    		
+		    		const formData = new FormData();
+		        	formData.append('image', blob);
+		        	
+		        	let url = '/images/';
+		   			$.ajax({
+		           		type: 'POST',
+		           		enctype: 'multipart/form-data',
+		           		url: '/img_change.do',
+		           		data: formData,
+		           		dataType: 'json',
+		           		processData: false,
+		           		contentType: false,
+		           		cache: false,
+		           		timeout: 600000,
+		           		success: function(data) {
+		           			//console.log('ajax 이미지 업로드 성공');
+		           			url += data.filename;
+		           			
+		           			// callback : 에디터(마크다운 편집기)에 표시할 텍스트, 뷰어에는 imageUrl 주소에 저장된 사진으로 나옴
+		        			// 형식 : ![대체 텍스트](주소)
+		           			callback(url, '사진 대체 텍스트 입력');
+		           		},
+		           		error: function(e) {
+		           			//console.log('ajax 이미지 업로드 실패');
+		           			//console.log(e.abort([statusText]));
+		           			
+		           			callback('image_load_fail', '사진 대체 텍스트 입력');
+		           		}
+		           	});
+		    	}
+		    }
 		});
 	});
 </script>
@@ -231,6 +469,18 @@
 	<div class="layout-wrapper layout-content-navbar">
 		<div class="layout-container">
 			<!-- Menu -->
+			
+			<!-- Toast -->
+			<div id="toastHtml" class="bs-toast toast toast-placement-ex m-2 fade bg-danger top-0 end-0" role="alert" aria-live="assertive" aria-atomic="true" data-delay="100">
+				<div class="toast-header">
+				<i class="bx bx-bell me-2"></i>
+				<div class="me-auto fw-semibold" id="toast_title">Toast Title Space</div>
+				<small>방금 전</small>
+				<!-- <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button> -->
+				</div>
+				<div class="toast-body" id="toast_content">Toast Content Space</div>
+			</div>
+			<!-- /Toast -->
 
 			<aside id="layout-menu"
 				class="layout-menu menu-vertical menu bg-menu-theme">
@@ -362,18 +612,25 @@
 									<tbody class="table-border-bottom-0">
 									<tbody>
 										<tr>
-											<td>&nbsp;&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 소설</button>
+											<td>
+												&nbsp;&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio1"># 소설</label>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 수필</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio2"># 수필</label>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 시</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio3"># 시</label>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 인문/사회</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 인문/사회</label>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 과학</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio5"># 과학</label>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary" name="btnradio"># 기타</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio6"># 기타</label>
 											</td>
 										</tr>
 									</tbody>
@@ -386,61 +643,7 @@
 
 							<!-- TOAST UI Editor가 들어갈 div태그 -->
 							<div id="editor"></div>
-
-							<!-- TOAST UI Editor 생성 JavaScript 코드 -->
-							<script>
-		const editor = new toastui.Editor({
-		    el: document.querySelector('#editor'),
-		    previewStyle: 'vertical',
-		    previewHighlight: false,
-		    height: '700px',
-		    // 사전입력 항목
-		    initialValue: '# 안녕하세요. 제목입니다.\n### 사전입력 테스트\n본문본문본문\n\n',
-		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
-		    hooks: {
-		    	addImageBlobHook: (blob, callback) => {
-		    		// blob : Java Script 파일 객체
-		    		//console.log(blob);
-		    		
-		    		const formData = new FormData();
-		        	formData.append('image', blob);
-		        	
-		        	let url = '/images/';
-		   			$.ajax({
-		           		type: 'POST',
-		           		enctype: 'multipart/form-data',
-		           		url: '/img_change.do',
-		           		data: formData,
-		           		dataType: 'json',
-		           		processData: false,
-		           		contentType: false,
-		           		cache: false,
-		           		timeout: 600000,
-		           		success: function(data) {
-		           			//console.log('ajax 이미지 업로드 성공');
-		           			url += data.filename;
-		           			
-		           			// callback : 에디터(마크다운 편집기)에 표시할 텍스트, 뷰어에는 imageUrl 주소에 저장된 사진으로 나옴
-		        			// 형식 : ![대체 텍스트](주소)
-		           			callback(url, '사진 대체 텍스트 입력');
-		           		},
-		           		error: function(e) {
-		           			//console.log('ajax 이미지 업로드 실패');
-		           			//console.log(e.abort([statusText]));
-		           			
-		           			callback('image_load_fail', '사진 대체 텍스트 입력');
-		           		}
-		           	});
-		    	}
-		    }
-		});
-
-        // editor.getHtml()을 사용해서 에디터 내용 수신
-        //document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHTML());
-        // 콘솔창에 표시
-        //console.log(editor.getHTML());
-        
-    </script>
+							
 						</div>
 						<!--/ Hoverable Table rows -->
 
@@ -462,94 +665,7 @@
 							<!-- /Search -->
 
 							<div class="list-group" id="kakao_bookSearch_result"></div>
-							<script>
-$(document).ready(() => {
-	
-	var pageNum = 1;
-	
-	$("#search").on("click", () => {
-		$("#kakao_bookSearch_result").html("");
-		console.log($("#query").val());
-		
-		$.ajax({
-		    method: "GET",
-		    url: "https://dapi.kakao.com/v3/search/book?target=title",
-		    data: { query: $("#query").val(), page: pageNum},
-		    headers: {Authorization: "KakaoAK 4169af87ec57642db130af59093e6bbc"} // ########부분에 본인의 REST API 키를 넣어주세요.
-		
-		})
-		.done((msg) => {
-		    console.log(msg);
-		    for (var i = 0; i < 5; i++){
-		        let html = "";
-		        html += "<label class='list-group-item list-group-item-action'>";
-		        html += "<table>";
-		        html += "<tr><td>";
-		        html += "<input class='form-check-input me-1' type='radio' value='' name='bookRadio'/>";
-		        html += "</td>";
-		        html += "<td>";
-		        html += "<div class='d-grid d-sm-flex p-3'>";
-		        html += "<img src='" + msg.documents[i].thumbnail + "' style='width: 120px' class='me-4 mb-sm-0 mb-2'/>";
-		        html += "<span>";
-		        html += "<h6><a href='"+ msg.documents[i].url +"'>" + msg.documents[i].title + "</a></h6>";
-		        html += "<strong>저자:</strong> <span class='span_author'>" + msg.documents[i].authors + "</span><br>";
-		        html += "<strong>출판사:</strong> <span class='span_publisher'>" + msg.documents[i].publisher + "</span><br>";
-		        html += "<strong>요약:</strong> <span class='span_summary'>" + msg.documents[i].contents + "...</span><br>";
-		        html += "</span>";
-		        html += "</div>";
-		        html += "</td></tr>";
-		        html += "</table>";
-		        html += "</label>";
-		        $("#kakao_bookSearch_result").append(html);
-		        
-		        $("#query").html("");
-		        //console.log($("#kakao_bookSearch_result").html());
-		    }
-		});
-	});
-	$(window).scroll(function(){
-
-        if (Math.ceil($(window).scrollTop()) + $(window).height() >= $(document).height()) {
-            pageNum++;
-
-            $.ajax({
-                method: "GET",
-                url: "https://dapi.kakao.com/v3/search/book?target=title",
-                data: { query: $("#query").val(),  page: pageNum},
-                headers: {Authorization: "KakaoAK 4169af87ec57642db130af59093e6bbc"} // ########부분에 본인의 REST API 키를 넣어주세요.
-
-            })
-            .done(function (msg) {
-                console.log(msg);
-                for (var i = 0; i < 5; i++){
-                	let html = "";
-    		        html += "<label class='list-group-item list-group-item-action'>";
-    		        html += "<table>";
-    		        html += "<tr><td>";
-    		        html += "<input class='form-check-input me-1' type='radio' value='' name='bookRadio'/>";
-    		        html += "</td>";
-    		        html += "<td>";
-    		        html += "<div class='d-grid d-sm-flex p-3'>";
-    		        html += "<img src='" + msg.documents[i].thumbnail + "' style='width: 120px' class='me-4 mb-sm-0 mb-2'/>";
-    		        html += "<span>";
-    		        html += "<h6><a href='"+ msg.documents[i].url +"'>" + msg.documents[i].title + "</a></h6>";
-    		        html += "<strong>저자:</strong> <span class='span_author'>" + msg.documents[i].authors + "</span><br>";
-    		        html += "<strong>출판사:</strong> <span class='span_publisher'>" + msg.documents[i].publisher + "</span><br>";
-    		        html += "<strong>요약:</strong> <span class='span_summary'>" + msg.documents[i].contents + "...</span><br>";
-    		        html += "</span>";
-    		        html += "</div>";
-    		        html += "</td></tr>";
-    		        html += "</table>";
-    		        html += "</label>";
-    		        $("#kakao_bookSearch_result").append(html);
-                }
-            });
-        }
-    });
-});
-</script>
 						</div>
-
 					</div>
 					<!-- / Content -->
 
@@ -594,9 +710,10 @@ $(document).ready(() => {
 
 	<div class="buy-now">
 		<a
-			href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
-			target="_blank" class="btn btn-outline-primary btn-buy-now"
-			style="background-color: #f5f5f9">작성 완료</a>
+			href="javascript:void(0);"
+			class="btn btn-outline-primary btn-buy-now"
+			style="background-color: #f5f5f9"
+			id="board_submit">작성 완료</a>
 	</div>
 
 	<!-- Core JS -->

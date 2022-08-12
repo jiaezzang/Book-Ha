@@ -100,7 +100,7 @@
 	bottom: 3rem;
 	right: 9rem;
 	z-index: 999999;
-	box-shadow: 0 1px 10px 1px #5B9DC9;
+	box-shadow: 0 1px 10px 1px #696cff;
 }
 
 .buy-now2 .btn-buy-now2:hover {

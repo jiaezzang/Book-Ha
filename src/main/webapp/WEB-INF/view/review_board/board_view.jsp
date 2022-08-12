@@ -1,10 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.bookha.main.dto.DTO_Review_Board" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
+	
+	DTO_Review_Board to = (DTO_Review_Board)request.getAttribute("to");
+	
+	int user_num = to.getUser_num();
+	int seq = to.getSeq();
+	
+	String subject = to.getSubject();
+	String content = to.getContent();
+	String hash_tag = to.getHash_tag();
+	
+	String book_img_url = to.getBook_img_url();
+	String book_info_url = to.getBook_info_url();
+	String book_title = to.getBook_title();
+	String book_publisher = to.getBook_publisher();
+	String book_author = to.getBook_author();
+	String book_summary = to.getBook_summary();
+	
+	String btnradio1 = "disabled";
+	String btnradio2 = "disabled";
+	String btnradio3 = "disabled";
+	String btnradio4 = "disabled";
+	String btnradio5 = "disabled";
+	String btnradio6 = "disabled";
+	
+	if(hash_tag.equals("# 소설")) {
+		btnradio1 = "checked";
+	} else if(hash_tag.equals("# 수필")) {
+		btnradio2 = "checked";
+	} else if(hash_tag.equals("# 시")) {
+		btnradio3 = "checked";
+	} else if(hash_tag.equals("# 인문/사회")) {
+		btnradio4 = "checked";
+	} else if(hash_tag.equals("# 과학")) {
+		btnradio5 = "checked";
+	} else if(hash_tag.equals("# 기타")) {
+		btnradio6 = "checked";
+	}
 %>
 <!DOCTYPE html>
 
@@ -260,32 +298,32 @@
 							
 							<div>
 								<p class="form-control-plaintext"
-									id="exampleFormControlReadOnlyInputPlain1">제목이 들어갈 항목</p>
+									id="exampleFormControlReadOnlyInputPlain1"><%= subject %></p>
 							</div>
 							<div class="table-responsive text-nowrap">
 								<table class="table table-borderless">
 									<tbody class="table-border-bottom-0">
 									<tbody>
 										<tr>
-											<td>&nbsp;&nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"># 소설</button>
+											<td>
+												&nbsp;&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio1 %> id="btnradio1" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio1"># 소설</label>
 												&nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 수필</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 시</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 인문/사회</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 과학</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 기타</button>
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio2 %> id="btnradio2" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio2"># 수필</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio3 %> id="btnradio3" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio3"># 시</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio4 %> id="btnradio4" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 인문/사회</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio5 %> id="btnradio5" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio5"># 과학</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio6 %> id="btnradio6" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio6"># 기타</label>
 											</td>
 										</tr>
 									</tbody>
@@ -299,18 +337,12 @@
 									</h5>
 									<div class='d-grid d-sm-flex p-3'>
 										<img
-											src='https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F5082004%3Ftimestamp%3D20220731154947'
+											src='<%= book_img_url %>'
 											style='width: 120px' class='me-4 mb-sm-0 mb-2' /> <span>
-											<h6>
-												<a
-													href='https://search.daum.net/search?w=bookpage&bookId=5082004&q=%EB%8D%B0%EC%9D%BC+%EC%B9%B4%EB%84%A4%EA%B8%B0+%EC%9D%B8%EA%B0%84%EA%B4%80%EA%B3%84%EB%A1%A0'>데일
-													카네기의 인간관계론</a>
-											</h6> <strong>저자:</strong> 데일 카네기<br> <strong>출판사:</strong>
-											현대지성<br> <strong>요약:</strong> 인간관계는 친구를 만들고 적을 만들지 않는
-											것에서 시작된다. 『데일 카네기 인간관계론』은 이런 인간관계의 핵심을 꿰뚫는다. ‘친구를 만들고, 사람을
-											설득하는 법’이라는 제목으로 1936년 처음 출간된 데일 카네기의 책은 80년 넘게 수많은 사람들에게 영향을
-											끼쳐 왔다. 이후에 나온 모든 자기 계발서들이 이 책의 영향을 받았다고 해도 과언이 아니다. 세계적인 투자자
-											워런 버핏의 인생을 바꾼 책이자, 누구나 꼭 읽어야 할 책이기도 하다. 『데일 카네기 인간...<br>
+											<h6><a href='<%= book_info_url %>'><%= book_title %></a></h6>
+											<strong>저자:</strong> <%= book_author %><br>
+											<strong>출판사:</strong> <%= book_publisher %><br>
+											<strong>요약:</strong> <%= book_summary %><br>
 										</span>
 									</div>
 								</label>
@@ -322,22 +354,7 @@
 
 							<!-- TOAST UI Editor가 들어갈 div태그 -->
 							<div id="viewer">
-								<h1>본문제목1</h1>
-								<p>안녕하세요?</p>
-								<p>오늘 소개할 책은 데일 카네기의 인간관계론 입니다.</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>내용내용내용</p>
-								<p>감사합니다.</p>
+								<%= content %>
 							</div>
 
 							<!-- TOAST UI Editor 생성 JavaScript 코드 -->

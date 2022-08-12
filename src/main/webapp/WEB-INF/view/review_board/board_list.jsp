@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.bookha.main.dto.DTO_Review_Total" %>
+<%@ page import="com.bookha.main.dto.DTO_Review_Board" %>
+<%@ page import="java.util.ArrayList" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
+	
+	String reviewTable = (String)request.getAttribute("reviewTable");
 %>
 
 <!DOCTYPE html>
@@ -235,28 +240,28 @@
 									<tbody class="table-border-bottom-0">
 									<tbody>
 										<tr>
-											<td>&nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 전체</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 소설</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 수필</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 시</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 인문/사회</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 과학</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"
-													name="btnradio"># 기타</button>
+											<td>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio0" checked autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio0"># 전체</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio1"># 소설</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio2"># 수필</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio3"># 시</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 인문/사회</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio5"># 과학</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio6"># 기타</label>
 											</td>
 										</tr>
 									</tbody>
@@ -269,189 +274,47 @@
 							<div class="table-responsive text-nowrap">
 								<table class="table table-hover">
 									<thead>
-										<tr>
+										<tr align="center">
 											<th>제목</th>
 											<th>책 정보</th>
-											<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태그</th>
+											<th>태그</th>
+											<th>조회수</th>
 											<th>작성자</th>
 											<th>작성일자</th>
 										</tr>
 									</thead>
 									<tbody class="table-border-bottom-0">
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="./review_view.do" style="color: gray"> <strong>[책
-														리뷰]&nbsp;&nbsp;</strong>다자이 오사무의 인간 실격
-											</a> &nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
+<!-- 										<tr> -->
+<!-- 											<td><i class="fab fa-angular fa-lg text-danger me-2"></i> -->
+<!-- 												<a href="./review_view.do" style="color: gray"> <strong>[책 -->
+<!-- 														리뷰]&nbsp;&nbsp;</strong>다자이 오사무의 인간 실격 -->
+<!-- 											</a> &nbsp;&nbsp;<span -->
+<!-- 												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span> -->
 
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 d-flex align-items-center">
-													<div data-bs-toggle="tooltip" data-bs-placement="top"
-														data-bs-html="true"
-														title='<img src="https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F540869%3Ftimestamp%3D20220726171644" />'>
-														인간 실격</div>
-												</ul>
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-													<li>
-														<button type="button"
-															class="btn rounded-pill btn-outline-primary">#
-															소설</button>
-													</li>
-												</ul>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="./review_view.do" style="color: gray"> <strong>[책
-														리뷰]&nbsp;&nbsp;</strong>다자이 오사무의 인간 실격
-											</a> &nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
-
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 d-flex align-items-center">
-													<div data-bs-toggle="tooltip" data-bs-placement="top"
-														data-bs-html="true"
-														title='<img src="https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F540869%3Ftimestamp%3D20220726171644" />'>
-														인간 실격</div>
-												</ul>
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-													<li>
-														<button type="button"
-															class="btn rounded-pill btn-outline-primary">#
-															소설</button>
-													</li>
-												</ul>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="./review_view.do" style="color: gray"> <strong>[책
-														리뷰]&nbsp;&nbsp;</strong>다자이 오사무의 인간 실격
-											</a> &nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
-
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 d-flex align-items-center">
-													<div data-bs-toggle="tooltip" data-bs-placement="top"
-														data-bs-html="true"
-														title='<img src="https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F540869%3Ftimestamp%3D20220726171644" />'>
-														인간 실격</div>
-												</ul>
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-													<li>
-														<button type="button"
-															class="btn rounded-pill btn-outline-primary">#
-															소설</button>
-													</li>
-												</ul>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="./review_view.do" style="color: gray"> <strong>[책
-														리뷰]&nbsp;&nbsp;</strong>다자이 오사무의 인간 실격
-											</a> &nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
-
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 d-flex align-items-center">
-													<div data-bs-toggle="tooltip" data-bs-placement="top"
-														data-bs-html="true"
-														title='<img src="https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F540869%3Ftimestamp%3D20220726171644" />'>
-														인간 실격</div>
-												</ul>
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-													<li>
-														<button type="button"
-															class="btn rounded-pill btn-outline-primary">#
-															소설</button>
-													</li>
-												</ul>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="./review_view.do" style="color: gray"> <strong>[책
-														리뷰]&nbsp;&nbsp;</strong>다자이 오사무의 인간 실격
-											</a> &nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
-
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 d-flex align-items-center">
-													<div data-bs-toggle="tooltip" data-bs-placement="top"
-														data-bs-html="true"
-														title='<img src="https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F540869%3Ftimestamp%3D20220726171644" />'>
-														인간 실격</div>
-												</ul>
-											</td>
-											<td>
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"># 소설</button>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="./review_view.do" style="color: gray"> <strong>[책
-														리뷰]&nbsp;&nbsp;</strong>다자이 오사무의 인간 실격
-											</a> &nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
-
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 d-flex align-items-center">
-													<div data-bs-toggle="tooltip" data-bs-placement="top"
-														data-bs-html="true"
-														title='<img src="https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F540869%3Ftimestamp%3D20220726171644" />'>
-														인간 실격</div>
-												</ul>
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-													<li>
-														<button type="button"
-															class="btn rounded-pill btn-outline-primary">#
-															소설</button>
-													</li>
-												</ul>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-										</tr>
+<!-- 											</td> -->
+<!-- 											<td> -->
+<!-- 												<ul -->
+<!-- 													class="list-unstyled users-list m-0 d-flex align-items-center"> -->
+<!-- 													<div data-bs-toggle="tooltip" data-bs-placement="top" -->
+<!-- 														data-bs-html="true" -->
+<%-- 														title='<img src="https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F540869%3Ftimestamp%3D20220726171644" />'> --%>
+<!-- 														인간 실격</div> -->
+<!-- 												</ul> -->
+<!-- 											</td> -->
+<!-- 											<td> -->
+<!-- 												<ul -->
+<!-- 													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"> -->
+<!-- 													<li> -->
+<!-- 														<button type="button" -->
+<!-- 															class="btn rounded-pill btn-outline-primary"># -->
+<!-- 															소설</button> -->
+<!-- 													</li> -->
+<!-- 												</ul> -->
+<!-- 											</td> -->
+<!-- 											<td>작성자 1</td> -->
+<!-- 											<td>2022-07-26</td> -->
+<!-- 										</tr> -->
+										<%= reviewTable %>
 									</tbody>
 								</table>
 							</div>

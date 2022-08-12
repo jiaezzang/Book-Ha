@@ -25,8 +25,13 @@ public class DAO_Review_Board implements Mapper_Review {
 
 	@Override
 	public DTO_Review_Board view(int seq) {
-		mapper.view_Hit(seq);
 		return mapper.view(seq);
+	}
+	
+	@Override
+	public void view_hit(int seq) {
+		// TODO Auto-generated method stub
+		mapper.view_hit(seq);
 	}
 
 	@Override
@@ -40,15 +45,9 @@ public class DAO_Review_Board implements Mapper_Review {
 	}
 
 	@Override
-	public void view_Hit(int seq) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public DTO_Review_Board modify(DTO_Review_Board to) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.modify(to);
 	}
 
 	@Override

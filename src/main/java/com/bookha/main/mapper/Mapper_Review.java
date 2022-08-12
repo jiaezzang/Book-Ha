@@ -16,7 +16,7 @@ public interface Mapper_Review {
 	
 	DTO_Review_Board view(int seq);
 	
-	void view_Hit(int seq);
+	void view_hit(int seq);
 	
 	int write_ok(DTO_Review_Board to);
 	
