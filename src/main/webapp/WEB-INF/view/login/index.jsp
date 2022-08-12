@@ -27,7 +27,7 @@
 			<a href="#" class="logo">
 				<img src="../assets/img/logo/logo2.png" title="Book-Ha!" />
 			</a>
-			<a href="/user_account_setting" class="mypage">
+			<a href="/account/user_account_setting" class="mypage">
 				<i class="bx bx-user-circle bx-md" style="color:#696cff; font-size:40px;"></i>
 			</a>
 	</header>

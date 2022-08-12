@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookha.main.mapper.Mapper_Review">
+    <select id="list" resultType="com.bookha.main.dto.DTO_Review_Board">
+        SELECT
+        	re_seq,
+            re_title,
+            re_num,
+            re_hashtag,
+            re_hit,
+            re_date
+        FROM
+        	review_board
+    </select>
+    
+    <select id="view" parameterType="int" resultType="com.bookha.main.dto.DTO_Review_Board">
+        SELECT
+        	re_seq,
+            re_title,
+            re_num,
+            re_content,
+            re_hashtag,
+            re_hit,
+            re_date,
+            re_book_img_url,
+            re_book_info_url,
+            re_book_title,
+            re_book_author,
+            re_book_publisher,
+            re_book_summary
+        FROM
+        	review_board
+        WHERE
+        	re_seq = #{seq}
+    </select>
+    
+    <update id="view_hit" parameterType="int">
+    	UPDATE
+    		review_board
+    	SET
+    		re_hit = re_hit + 1
+    	WHERE
+    		re_seq = #{seq}
+    </update>
+    
+    <insert id="write_ok" parameterType="com.bookha.main.dto.DTO_Review_Board">
+        INSERT INTO review_board (
+            re_seq,
+            re_title,
+            re_num,
+            re_content,
+            re_hashtag,
+            re_hit,
+            re_date,
+            re_book_img_url,
+            re_book_info_url,
+            re_book_title,
+            re_book_author,
+            re_book_publisher,
+            re_book_summary
+        ) VALUES (
+			0,
+			#{title},
+			#{user_num},
+			#{content},
+			#{hash_tag},
+			0,
+			now(),
+			#{book_img_url},
+            #{book_info_url},
+            #{book_title},
+            #{book_author},
+            #{book_publisher},
+            #{book_summary}
+		);
+    </insert>
+    
+    <select id="modify" parameterType="int" resultType="com.bookha.main.dto.DTO_Review_Board">
+        SELECT
+        	re_seq,
+            re_title,
+            re_num,
+            re_content,
+            re_hashtag,
+            re_hit,
+            re_date,
+            re_book_img_url,
+            re_book_info_url,
+            re_book_title,
+            re_book_author,
+            re_book_publisher,
+            re_book_summary
+        FROM
+        	review_board
+        WHERE
+        	re_seq = #{seq}
+    </select>
+    
+    <update id="modify_ok" parameterType="com.bookha.main.dto.DTO_Review_Board">
+    	UPDATE
+    		review_board
+    	SET
+    		re_title = #{title},
+    		re_content = #{content},
+    		re_hashtag = #{hash_tag},
+    		re_book_img_url = #{book_img_url},
+    		re_book_info_url = #{book_info_url},
+    		re_book_title = #{book_title},
+    		re_book_author = #{book_author},
+    		re_book_publisher = #{book_publisher},
+    		re_book_summary = #{book_summary}
+    	WHERE
+    		re_seq = #{seq}
+    </update>
+    
+    <delete id="delete_ok" parameterType="int">
+    	DELETE
+    	FROM
+    		review_board
+    	WHERE
+    		re_seq = #{seq}
+    </delete>
+    
+    <select id="comment_list" parameterType="int" resultType="com.bookha.main.dto.DTO_Review_Comment">
+    	SELECT
+    		re_com_seq,
+    		re_com_num,
+    		re_com_content,
+    		re_com_date,
+    		re_seq
+    	FROM
+    		review_board_comment
+    	WHERE
+    		re_seq = #{board_seq}
+    </select>
+</mapper>
