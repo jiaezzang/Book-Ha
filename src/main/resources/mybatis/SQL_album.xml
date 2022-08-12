@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookha.main.mapper.Mapper_Album">
+    <select id="album_list" resultType="com.bookha.main.dto.DTO_Album_Board">
+        SELECT
+        	al_seq,
+            al_user_num,
+            al_subject,
+            date_format(al_wdate, '%Y년 %m월 %d일' ) as al_wdate,
+            al_imgName,
+            al_imgSize,
+            user_name
+        FROM
+        	album_board
+        INNER JOIN 
+        	TB_USER
+        ON
+        	al_user_num = user_num
+        ORDER BY
+        	al_seq desc
+    </select>
+    
+    <insert id="album_write" parameterType="com.bookha.main.dto.DTO_Album_Board">
+    	INSERT INTO
+    		album_board
+    	VALUES
+    		( 0, #{al_user_num}, #{al_subject}, now(), #{al_imgName}, #{al_imgSize})
+    	
+    </insert>
+    
+    <delete id="album_delete" parameterType="int">
+        DELETE
+        FROM
+        	album_board
+        WHERE
+        	al_seq=#{al_seq}
+    </delete>
+
+    <update id="album_modify" parameterType="com.bookha.main.dto.DTO_Album_Board">
+        UPDATE
+        	album_board
+        SET
+        	al_subject=#{al_subject},
+        	al_imgName=#{al_imgName}
+        WHERE
+        	al_seq=#{al_seq}
+    </update>
+</mapper>
