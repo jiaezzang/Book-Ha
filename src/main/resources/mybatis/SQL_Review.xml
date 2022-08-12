@@ -20,7 +20,7 @@
         INNER JOIN
         	tb_user
         ON
-        	re_num = user_no
+        	re_num = user_num
         ORDER BY
         	re_seq desc
     </select>
