@@ -1,3 +1,7 @@
+<%@page import="com.bookha.main.dto.DTO_Album_Total"%>
+<%@page import="com.bookha.main.dto.DTO_Album_Board"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.bookha.main.dao.DAO_Album_Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -5,6 +9,77 @@
 	
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
+	
+	DTO_Album_Total totalLists = (DTO_Album_Total)request.getAttribute("totalLists");
+	
+	ArrayList<DTO_Album_Board> lists = totalLists.getBoard();
+	
+	
+	//list 갯수 > total 추가할 것!
+	
+	StringBuilder sbHtml = new StringBuilder();
+	
+	for( DTO_Album_Board dto : lists){
+		sbHtml.append("<div class='col'>");
+		sbHtml.append("<div class='card h-100'>");
+		sbHtml.append("<img class='card-img-top'");
+		sbHtml.append("src='../album_upload/" + dto.getAl_imgName() +"' alt='Card image cap'>");
+		sbHtml.append("<div class='card-body'>");
+		
+		sbHtml.append("<div style='display: inline-block; width: 100%;'>");
+		sbHtml.append("<div class='album-title' style='display:inline-block;'>");
+		sbHtml.append("<h5 class='card-title'>"+ dto.getAl_subject() +"</h5> ");
+		sbHtml.append("</div>");
+		sbHtml.append("<div class='btn-group'");
+		sbHtml.append("style='display: inline-block; float: right;'>");
+		sbHtml.append("<button type='button'");
+		sbHtml.append("class='btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow'");
+		sbHtml.append("data-bs-toggle='dropdown' aria-expanded='false'>");
+		sbHtml.append("<i class='bx bx-dots-vertical-rounded'></i>");
+		sbHtml.append("</button>");
+		sbHtml.append("<ul class='dropdown-menu dropdown-menu-right'");
+		sbHtml.append("style='position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);'");
+		sbHtml.append("data-popper-placement='top-start'>");
+		sbHtml.append("<li><a class='dropdown-item'");
+		sbHtml.append("href='javascript:void(0);' data-bs-toggle='modal'");
+		sbHtml.append("data-bs-target='#modalCenter1'>수정</a></li>");
+		sbHtml.append("<li><a class='dropdown-item'");
+		sbHtml.append("href='javascript:void(0);' data-bs-toggle='modal'");
+		sbHtml.append("data-bs-target='#modalCenter2' onclick='deleteData("+dto.getAl_seq()+")'>삭제</a></li>");
+		sbHtml.append("</ul>");
+		sbHtml.append("</div>");
+		sbHtml.append("</div>");
+		sbHtml.append("<br />");
+		sbHtml.append("<br />");
+
+		sbHtml.append("<h6 style='text-align: right'>" + dto.getUser_name() + "</h6>");
+		sbHtml.append("<h6 style='text-align: right'>" + dto.getAl_wdate() + "</h6>");
+		sbHtml.append("</div>");
+		sbHtml.append("</div>");
+		sbHtml.append("</div>");
+		
+// 		//<!--  Delete Modal  -->
+// 		sbHtml.append("<div class='modal fade' id='modalCenter2' tabindex='-1'");
+// 		sbHtml.append("style='display: none;' aria-hidden='true' role='dialog'>");
+// 		sbHtml.append("<div class='modal-dialog modal-dialog-centered' role='document'>");
+// 		sbHtml.append("<div class='modal-content'>");
+// 		sbHtml.append("<div class='modal-header'>");
+// 		sbHtml.append("<p>정말 삭제하시겠습니까?</p>");
+// 		sbHtml.append("<br />");
+// 		sbHtml.append("<br />");
+// 		sbHtml.append("<div class='modal-footer'>");
+// 		sbHtml.append("<button type='button' class='btn btn-outline-secondary'");
+// 		sbHtml.append("data-bs-dismiss='modal'>취소</button>");
+// 		sbHtml.append("<button type='button' class='btn btn-primary' id='delete' data-del='"+dto.getAl_seq()+"' item='"+dto.getAl_seq()+"'>삭제</button>");
+// 		sbHtml.append("</div>");
+// 		sbHtml.append("</div>");
+// 		sbHtml.append("</div>");
+// 		sbHtml.append("</div>");
+// 		sbHtml.append("</div>");
+	}
+	
+
+	
 %>
 <!DOCTYPE html>
 
@@ -28,7 +103,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-<title><%= title %></title>
+<title><%=title%></title>
 
 <meta name="description" content="" />
 
@@ -65,6 +140,10 @@
 <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 <script src="../assets/js/config.js"></script>
+
+<!-- jQuery UI CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body>
@@ -142,7 +221,7 @@
 			<!-- / Menu -->
 
 			<!-- Layout container -->
-			<div class="layout-page">
+			<div class="layout-page" id="albumlayout">
 				<!-- Navbar -->
 
 				<nav
@@ -189,7 +268,7 @@
 					<!-- Content -->
 					<div class="container-xxl flex-grow-1 container-p-y">
 						<h4 class="fw-bold py-3 mb-4">
-							<span class="text-muted fw-light">찔끔 챌린지 ></span> 목록
+							<span class="text-muted fw-light">찔끔 챌린지</span> 
 						</h4>
 
 						<div class="card">
@@ -230,428 +309,60 @@
 						<!-- Hoverable Table rows -->
 						<div>
 
-							<div class="row row-cols-4 row-cols-md-4 g-4 mb-4">
-								<div class="col">
-									<div class="card h-100">
-										<img class="card-img-top"
-											src="../assets/img/elements/reading2.jpg"
-											alt="Card image cap">
-										<div class="card-body">
-
-											<div style="display: inline-block; width: 100%;">
-												<div class="album-title" style="display: inline-block;">
-													<h5 class="card-title">[Day +37] 파이팅!</h5>
-												</div>
-
-												<!-- Dropdown메뉴 > 수정/삭제 Modal -->
-												<div class="btn-group"
-													style="display: inline-block; float: right;">
-													<button type="button"
-														class="btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-														data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bx bx-dots-vertical-rounded"></i>
-													</button>
-													<ul class="dropdown-menu dropdown-menu-right"
-														style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);"
-														data-popper-placement="top-start">
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter1">수정</a></li>
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter2">삭제</a></li>
-													</ul>
-												</div>
-											</div>
-											<br />
-											<br />
-
-
-											<h6 style="text-align: right">멍멍짱</h6>
-											<h6 style="text-align: right">22.07.29</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col">
-									<div class="card h-100">
-										<img class="card-img-top"
-											src="../assets/img/elements/reading2.jpg"
-											alt="Card image cap">
-										<div class="card-body">
-
-											<div style="display: inline-block; width: 100%;">
-												<div class="album-title" style="display: inline-block;">
-													<h5 class="card-title">[Day +37] 파이팅!</h5>
-												</div>
-
-												<!-- Dropdown메뉴 > 수정/삭제 Modal -->
-												<div class="btn-group"
-													style="display: inline-block; float: right;">
-													<button type="button"
-														class="btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-														data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bx bx-dots-vertical-rounded"></i>
-													</button>
-													<ul class="dropdown-menu dropdown-menu-right"
-														style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);"
-														data-popper-placement="top-start">
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter1">수정</a></li>
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter2">삭제</a></li>
-													</ul>
-												</div>
-											</div>
-											<br />
-											<br />
-
-											<h6 style="text-align: right">SF마니아</h6>
-											<h6 style="text-align: right">22.07.29</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col">
-									<div class="card h-100">
-										<img class="card-img-top"
-											src="../assets/img/elements/reading3.jpg"
-											alt="Card image cap">
-										<div class="card-body">
-
-											<div style="display: inline-block; width: 100%;">
-												<div class="album-title" style="display: inline-block;">
-													<h5 class="card-title">[Day +37] 파이팅!</h5>
-												</div>
-
-												<!-- Dropdown메뉴 > 수정/삭제 Modal -->
-												<div class="btn-group"
-													style="display: inline-block; float: right;">
-													<button type="button"
-														class="btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-														data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bx bx-dots-vertical-rounded"></i>
-													</button>
-													<ul class="dropdown-menu dropdown-menu-right"
-														style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);"
-														data-popper-placement="top-start">
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter1">수정</a></li>
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter2">삭제</a></li>
-													</ul>
-												</div>
-											</div>
-											<br />
-											<br />
-
-											<h6 style="text-align: right">고양이좋아</h6>
-											<h6 style="text-align: right">22.07.29</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col">
-									<div class="card h-100">
-										<img class="card-img-top"
-											src="../assets/img/elements/reading4.jpg"
-											alt="Card image cap">
-										<div class="card-body">
-
-											<div style="display: inline-block; width: 100%;">
-												<div class="album-title" style="display: inline-block;">
-													<h5 class="card-title">[Day +37] 파이팅!</h5>
-												</div>
-
-												<!-- Dropdown메뉴 > 수정/삭제 Modal -->
-												<div class="btn-group"
-													style="display: inline-block; float: right;">
-													<button type="button"
-														class="btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-														data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bx bx-dots-vertical-rounded"></i>
-													</button>
-													<ul class="dropdown-menu dropdown-menu-right"
-														style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);"
-														data-popper-placement="top-start">
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter1">수정</a></li>
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter2">삭제</a></li>
-													</ul>
-												</div>
-											</div>
-											<br />
-											<br />
-
-											<h6 style="text-align: right">버터</h6>
-											<h6 style="text-align: right">22.07.29</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col">
-									<div class="card h-100">
-										<img class="card-img-top"
-											src="../assets/img/elements/reading1.jpg"
-											alt="Card image cap">
-										<div class="card-body">
-
-											<div style="display: inline-block; width: 100%;">
-												<div class="album-title" style="display: inline-block;">
-													<h5 class="card-title">[Day +37] 파이팅!</h5>
-												</div>
-
-												<!-- Dropdown메뉴 > 수정/삭제 Modal -->
-												<div class="btn-group"
-													style="display: inline-block; float: right;">
-													<button type="button"
-														class="btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-														data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bx bx-dots-vertical-rounded"></i>
-													</button>
-													<ul class="dropdown-menu dropdown-menu-right"
-														style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);"
-														data-popper-placement="top-start">
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter1">수정</a></li>
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter2">삭제</a></li>
-													</ul>
-												</div>
-											</div>
-											<br />
-											<br />
-
-											<h6 style="text-align: right">밀크</h6>
-											<h6 style="text-align: right">22.07.29</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col">
-									<div class="card h-100">
-										<img class="card-img-top"
-											src="../assets/img/elements/reading2.jpg"
-											alt="Card image cap">
-										<div class="card-body">
-
-											<div style="display: inline-block; width: 100%;">
-												<div class="album-title" style="display: inline-block;">
-													<h5 class="card-title">[Day +37] 파이팅!</h5>
-												</div>
-
-												<!-- Dropdown메뉴 > 수정/삭제 Modal -->
-												<div class="btn-group"
-													style="display: inline-block; float: right;">
-													<button type="button"
-														class="btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-														data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bx bx-dots-vertical-rounded"></i>
-													</button>
-													<ul class="dropdown-menu dropdown-menu-right"
-														style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);"
-														data-popper-placement="top-start">
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter1">수정</a></li>
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter2">삭제</a></li>
-													</ul>
-												</div>
-											</div>
-											<br />
-											<br />
-
-											<h6 style="text-align: right">와플</h6>
-											<h6 style="text-align: right">22.07.28</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col">
-									<div class="card h-100">
-										<img class="card-img-top"
-											src="../assets/img/elements/reading3.jpg"
-											alt="Card image cap">
-										<div class="card-body">
-
-											<div style="display: inline-block; width: 100%;">
-												<div class="album-title" style="display: inline-block;">
-													<h5 class="card-title">[Day +37] 파이팅!</h5>
-												</div>
-
-												<!-- Dropdown메뉴 > 수정/삭제 Modal -->
-												<div class="btn-group"
-													style="display: inline-block; float: right;">
-													<button type="button"
-														class="btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-														data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bx bx-dots-vertical-rounded"></i>
-													</button>
-													<ul class="dropdown-menu dropdown-menu-right"
-														style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);"
-														data-popper-placement="top-start">
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter1">수정</a></li>
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter2">삭제</a></li>
-													</ul>
-												</div>
-											</div>
-											<br />
-											<br />
-
-											<h6 style="text-align: right">초코룽</h6>
-											<h6 style="text-align: right">22.07.28</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col">
-									<div class="card h-100">
-										<img class="card-img-top"
-											src="../assets/img/elements/reading4.jpg"
-											alt="Card image cap">
-										<div class="card-body">
-
-											<div style="display: inline-block; width: 100%;">
-												<div class="album-title" style="display: inline-block;">
-													<h5 class="card-title">[Day +37] 파이팅!</h5>
-												</div>
-
-												<!-- Dropdown메뉴 > 수정/삭제 Modal -->
-												<div class="btn-group"
-													style="display: inline-block; float: right;">
-													<button type="button"
-														class="btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-														data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bx bx-dots-vertical-rounded"></i>
-													</button>
-													<ul class="dropdown-menu dropdown-menu-right"
-														style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);"
-														data-popper-placement="top-start">
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter1">수정</a></li>
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter2">삭제</a></li>
-													</ul>
-												</div>
-											</div>
-											<br />
-											<br />
-
-											<h6 style="text-align: right">지니지니</h6>
-											<h6 style="text-align: right">22.07.28</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col">
-									<div class="card h-100">
-										<img class="card-img-top"
-											src="../assets/img/elements/reading1.jpg"
-											alt="Card image cap">
-										<div class="card-body">
-
-											<div style="display: inline-block; width: 100%;">
-												<div class="album-title" style="display: inline-block;">
-													<h5 class="card-title">[Day +37] 파이팅!</h5>
-												</div>
-
-												<!-- Dropdown메뉴 > 수정/삭제 Modal -->
-												<div class="btn-group"
-													style="display: inline-block; float: right;">
-													<button type="button"
-														class="btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-														data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bx bx-dots-vertical-rounded"></i>
-													</button>
-													<ul class="dropdown-menu dropdown-menu-right"
-														style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);"
-														data-popper-placement="top-start">
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter1">수정</a></li>
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter2">삭제</a></li>
-													</ul>
-												</div>
-											</div>
-											<br />
-											<br />
-
-											<h6 style="text-align: right">버터</h6>
-											<h6 style="text-align: right">22.07.28</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col">
-									<div class="card h-100">
-										<img class="card-img-top"
-											src="../assets/img/elements/reading2.jpg"
-											alt="Card image cap">
-										<div class="card-body">
-
-											<div style="display: inline-block; width: 100%;">
-												<div class="album-title" style="display: inline-block;">
-													<h5 class="card-title">[Day +37] 파이팅!</h5>
-												</div>
-
-												<!-- Dropdown메뉴 > 수정/삭제 Modal -->
-												<div class="btn-group"
-													style="display: inline-block; float: right;">
-													<button type="button"
-														class="btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-														data-bs-toggle="dropdown" aria-expanded="false">
-														<i class="bx bx-dots-vertical-rounded"></i>
-													</button>
-													<ul class="dropdown-menu dropdown-menu-right"
-														style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);"
-														data-popper-placement="top-start">
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter1">수정</a></li>
-														<li><a class="dropdown-item"
-															href="javascript:void(0);" data-bs-toggle="modal"
-															data-bs-target="#modalCenter2">삭제</a></li>
-													</ul>
-												</div>
-											</div>
-											<br />
-											<br />
-
-											<h6 style="text-align: right">멍멍짱</h6>
-											<h6 style="text-align: right">22.07.28</h6>
-										</div>
-									</div>
-								</div>
+							<div class="row row-cols-4 row-cols-md-4 g-4 mb-4" id="albumContents">
+							
+									<%=sbHtml.toString() %>	
+								
 							</div>
+							
 							<!-- 페이징 -->
 							<div class="demo-inline-spacing" style="display:flex; justify-content: center;">
-								<!-- Basic Pagination -->
 								<nav aria-label="Page navigation">
-									<ul class="pagination">
-										<li class="page-item first"><a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-left"></i></a></li>
-										<li class="page-item prev"><a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-left"></i></a></li>
-										<li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
-										<li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-										<li class="page-item active"><a class="page-link" href="javascript:void(0);">3</a></li>
-										<li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
-										<li class="page-item"><a class="page-link" href="javascript:void(0);">5</a></li>
-										<li class="page-item next"><a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-right"></i></a></li>
-										<li class="page-item last"><a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevrons-right"></i></a></li>
+ 									<ul class="pagination">
+<%
+//첫 페이지 
+if( totalLists.getStartBlock() == 1 ){
+	out.println("<li class='page-item first'><a class='page-link'><i class='tf-icon bx bx-chevrons-left'></i></a></li>" );
+} else {
+	out.println( "<li class='page-item first'><a class='page-link' href='album_list.do?cpage=" + ( totalLists.getStartBlock() - totalLists.getBlockPerPage() ) + "'><i class='tf-icon bx bx-chevrons-left'></i></a></li>" ); 
+}
+
+//이전 페이지 
+if( totalLists.getCpage() == 1 ) { 
+	out.println( "<li class='page-item prev'><a class='page-link'><i class='tf-icon bx bx-chevron-left'></i></a></li>" );
+} else {
+	out.println( "<li class='page-item prev'><a class='page-link' href='album_list.do?cpage=" + ( totalLists.getCpage()-1 ) + "'><i class='tf-icon bx bx-chevron-left'></i></a></li>" ); 
+}	
+
+//페이지 블록
+for( int i=totalLists.getStartBlock(); i<=totalLists.getEndBlock() ; i++ ){
+	if( i == totalLists.getCpage() ) { 
+		out.println( "<li class='page-item active'><a class='page-link'>" + i + "</a></li>" );
+	} else {
+		out.println( "<li class='page-item'><a class='page-link' href='album_list.do?cpage=" + i + "'>" + i + "</a></li>" );
+		
+	}
+}
+
+//다음 페이지
+if( totalLists.getCpage() == totalLists.getTotalPage() ) { 
+	out.println( "<li class='page-item next'><a class='page-link'><i class='tf-icon bx bx-chevron-right'></i></a></li>" );
+} else {
+	out.println( "<li class='page-item next'><a class='page-link' href='album_list.do?cpage=" + ( totalLists.getCpage()+1 ) + "'><i class='tf-icon bx bx-chevron-right'></i></a></li>" ); 
+}
+
+//마지막 페이지
+if( totalLists.getEndBlock() == totalLists.getTotalPage() ){
+		out.println("<li class='page-item last'><a class='page-link'><i class='tf-icon bx bx-chevrons-right'></i></a></li>" );
+	} else {
+		out.println( "<li class='page-item last'><a class='page-link' href='album_list.do?cpage=" + ( totalLists.getStartBlock() + totalLists.getBlockPerPage() ) + "'><i class='tf-icon bx bx-chevrons-right'></i></a></li>" ); 
+	}
+%>
 									</ul>
 								</nav>
-								<!--/ Basic Pagination -->
 							</div>
+							<!-- /페이징 -->
+							
 						</div>
 					</div>
 					<!--/ Hoverable Table rows -->
@@ -734,13 +445,13 @@
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<p>정말 삭제하겠습니까?</p>
+								<p>정말 삭제하시겠습니까?</p>
 								<br />
 								<br />
 								<div class="modal-footer">
 									<button type="button" class="btn btn-outline-secondary"
 										data-bs-dismiss="modal">취소</button>
-									<button type="button" class="btn btn-primary">삭제</button>
+									<button type="button" class="btn btn-primary" id="delete">삭제</button>
 								</div>
 							</div>
 						</div>
@@ -791,6 +502,46 @@
 		<a href="" class="btn btn-outline-primary btn-buy-now"
 			data-bs-toggle="modal" data-bs-target="#modalCenter0">글 작성하기</a>
 	</div>
+	
+	<script>
+// 		//$(document).ready(function(){
+// 			$("#delete").on("click", function(al_seq) {
+// 				var sendData = {"al_seq": al_seq}
+// 				console.log('[testtesttest] : ' + al_seq);
+// // 				$.ajax({
+// // 					url : "album_list.do",
+// 					type : "GET",
+// 					data : sendData,
+// 					success : init
+// 						function(query){
+// 						//location.reload();
+// 						$("#albumContents").load("#albumContents");
+// 					}
+					
+// 				});
+// 			});
+			const deleteData = function(al_seq){
+				$("#delete").on("click", function() {
+					var data = al_seq;
+	 				$.ajax({
+	 					url : "album_list.do",
+						type : "GET",
+						data : data,
+						success :
+							function(data){
+							location.href="deleteData" + ${al_seq}
+							location.reload();
+							
+							},
+						error : function(request, status, error){
+							console.log('[error error error] : ' + request.responseText);
+						}
+					});
+			});
+			}
+		//});
+		
+	</script>
 
 	<!-- Core JS -->
 	<!-- build:js assets/vendor/js/core.js -->
