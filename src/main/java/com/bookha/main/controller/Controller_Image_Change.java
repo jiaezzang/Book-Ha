@@ -16,7 +16,7 @@ import com.bookha.model.Model_FileSaveName;
 
 @RestController
 public class Controller_Image_Change {
-	private String path = "d:/imageSaveStorage/";
+	private String path = "C:/imageSaveStorage/";
 	
 	@RequestMapping(value = "/img_change.do", method = RequestMethod.POST)
 	public ModelAndView img_change(@RequestParam("image") MultipartFile multi, HttpServletRequest request,
