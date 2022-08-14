@@ -10,76 +10,14 @@
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	
+	DTO_Album_Board dto = (DTO_Album_Board)request.getAttribute("dto");
 	DTO_Album_Total totalLists = (DTO_Album_Total)request.getAttribute("totalLists");
 	
+	String albumlist = (String)request.getAttribute("albumlist");
+	System.out.println(albumlist);
 	ArrayList<DTO_Album_Board> lists = totalLists.getBoard();
 	
-	
-	//list 갯수 > total 추가할 것!
-	
-	StringBuilder sbHtml = new StringBuilder();
-	
-	for( DTO_Album_Board dto : lists){
-		sbHtml.append("<div class='col'>");
-		sbHtml.append("<div class='card h-100'>");
-		sbHtml.append("<img class='card-img-top'");
-		sbHtml.append("src='../album_upload/" + dto.getAl_imgName() +"' alt='Card image cap'>");
-		sbHtml.append("<div class='card-body'>");
-		
-		sbHtml.append("<div style='display: inline-block; width: 100%;'>");
-		sbHtml.append("<div class='album-title' style='display:inline-block;'>");
-		sbHtml.append("<h5 class='card-title'>"+ dto.getAl_subject() +"</h5> ");
-		sbHtml.append("</div>");
-		sbHtml.append("<div class='btn-group'");
-		sbHtml.append("style='display: inline-block; float: right;'>");
-		sbHtml.append("<button type='button'");
-		sbHtml.append("class='btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow'");
-		sbHtml.append("data-bs-toggle='dropdown' aria-expanded='false'>");
-		sbHtml.append("<i class='bx bx-dots-vertical-rounded'></i>");
-		sbHtml.append("</button>");
-		sbHtml.append("<ul class='dropdown-menu dropdown-menu-right'");
-		sbHtml.append("style='position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);'");
-		sbHtml.append("data-popper-placement='top-start'>");
-		sbHtml.append("<li><a class='dropdown-item'");
-		sbHtml.append("href='javascript:void(0);' data-bs-toggle='modal'");
-		sbHtml.append("data-bs-target='#modalCenter1'>수정</a></li>");
-		sbHtml.append("<li><a class='dropdown-item'");
-		sbHtml.append("href='javascript:void(0);' data-bs-toggle='modal'");
-		sbHtml.append("data-bs-target='#modalCenter2' onclick='deleteData("+dto.getAl_seq()+")'>삭제</a></li>");
-		sbHtml.append("</ul>");
-		sbHtml.append("</div>");
-		sbHtml.append("</div>");
-		sbHtml.append("<br />");
-		sbHtml.append("<br />");
 
-		sbHtml.append("<h6 style='text-align: right'>" + dto.getUser_name() + "</h6>");
-		sbHtml.append("<h6 style='text-align: right'>" + dto.getAl_wdate() + "</h6>");
-		sbHtml.append("</div>");
-		sbHtml.append("</div>");
-		sbHtml.append("</div>");
-		
-// 		//<!--  Delete Modal  -->
-// 		sbHtml.append("<div class='modal fade' id='modalCenter2' tabindex='-1'");
-// 		sbHtml.append("style='display: none;' aria-hidden='true' role='dialog'>");
-// 		sbHtml.append("<div class='modal-dialog modal-dialog-centered' role='document'>");
-// 		sbHtml.append("<div class='modal-content'>");
-// 		sbHtml.append("<div class='modal-header'>");
-// 		sbHtml.append("<p>정말 삭제하시겠습니까?</p>");
-// 		sbHtml.append("<br />");
-// 		sbHtml.append("<br />");
-// 		sbHtml.append("<div class='modal-footer'>");
-// 		sbHtml.append("<button type='button' class='btn btn-outline-secondary'");
-// 		sbHtml.append("data-bs-dismiss='modal'>취소</button>");
-// 		sbHtml.append("<button type='button' class='btn btn-primary' id='delete' data-del='"+dto.getAl_seq()+"' item='"+dto.getAl_seq()+"'>삭제</button>");
-// 		sbHtml.append("</div>");
-// 		sbHtml.append("</div>");
-// 		sbHtml.append("</div>");
-// 		sbHtml.append("</div>");
-// 		sbHtml.append("</div>");
-	}
-	
-
-	
 %>
 <!DOCTYPE html>
 
@@ -144,6 +82,218 @@
 <!-- jQuery UI CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+const toastHtml = function(title, message) {
+	// escapeHtml 허용여부
+	toastr.options.escapeHtml = true;
+	// closeButton을 생성여부
+	toastr.options.closeButton = true;
+	// closeButton의 커스텀
+	toastr.options.closeHtml = '';
+	// 메시지 창이 사라질 때의 애니메이션 효과
+	toastr.options.closeMethod = 'fadeOut';
+	// 메시지 창의 애니메이션 효과 시간
+	toastr.options.closeDuration = 300;
+	toastr.options.closeEasing = 'swing';
+	// 새로운 창의 위치, true이면 가장 위 포지션, false면 가장 아래 포지션
+	toastr.options.newestOnTop = false;
+	// 이벤트 옵션// 추가될 때 이벤트
+	//toastr.options.onShown = function() { console.log('hello'); }
+	// 사라질 때 이벤트
+	//toastr.options.onHidden = function() { console.log('goodbye'); }
+	// 클릭될 때 이벤트
+	//toastr.options.onclick = function() { console.log('clicked'); }
+	// 닫기 버튼이 눌릴 때 이벤트
+	//toastr.options.onCloseClick = function() { console.log('close button clicked'); }
+	// 메시지 중복 허용 여부, 두개 이상 메시지가 생성될 때 이 전꺼는 사라짐
+	toastr.options.preventDuplicates = true;
+	// 메시지가 표시되는 시간
+	toastr.options.timeOut = 2000;
+	// 메시지 위로 커서를 올렸을 때 표시되는 시간
+	toastr.options.extendedTimeOut = 60;
+	// 만약 메시지 표시되는 시간과 올렸을 때 표시되는 시간을 0으로 하면 메시지는 사라지지 않는다.
+	// 프로그래스바 표시 여부
+	toastr.options.progressBar = true;
+	// 글자를 오른쪽 정렬 여부
+	toastr.options.rtl = false;
+	//애니메이션 설정 여부
+	toastr.options.showEasing = 'swing';
+	
+	toastr.options.hideEasing = 'linear';
+	toastr.options.closeEasing = 'linear';
+	toastr.options.showMethod = 'fadeIn';
+	toastr.options.hideMethod = 'fadeOut';
+	toastr.options.closeMethod = 'fadeOut';
+	
+	toastr.error(message, title);
+	};
+	
+$(document).ready(function(){
+	$('#write').on("click", function(){
+		
+		//제목 미입력 시
+// 		if($("#nameWithTitle").val() == ""){
+// 			toastHtml("입력 오류!", "제목을 입력하세요.");
+// 			return false;
+// 		}
+
+		//이미지 미등록 시 
+// 		if($("#formFile").val() == ""){
+// 			toastHtml("입력 오류!", "이미지를 등록하세요.");
+// 			return false;
+// 		} else {
+// 			let extension = document.wfrm.upload.value.split( "." ).pop();
+// 			//alert( extension );
+// 			if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
+// 				toastHtml("입력 오류!", "이미지 파일(jpg, jpeg, gif, png)을 입력하세요.");
+// 				return false;
+// 			}
+// 		}
+		
+		const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
+    	formData.append('image', $('#formFile')[0].files[0]);
+    	
+    	console.log($('#formFile')[0].files[0]);
+    	console.log(formData);
+		
+    	let url = '/images/';
+		$.ajax({
+       		type: 'POST',
+       		enctype: 'multipart/form-data',
+       		url: '/img_change.do',
+       		data: formData,
+       		dataType: 'json',
+       		processData: false,
+       		contentType: false,
+       		cache: false,
+       		timeout: 600000,
+       		success: function(data) {
+       			//console.log('ajax 이미지 업로드 성공');
+       			url += data.filename;
+       			console.log(url);
+       			
+       			let DTO_Album_board = {
+       					"al_user_num" : 1,
+       					"al_subject" : $("#writeSubject").val(),
+       					"al_imgName" : data.filename
+       			}
+       			console.log(DTO_Album_board);
+       			$.ajax({
+       				type: "POST",
+       				url: "album_write.do",
+       				data: JSON.stringify(DTO_Album_board),
+       				contentType: "application/json; charset=utf-8",
+       				dataType: "text",
+       				success: function(data){
+       					$("#modalCenter0").modal("hide");
+       					console.log("DB 추가 성공");
+       					reload();
+       				}
+       			});
+       		}
+       	});
+	});
+});
+
+//modify
+let al_seq = 0;
+const modifyData = function(seq, subject){
+	al_seq = seq;
+	$("#modifySubject").val(subject);
+	console.log(subject);
+}
+
+$(document).ready(function(){
+	$( "#modify" ).on("click", function(){
+		const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
+    	formData.append('image', $('#formFile2')[0].files[0]);
+    	
+    	console.log($('#formFile2')[0].files[0]);
+    	console.log(formData);
+		
+    	let url = '/images/';
+		$.ajax({
+       		type: 'POST',
+       		enctype: 'multipart/form-data',
+       		url: '/img_change.do',
+       		data: formData,
+       		dataType: 'json',
+       		processData: false,
+       		contentType: false,
+       		cache: false,
+       		timeout: 600000,
+       		success: function(data) {
+       			//console.log('ajax 이미지 업로드 성공');
+       			url += data.filename;
+       			console.log(url);
+       			
+       			let DTO_Album_board = {
+       					"al_user_num" : 1,
+       					"al_seq" : al_seq,
+       					"al_subject" : $("#modifySubject").val(),
+       					"al_imgName" : data.filename
+       			}
+       			console.log(DTO_Album_board);
+       			$.ajax({
+       				type: "POST",
+       				url: "album_modify.do",
+       				data: JSON.stringify(DTO_Album_board),
+       				contentType: "application/json; charset=utf-8",
+       				dataType: "text",
+       				success: function(data){
+       					$("#modalCenter1").modal("hide");
+       					console.log("DB 추가 성공");
+       					reload();
+       				}
+       			});
+       		}
+       	});
+	});
+});
+
+//delete 
+let data = 0;
+const deleteData = function(al_seq){
+	data = al_seq;
+	//console.log("data : "+data)
+}
+$(document).ready(function(){
+	$('#delete').on("click", function(){
+		let DTO_Album_board = {
+				"al_seq" : data
+		}
+		//console.log(DTO_Album_board);
+		$.ajax({
+			type: "POST",
+			url: "album_delete.do",
+			data: JSON.stringify(DTO_Album_board),
+			contentType: "application/json; charset=utf-8",
+			dataType: "text",
+			success: function(data){
+				$("#modalCenter2").modal("hide");
+				//console.log(data);
+				reload();
+			}
+		});
+	});
+});
+
+const reload = function(){
+	$.ajax({
+		type: 'POST',
+		url: "album_reload.do",
+		datatype: "text",
+		success: function(data){
+			$("#albumContents").html(data);
+		}
+	});
+}
+	
+</script>
 </head>
 
 <body>
@@ -311,7 +461,7 @@
 
 							<div class="row row-cols-4 row-cols-md-4 g-4 mb-4" id="albumContents">
 							
-									<%=sbHtml.toString() %>	
+									<%= albumlist %>	
 								
 							</div>
 							
@@ -369,6 +519,8 @@ if( totalLists.getEndBlock() == totalLists.getTotalPage() ){
 
 				</div>
 				<!-- / Content -->
+				
+				<!-- Modal -->
 				<!--  Write Modal  -->
 				<div class="modal fade" id="modalCenter0" tabindex="-1"
 					style="display: none;" aria-hidden="true" role="dialog">
@@ -382,27 +534,29 @@ if( totalLists.getEndBlock() == totalLists.getTotalPage() ){
 							<div class="modal-body">
 								<div class="row">
 									<div class="col mb-3">
-										<label for="nameWithTitle" class="form-label">제목</label> <input
-											type="text" id="nameWithTitle" class="form-control"
-											placeholder="Enter Name">
+										<label for="writeSubject" class="form-label">제목</label> <input
+											type="text" id="writeSubject" class="form-control"
+											placeholder="Title">
 									</div>
 								</div>
 								<!-- 사진업로드  -->
 								<div class="row g-2">
 									<div>
-										<label for="formFile" class="form-label">사진</label> <input
-											class="form-control" type="file" id="formFile"accept=".gif, .jpg, .png">
+										<label for="formFile" class="form-label">사진</label> 
+										<input class="form-control" type="file" name="upload" id="formFile" accept=".gif, .jpg, .png, .jpeg">
 									</div>
 								</div>
+								<!-- /사진업로드 -->
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-outline-secondary"
 									data-bs-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-primary">등록</button>
+								<button type="button" class="btn btn-primary" id="write">등록</button>
 							</div>
 						</div>
 					</div>
 				</div>
+				<!--  Write Modal  -->
 
 				<!--  Modify Modal  -->
 				<div class="modal fade" id="modalCenter1" tabindex="-1"
@@ -417,28 +571,31 @@ if( totalLists.getEndBlock() == totalLists.getTotalPage() ){
 							<div class="modal-body">
 								<div class="row">
 									<div class="col mb-3">
-										<label for="nameWithTitle" class="form-label">제목</label> <input
-											type="text" id="nameWithTitle" class="form-control"
-											placeholder="Enter Name">
+										<label for="modifySubject" class="form-label">제목</label> 
+										<input
+											type="text" id="modifySubject" class="form-control"
+											placeholder="Title">
 									</div>
 								</div>
 								<!-- 사진업로드  -->
 								<div class="row g-2">
 									<div>
-										<label for="formFile" class="form-label">사진</label> <input
-											class="form-control" type="file" id="formFile"accept=".gif, .jpg, .png">
+										<label for="formFile2" class="form-label">사진</label> 
+										<input class="form-control" type="file" name="upload" id="formFile2" accept=".gif, .jpg, .png, .jpeg">
 									</div>
 								</div>
+								<!-- /사진업로드 -->
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-outline-secondary"
 									data-bs-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-primary">수정</button>
+								<button type="button" class="btn btn-primary" id="modify">수정</button>
 							</div>
 						</div>
 					</div>
 				</div>
-
+				<!--  /Modify Modal  -->
+				
 				<!--  Delete Modal  -->
 				<div class="modal fade" id="modalCenter2" tabindex="-1"
 					style="display: none;" aria-hidden="true" role="dialog">
@@ -457,6 +614,8 @@ if( totalLists.getEndBlock() == totalLists.getTotalPage() ){
 						</div>
 					</div>
 				</div>
+				<!--  /Delete Modal  -->
+				<!-- /Modal -->
 
 				<!-- Footer -->
 <!-- 				<footer class="content-footer footer bg-footer-theme"> -->
@@ -500,48 +659,8 @@ if( totalLists.getEndBlock() == totalLists.getTotalPage() ){
 
 	<div class="buy-now">
 		<a href="" class="btn btn-outline-primary btn-buy-now"
-			data-bs-toggle="modal" data-bs-target="#modalCenter0">글 작성하기</a>
+			data-bs-toggle="modal" data-bs-target="#modalCenter0" onclick="writeData()">글 작성하기</a>
 	</div>
-	
-	<script>
-// 		//$(document).ready(function(){
-// 			$("#delete").on("click", function(al_seq) {
-// 				var sendData = {"al_seq": al_seq}
-// 				console.log('[testtesttest] : ' + al_seq);
-// // 				$.ajax({
-// // 					url : "album_list.do",
-// 					type : "GET",
-// 					data : sendData,
-// 					success : init
-// 						function(query){
-// 						//location.reload();
-// 						$("#albumContents").load("#albumContents");
-// 					}
-					
-// 				});
-// 			});
-			const deleteData = function(al_seq){
-				$("#delete").on("click", function() {
-					var data = al_seq;
-	 				$.ajax({
-	 					url : "album_list.do",
-						type : "GET",
-						data : data,
-						success :
-							function(data){
-							location.href="deleteData" + ${al_seq}
-							location.reload();
-							
-							},
-						error : function(request, status, error){
-							console.log('[error error error] : ' + request.responseText);
-						}
-					});
-			});
-			}
-		//});
-		
-	</script>
 
 	<!-- Core JS -->
 	<!-- build:js assets/vendor/js/core.js -->
