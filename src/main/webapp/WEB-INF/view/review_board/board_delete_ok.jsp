@@ -68,7 +68,7 @@ $(document).ready(function() {
 	toastr.options.hideMethod = 'fadeOut';
 	toastr.options.closeMethod = 'fadeOut';
 	
-	toastr.succeses('MariaDB 업로드를 성공하였습니다.', '작업 성공!');
+	toastr.succeses('게시글을 삭제하였습니다.', '작업 성공!');
 	
 };
 </script>

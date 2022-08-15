@@ -9,4 +9,5 @@ public class DTO_Review_Comment {
 	private String content;
 	private String wdate;
 	private int board_seq;
+	private String writer;
 }

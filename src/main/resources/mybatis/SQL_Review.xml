@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bookha.main.mapper.Mapper_Review">
-    <select id="list" resultType="com.bookha.main.dto.DTO_Review_Board">
+    <select id="listAll" resultType="com.bookha.main.dto.DTO_Review_Board">
         SELECT
-        	re_seq as seq,
+        	r.re_seq as seq,
         	re_num as user_num,
             re_subject as subject,
             re_hashtag as hash_tag,
@@ -14,15 +14,53 @@
             datediff(now(), re_date) wgap,
             re_book_img_url as book_img_url,
             re_book_title as book_title,
-            user_name
+            user_name,
+            count(c.re_seq) cmt_cnt
         FROM
-        	review_board
-        INNER JOIN
-        	tb_user
+        	review_board r
+        LEFT OUTER JOIN
+        	tb_user u
         ON
         	re_num = user_num
+        LEFT OUTER JOIN
+        	review_board_comment c
+        ON
+        	r.re_seq = c.re_seq
+        GROUP BY
+        	c.re_seq, r.re_seq
         ORDER BY
-        	re_seq desc
+        	r.re_seq desc
+    </select>
+    
+    <select id="listHashTag" parameterType="String" resultType="com.bookha.main.dto.DTO_Review_Board">
+        SELECT
+        	r.re_seq as seq,
+        	re_num as user_num,
+            re_subject as subject,
+            re_hashtag as hash_tag,
+            re_hit as hit,
+            date_format(re_date, '%Y-%m-%d') as wdate,
+            datediff(now(), re_date) wgap,
+            re_book_img_url as book_img_url,
+            re_book_title as book_title,
+            user_name,
+            count(c.re_seq) cmt_cnt
+        FROM
+        	review_board r
+        LEFT OUTER JOIN
+        	tb_user u
+        ON
+        	re_num = user_num
+        LEFT OUTER JOIN
+        	review_board_comment c
+        ON
+        	r.re_seq = c.re_seq
+        WHERE
+        	r.re_hashtag = #{hashTag}
+        GROUP BY
+        	c.re_seq, r.re_seq
+        ORDER BY
+        	r.re_seq desc
     </select>
     
     <select id="view" parameterType="int" resultType="com.bookha.main.dto.DTO_Review_Board">
@@ -139,14 +177,47 @@
     
     <select id="comment_list" parameterType="int" resultType="com.bookha.main.dto.DTO_Review_Comment">
     	SELECT
-    		re_com_seq,
-    		re_com_num,
-    		re_com_content,
-    		re_com_date,
-    		re_seq
+    		re_com_seq as seq,
+    		re_com_num as user_num,
+    		re_com_content as content,
+    		re_com_date as wdate,
+    		re_seq as board_seq,
+    		user_name as writer
     	FROM
     		review_board_comment
+    	INNER JOIN
+        	tb_user
+        ON
+        	re_com_num = user_num
     	WHERE
     		re_seq = #{board_seq}
     </select>
+    
+    <insert id="comment_write" parameterType="com.bookha.main.dto.DTO_Review_Comment">
+    	INSERT INTO review_board_comment (
+            re_com_seq,
+            re_com_num,
+            re_com_content,
+            re_com_date,
+            re_seq
+        ) VALUES (
+			0,
+			#{user_num},
+			#{content},
+			now(),
+			#{board_seq}
+		);
+		<selectKey resultType="int" keyProperty="user_num" order="AFTER">
+		SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+    </insert>
+    
+    <delete id="comment_delete" parameterType="int">
+    	DELETE
+    	FROM
+    		review_board_comment
+    	WHERE
+    		re_com_seq = #{comment_seq}
+    </delete>
 </mapper>

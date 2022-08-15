@@ -6,6 +6,7 @@
 
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
+	String comment = (String)request.getAttribute("comment");
 	
 	DTO_Review_Board to = (DTO_Review_Board)request.getAttribute("to");
 	
@@ -175,8 +176,162 @@
 <script
 	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
-<script>
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	// escapeHtml 허용여부
+	toastr.options.escapeHtml = true;
+	// closeButton을 생성여부
+	toastr.options.closeButton = true;
+	// closeButton의 커스텀
+	toastr.options.closeHtml = '';
+	// 메시지 창이 사라질 때의 애니메이션 효과
+	toastr.options.closeMethod = 'fadeOut';
+	// 메시지 창의 애니메이션 효과 시간
+	toastr.options.closeDuration = 300;
+	toastr.options.closeEasing = 'swing';
+	// 새로운 창의 위치, true이면 가장 위 포지션, false면 가장 아래 포지션
+	toastr.options.newestOnTop = false;
+	// 이벤트 옵션// 추가될 때 이벤트
+	//toastr.options.onShown = function() { console.log('hello'); }
+	// 사라질 때 이벤트
+	//toastr.options.onHidden = function() { console.log('goodbye'); }
+	// 클릭될 때 이벤트
+	//toastr.options.onclick = function() { console.log('clicked'); }
+	// 닫기 버튼이 눌릴 때 이벤트
+	//toastr.options.onCloseClick = function() { console.log('close button clicked'); }
+	// 메시지 중복 허용 여부, 두개 이상 메시지가 생성될 때 이 전꺼는 사라짐
+	toastr.options.preventDuplicates = true;
+	// 메시지가 표시되는 시간
+	toastr.options.timeOut = 2000;
+	// 메시지 위로 커서를 올렸을 때 표시되는 시간
+	toastr.options.extendedTimeOut = 60;
+	// 만약 메시지 표시되는 시간과 올렸을 때 표시되는 시간을 0으로 하면 메시지는 사라지지 않는다.
+	// 프로그래스바 표시 여부
+	toastr.options.progressBar = true;
+	// 글자를 오른쪽 정렬 여부
+	toastr.options.rtl = false;
+	//애니메이션 설정 여부
+	toastr.options.showEasing = 'swing';
 	
+	toastr.options.hideEasing = 'linear';
+	toastr.options.closeEasing = 'linear';
+	toastr.options.showMethod = 'fadeIn';
+	toastr.options.hideMethod = 'fadeOut';
+	toastr.options.closeMethod = 'fadeOut';
+	
+	$('#replyWriteBtn').on('click', function() {
+		let com_content = $("#reply-text-area").val();
+		
+		let DTO_Review_Comment = {
+			"user_num": <%= user_num %>,
+			"content": com_content,
+			"board_seq": <%= seq %>
+		}
+		
+		console.log(DTO_Review_Comment);
+		
+		$.ajax({
+			type: 'POST',
+			url: "/review_comment_write.do",
+			data: JSON.stringify(DTO_Review_Comment),
+			contentType: "application/json; charset=UTF-8",
+			dataType: "text",
+			success: function(data) {
+				$("#reply-text-area").val('');
+				toastr.success('댓글이 추가되었습니다.', '성공');
+//					console.log(data);
+				reload(<%= seq %>);
+			}
+		});
+	});
+	
+	$(document).on('click', '.deleteReply', function(e) {
+		
+		//console.log('삭제버튼');
+		
+		let com_seq = $(this).next().html();
+		
+		let DTO_Review_Comment = {
+			"seq": com_seq
+		}
+		
+//			console.log(com_seq);
+//			console.log(DTO_Review_Comment);
+		
+		$.ajax({
+			type: 'POST',
+			url: "/review_comment_delete.do",
+			data: JSON.stringify(DTO_Review_Comment),
+			contentType: "application/json; charset=UTF-8",
+			dataType: "text",
+			success: function(data) {
+				toastr.success('댓글이 삭제되었습니다.', '성공');
+//					console.log(data);
+				reload(<%= seq %>);
+			}
+		});
+	});
+	
+	const viewer = new toastui.Editor.factory({
+		el : document.querySelector('#viewer'),
+		viewer: true,
+		initialValue : '<%= content %>'
+	});
+	
+	$('#boardDeleteBtn').on('click', function() {
+		//console.log('삭제모달창 소환!');
+		//toastr.success('삭제 모달창 생성!', '성공');
+	});
+	
+	$('#boardDeleteOkBtn').on('click', function() {
+		//console.log('삭제버튼 누름!');
+		//toastr.success('삭제 버튼 누름!', '성공');
+		
+		let f = document.createElement('form');
+		
+		let obj1;
+		obj1 = document.createElement('input');
+		obj1.setAttribute('type', 'hidden');
+		obj1.setAttribute('name', 'seq');
+		obj1.setAttribute('value', <%= seq %>);
+		
+		let obj2;
+		obj2 = document.createElement('input');
+		obj2.setAttribute('type', 'hidden');
+		obj2.setAttribute('name', 'user_num');
+		obj2.setAttribute('value', '4');
+		
+		f.appendChild(obj1);
+		f.appendChild(obj2);
+		
+		f.setAttribute('method', 'post');
+		f.setAttribute('action', '/review_delete.do');
+		document.body.appendChild(f);
+		f.submit();
+	});
+});
+
+const reload = function(board_seq) {
+//		console.log("board seq : " + board_seq);
+	$.ajax({
+		type: 'POST',
+		url: "/review_comment_list.do",
+		data: JSON.stringify({
+			"board_seq": board_seq
+		}),
+		contentType: "application/json; charset=UTF-8",
+		dataType: "text",
+		success: function(data) {
+//				toastr.success('댓글 목록을 불러왔습니다.', '성공');
+//				console.log(data);
+			$('#reply').html(data);
+		}
+	});
+}
 </script>
 </head>
 
@@ -336,9 +491,8 @@
 										<strong>리뷰한 책은 뭔가요?</strong>
 									</h5>
 									<div class='d-grid d-sm-flex p-3'>
-										<img
-											src='<%= book_img_url %>'
-											style='width: 120px' class='me-4 mb-sm-0 mb-2' /> <span>
+										<img src='<%= book_img_url %>' style='width: 120px' class='me-4 mb-sm-0 mb-2' />
+										<span>
 											<h6><a href='<%= book_info_url %>'><%= book_title %></a></h6>
 											<strong>저자:</strong> <%= book_author %><br>
 											<strong>출판사:</strong> <%= book_publisher %><br>
@@ -354,21 +508,9 @@
 
 							<!-- TOAST UI Editor가 들어갈 div태그 -->
 							<div id="viewer">
-								<%= content %>
+								
 							</div>
 
-							<!-- TOAST UI Editor 생성 JavaScript 코드 -->
-							<script>
-								const viewer = new toastui.Editor({
-									el : document.querySelector('#viewer'),
-									initialValue : content
-								});
-
-								// editor.getHtml()을 사용해서 에디터 내용 수신
-								//document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHTML());
-								// 콘솔창에 표시
-								//console.log(editor.getHTML());
-							</script>
 							<div class="list-group" id="profile_group">
 								<label class='list-group-item'>
 									<div class='d-grid d-sm-flex p-3'>
@@ -397,70 +539,30 @@
 							<div class="input-group">
 								<textarea class="form-control" aria-label="With textarea" id="reply-text-area"
 									placeholder="댓글을 입력해 주세요"></textarea>
-								<button class="btn btn-primary">댓글 달기</button>
+								<button class="btn btn-primary" id="replyWriteBtn" >댓글 달기</button>
 							</div>
+							<script type="text/javascript">
+							
+							</script>
 
 							<div class="list-group" id="reply">
-								<label class='list-group-item'>
-									<h6 style="color: #696CFF; display: inline-block;">작성자1234</h6>
-									&emsp;&emsp;
-									<a href="#" class="deleteReply" style="color: gray; display: inline-block;">댓글 삭제</a>
-									<div style="display: inline-block; visibility: hidden;">댓글seq1</div>
-									<p>댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다</p>
-								</label>
-								<label class='list-group-item'>
-									<h6 style="color: #696CFF; display: inline-block;">작성자1234</h6>
-									&emsp;&emsp;
-									<a href="#" class="deleteReply" style="color: gray; display: inline-block;">댓글 삭제</a>
-									<div style="display: inline-block; visibility: hidden;">댓글seq2</div>
-									<p>댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다</p>
-								</label>
-								<label class='list-group-item'>
-									<h6 style="color: #696CFF; display: inline-block;">작성자1234</h6>
-									&emsp;&emsp;
-									<a href="#" class="deleteReply" style="color: gray; display: inline-block;">댓글 삭제</a>
-									<div style="display: inline-block; visibility: hidden;">댓글seq3</div>
-									<p>댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다</p>
-								</label>
+<!-- 								<label class='list-group-item'> -->
+<!-- 									<h6 style="color: #696CFF; display: inline-block;">작성자1234</h6> -->
+<!-- 									&emsp;&emsp; -->
+<!-- 									<a href="#" class="deleteReply" style="color: gray; display: inline-block;">댓글 삭제</a> -->
+<!-- 									<div style="display: inline-block; visibility: hidden;">댓글seq1</div> -->
+<!-- 									<p>댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다 댓글내용입니다</p> -->
+<!-- 								</label> -->
+								<%= comment %>
 							</div>
 							
 							<script type="text/javascript">
 								$(document).ready(function() {
-									$('.deleteReply').on('click', function(e) {
-										e.preventDefault();
-										//console.log($(this).next().html());
-									});
+									
 								});
 							</script>
 						</div>
 						<!-- / Content -->
-
-
-						<!-- Footer -->
-<!-- 						<footer class="content-footer footer bg-footer-theme"> -->
-<!-- 							<div -->
-<!-- 								class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
-<!-- 								<div class="mb-2 mb-md-0"> -->
-<!-- 									© -->
-<!-- 									<script> -->
-<!--  						            document.write(new Date().getFullYear()); -->
-<!-- 									</script> -->
-<!-- 									, made with ❤️ by <a href="https://themeselection.com" -->
-<!-- 										target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
-<!-- 								</div> -->
-<!-- 								<div> -->
-<!-- 									<a href="https://themeselection.com/license/" -->
-<!-- 										class="footer-link me-4" target="_blank">License</a> <a -->
-<!-- 										href="https://themeselection.com/" target="_blank" -->
-<!-- 										class="footer-link me-4">More Themes</a> <a -->
-<!-- 										href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" -->
-<!-- 										target="_blank" class="footer-link me-4">Documentation</a> <a -->
-<!-- 										href="https://github.com/themeselection/sneat-html-admin-template-free/issues" -->
-<!-- 										target="_blank" class="footer-link me-4">Support</a> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</footer> -->
-						<!-- / Footer -->
 
 						<div class="content-backdrop fade"></div>
 					</div>
@@ -475,14 +577,14 @@
 		<!-- / Layout wrapper -->
 		<div class="buy-now2">
 			<a
-				href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
-				target="_blank" class="btn btn-outline-primary btn-buy-now2"
+				href="/review_modify.do?seq=<%= seq %>"
+				class="btn btn-outline-primary btn-buy-now2"
 				style="background-color: #f5f5f9">수정하기</a>
 		</div>
 		<div class="buy-now">
 			<a data-bs-toggle="modal" data-bs-target="#backDropModal"
 				class="btn btn-outline-primary btn-buy-now"
-				style="background-color: #f5f5f9">삭제하기</a>
+				style="background-color: #f5f5f9" id="boardDeleteBtn">삭제하기</a>
 		</div>
 
 		<div class="modal fade" id="backDropModal" data-bs-backdrop="static"
@@ -494,7 +596,7 @@
 							style="color: #696CFF">최종 확인</h4>
 					</div>
 					<div class="modal-body">
-						<div class="row">
+						<div class="row" style="color: gray;">
 							&nbsp;&nbsp;&nbsp;현재 게시글을 정말로 삭제하시겠습니까?<br />
 							&nbsp;&nbsp;&nbsp;삭제 후 되돌릴 수 없습니다.
 						</div>
@@ -502,7 +604,7 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-outline-secondary"
 							data-bs-dismiss="modal" aria-label="Close">취소</button>
-						<button type="button" class="btn btn-primary">삭제</button>
+						<button type="button" class="btn btn-primary" id="boardDeleteOkBtn">삭제</button>
 					</div>
 				</form>
 			</div>
