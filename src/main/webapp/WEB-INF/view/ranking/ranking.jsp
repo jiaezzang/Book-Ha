@@ -5,7 +5,13 @@
 
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
+
 	String logo = (String) request.getAttribute("logo");
+	
+	String reviewList = (String)request.getAttribute("reviewList");
+	String albumList = (String)request.getAttribute("albumList");
+	String shareList = (String)request.getAttribute("shareList");
+
 %>
 <!DOCTYPE html>
 
@@ -70,6 +76,8 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
+    	    	
+
   </head>
 
   <body>
@@ -194,178 +202,9 @@
               
               <!-- Hoverable Table rows -->
               	<div>
-					<div class="card h-100">
-						<div class="card-body" style="height:220px; display:flex; justify-content:space-around; align-items:center;">
-							<!-- 동일 라인에 들어가는 컨텐츠 -->
-						  	<div class="rankingtitle" style="display:inline-block;" >
-						  		<h5>이 주의 출석왕</h5>
-						  	</div>
-						  	<div class="mt-3 first" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto" src="../assets/img/achievements/food_4.png" style="width:110px;"/>
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/gold.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>야옹짱</p>
-						  		</div>
-						  	</div>
-						  	
-						  	<div class="mt-3 second" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/animal_5.png" style="width:110px;"/>
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/silver.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>고전파</p>
-						  		</div>
-						  	</div>
-						  	<div class="mt-3 third" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/fruit_1.png" style="width:110px;" />
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/bronze.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>독서왕루피</p>
-						  		</div>
-						  	</div>
-						  	<!-- /동일 라인에 들어가는 컨텐츠 -->
-		            	</div>
-	                </div><br />
-	              
-                  <div class="card h-100">
-					  <div class="card-body" style="height:220px; display:flex; justify-content:space-around; align-items:center;">
-					  		<!-- 동일 라인에 들어가는 컨텐츠 -->
-						  	<div class="rankingtitle" style="display:inline-block;" >
-						  		<h5>이 주의 리뷰왕</h5>
-						  	</div>
-						  	<div class="mt-3 first1" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto" src="../assets/img/achievements/fruit_4.png" style="width:110px;"/>
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/gold.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>멍멍짱</p>
-						  		</div>
-						  	</div>
-						  	<div class="mt-3 second1" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/food_5.png" style="width:110px;"/>
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/silver.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>핏쨩</p>
-						  		</div>
-						  	</div>
-						  	<div class="mt-3 third1" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/animal_1.png" style="width:110px;" />
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/bronze.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>하이룽</p>
-						  		</div>
-						  	</div>
-						  	<!-- /동일 라인에 들어가는 컨텐츠 -->
-		              </div>
-	              </div><br />
-	              
-                  <div class="card h-100">
-					  <div class="card-body" style="height:220px; display:flex; justify-content:space-around; align-items:center;">
-					  		<!-- 동일 라인에 들어가는 컨텐츠 -->
-						  	<div class="rankingtitle" style="display:inline-block;" >
-						  		<h5>이 주의 인증왕</h5>
-						  	</div>
-						  	<div class="mt-3 first1" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto" src="../assets/img/achievements/animal_4.png" style="width:110px;"/>
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/gold.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>멍멍짱</p>
-						  		</div>
-						  	</div>
-						  	<div class="mt-3 second1" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/food_2.png" style="width:110px;"/>
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/silver.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>꼬꼬댁</p>
-						  		</div>
-						  	</div>
-						  	<div class="mt-3 third1" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/flower_1.png" style="width:110px;" />
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/bronze.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>럭키걸</p>
-						  		</div>
-						  	</div>
-						  	<!-- /동일 라인에 들어가는 컨텐츠 -->
-		              </div>
-	              </div><br />
-	              
-                  <div class="card h-100">
-					  <div class="card-body" style="height:220px; display:flex; justify-content:space-around; align-items:center;">
-							<!-- 동일 라인에 들어가는 컨텐츠 -->
-						  	<div class="rankingtitle1" style="display:inline-block;" >
-						  		<h5>이 주의 공유왕</h5>
-						  	</div>
-						  	<div class="mt-3 first1" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto" src="../assets/img/achievements/flower_5.png" style="width:110px;"/>
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/gold.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>메이플</p>
-						  		</div>
-						  	</div>
-						  	<div class="mt-3 second1" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/fruit_2.png" style="width:110px;"/>
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/silver.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>주민</p>
-						  		</div>
-						  	</div>
-						  	<div class="mt-3 third1" style="display:inline-block; text-align:center;" >
-						  		<div>
-						  			<img class="mb-sm-0 mb-2 h-auto"  src="../assets/img/achievements/animal_3.png" style="width:110px;" />
-						  		</div>
-						  		<div>
-						  			<img class="medal" src="../assets/img/icons/medals/bronze.png" style="width:90px"/>
-						  		</div>
-						  		<div>
-						  			<p>내가짱</p>
-						  		</div>
-						  	</div>
-						  	<!-- /동일 라인에 들어가는 컨텐츠 -->
-		              </div>
-	              </div><br />
+						<%=reviewList %>
+						<%=albumList %>
+						<%=shareList %>	
               </div>
             </div>
 		  </div>
