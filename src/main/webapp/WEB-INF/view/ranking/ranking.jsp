@@ -11,6 +11,7 @@
 	String reviewList = (String)request.getAttribute("reviewList");
 	String albumList = (String)request.getAttribute("albumList");
 	String shareList = (String)request.getAttribute("shareList");
+	String atList = (String)request.getAttribute("atList");
 
 %>
 <!DOCTYPE html>
@@ -202,6 +203,7 @@
               
               <!-- Hoverable Table rows -->
               	<div>
+              			<%=atList %>
 						<%=reviewList %>
 						<%=albumList %>
 						<%=shareList %>	

@@ -26,6 +26,25 @@
 			0, ${user_num}, now()
 		)
 	</insert>
+	
+	<select id="count_attendance" resultType="com.bookha.main.dto.DTO_Attendance">
+		SELECT
+			at_num,
+			count(*) count,
+			max(at_login) last_wdate
+		FROM
+			attendance
+		INNER JOIN
+			tb_user
+		ON
+			at_num = user_num
+		GROUP BY
+			at_num
+		ORDER BY
+			count desc,
+			at_login desc
+		LIMIT 0,3
+	</select>
 
     <select id="review_ranking" resultType="com.bookha.main.dto.DTO_Review_Board">
 		SELECT
@@ -43,7 +62,7 @@
 		ORDER BY
 			count desc, 
 			re_date desc 
-		LIMIT 0,3;
+		LIMIT 0,3
     </select>
     
     <select id="album_ranking" resultType="com.bookha.main.dto.DTO_Album_Board">
@@ -62,7 +81,7 @@
 		ORDER BY
 			count desc, 
 			al_wdate desc 
-		LIMIT 0,3;
+		LIMIT 0,3
     </select>
     
     <select id="share_ranking" resultType="com.bookha.main.dto.DTO_Share_Board">
@@ -81,7 +100,7 @@
 		ORDER BY
 			count desc, 
 			sh_date desc
-		LIMIT 0,3;
+		LIMIT 0,3
     </select>
     
     <select id="get_profile" parameterType="int" resultType="com.bookha.main.dto.DTO_User">

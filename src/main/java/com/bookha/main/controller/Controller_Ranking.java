@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bookha.main.dao.DAO_Album_Board;
 import com.bookha.main.dao.DAO_Ranking;
 import com.bookha.main.dto.DTO_Album_Board;
+import com.bookha.main.dto.DTO_Attendance;
 import com.bookha.main.dto.DTO_Review_Board;
 import com.bookha.main.dto.DTO_Share_Board;
 import com.bookha.main.dto.DTO_User;
@@ -49,42 +50,53 @@ public class Controller_Ranking {
 		
 		//dao.check_attendance(request.getUser_num);
 		//dao.add_attendance(request.getUser_num);
+		ArrayList<DTO_Attendance> atLists = new ArrayList<DTO_Attendance>();
 		ArrayList<DTO_Review_Board> reviewLists = new ArrayList<DTO_Review_Board>();
 		ArrayList<DTO_Album_Board> albumLists = new ArrayList<DTO_Album_Board>();
 		ArrayList<DTO_Share_Board> shareLists = new ArrayList<DTO_Share_Board>();
-		
+
+		atLists = dao.count_attendance();
 		reviewLists = dao.review_ranking();
 		albumLists = dao.album_ranking();
 		shareLists = dao.share_ranking();
 		
-		//review ranking 1-3 순위 리스트
+		//attendance ranking 1-3 순위 리스트
 		ArrayList<DTO_User> userLists1 = new ArrayList<DTO_User>();
+		for( DTO_Attendance list : atLists ) {
+			//System.out.println(list.getUser_num());
+			userLists1.add(dao.get_profile(list.getAt_num()));
+		}
+		
+		//review ranking 1-3 순위 리스트
+		ArrayList<DTO_User> userLists2 = new ArrayList<DTO_User>();
 		for( DTO_Review_Board list : reviewLists ) {
 			//System.out.println(list.getUser_num());
-			userLists1.add(dao.get_profile(list.getUser_num()));
+			userLists2.add(dao.get_profile(list.getUser_num()));
 		}
 		
 		//album ranking 1-3 순위 리스트
-		ArrayList<DTO_User> userLists2 = new ArrayList<DTO_User>();
+		ArrayList<DTO_User> userLists3 = new ArrayList<DTO_User>();
 		for( DTO_Album_Board list : albumLists ) {
 			//System.out.println(list.getAl_user_num());
-			userLists2.add(dao.get_profile(list.getAl_user_num()));
+			userLists3.add(dao.get_profile(list.getAl_user_num()));
 		}
 		
 		//share ranking 1-3 순위 리스트
-		ArrayList<DTO_User> userLists3 = new ArrayList<DTO_User>();
+		ArrayList<DTO_User> userLists4 = new ArrayList<DTO_User>();
 		for( DTO_Share_Board list : shareLists ) {
 			//System.out.println(list.getUser_num());
-			userLists3.add(dao.get_profile(list.getUser_num()));
+			userLists4.add(dao.get_profile(list.getUser_num()));
 		}
 		
 		//System.out.println("유저리스트 : " + userLists1.toString());
 		
 		Model_Ranking model = new Model_Ranking();
-		String reviewList = model.getRankingList("이 주의 리뷰왕", userLists1);
-		String albumList = model.getRankingList("이 주의 인증왕", userLists2);
-		String shareList = model.getRankingList("이 주의 공유왕", userLists3);
+		String atList = model.getRankingList("부카의 출석왕", userLists1);
+		String reviewList = model.getRankingList("이 주의 리뷰왕", userLists2);
+		String albumList = model.getRankingList("이 주의 인증왕", userLists3);
+		String shareList = model.getRankingList("이 주의 공유왕", userLists4);
 		
+		mv.addObject("atList", atList);
 		mv.addObject("reviewList", reviewList);
 		mv.addObject("albumList", albumList);
 		mv.addObject("shareList", shareList);
