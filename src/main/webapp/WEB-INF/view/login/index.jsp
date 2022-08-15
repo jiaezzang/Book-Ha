@@ -17,7 +17,6 @@
 	
 
 	<!--Icon Fonts-->
-	<link rel="stylesheet" media="screen" href="./assets/fonts/font-awesome/font-awesome.min.css" />
 	<link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 </head>
 

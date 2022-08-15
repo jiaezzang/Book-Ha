@@ -19,4 +19,5 @@ public class DTO_Review_Board {
 	private String book_publisher;
 	private String book_summary;
 	private String user_name;
+	private int cmt_cnt;
 }

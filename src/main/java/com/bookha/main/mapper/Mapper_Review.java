@@ -12,7 +12,9 @@ import com.bookha.main.dto.DTO_Review_Comment;
 @Repository
 public interface Mapper_Review {
 	// Board
-	ArrayList<DTO_Review_Board> list();
+	ArrayList<DTO_Review_Board> listAll();
+	
+	ArrayList<DTO_Review_Board> listHashTag(String hashTag);
 	
 	DTO_Review_Board view(int seq);
 	
@@ -29,5 +31,7 @@ public interface Mapper_Review {
 	// comment
 	ArrayList<DTO_Review_Comment> comment_list(int board_seq);
 	
-	DTO_Review_Comment comment_write(DTO_Review_Comment to);
+	int comment_write(DTO_Review_Comment to);
+	
+	int comment_delete(int comment_seq);
 }

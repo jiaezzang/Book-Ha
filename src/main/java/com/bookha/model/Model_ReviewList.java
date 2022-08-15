@@ -18,11 +18,13 @@ public class Model_ReviewList {
 			//System.out.println(list.getBook_title());
 			model+= "<tr>";
 			model+= "<td><i class='fab fa-angular fa-lg text-danger me-2'></i>";
-			model+= "<a href='./review_view.do?seq=" + list.getSeq() + "' style='color: gray'> <strong>[책 리뷰]&nbsp;&nbsp;</strong>" + list.getSubject() + "</a> &nbsp;&nbsp;";
-			model+= "<span class='badge rounded-pill badge-center h-px-20 w-px-20 bg-danger'>3</span>";
 			if(list.getWgap().equals("0")) {
-				model+= "&nbsp;&nbsp;<span class='badge bg-info rounded-pill'>New</span>";
+				model+= "<span class='badge bg-info rounded-pill'>New</span>&nbsp;&nbsp;";
+			} else {
+				model+= "<span class='badge bg-info rounded-pill' style='visibility: hidden;'>New</span>&nbsp;&nbsp;";
 			}
+			model+= "<a href='./review_view.do?seq=" + list.getSeq() + "' style='color: gray'> <strong>[책 리뷰]&nbsp;&nbsp;</strong>" + list.getSubject() + "</a> &nbsp;&nbsp;";
+			model+= "<span class='badge rounded-pill badge-center h-px-20 w-px-20 bg-danger'>" + list.getCmt_cnt() + "</span>";
 			model+= "</td>";
 			model+= "<td>";
 			model+= "<ul class='list-unstyled users-list m-0 d-flex align-items-center'>";

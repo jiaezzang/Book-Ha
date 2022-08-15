@@ -53,7 +53,6 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
-    <script src="../assets/js/config.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -61,7 +60,7 @@
     	$(document).ready(function() {
         phoneNo();
 
-        $("#chkSameId").on("click", () => {
+        $(document).on("click", "#chkSameId", function() {
           let sendData = {
             user_mail: $("#userId").val().trim()
           };
@@ -289,7 +288,7 @@
               <div class="mb-3">
                 <label for="username" class="form-label">ID</label>
                 <input type="text" class="form-control" id="userId" name="userId" placeholder="Email을 입력해주세요" autofocus />
-                <span id="chkSameId" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
+                <a href="javascript:void(0);" id="chkSameId" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</a>
               </div>
               <div class="mb-3 form-password-toggle">
                 <label class="form-label" for="password">Password</label>
@@ -305,7 +304,7 @@
               <div class="mb-3">
                 <label for="nickname" class="form-label">닉네임</label>
                 <input type="text" id="userNickname" class="form-control" name="userNickname" value="" placeholder="닉네임" />
-                <span id="chkSameNickname" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
+                <a href="javascript:void(0);" id="chkSameNickname" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</a>
               </div>
              <div class="mb-3">
                <label for="phonenumber" class="form-label">연락처</label>
