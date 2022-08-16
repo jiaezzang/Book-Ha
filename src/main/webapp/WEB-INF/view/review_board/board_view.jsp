@@ -8,6 +8,8 @@ request.setCharacterEncoding("UTF-8");
 	String profile = (String)request.getAttribute("profile");
 	String comment = (String)request.getAttribute("comment");
 	
+	int session_user_num = (int)request.getAttribute("session_user_num");
+	
 	DTOReviewBoard to = (DTOReviewBoard)request.getAttribute("to");
 	
 	int user_num = to.getUser_num();
@@ -43,6 +45,11 @@ request.setCharacterEncoding("UTF-8");
 		btnradio5 = "checked";
 	} else if(hash_tag.equals("# 기타")) {
 		btnradio6 = "checked";
+	}
+	
+	String btnHide = "";
+	if(session_user_num != user_num) {
+		btnHide = "display: none;";
 	}
 %>
 <!DOCTYPE html>
@@ -227,7 +234,7 @@ $(document).ready(function() {
 		let com_content = $("#reply-text-area").val();
 		
 		let DTO_Review_Comment = {
-			"user_num": <%= user_num %>,
+			"user_num": <%= session_user_num %>,
 			"content": com_content,
 			"board_seq": <%= seq %>
 		}
@@ -256,7 +263,8 @@ $(document).ready(function() {
 		let com_seq = $(this).next().html();
 		
 		let DTO_Review_Comment = {
-			"seq": com_seq
+			"seq": com_seq,
+			"user_num": <%= session_user_num %>
 		}
 		
 //			console.log(com_seq);
@@ -579,12 +587,12 @@ const reload = function(board_seq) {
 			<a
 				href="/review_modify.do?seq=<%= seq %>"
 				class="btn btn-outline-primary btn-buy-now2"
-				style="background-color: #f5f5f9">수정하기</a>
+				style="background-color: #f5f5f9; <%= btnHide %>">수정하기</a>
 		</div>
 		<div class="buy-now">
 			<a data-bs-toggle="modal" data-bs-target="#backDropModal"
 				class="btn btn-outline-primary btn-buy-now"
-				style="background-color: #f5f5f9" id="boardDeleteBtn">삭제하기</a>
+				style="background-color: #f5f5f9; <%= btnHide %>" id="boardDeleteBtn">삭제하기</a>
 		</div>
 
 		<div class="modal fade" id="backDropModal" data-bs-backdrop="static"

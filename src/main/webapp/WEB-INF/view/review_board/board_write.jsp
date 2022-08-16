@@ -5,6 +5,8 @@
 
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
+	
+	int session_user_num = (int)request.getAttribute("session_user_num");
 %>
 <!DOCTYPE html>
 
@@ -346,8 +348,8 @@
 			obj2 = document.createElement('input');
 			obj2.setAttribute('type', 'hidden');
 			obj2.setAttribute('name', 'user_num');
-	//			obj2.setAttribute('value', user_num);
-			obj2.setAttribute('value', 1);
+			obj2.setAttribute('value', <%= session_user_num %>);
+// 			obj2.setAttribute('value', 1);
 			
 			let obj3;
 			obj3 = document.createElement('input');

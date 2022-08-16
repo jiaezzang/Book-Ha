@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class ControllerReveiw {
 	private DAOReviewBoard dao;
 
 	@RequestMapping(value = "/review_list.do")
-	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView list(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
@@ -54,6 +55,8 @@ public class ControllerReveiw {
 		}
 		
 		ArrayList<DTOReviewBoard> lists = new ArrayList<DTOReviewBoard>();
+//		int user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+//		System.out.println(user_num);
 		
 		if(!hashTag.equals("") && !hashTag.equals("# 전체")) {
 			lists = dao.listHashTag(hashTag);
@@ -96,7 +99,7 @@ public class ControllerReveiw {
 	}
 	
 	@RequestMapping(value = "/review_view.do")
-	public ModelAndView view(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView view(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
@@ -113,13 +116,17 @@ public class ControllerReveiw {
 		mv.addObject("logo", logo.getLogo().toString());
 		
 		int seq = Integer.parseInt(request.getParameter("seq"));
+		
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		mv.addObject("session_user_num", session_user_num);
+		
 		dao.viewHit(seq);
 		DTOReviewBoard to = dao.view(seq);
 		mv.addObject("to", to);
 		
 		ArrayList<DTOReviewComment> com_lists = dao.commentList(seq);
 		ModelReviewCommentList comment = new ModelReviewCommentList();
-		String commentHtml = comment.getCommentList(com_lists);
+		String commentHtml = comment.getCommentList(com_lists, session_user_num);
 		//System.out.println(commentHtml);
 		mv.addObject("comment", commentHtml);
 		
@@ -128,7 +135,7 @@ public class ControllerReveiw {
 	}
 	
 	@RequestMapping(value = "/review_modify.do")
-	public ModelAndView modify(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView modify(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
@@ -145,7 +152,10 @@ public class ControllerReveiw {
 		mv.addObject("logo", logo.getLogo().toString());
 		
 		int seq = Integer.parseInt(request.getParameter("seq"));
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		
 		DTOReviewBoard to = dao.view(seq);
+		to.setUser_num(session_user_num);
 		mv.addObject("to", to);
 		
 		mv.setViewName("review_board/board_modify");
@@ -153,13 +163,13 @@ public class ControllerReveiw {
 	}
 	
 	@RequestMapping(value = "/review_modify_ok.do")
-	public ModelAndView modify_ok(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView modify_ok(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 
 		String subject = request.getParameter("subject");
 		int seq = Integer.parseInt(request.getParameter("seq"));
-		int user_num = Integer.parseInt(request.getParameter("user_num"));
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		String content = request.getParameter("content");
 		String hash_tag = request.getParameter("hash_tag");
 		String book_img_url = request.getParameter("book_img_url");
@@ -173,7 +183,7 @@ public class ControllerReveiw {
 		
 		to.setSeq(seq);
 		to.setSubject(subject);
-		to.setUser_num(user_num);
+		to.setUser_num(session_user_num);
 		to.setContent(content);
 		to.setHash_tag(hash_tag);
 		to.setBook_img_url(book_img_url);
@@ -192,7 +202,7 @@ public class ControllerReveiw {
 	}
 	
 	@RequestMapping(value = "/review_write.do")
-	public ModelAndView write(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView write(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
@@ -205,6 +215,9 @@ public class ControllerReveiw {
 			mv.addObject("profile", profile.getAdminProfile().toString());
 		}
 		
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		mv.addObject("session_user_num", session_user_num);
+		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
@@ -213,7 +226,7 @@ public class ControllerReveiw {
 	}
 	
 	@RequestMapping(value = "/review_write_ok.do")
-	public ModelAndView write_ok(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView write_ok(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 
@@ -251,7 +264,7 @@ public class ControllerReveiw {
 	}
 	
 	@RequestMapping(value = "/review_delete.do")
-	public ModelAndView delete(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView delete(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
@@ -259,9 +272,9 @@ public class ControllerReveiw {
 		
 		DTOReviewBoard to = new DTOReviewBoard();
 		int seq = Integer.parseInt(request.getParameter("seq"));
-		int user_num = Integer.parseInt(request.getParameter("user_num"));
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		to.setSeq(seq);
-		to.setUser_num(user_num);
+		to.setUser_num(session_user_num);
 		
 //		System.out.println("seq : " + seq);
 //		System.out.println("user_num : " + user_num);
@@ -275,10 +288,11 @@ public class ControllerReveiw {
 	}
 	
 	@RequestMapping(value = "/review_comment_list.do", method = RequestMethod.POST)
-	public String comment_list(@RequestBody DTOReviewComment to) {
+	public String comment_list(@RequestBody DTOReviewComment to, HttpSession session) {
 		ArrayList<DTOReviewComment> com_lists = dao.commentList(to.getBoard_seq());
 		ModelReviewCommentList comment = new ModelReviewCommentList();
-		String commentHtml = comment.getCommentList(com_lists);
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		String commentHtml = comment.getCommentList(com_lists, session_user_num);
 		return commentHtml;
 	}
 	

@@ -58,7 +58,10 @@ public class ControllerLogin {
 	}
 	
 	@GetMapping("/login/mainpage")
-	public ModelAndView mainpage(ModelAndView mav) {
+	public ModelAndView mainpage(HttpSession session, ModelAndView mav) {
+//		int user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+//		System.out.println(user_num);
+		
 		mav.setViewName("home/home");
 		
 		return mav;

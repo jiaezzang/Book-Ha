@@ -7,7 +7,7 @@ public class ModelLogoHtml {
 	
 	public StringBuilder getLogo() {
 		StringBuilder sbHtml = new StringBuilder();
-		sbHtml.append("<a href='/mainpage' class='app-brand-link'>");
+		sbHtml.append("<a href='/login/mainpage' class='app-brand-link'>");
 		sbHtml.append("<img class='logo-demo' src='../assets/img/logo/logo2.png'>");
 		sbHtml.append("</a>");
 		sbHtml.append("<a href='javascript:void(0);' class='layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none'>");
