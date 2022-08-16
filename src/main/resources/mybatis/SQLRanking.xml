@@ -27,7 +27,7 @@
 		)
 	</insert>
 	
-	<select id="count_attendance" resultType="com.bookha.main.dto.DTO_Attendance">
+	<select id="countAttendance" resultType="com.bookha.main.dto.DTOAttendance">
 		SELECT
 			at_num,
 			count(*) count,

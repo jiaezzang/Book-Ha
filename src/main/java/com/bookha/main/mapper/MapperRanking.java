@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.bookha.main.dto.DTOAlbumBoard;
+import com.bookha.main.dto.DTOAttendance;
 import com.bookha.main.dto.DTOReviewBoard;
 import com.bookha.main.dto.DTOShareBoard;
 import com.bookha.main.dto.DTOUser;
@@ -17,6 +18,8 @@ public interface MapperRanking {
 	int checkAttendance(int user_num);
 	
 	int addAttendance(int user_num);
+	
+	ArrayList<DTOAttendance> countAttendance();
 	
 	ArrayList<DTOReviewBoard> reviewRanking();
 	

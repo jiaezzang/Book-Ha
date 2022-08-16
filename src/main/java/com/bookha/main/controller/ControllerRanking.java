@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bookha.main.dao.DAOAlbumBoard;
 import com.bookha.main.dao.DAORanking;
 import com.bookha.main.dto.DTOAlbumBoard;
+import com.bookha.main.dto.DTOAttendance;
 import com.bookha.main.dto.DTOReviewBoard;
 import com.bookha.main.dto.DTOShareBoard;
 import com.bookha.main.dto.DTOUser;
@@ -49,42 +50,52 @@ public class ControllerRanking {
 		
 		//dao.check_attendance(request.getUser_num);
 		//dao.add_attendance(request.getUser_num);
+		ArrayList<DTOAttendance> atLists = new ArrayList<DTOAttendance>();
 		ArrayList<DTOReviewBoard> reviewLists = new ArrayList<DTOReviewBoard>();
 		ArrayList<DTOAlbumBoard> albumLists = new ArrayList<DTOAlbumBoard>();
 		ArrayList<DTOShareBoard> shareLists = new ArrayList<DTOShareBoard>();
 		
+		atLists = dao.countAttendance();
 		reviewLists = dao.reviewRanking();
 		albumLists = dao.albumRanking();
 		shareLists = dao.shareRanking();
 		
 		//review ranking 1-3 순위 리스트
 		ArrayList<DTOUser> userLists1 = new ArrayList<DTOUser>();
+		for( DTOAttendance list : atLists ) {
+			//System.out.println(list.getUser_num());
+			userLists1.add(dao.getProfile(list.getAt_num()));
+		}
+		//review ranking 1-3 순위 리스트
+		ArrayList<DTOUser> userLists2 = new ArrayList<DTOUser>();
 		for( DTOReviewBoard list : reviewLists ) {
 			//System.out.println(list.getUser_num());
-			userLists1.add(dao.getProfile(list.getUser_num()));
+			userLists2.add(dao.getProfile(list.getUser_num()));
 		}
 		
 		//album ranking 1-3 순위 리스트
-		ArrayList<DTOUser> userLists2 = new ArrayList<DTOUser>();
+		ArrayList<DTOUser> userLists3 = new ArrayList<DTOUser>();
 		for( DTOAlbumBoard list : albumLists ) {
 			//System.out.println(list.getAl_user_num());
-			userLists2.add(dao.getProfile(list.getAl_user_num()));
+			userLists3.add(dao.getProfile(list.getAl_user_num()));
 		}
 		
 		//share ranking 1-3 순위 리스트
-		ArrayList<DTOUser> userLists3 = new ArrayList<DTOUser>();
+		ArrayList<DTOUser> userLists4 = new ArrayList<DTOUser>();
 		for( DTOShareBoard list : shareLists ) {
 			//System.out.println(list.getUser_num());
-			userLists3.add(dao.getProfile(list.getUser_num()));
+			userLists4.add(dao.getProfile(list.getUser_num()));
 		}
 		
 		//System.out.println("유저리스트 : " + userLists1.toString());
 		
 		ModelRanking model = new ModelRanking();
-		String reviewList = model.getRankingList("이 주의 리뷰왕", userLists1);
-		String albumList = model.getRankingList("이 주의 인증왕", userLists2);
-		String shareList = model.getRankingList("이 주의 공유왕", userLists3);
+		String atList = model.getRankingList("부카의 출석왕", userLists1);
+		String reviewList = model.getRankingList("이 주의 리뷰왕", userLists2);
+		String albumList = model.getRankingList("이 주의 인증왕", userLists3);
+		String shareList = model.getRankingList("이 주의 공유왕", userLists4);
 		
+		mv.addObject("atList", atList);
 		mv.addObject("reviewList", reviewList);
 		mv.addObject("albumList", albumList);
 		mv.addObject("shareList", shareList);
