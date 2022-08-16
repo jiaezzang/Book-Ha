@@ -19,7 +19,7 @@
         FROM
         	review_board r
         LEFT OUTER JOIN
-        	tb_user u
+        	user u
         ON
         	re_num = user_num
         LEFT OUTER JOIN
@@ -48,7 +48,7 @@
         FROM
         	review_board r
         LEFT OUTER JOIN
-        	tb_user u
+        	user u
         ON
         	re_num = user_num
         LEFT OUTER JOIN
@@ -186,7 +186,7 @@
     	FROM
     		review_board_comment
     	INNER JOIN
-        	tb_user
+        	user
         ON
         	re_com_num = user_num
     	WHERE

@@ -347,7 +347,7 @@
 			obj2.setAttribute('type', 'hidden');
 			obj2.setAttribute('name', 'user_num');
 	//			obj2.setAttribute('value', user_num);
-			obj2.setAttribute('value', 4);
+			obj2.setAttribute('value', 1);
 			
 			let obj3;
 			obj3 = document.createElement('input');

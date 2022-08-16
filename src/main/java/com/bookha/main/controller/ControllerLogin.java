@@ -52,12 +52,17 @@ public class ControllerLogin {
 		session.setAttribute("login", true);
 		
 		DTOUser to = dao_User.signIn(user);
-		System.out.println("controller user : " + user.toString());
-		System.out.println("controller to : " + to.toString());
+		session.setAttribute("user_num", to.getUser_num());
 		
 		return to;
 	}
 	
+	@GetMapping("/login/mainpage")
+	public ModelAndView mainpage(ModelAndView mav) {
+		mav.setViewName("home/home");
+		
+		return mav;
+	}
 	
 	@GetMapping("/logout")
 	public ModelAndView logout(ModelAndView mav, HttpSession session) {

@@ -78,7 +78,7 @@
           data : JSON.stringify(sendData),
           dataType:"json",
           success : function(result){
-            window.location.href = "/";
+            window.location.href = "/login/mainpage";
           },
           error : function(jqXHR,textStatus,errorThrown){
             alert("Id 또는 PASSWORD를 확인해 주세요.");

@@ -303,7 +303,7 @@ $(document).ready(function() {
 		obj2 = document.createElement('input');
 		obj2.setAttribute('type', 'hidden');
 		obj2.setAttribute('name', 'user_num');
-		obj2.setAttribute('value', '4');
+		obj2.setAttribute('value', '1');
 		
 		f.appendChild(obj1);
 		f.appendChild(obj2);

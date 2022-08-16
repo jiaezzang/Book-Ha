@@ -24,7 +24,7 @@
 <body>
 	<header>
 		<div class="logoandmp">
-			<a href="#" class="logo">
+			<a href="/mypage.do" class="logo">
 				<img src="../assets/img/logo/logo2.png" title="Book-Ha!" />
 			</a>
 			<a href="/user_account_setting" class="mypage">
@@ -35,7 +35,7 @@
 	<section id="menu">
 
 		<div class="col-md-3 col-lg-3 mb-3">
-			<a href="ranking.do" class="card card1">
+			<a href="/ranking.do" class="card card1">
 				<div class="line">
 					<div class="card-body" style="background-image: url(../assets/img/mainpage/ranking.jpg)">
 						<h5 class="card-title">Ranking</h5>
@@ -44,7 +44,7 @@
 			</a>
 		</div>
 		<div class="col-md-3 col-lg-3 mb-3">
-			<a href="review_list.do" class="card card1">
+			<a href="/review_list.do" class="card card1">
 				<div class="line">
 					<div class="card-body" style="background-image: url(../assets/img/mainpage/review.jpg)">
 						<h5 class="card-title">Review</h5>
@@ -53,7 +53,7 @@
 			</a>
 		</div>
 		<div class="col-md-3 col-lg-3 mb-3">
-			<a href="album_list.do" class="card card1">
+			<a href="/album_list.do" class="card card1">
 				<div class="line">
 					<div class="card-body" style="background-image: url(../assets/img/mainpage/challenge.jpg)">
 						<h5 class="card-title">Challenge</h5>
@@ -62,7 +62,7 @@
 			</a>
 		</div>
 		<div class="col-md-3 col-lg-3 mb-3">
-			<a href="share_list.do" class="card card1">
+			<a href="/share_list.do" class="card card1">
 				<div class="line">
 					<div class="card-body" style="background-image: url(../assets/img/mainpage/sharing.jpg)">
 						<h5 class="card-title">Sharing</h5>
