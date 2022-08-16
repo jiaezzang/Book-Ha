@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bookha.main.dto.DTOAlbumBoard;
+import com.bookha.main.dto.DTOAttendance;
 import com.bookha.main.dto.DTOReviewBoard;
 import com.bookha.main.dto.DTOShareBoard;
 import com.bookha.main.dto.DTOUser;
@@ -37,6 +38,12 @@ public class DAORanking implements MapperRanking {
 		int flag = mapper.addAttendance(user_num);
 		
 		return flag;
+	}
+	
+	@Override
+	public ArrayList<DTOAttendance> countAttendance() {
+		// TODO Auto-generated method stub
+		return mapper.countAttendance();
 	}
 
 	@Override
