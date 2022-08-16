@@ -35,7 +35,7 @@
 		FROM
 			attendance
 		INNER JOIN
-			tb_user
+			user
 		ON
 			at_num = user_num
 		GROUP BY
@@ -54,7 +54,7 @@
 		FROM 
 			review_board 
 		INNER JOIN 
-			tb_user
+			user
 		ON
 			re_num = user_num
 		GROUP BY 
@@ -73,7 +73,7 @@
 		FROM 
 			album_board 
 		INNER JOIN 
-			tb_user
+			user
 		ON
 			al_user_num = user_num
 		GROUP BY 
@@ -92,7 +92,7 @@
 		FROM 
 			share_board 
 		INNER JOIN 
-			tb_user
+			user
 		ON
 			sh_num = user_num
 		GROUP BY 
@@ -109,7 +109,7 @@
     		user_nickname,
     		user_profile
     	FROM
-    		TB_USER
+    		user
     	WHERE
     		user_num = ${user_num}
     		

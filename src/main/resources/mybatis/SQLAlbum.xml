@@ -15,7 +15,7 @@
         FROM
         	album_board
         INNER JOIN 
-        	TB_USER
+        	user
         ON
         	al_user_num = user_num
         ORDER BY
