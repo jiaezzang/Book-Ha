@@ -1,11 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%@page import="com.bookha.main.dto.DTOShareBoard"%>
+
 <%
 	request.setCharacterEncoding("UTF-8");
 
-	String title = (String)request.getAttribute("title");
-	String profile = (String)request.getAttribute("profile");
-	String logo = (String) request.getAttribute("logo");
+	String title = (String)request.getAttribute( "title" );
+	String profile = (String)request.getAttribute( "profile" );
+	String logo = (String) request.getAttribute( "logo" );
+	
+	String listTable = (String)request.getAttribute( "listTable" );
+
 %>
 <!DOCTYPE html>
 
@@ -67,6 +73,80 @@
 <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 <script src="../assets/js/config.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		// escapeHtml 허용여부
+		toastr.options.escapeHtml = true;
+		// closeButton을 생성여부
+		toastr.options.closeButton = true;
+		// closeButton의 커스텀
+		toastr.options.closeHtml = '';
+		// 메시지 창이 사라질 때의 애니메이션 효과
+		toastr.options.closeMethod = 'fadeOut';
+		// 메시지 창의 애니메이션 효과 시간
+		toastr.options.closeDuration = 300;
+		toastr.options.closeEasing = 'swing';
+		// 새로운 창의 위치, true이면 가장 위 포지션, false면 가장 아래 포지션
+		toastr.options.newestOnTop = false;
+		// 이벤트 옵션// 추가될 때 이벤트
+		//toastr.options.onShown = function() { console.log('hello'); }
+		// 사라질 때 이벤트
+		//toastr.options.onHidden = function() { console.log('goodbye'); }
+		// 클릭될 때 이벤트
+		//toastr.options.onclick = function() { console.log('clicked'); }
+		// 닫기 버튼이 눌릴 때 이벤트
+		//toastr.options.onCloseClick = function() { console.log('close button clicked'); }
+		// 메시지 중복 허용 여부, 두개 이상 메시지가 생성될 때 이 전꺼는 사라짐
+		toastr.options.preventDuplicates = false;
+		// 메시지가 표시되는 시간
+		toastr.options.timeOut = 2000;
+		// 메시지 위로 커서를 올렸을 때 표시되는 시간
+		toastr.options.extendedTimeOut = 60;
+		// 만약 메시지 표시되는 시간과 올렸을 때 표시되는 시간을 0으로 하면 메시지는 사라지지 않는다.
+		// 프로그래스바 표시 여부
+		toastr.options.progressBar = true;
+		// 글자를 오른쪽 정렬 여부
+		toastr.options.rtl = false;
+		//애니메이션 설정 여부
+		toastr.options.showEasing = 'swing';
+		
+		toastr.options.hideEasing = 'linear';
+		toastr.options.closeEasing = 'linear';
+		toastr.options.showMethod = 'fadeIn';
+		toastr.options.hideMethod = 'fadeOut';
+		toastr.options.closeMethod = 'fadeOut';
+		
+		$(document).on('click', '.btn-check', function() {
+			let hash_tag = $(this).next().text();
+			
+			let DTOShareBoard = {
+					"hash_tag" : hash_tag
+			}
+			
+			$.ajax({
+				type: "POST",
+				url: "/share_list_hashTag.do",
+				data: JSON.stringify(DTOShareBoard),
+				contentType: "application/json; charset=UTF-8",
+				dataType: "text",
+				success: function(data) {
+					$('#listTable').html(data);
+					toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공');
+				}
+			});
+			
+		});
+	}
+</script>
+
 </head>
 
 <body>
@@ -194,7 +274,7 @@
 								<table class="table table-hover">
 									<thead>
 										<tr>
-											<th>제목</th>
+											<th>제   목</th>
 											<th>작성자</th>
 											<th>작성일자</th>
 										</tr>
@@ -241,20 +321,22 @@
 									<tbody class="table-border-bottom-0">
 									<tbody>
 										<tr>
-											<td>&nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-primary"># 전체</button>
+											<td>
 												&nbsp;
-												<button type="button" class="btn rounded-pill btn-outline-primary">#
-													나눔</button> &nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"># 교환</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio0" checked autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio0"># 전체</label>
 												&nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"># 빌려줌</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio1"># 나눔</label>
 												&nbsp;
-												<button type="button"
-													class="btn rounded-pill btn-outline-primary"># 빌려줘</button>
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio2"># 교환</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio3"># 빌려줌</label>
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 빌려줘</label>
 											</td>
 										</tr>
 									</tbody>
@@ -267,117 +349,18 @@
 							<div class="table-responsive text-nowrap">
 								<table class="table table-hover">
 									<thead>
-										<tr>
-											<th>제 목</th>
-											<th>태 그</th>
+										<tr align="center">
+											<th>제  목</th>
+											<th>태  그</th>
 											<th>작성자</th>
 											<th>작성일</th>
 											<th>조회수</th>
 										</tr>
 									</thead>
-									<tbody class="table-border-bottom-0">
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="./share_view.do" style="color: gray"> 무궁화꽃이 피었습니다. </a>
-												&nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
-
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-													<li>
-														<button type="button"
-															class="btn rounded-pill btn-outline-primary">#
-															빌려줘</button>
-													</li>
-												</ul>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> 밀레니엄 시리즈 전권 </a>
-												&nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
-
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-													<li>
-														<button type="button"
-															class="btn rounded-pill btn-outline-primary">#
-															빌려줌</button>
-													</li>
-												</ul>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-											<td>15</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> 박경리 토지 전권 </a> &nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
-
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-													<li>
-														<button type="button"
-															class="btn rounded-pill btn-outline-primary">#
-															빌려줌</button>
-													</li>
-												</ul>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-											<td>3</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> 난쏘공 </a> &nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
-
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-													<li>
-														<button type="button"
-															class="btn rounded-pill btn-outline-primary">#
-															나눔</button>
-													</li>
-												</ul>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-											<td>3</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> 그리스로마신화 </a> &nbsp;&nbsp;<span
-												class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger">3</span>
-
-											</td>
-											<td>
-												<ul
-													class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-													<li>
-														<button type="button"
-															class="btn rounded-pill btn-outline-primary">#
-															교환</button>
-													</li>
-												</ul>
-											</td>
-											<td>작성자 1</td>
-											<td>2022-07-26</td>
-											<td>30</td>
-										</tr>
+									<tbody class="table-border-bottom-0" id="listTable">
+										<!-- share_board list -->
+										<%=listTable %>
+										<!-- /share_board list -->
 									</tbody>
 								</table>
 							</div>

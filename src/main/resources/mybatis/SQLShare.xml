@@ -3,122 +3,185 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bookha.main.mapper.MapperShare">
-    <select id="list" resultType="com.bookha.main.dto.DTOShareBoard">
+    <select id="listAll" resultType="com.bookha.main.dto.DTOShareBoard">
         SELECT
-        	sh_seq,
-        	sh_num,
-            sh_title,
-            sh_hashtag,
-            sh_hit,
-            sh_date
+        	s.sh_seq as seq,
+        	sh_num as user_num,
+            sh_subject as subject,
+            sh_hashtag as hash_tag,
+            sh_hit as hit,
+            date_format(sh_date, '%Y-%m-%d') as wdate,
+            datediff( now(), sh_date ) wgap,
+			user_nickname,
+			count(c.sh_seq) cmt_cnt
         FROM
-        	Share_board
+        	share_board s
+        LEFT JOIN
+        	user
+        ON
+        	sh_num = user_num
+        LEFT JOIN
+        	share_board_comment c
+        ON
+        	s.sh_seq = c.sh_seq
+        GROUP BY
+        	s.sh_seq, c.sh_seq
+        ORDER BY
+        	s.sh_seq desc
+    </select>
+    
+    <select id="listHashTag" parameterType="String" resultType="com.bookha.main.dto.DTOShareBoard">
+        SELECT
+        	s.sh_seq as seq,
+        	sh_num as user_num,
+            sh_subject as subject,
+            sh_hashtag as hash_tag,
+            sh_hit as hit,
+            date_format(sh_date, '%Y-%m-%d') as wdate,
+            datediff( now(), sh_date ) wgap,
+			user_name,
+			count(c.sh_seq) cmt
+        FROM
+        	share_board s
+        LEFT JOIN
+        	user
+        ON
+        	sh_num = user_num
+        LEFT JOIN
+        	share_board_comment c
+        ON
+        	s.sh_seq = c.sh_seq
+        WHERE
+        	s.sh_hashtag = #{hashTag}
+        GROUP BY
+        	s.sh_seq, c.sh_seq
+        ORDER BY
+        	s.sh_seq desc
     </select>
     
     <select id="view" parameterType="int" resultType="com.bookha.main.dto.DTOShareBoard">
         SELECT
-        	sh_seq,
-            sh_title,
-            sh_num,
-            sh_content,
-            sh_hashtag,
-            sh_hit,
-            sh_date
+        	sh_seq as seq,
+            sh_subject as subject,
+            sh_num as user_num,
+            sh_content as content,
+            sh_hashtag as hash_tag,
+            sh_hit as hit,
+            sh_date as wdate
         FROM
-        	Share_board
+        	share_board
         WHERE
         	sh_seq = #{seq}
     </select>
     
-    <update id="viewHit" parameterType="int">
+    <update id="vieHit" parameterType="int">
     	UPDATE
-    		Share_board
+    		share_board
     	SET
     		sh_hit = sh_hit + 1
     	WHERE
     		sh_seq = #{seq}
     </update>
-    
+ 
     <insert id="writeOk" parameterType="com.bookha.main.dto.DTOShareBoard">
-        INSERT INTO Share_board (
+        INSERT INTO share_board (
             sh_seq,
             sh_num,
-            sh_title,
+            sh_subject,
             sh_content,
             sh_hashtag,
             sh_hit,
             sh_date
         ) VALUES (
 			0,
-			#{title},
 			#{user_num},
+			#{subject},
 			#{content},
 			#{hash_tag},
 			0,
 			now()
 		);
     </insert>
-    
+  
     <select id="modify" parameterType="int" resultType="com.bookha.main.dto.DTOShareBoard">
         SELECT
         	sh_seq,
             sh_num,
-            sh_title,
+            sh_subject,
             sh_content,
             sh_hashtag,
-            sh_hit,
-            sh_date
         FROM
-        	Share_board
+        	share_board
         WHERE
         	sh_seq = #{seq}
     </select>
     
     <update id="modifyOk" parameterType="com.bookha.main.dto.DTOShareBoard">
     	UPDATE
-    		Share_board
+    		share_board
     	SET
-    		sh_title = #{title},
+    		sh_subject = #{subject},
     		sh_content = #{content},
     		sh_hashtag = #{hash_tag}
     	WHERE
     		sh_seq = #{seq}
     	AND
-    		sh_num = #{sh_num}
+    		sh_num = #{user_num}
     </update>
     
     <delete id="deleteOk" parameterType="com.bookha.main.dto.DTOShareBoard">
     	DELETE
     	FROM
-    		Share_board
+    		share_board
     	WHERE
     		sh_seq = #{seq}
     	AND
-    		sh_num = #{sh_num}
+    		sh_num = #{user_num}
     </delete>
     
     <select id="commentList" parameterType="int" resultType="com.bookha.main.dto.DTOShareComment">
     	SELECT
-    		sh_com_seq,
-    		sh_com_num,
-    		sh_com_content,
-    		sh_com_date,
-    		sh_seq
+    		sh_com_seq as seq,
+    		sh_com_num as user_num,
+    		sh_com_content as content,
+    		sh_com_date as wdate,
+    		sh_seq as board_seq,
+    		user_nickname
     	FROM
-    		Share_board_comment
+    		share_board_comment
+    	INNER JOIN
+        	user
+        ON
+        	sh_com_num = user_num
     	WHERE
     		sh_seq = #{board_seq}
     </select>
     
-    <delete id="commentDeleteOk" parameterType="com.bookha.main.dto.DTOShareBoard">
+    <insert id="commentWriteOk" parameterType="com.bookha.main.dto.DTOShareComment">
+    	INSERT INTO share_board_comment (
+    		sh_com_seq,
+            sh_com_num,
+            sh_com_content,
+            sh_com_date,
+            sh_seq
+        ) VALUES (
+			0,
+			#{user_num},
+			#{content},
+			now(),
+			#{board_seq}
+		);
+		<selectKey resultType="int" keyProperty="user_num" order="AFTER">
+		SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+    </insert>
+    
+    <delete id="commentDeleteOk" parameterType="int">
     	DELETE
     	FROM
-    		Share_board_comment
+    		share_board_comment
     	WHERE
-    		sh_com_seq = #{sh_com_seq}
-    	AND
-    		sh_seq = #{board_seq}
-    	AND
-    		sh_num = #{sh_num}
+    		sh_com_seq = #{com_seq}
     </delete>
 </mapper>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<%@page import="com.bookha.main.dto.DTOShareBoard"%>
 <%@page import="com.bookha.main.dto.DTOUser"%>
 
 <%
@@ -10,7 +11,30 @@
 	String profile = (String) request.getAttribute("profile");
 	String logo = (String) request.getAttribute( "logo" );
 	
-	int session_user_num = (int)request.getAttribute("session_user_num");
+	DTOShareBoard to = (DTOShareBoard) request.getAttribute("to");
+	
+	int seq = Integer.parseInt(request.getParameter("seq"));
+	
+	String subject = to.getSubject();
+	String content = to.getContent();
+	String hash_tag = to.getHash_tag();
+	//
+	int user_num = to.getUser_num();
+	
+	String btnradio1 = "";
+	String btnradio2 = "";
+	String btnradio3 = "";
+	String btnradio4 = "";
+	
+	if(hash_tag.equals("# 나눔")) {
+		btnradio1 = "checked";
+	} else if(hash_tag.equals("# 교환")) {
+		btnradio2 = "checked";
+	} else if(hash_tag.equals("# 빌려줌")) {
+		btnradio3 = "checked";
+	} else if(hash_tag.equals("# 빌려줘")) {
+		btnradio4 = "checked";
+	}
 %>
 <!DOCTYPE html>
 
@@ -140,7 +164,7 @@
 <script>
 	$(document).ready(function() {
 
-		let tag_radio = '';
+		let tag_radio = '<%=hash_tag %>';
 
 		$('.btn-check').on('click', function(e) {
 			tag_radio = $(this).next().text();
@@ -191,8 +215,6 @@
 			toastr.error(message, title);
 		};
 		
-		
-		
 		$('#board_submit').on("click", function(e) {
 			if($('#defaultFormControlInput').val() == '') {
 				toastHtml('입력 오류!', '제목을 입력하세요.');
@@ -212,6 +234,12 @@
 
 			let f = document.createElement('form');
 			
+			let obj0;
+			obj0 = document.createElement('input');
+			obj0.setAttribute('type', 'hidden');
+			obj0.setAttribute('name', 'seq');
+			obj0.setAttribute('value', <%=seq %> );
+			
 			let obj1;
 			obj1 = document.createElement('input');
 			obj1.setAttribute('type', 'hidden');
@@ -222,7 +250,7 @@
 			obj2 = document.createElement('input');
 			obj2.setAttribute('type', 'hidden');
 			obj2.setAttribute('name', 'user_num');
-			obj2.setAttribute('value', <%= session_user_num %>);
+			obj2.setAttribute('value', <%=user_num %>);
 			//obj2.setAttribute('value', 4);
 			
 			let obj3;
@@ -237,13 +265,14 @@
 			obj4.setAttribute('name', 'hash_tag');
 			obj4.setAttribute('value', tag_radio);
 
+			f.appendChild(obj0);
 			f.appendChild(obj1);
 			f.appendChild(obj2);
 			f.appendChild(obj3);
 			f.appendChild(obj4);
 			
 			f.setAttribute('method', 'post');
-			f.setAttribute('action', '/share_write_ok.do');
+			f.setAttribute('action', '/share_modify_ok.do');
 			document.body.appendChild(f);
 			f.submit();
 		});
@@ -255,7 +284,7 @@
 		    previewHighlight: false,
 		    height: '700px',
 		    // 사전입력 항목
-		    initialValue: '# 안녕하세요. 제목입니다.\n### 사전입력 테스트\n본문본문본문\n\n',
+		    initialValue: '',
 		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 		    hooks: {
 		    	addImageBlobHook: (blob, callback) => {
@@ -415,6 +444,13 @@
 							<h5 class="card-header">
 								나눔과 공유하기&nbsp;&nbsp;>&nbsp;&nbsp;<strong>공유 게시판</strong>
 							</h5>
+							
+							<div>
+								<input type="text" class="form-control"
+									id="defaultFormControlInput" placeholder="제목을 입력하세요"
+									aria-describedby="defaultFormControlHelp" value="<%= subject %>"/>
+							</div>
+							<br />
 							<div class="table-responsive text-nowrap">
 								<table class="table table-borderless">
 									<tbody class="table-border-bottom-0">
@@ -422,16 +458,16 @@
 										<tr>
 											<td>
 												&nbsp;&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio1 %> id="btnradio1" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio1"># 나눔</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio2 %> id="btnradio2" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio2"># 교환</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio3 %> id="btnradio3" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio3"># 빌려줌</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio4 %> id="btnradio4" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 빌려줘</label>
 											</td>
 										</tr>
@@ -441,17 +477,13 @@
 
 							<br />
 
-							<div>
-								<input type="text" class="form-control"
-									id="defaultFormControlInput" placeholder="제목을 입력하세요"
-									aria-describedby="defaultFormControlHelp" />
-							</div>
+							
 
 							<!-- Hoverable Table rows -->
 
 							<!-- TOAST UI Editor가 들어갈 div태그 -->
 							<div id="editor"></div>
-
+								<%=content %>
 							<br />
 						</div>
 					</div>
@@ -501,7 +533,7 @@
 		<a href="javascript:void(0);"
 			class="btn btn-outline-primary btn-buy-now"
 			style="background-color: #f5f5f9"
-			id="board_submit">작성 완료</a>
+			id="board_submit">수정 완료</a>
 	</div>
 
 	<!-- Core JS -->
