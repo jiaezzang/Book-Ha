@@ -8,12 +8,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DTOReviewTotal {
+	// 현재 페이지
 	private int cpage;
 	private int recordPerPage;
 	private int blockPerPage;
+	// 총 페이지
 	private int totalPage;
+	// 
 	private int totalRecord;
+	// 시작페이지
 	private int startBlock;
+	// 끝 페이지
 	private int endBlock;
 	
 	private ArrayList<DTOReviewBoard> board;

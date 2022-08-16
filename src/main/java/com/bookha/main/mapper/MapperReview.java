@@ -16,6 +16,8 @@ public interface MapperReview {
 	
 	ArrayList<DTOReviewBoard> listHashTag(String hashTag);
 	
+	int countBoard();
+	
 	DTOReviewBoard view(int seq);
 	
 	void viewHit(int seq);

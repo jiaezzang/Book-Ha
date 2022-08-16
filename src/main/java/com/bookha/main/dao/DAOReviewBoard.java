@@ -27,6 +27,12 @@ public class DAOReviewBoard implements MapperReview {
 	public ArrayList<DTOReviewBoard> listHashTag(String hashTag) {
 		return mapper.listHashTag(hashTag);
 	}
+	
+	@Override
+	public int countBoard() {
+		// TODO Auto-generated method stub
+		return mapper.countBoard();
+	}
 
 	@Override
 	public DTOReviewBoard view(int seq) {

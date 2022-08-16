@@ -10,7 +10,6 @@
             al_subject,
             date_format(al_wdate, '%Y년 %m월 %d일' ) as al_wdate,
             al_imgName,
-            al_imgSize,
             user_name
         FROM
         	album_board

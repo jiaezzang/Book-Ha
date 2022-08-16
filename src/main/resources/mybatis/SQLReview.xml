@@ -14,7 +14,7 @@
             datediff(now(), re_date) wgap,
             re_book_img_url as book_img_url,
             re_book_title as book_title,
-            user_name,
+            user_nickname as user_name,
             count(c.re_seq) cmt_cnt
         FROM
         	review_board r
@@ -43,7 +43,7 @@
             datediff(now(), re_date) wgap,
             re_book_img_url as book_img_url,
             re_book_title as book_title,
-            user_name,
+            user_nickname as user_name,
             count(c.re_seq) cmt_cnt
         FROM
         	review_board r
@@ -62,6 +62,36 @@
         ORDER BY
         	r.re_seq desc
     </select>
+    
+    <select id="countBoard" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			review_board
+	</select>
+	
+	<select id="selectBoard" resultType="">
+		SELECT
+			*
+		FROM (
+			SELECT
+				ROWNUM RN, A.*
+			FROM (
+				SELECT 
+					*
+				FROM
+					review_board
+				ORDER BY
+					SEQ DESC
+			) A
+		)
+		WHERE
+			RN
+		BETWEEN
+			#{start}
+		AND
+			#{end}
+	</select>
     
     <select id="view" parameterType="int" resultType="com.bookha.main.dto.DTOReviewBoard">
         SELECT
@@ -182,7 +212,7 @@
     		re_com_content as content,
     		re_com_date as wdate,
     		re_seq as board_seq,
-    		user_name as writer
+    		user_nickname as writer
     	FROM
     		review_board_comment
     	INNER JOIN

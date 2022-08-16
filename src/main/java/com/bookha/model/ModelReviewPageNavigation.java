@@ -21,16 +21,10 @@ public class ModelReviewPageNavigation {
 		model += "<i class='tf-icon bx bx-chevron-left'></i></a></li>";
 		
 		// 네비게이션 번호
-		model += "<li class='page-item'>";
-		model += "<a class='page-link' href='javascript:void(0);'>1</a></li>";
-		model += "<li class='page-item'>";
-		model += "<a class='page-link' href='javascript:void(0);'>2</a></li>";
-		model += "<li class='page-item'>";
-		model += "<a class='page-link' href='javascript:void(0);'>3</a></li>";
-		model += "<li class='page-item'>";
-		model += "<a class='page-link' href='javascript:void(0);'>4</a></li>";
-		model += "<li class='page-item'>";
-		model += "<a class='page-link' href='javascript:void(0);'>5</a></li>";
+		for(int i=1; i<=5; i++) {
+			model += "<li class='page-item'>";
+			model += "<a class='page-link' href='javascript:void(0);'>" + i + "</a></li>";
+		}
 		
 		// 네비게이션 다음페이지 화살표
 		model += "<li class='page-item next'>";

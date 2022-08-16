@@ -9,6 +9,6 @@ public class DTOAlbumBoard {
 	private String al_subject;
 	private String al_wdate;
 	private String al_imgName;
-	private int al_imgSize;
 	private String user_name;
+	private String user_nickname;
 }
