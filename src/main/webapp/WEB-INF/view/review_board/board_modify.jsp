@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.bookha.main.dto.DTO_Review_Board" %>
+<%@ page import="com.bookha.main.dto.DTOReviewBoard" %>
 <%
-	request.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");
 
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	
-	DTO_Review_Board to = (DTO_Review_Board)request.getAttribute("to");
+	DTOReviewBoard to = (DTOReviewBoard)request.getAttribute("to");
 	
 	int seq = Integer.parseInt(request.getParameter("seq"));
 	String subject = to.getSubject();

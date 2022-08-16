@@ -1,23 +1,21 @@
-<%@page import="com.bookha.main.dto.DTO_Album_Total"%>
-<%@page import="com.bookha.main.dto.DTO_Album_Board"%>
+<%@page import="com.bookha.main.dto.DTOAlbumTotal"%>
+<%@page import="com.bookha.main.dto.DTOAlbumBoard"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.bookha.main.dao.DAO_Album_Board"%>
+<%@page import="com.bookha.main.dao.DAOAlbumBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");
 	
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	
-	DTO_Album_Board dto = (DTO_Album_Board)request.getAttribute("dto");
-	DTO_Album_Total totalLists = (DTO_Album_Total)request.getAttribute("totalLists");
+	DTOAlbumBoard dto = (DTOAlbumBoard)request.getAttribute("dto");
+	DTOAlbumTotal totalLists = (DTOAlbumTotal)request.getAttribute("totalLists");
 	
 	String albumlist = (String)request.getAttribute("albumlist");
 	System.out.println(albumlist);
-	ArrayList<DTO_Album_Board> lists = totalLists.getBoard();
-	
-
+	ArrayList<DTOAlbumBoard> lists = totalLists.getBoard();
 %>
 <!DOCTYPE html>
 

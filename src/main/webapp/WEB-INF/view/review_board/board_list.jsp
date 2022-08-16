@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.bookha.main.dto.DTO_Review_Total" %>
-<%@ page import="com.bookha.main.dto.DTO_Review_Board" %>
+<%@ page import="com.bookha.main.dto.DTOReviewTotal" %>
+<%@ page import="com.bookha.main.dto.DTOReviewBoard" %>
 <%@ page import="java.util.ArrayList" %>
 <%
 	request.setCharacterEncoding("UTF-8");
