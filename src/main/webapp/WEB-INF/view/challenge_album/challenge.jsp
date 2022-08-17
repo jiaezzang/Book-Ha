@@ -74,10 +74,16 @@
 
 <!-- Page CSS -->
 <style type="text/css">
-.card-img-top {
-	height:50%;
-	object-fit: cover;
-}
+/* .card-img-top { */
+/*  	height:50%;  */
+/* 	object-fit: cover; */
+/* } */
+
+/* #textInfo { */
+/* 	position:absolute;  */
+/* 	bottom:20px; */
+/* 	right:20px; */
+/* } */
 </style>
 <!-- Helpers -->
 <script src="../assets/vendor/js/helpers.js"></script>
