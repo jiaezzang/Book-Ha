@@ -211,7 +211,7 @@ $(document).ready(function() {
 	// 닫기 버튼이 눌릴 때 이벤트
 	//toastr.options.onCloseClick = function() { console.log('close button clicked'); }
 	// 메시지 중복 허용 여부, 두개 이상 메시지가 생성될 때 이 전꺼는 사라짐
-	toastr.options.preventDuplicates = true;
+	toastr.options.preventDuplicates = false;
 	// 메시지가 표시되는 시간
 	toastr.options.timeOut = 2000;
 	// 메시지 위로 커서를 올렸을 때 표시되는 시간
