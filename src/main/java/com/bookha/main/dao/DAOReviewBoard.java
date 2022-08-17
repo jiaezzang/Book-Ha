@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bookha.main.dto.DTOReviewBoard;
 import com.bookha.main.dto.DTOReviewComment;
+import com.bookha.main.dto.DTOReviewTotal;
 import com.bookha.main.mapper.MapperReview;
 
 import lombok.RequiredArgsConstructor;
@@ -17,21 +18,16 @@ public class DAOReviewBoard implements MapperReview {
 
 	@Autowired
 	private MapperReview mapper;
-
+	
 	@Override
-	public ArrayList<DTOReviewBoard> listAll() {
-		return mapper.listAll();
+	public ArrayList<DTOReviewBoard> list(DTOReviewTotal dto) {
+		return mapper.list(dto);
 	}
 	
 	@Override
-	public ArrayList<DTOReviewBoard> listHashTag(String hashTag) {
-		return mapper.listHashTag(hashTag);
-	}
-	
-	@Override
-	public int countBoard() {
+	public int countBoard(String hashTag) {
 		// TODO Auto-generated method stub
-		return mapper.countBoard();
+		return mapper.countBoard(hashTag);
 	}
 
 	@Override

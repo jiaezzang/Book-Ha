@@ -11,6 +11,33 @@
 	String logo = (String)request.getAttribute("logo");
 	
 	String reviewTable = (String)request.getAttribute("reviewTable");
+	String nav = (String)request.getAttribute("nav");
+	
+	String hashTag = (String)request.getAttribute("hashTag");
+	
+	String btnradio0 = "";
+	String btnradio1 = "";
+	String btnradio2 = "";
+	String btnradio3 = "";
+	String btnradio4 = "";
+	String btnradio5 = "";
+	String btnradio6 = "";
+	
+	if(hashTag.equals("# 전체")) {
+		btnradio0 = "checked";
+	} else if(hashTag.equals("# 소설")) {
+		btnradio1 = "checked";
+	} else if(hashTag.equals("# 수필")) {
+		btnradio2 = "checked";
+	} else if(hashTag.equals("# 시")) {
+		btnradio3 = "checked";
+	} else if(hashTag.equals("# 인문/사회")) {
+		btnradio4 = "checked";
+	} else if(hashTag.equals("# 과학")) {
+		btnradio5 = "checked";
+	} else if(hashTag.equals("# 기타")) {
+		btnradio6 = "checked";
+	}
 %>
 
 <!DOCTYPE html>
@@ -136,6 +163,7 @@ $(document).ready(function() {
 		let DTO_Review_Board = {
 			"hash_tag": hash_tag
 		}
+		//console.log(DTO_Review_Board);
 		
 		$.ajax({
 			type: 'POST',
@@ -147,10 +175,30 @@ $(document).ready(function() {
 				$("#listTable").html(data);
 // 				console.log(data);
 				toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공');
+				pageNavigation(hash_tag);
 			}
 		});
 	});
 });
+
+const pageNavigation = function(hash_tag) {
+	//console.log(hash_tag);
+	
+	let DTO_Review_Board = {
+		"hash_tag": hash_tag
+	}
+	
+	$.ajax({
+		type: 'POST',
+		url: "/review_list_pageNav.do",
+		data: JSON.stringify(DTO_Review_Board),
+		contentType: "application/json; charset=UTF-8",
+		dataType: "text",
+		success: function(data) {
+			$('#pageNav').html(data);
+		}
+	});
+}
 </script>
 </head>
 
@@ -316,26 +364,26 @@ $(document).ready(function() {
 									<tbody>
 										<tr>
 											<td>
-												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio0" checked autocomplete="off">
+												&nbsp;&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio0 %> id="btnradio0" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio0"># 전체</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio1 %> id="btnradio1" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio1"># 소설</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio2 %> id="btnradio2" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio2"># 수필</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio3 %> id="btnradio3" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio3"># 시</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio4 %> id="btnradio4" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 인문/사회</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio5 %> id="btnradio5" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio5"># 과학</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio6 %> id="btnradio6" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio6"># 기타</label>
 											</td>
 										</tr>
@@ -363,34 +411,9 @@ $(document).ready(function() {
 									</tbody>
 								</table>
 							</div>
-							<div class="demo-inline-spacing">
+							<div id="pageNav" class="demo-inline-spacing">
 								<!-- Basic Pagination -->
-								<nav aria-label="Page navigation">
-									<ul class="pagination">
-										<li class="page-item first"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevrons-left"></i></a></li>
-										<li class="page-item prev"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevron-left"></i></a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">1</a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">2</a></li>
-										<li class="page-item active"><a class="page-link"
-											href="javascript:void(0);">3</a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">4</a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">5</a></li>
-										<li class="page-item next"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevron-right"></i></a></li>
-										<li class="page-item last"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevrons-right"></i></a></li>
-									</ul>
-								</nav>
+								<%= nav %>
 								<!--/ Basic Pagination -->
 							</div>
 						</div>

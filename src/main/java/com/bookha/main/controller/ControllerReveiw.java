@@ -22,6 +22,7 @@ import com.bookha.model.ModelLogoHtml;
 import com.bookha.model.ModelProfileHtml;
 import com.bookha.model.ModelReviewCommentList;
 import com.bookha.model.ModelReviewList;
+import com.bookha.model.ModelReviewPageNavigation;
 
 @RestController
 public class ControllerReveiw {
@@ -37,8 +38,10 @@ public class ControllerReveiw {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
+		// html 타이틀 태그
 		mv.addObject("title", title);
 		
+		// 프로필
 		ModelProfileHtml profile = new ModelProfileHtml();
 		if(this.user_role.equals("user")) {
 			mv.addObject("profile", profile.getProfile().toString());
@@ -46,56 +49,163 @@ public class ControllerReveiw {
 			mv.addObject("profile", profile.getAdminProfile().toString());
 		}
 		
+		// 로고
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
+		// 해시태그 검색 전, 검색단어 전처리
 		String hashTag = "";
-		if(request.getParameter("hash_tag") != null) {
-			hashTag = request.getParameter("hash_tag");
+		if(request.getParameter("hashtag") != null) {
+			hashTag = request.getParameter("hashtag");
 		}
 		
+		if(hashTag.equals("") || hashTag.equals("# 전체")) {
+			hashTag = "#";
+		}
+		
+		// 페이징 처리
+		DTOReviewTotal dto = new DTOReviewTotal();
+		dto.setHash_tag(hashTag);
+		int skip, cpage, blockPerPage, totalPage, totalRecord, startBlock, endBlock;
+		
+		// 1. 현재 페이지 수 가져오기
+		cpage = dto.getCpage();
+		if(request.getParameter("cpage") != null) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+			dto.setCpage(cpage);
+		}
+		
+		// 2. 게시글 시작 번호
+		skip = (cpage - 1) * dto.getRecordPerPage();
+		dto.setSkip(skip);
+		
+		// 3. 총 게시글 수 DB에서 가져오기
+		dto.setTotalRecord(dao.countBoard(hashTag));
+		totalRecord = dto.getTotalRecord();
+		
+		// 4. 전체 페이지 수
+		totalPage = ((totalRecord - 1) / dto.getRecordPerPage()) + 1;
+		dto.setTotalPage(totalPage);
+		
+		// 5. 보여질 블록 수 : max = 5
+		blockPerPage = dto.getBlockPerPage();
+		
+		// 6. 시작, 종료 블록 지정
+		startBlock = (((cpage - 1) / blockPerPage) * blockPerPage) + 1;
+		dto.setStartBlock(startBlock);
+		endBlock = (((cpage - 1) / blockPerPage) * blockPerPage) + blockPerPage;
+		if(endBlock >= totalPage) {
+			endBlock = totalPage;
+		}
+		dto.setEndBlock(endBlock);
+		
+		// 리스트 데이터 DB에서 가져오기
 		ArrayList<DTOReviewBoard> lists = new ArrayList<DTOReviewBoard>();
-//		int user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
-//		System.out.println(user_num);
+		lists = dao.list(dto);
 		
-		if(!hashTag.equals("") && !hashTag.equals("# 전체")) {
-			lists = dao.listHashTag(hashTag);
-		} else {
-			lists = dao.listAll();
-		}
-		
-		//System.out.println(lists.toString());
-		
+		// 가져온 데이터를 HTML 테이블화 시켜주기
 		ModelReviewList rl = new ModelReviewList();
 		String reviewTable = rl.getReviewList(lists);
 		mv.addObject("reviewTable", reviewTable);
+		
+		// Page Navigation 버튼
+		ModelReviewPageNavigation navModel = new ModelReviewPageNavigation();
+		String nav = navModel.getPageNav(dto);
+		mv.addObject("nav", nav);
+		
+		// 해시태그 넘겨주기
+		if(hashTag.equals("#")) {
+			hashTag = "# 전체";
+		}
+		mv.addObject("hashTag", hashTag);
 		
 		mv.setViewName("review_board/board_list");
 		return mv;
 	}
 	
 	@RequestMapping(value = "/review_list_hashTag.do", method = RequestMethod.POST)
-	public String list_hashTag(@RequestBody DTOReviewBoard to) {
+	public String list_hashTag(@RequestBody DTOReviewBoard to, HttpServletRequest request) {
 		ArrayList<DTOReviewBoard> lists = new ArrayList<DTOReviewBoard>();
 		
+		// 해시태그 검색 전, 검색단어 전처리
 		String hashTag = to.getHash_tag();
 		
-//		System.out.println("hashTag : " + hashTag);
-		
-		if(!hashTag.equals("") && !hashTag.equals("# 전체")) {
-			lists = dao.listHashTag(hashTag);
-		} else {
-			lists = dao.listAll();
+		if(hashTag.equals("") || hashTag.equals("# 전체")) {
+			hashTag = "#";
 		}
 		
-//		System.out.println(lists.toString());
+		// 페이징 처리
+		DTOReviewTotal dto = new DTOReviewTotal();
+		dto.setHash_tag(hashTag);
+		int skip, cpage;
+		
+		// 1. 현재 페이지 수 가져오기
+		cpage = dto.getCpage();
+		
+		// 2. 게시글 시작 번호
+		skip = (cpage - 1) * dto.getRecordPerPage();
+		dto.setSkip(skip);
+		
+		// 리스트 데이터 DB에서 가져오기
+		lists = dao.list(dto);
 		
 		ModelReviewList rl = new ModelReviewList();
 		String reviewTable = rl.getReviewList(lists);
 		
-//		System.out.println(reviewTable);
-		
 		return reviewTable;
+	}
+	
+	@RequestMapping(value = "/review_list_pageNav.do", method = RequestMethod.POST)
+	public String list_pageNav(@RequestBody DTOReviewBoard to, HttpServletRequest request) {
+		ArrayList<DTOReviewBoard> lists = new ArrayList<DTOReviewBoard>();
+		
+		// 해시태그 검색 전, 검색단어 전처리
+		String hashTag = to.getHash_tag();
+		
+		if(hashTag.equals("") || hashTag.equals("# 전체")) {
+			hashTag = "#";
+		}
+		
+		// 페이징 처리
+		DTOReviewTotal dto = new DTOReviewTotal();
+		dto.setHash_tag(hashTag);
+		int skip, cpage, blockPerPage, totalPage, totalRecord, startBlock, endBlock;
+		
+		// 1. 현재 페이지 수 가져오기
+		cpage = dto.getCpage();
+		System.out.println("cpage : " + cpage);
+		
+		// 2. 게시글 시작 번호
+		skip = (cpage - 1) * dto.getRecordPerPage();
+		dto.setSkip(skip);
+		
+		// 3. 총 게시글 수 DB에서 가져오기
+		dto.setTotalRecord(dao.countBoard(hashTag));
+		totalRecord = dto.getTotalRecord();
+		
+		// 4. 전체 페이지 수
+		totalPage = ((totalRecord - 1) / dto.getRecordPerPage()) + 1;
+		dto.setTotalPage(totalPage);
+		
+		// 5. 보여질 블록 수 : max = 5
+		blockPerPage = dto.getBlockPerPage();
+		
+		// 6. 시작, 종료 블록 지정
+		startBlock = (((cpage - 1) / blockPerPage) * blockPerPage) + 1;
+		dto.setStartBlock(startBlock);
+		endBlock = (((cpage - 1) / blockPerPage) * blockPerPage) + blockPerPage;
+		if(endBlock >= totalPage) {
+			endBlock = totalPage;
+		}
+		dto.setEndBlock(endBlock);
+		
+		// 리스트 데이터 DB에서 가져오기
+		lists = dao.list(dto);
+		
+		ModelReviewPageNavigation navModel = new ModelReviewPageNavigation();
+		String nav = navModel.getPageNav(dto);
+		
+		return nav;
 	}
 	
 	@RequestMapping(value = "/review_view.do")

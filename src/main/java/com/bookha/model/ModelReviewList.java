@@ -28,7 +28,7 @@ public class ModelReviewList {
 			model+= "</td>";
 			model+= "<td>";
 			model+= "<ul class='list-unstyled users-list m-0 d-flex align-items-center'>";
-			model+= "<div data-bs-toggle='tooltip' data-bs-placement='top' style='margin: auto; text-align: center;' data-bs-html='true' title='<img src=\"" + list.getBook_img_url() + "\" />'>";
+			model+= "<div data-bs-toggle='tooltip' data-bs-placement='top' style='margin: auto; text-align: center;' data-bs-html='true' title=\"<img src='" + list.getBook_img_url() + "' />\">";
 			model+= list.getBook_title() + "</div>";
 			model+= "</ul>";
 			model+= "</td>";

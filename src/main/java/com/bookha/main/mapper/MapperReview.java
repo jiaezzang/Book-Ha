@@ -7,16 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import com.bookha.main.dto.DTOReviewBoard;
 import com.bookha.main.dto.DTOReviewComment;
+import com.bookha.main.dto.DTOReviewTotal;
 
 @Mapper
 @Repository
 public interface MapperReview {
 	// Board
-	ArrayList<DTOReviewBoard> listAll();
+	ArrayList<DTOReviewBoard> list(DTOReviewTotal dto);
 	
-	ArrayList<DTOReviewBoard> listHashTag(String hashTag);
-	
-	int countBoard();
+	int countBoard(String hashTag);
 	
 	DTOReviewBoard view(int seq);
 	
