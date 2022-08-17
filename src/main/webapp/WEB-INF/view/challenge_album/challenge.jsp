@@ -73,7 +73,12 @@
 	href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
 <!-- Page CSS -->
-
+<style type="text/css">
+.card-img-top {
+	height:50%;
+	object-fit: cover;
+}
+</style>
 <!-- Helpers -->
 <script src="../assets/vendor/js/helpers.js"></script>
 
@@ -243,7 +248,7 @@ $(document).ready(function(){
        			console.log(url);
        			
        			let DTO_Album_board = {
-       					"al_user_num" : session_user_num,
+       					"al_user_num" : <%=session_user_num%>,
        					"al_seq" : al_seq,
        					"al_subject" : $("#modifySubject").val(),
        					"al_imgName" : data.filename
