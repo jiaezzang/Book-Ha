@@ -17,7 +17,6 @@
 	
 
 	<!--Icon Fonts-->
-	<link rel="stylesheet" media="screen" href="./assets/fonts/font-awesome/font-awesome.min.css" />
 	<link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
@@ -27,7 +26,7 @@
 			<a href="/mypage.do" class="logo">
 				<img src="../assets/img/logo/logo2.png" title="Book-Ha!" />
 			</a>
-			<a href="/user_account_setting" class="mypage">
+			<a href="/mypage.do" class="mypage">
 				<i class="bx bx-user-circle bx-md" style="color:#696cff; font-size:40px;"></i>
 			</a>
 	</header>

@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bookha.main.dao.DAOAlbumBoard;
+import com.bookha.main.dao.DAOUser;
 import com.bookha.main.dto.DTOAlbumBoard;
 import com.bookha.main.dto.DTOAlbumTotal;
+import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelAlbumList;
+import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelProfileHtml;
 import com.oreilly.servlet.MultipartRequest;
 
@@ -28,6 +31,9 @@ public class ControllerAlbum {
 
 	@Autowired
 	private DAOAlbumBoard dao;
+	
+	@Autowired
+	private DAOUser daoUser;
 
 	@RequestMapping(value = "/album_list.do")
 	public ModelAndView challenge(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -68,15 +74,27 @@ public class ControllerAlbum {
 			totalLists.setEndBlock( totalLists.getTotalPage() );
 		}
 		
-		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
-		mv.addObject("session_user_num", session_user_num);
+
 		
 		mv.addObject("totalLists", totalLists);
 		
+		//앨범 게시글 list
 		ModelAlbumList model = new ModelAlbumList();
 		String albumlist = model.getAlbumList(dao.albumList());
-		
 		mv.addObject("albumlist", albumlist);
+		
+		//로그인 한 회원의 정보
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		DTOUser userSetting = new DTOUser();
+		userSetting = daoUser.userSetting(session_user_num);
+		mv.addObject("userSetting", userSetting);
+		
+		mv.addObject("session_user_num", session_user_num);
+		
+		//Navbar Model
+		ModelNavBar navModel = new ModelNavBar();
+		String navBar = navModel.navBar(userSetting);
+		mv.addObject("navBar", navBar);
 		
 		mv.setViewName("challenge_album/challenge");
 		return mv;

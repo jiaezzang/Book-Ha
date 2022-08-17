@@ -96,4 +96,17 @@ public class DAOUser {
 		
 		return mapper_User.findPw(user);
 	}
+	
+	@Transactional
+	public DTOUser userSetting(int session_user_num) {
+		
+		return mapper_User.userSetting(session_user_num);
+	}
+	
+	@Transactional
+	public int changeProfile(DTOUser user) {
+		int flag = mapper_User.changeProfile(user);
+		
+		return flag;
+	}
 }

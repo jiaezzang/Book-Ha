@@ -45,12 +45,11 @@ public class ModelAlbumList {
 			sbHtml.append("</div>");
 
 			sbHtml.append("</div>");
-			sbHtml.append("<br />");
-			sbHtml.append("<br />");
+			sbHtml.append("<br /><br />");
 
 			sbHtml.append("<div id='textInfo'>");
-			sbHtml.append("<h6 style='text-align: right'>" + dto.getUser_name() + "</h6>");
-			sbHtml.append("<h6 style='text-align: right'>" + dto.getAl_wdate() + "</h6>");
+			sbHtml.append("<h6 style='text-align: right;'>" + dto.getUser_name() + "</h6>");
+			sbHtml.append("<h6 style='text-align: right;'>" + dto.getAl_wdate() + "</h6>");
 			sbHtml.append("</div>");
 			sbHtml.append("</div>");
 			sbHtml.append("</div>");
