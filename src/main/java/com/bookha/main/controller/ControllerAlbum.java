@@ -127,6 +127,8 @@ public class ControllerAlbum {
 		int maxFileSize = 20 * 1024 * 1024;
 		String encType = "utf-8";
 		
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		
 		System.out.println("dto : " + dto);
 		dao.albumModify(dto);
 		
