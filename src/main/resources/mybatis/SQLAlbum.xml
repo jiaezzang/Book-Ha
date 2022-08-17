@@ -10,7 +10,7 @@
             al_subject,
             date_format(al_wdate, '%Y년 %m월 %d일' ) as al_wdate,
             al_imgName,
-            user_name
+            user_nickname as user_name
         FROM
         	album_board
         INNER JOIN 
@@ -25,7 +25,7 @@
     	INSERT INTO
     		album_board
     	VALUES
-    		( 0, #{al_user_num}, #{al_subject}, now(), #{al_imgName}, #{al_imgSize})
+    		( 0, #{al_user_num}, #{al_subject}, now(), #{al_imgName})
     	
     </insert>
     

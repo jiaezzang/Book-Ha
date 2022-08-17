@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +30,7 @@ public class ControllerAlbum {
 	private DAOAlbumBoard dao;
 
 	@RequestMapping(value = "/album_list.do")
-	public ModelAndView challenge(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView challenge(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
@@ -67,6 +68,9 @@ public class ControllerAlbum {
 			totalLists.setEndBlock( totalLists.getTotalPage() );
 		}
 		
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		mv.addObject("session_user_num", session_user_num);
+		
 		mv.addObject("totalLists", totalLists);
 		
 		ModelAlbumList model = new ModelAlbumList();
@@ -80,15 +84,15 @@ public class ControllerAlbum {
 	
 
 	@RequestMapping(value = "/album_delete.do", method = RequestMethod.POST)
-	public String deleteData(@RequestBody DTOAlbumBoard dto) {
+	public String deleteData(@RequestBody DTOAlbumBoard dto, HttpSession session) {
 		//System.out.println(dto.getAl_seq());
 		dao.albumDelete(dto.getAl_seq());
-		
+
 		return "";
 	}
 	
 	@RequestMapping(value = "/album_write.do", method = RequestMethod.POST)
-	public String writeData(@RequestBody DTOAlbumBoard dto) {
+	public String writeData(@RequestBody DTOAlbumBoard dto, HttpSession session) {
 		
 		String uploadPath = "C:/imageSaveStorage/";
 		int maxFileSize = 20 * 1024 * 1024;
@@ -108,13 +112,16 @@ public class ControllerAlbum {
 //			imgSize = multi.getFile( dto.getAl_imgName() ).length();
 //		}
 //		//System.out.println(dto.getAl_seq());
+		
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		
 		dao.albumWrite(dto);
 		
 		return "";
 	}
 	
 	@RequestMapping(value = "/album_modify.do", method = RequestMethod.POST)
-	public String modifyData(@RequestBody DTOAlbumBoard dto) {
+	public String modifyData(@RequestBody DTOAlbumBoard dto, HttpSession session) {
 		
 		String uploadPath = "C:/imageSaveStorage/";
 		int maxFileSize = 20 * 1024 * 1024;

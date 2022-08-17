@@ -5,7 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-request.setCharacterEncoding("UTF-8");
+	request.setCharacterEncoding("UTF-8");
 	
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
@@ -16,6 +16,10 @@ request.setCharacterEncoding("UTF-8");
 	String albumlist = (String)request.getAttribute("albumlist");
 	System.out.println(albumlist);
 	ArrayList<DTOAlbumBoard> lists = totalLists.getBoard();
+	
+	int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+	
+	
 %>
 <!DOCTYPE html>
 
@@ -129,10 +133,16 @@ const toastHtml = function(title, message) {
 	
 	toastr.error(message, title);
 	};
-	
+
+$(document).ready(function(){
+	$('#writeNew').on("click", function(){
+		$("#writeSubject").val("");
+		$("#formFile").val("");
+	});
+});
+
 $(document).ready(function(){
 	$('#write').on("click", function(){
-		
 		//제목 미입력 시
 // 		if($("#nameWithTitle").val() == ""){
 // 			toastHtml("입력 오류!", "제목을 입력하세요.");
@@ -151,7 +161,6 @@ $(document).ready(function(){
 // 				return false;
 // 			}
 // 		}
-		
 		const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
     	formData.append('image', $('#formFile')[0].files[0]);
     	
@@ -175,7 +184,7 @@ $(document).ready(function(){
        			console.log(url);
        			
        			let DTO_Album_board = {
-       					"al_user_num" : 1,
+       					"al_user_num" : <%=session_user_num%>,
        					"al_subject" : $("#writeSubject").val(),
        					"al_imgName" : data.filename
        			}
@@ -190,6 +199,9 @@ $(document).ready(function(){
        					$("#modalCenter0").modal("hide");
        					console.log("DB 추가 성공");
        					reload();
+       				},
+       				error: function(error) {
+       					console.log("error : " + error);
        				}
        			});
        		}
@@ -202,6 +214,7 @@ let al_seq = 0;
 const modifyData = function(seq, subject){
 	al_seq = seq;
 	$("#modifySubject").val(subject);
+	$("#formFile2").val("");
 	console.log(subject);
 }
 
@@ -230,7 +243,7 @@ $(document).ready(function(){
        			console.log(url);
        			
        			let DTO_Album_board = {
-       					"al_user_num" : 1,
+       					"al_user_num" : session_user_num,
        					"al_seq" : al_seq,
        					"al_subject" : $("#modifySubject").val(),
        					"al_imgName" : data.filename
@@ -657,7 +670,7 @@ if( totalLists.getEndBlock() == totalLists.getTotalPage() ){
 
 	<div class="buy-now">
 		<a href="" class="btn btn-outline-primary btn-buy-now"
-			data-bs-toggle="modal" data-bs-target="#modalCenter0" onclick="writeData()">글 작성하기</a>
+			data-bs-toggle="modal" data-bs-target="#modalCenter0" id="writeNew">글 작성하기</a>
 	</div>
 
 	<!-- Core JS -->
