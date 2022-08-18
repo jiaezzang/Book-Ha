@@ -1,3 +1,4 @@
+<%@page import="com.bookha.main.dto.DTOUser"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -6,6 +7,9 @@ request.setCharacterEncoding("UTF-8");
 String title = (String) request.getAttribute("title");
 String profile = (String) request.getAttribute("profile");
 String logo = (String) request.getAttribute("logo");
+
+DTOUser userSetting = (DTOUser)request.getAttribute("userSetting");
+String navBar = (String)request.getAttribute("navBar");
 %>
 <!DOCTYPE html>
 
@@ -47,6 +51,12 @@ String logo = (String) request.getAttribute("logo");
 	href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
 <!-- Page CSS -->
+<style type="text/css">
+#introSelf{
+	height: 6.25em;
+	resize: none;
+}
+</style>
 
 <!-- Helpers -->
 <script src="../assets/vendor/js/helpers.js"></script>
@@ -59,8 +69,14 @@ String logo = (String) request.getAttribute("logo");
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
 
+    
         $(document).ready(function() {
         phoneNo(); 
+        
+        $("#userId").val("<%=userSetting.getUser_mail()%>");
+        $("#nickName").val("<%=userSetting.getUser_nickname()%>");
+        $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
+        $("#introSelf").val("<%=userSetting.getUser_self()%>");
 
         $("#chkSameNickname").on("click", () => {
           let sendData = {
@@ -146,7 +162,7 @@ String logo = (String) request.getAttribute("logo");
           data : JSON.stringify(sendData),
           dataType:"json",
           success : function(result){
-            window.location.href = "/mypage/user_account_setting";
+            window.location.href = "/user_account_setting.do";
           },
           error : function(jqXHR,textStatus,errorThrown){
             alert("정보가 일치하지 않습니다.");
@@ -202,22 +218,21 @@ String logo = (String) request.getAttribute("logo");
     </script>
 </head>
 <body>
-	<!-- Layout wrapper -->
-	<div class="layout-wrapper layout-content-navbar">
-		<div class="layout-container">
-			<!-- Menu -->
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
 
-			<aside id="layout-menu"
-				class="layout-menu menu-vertical menu bg-menu-theme">
-				<div class="app-brand demo">
-					<!-- LOGO -->
-					<%=logo%>
-					<!-- /LOGO -->
-				</div>
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" data-bg-class="bg-menu-theme">
+	      <div class="app-brand demo">
+				<!-- LOGO -->
+				<a href="/login/mainpage" class="app-brand-link"><img class="logo-demo" src="../assets/img/logo/logo2.png"></a><a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none"><i class="bx bx-chevron-left bx-sm align-middle"></i></a>
+				<!-- /LOGO -->
+		  </div>
 
-				<div class="menu-inner-shadow"></div>
+          <div class="menu-inner-shadow"></div>
 
-				<ul class="menu-inner py-1">
+          		<ul class="menu-inner py-1">
 
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
@@ -225,8 +240,8 @@ String logo = (String) request.getAttribute("logo");
 
 					<!-- Tables -->
 					<li class="menu-item"><a href="/my_achievements.do"
-						class="menu-link"> <i class='menu-icon bx bx-book-open'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
+						class="menu-link"> <i
+							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
 							<div data-i18n="Tables">나의 업적 확인</div>
 					</a></li>
 
@@ -256,245 +271,188 @@ String logo = (String) request.getAttribute("logo");
 						</ul></li>
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">나를 소개해주세요.</span></li>
+						class="menu-header-text"></span></li>
 
 					<!-- Tables -->
 					<li class="menu-item active"><a href="/user_account_setting.do"
-						class="menu-link"> <i
-							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
-							<!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
+						class="menu-link"> <i class='menu-icon bx bx-book-open'
+							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
 							<div data-i18n="Tables">개인 정보 수정</div>
 					</a></li>
-
-
 				</ul>
-			</aside>
-			<!-- / Menu -->
+		</aside>
+        <!-- / Menu -->
 
-			<!-- Layout container -->
-			<div class="layout-page">
-				<!-- Navbar -->
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
 
-				<nav
-					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-					id="layout-navbar">
-					<div
-						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-						<a class="nav-item nav-link px-0 me-xl-4"
-							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
-						</a>
-					</div>
+         <%=navBar %>
+          <!-- / Navbar -->
 
-					<div class="navbar-nav-right d-flex align-items-center"
-						id="navbar-collapse">
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
 
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">개인 정보 수정</span></h4>
 
-
-						<ul class="navbar-nav flex-row align-items-center ms-auto">
-							<!-- Place this tag where you want the button to render. -->
-
-							<!-- User -->
-							<li class="nav-item navbar-dropdown dropdown-user dropdown">
-								<a class="nav-link dropdown-toggle hide-arrow"
-								href="javascript:void(0);" data-bs-toggle="dropdown">
-									<div class="avatar avatar-online">
-										<img src="../assets/img/avatars/1.png" alt
-											class="w-px-40 h-auto rounded-circle" />
-									</div>
-							</a>
-								<ul class="dropdown-menu dropdown-menu-end">
-									<li><a class="dropdown-item" href="#">
-											<div class="d-flex">
-												<div class="flex-shrink-0 me-3">
-													<div class="avatar avatar-online">
-														<img src="../assets/img/avatars/1.png" alt
-															class="w-px-40 h-auto rounded-circle" />
-													</div>
-												</div>
-												<div class="flex-grow-1">
-													<span class="fw-semibold d-block">John Doe</span> <small
-														class="text-muted">Admin</small>
-												</div>
-											</div>
-									</a></li>
-									<li>
-										<div class="dropdown-divider"></div>
-									</li>
-									<li><a class="dropdown-item" href="/user_account_setting">
-											<i class="bx bx-user me-2"></i> <span class="align-middle">마이페이지</span>
-									</a></li>
-
-									<li>
-										<div class="dropdown-divider"></div>
-									</li>
-									<li><a class="dropdown-item" href="/logout"> <i
-											class="bx bx-power-off me-2"></i> <span class="align-middle">로그아웃</span>
-									</a></li>
-								</ul>
-							</li>
-							<!--/ User -->
-						</ul>
-					</div>
-				</nav>
-
-				<!-- / Navbar -->
-
-				<!-- Content wrapper -->
-				<div class="content-wrapper">
-					<!-- Content -->
-
-					<div class="container-xxl flex-grow-1 container-p-y">
-						<h4 class="fw-bold py-3 mb-4">개인 정보 수정</h4>
-
-						<div class="row">
-							<div class="col-md-12">
-								<!--                  <ul class="nav nav-pills flex-column flex-md-row mb-3">-->
-								<!--                    <li class="nav-item">-->
-								<!--                      <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i>계정</a>-->
-								<!--                    </li>-->
-								<!--                  </ul>-->
-								<div class="card mb-4">
-									<h5 class="card-header">계정 상세</h5>
-									<!-- Account -->
-									<div class="card-body">
-										<div
-											class="d-flex align-items-start align-items-sm-center gap-4">
-											<img src="../assets/img/avatars/1.png" alt="user-avatar"
-												class="d-block rounded" height="100" width="100"
-												id="uploadedAvatar" />
-											<div class="button-wrapper">
-												<label for="upload" class="btn btn-primary me-2 mb-4"
-													tabindex="0"> <span class="d-none d-sm-block">사
-														진 변 경</span> <i class="bx bx-upload d-block d-sm-none"></i> <input
-													type="file" id="upload" class="account-file-input" hidden
-													accept="image/png, image/jpeg" />
-												</label>
-												<button type="button"
-													class="btn btn-outline-secondary account-image-reset mb-4">
-													<i class="bx bx-reset d-block d-sm-none"></i> <span
-														class="d-none d-sm-block">초기화</span>
-												</button>
-
-												<p class="text-muted mb-0">JPG, GIF, PNG. 최대파일 크기 800KB</p>
-											</div>
-										</div>
-									</div>
-									<hr class="my-0" />
-									<div class="card-body">
-										<!-- <form id="formAccountSettings" method="POST" onsubmit="return false"> -->
-											<div class="row">
-												<div class="mb-3 col-md-6">
-												  <label for="userId" class="form-label">I D 확 인</label>
-												  <input class="form-control" type="text" id="userId" name="userId" value="" placeholder="ID를 확인해 주세요"/>
-												</div>
-												<div class="mb-3 col-md-6 form-password-toggle">
-												  <label class="form-label" for="password">비 밀 번 호 수 정</label>
-												  <div class="input-group input-group-merge">
-													<input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-													<span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-												  </div>
-												</div>
-												<!-- <div class="mb-3 col-md-6">
-												  <label for="password" class="form-label">비 밀 번 호 수 정</label>
-												  <input class="form-control" type="text" id="password" name="password" value="" placeholder="Password" />
-												  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-												</div> -->
-												<div class="mb-3 col-md-6">
-												  <label for="phoneNo" class="form-label">연 락 처 수 정</label>
-												  <input type="text" class="form-control" id="phoneNo" name="phoneNo" value="" maxlength="13" placeholder="연 락 처"/>
-												</div>
-												<div class="mb-3 col-md-6">
-												  <label class="form-label" for="introSelf">자 기 소 개</label>
-												  <div class="input-group input-group-merge">
-													<input type="text" id="introSelf" name="introSelf" class="form-control" value="" placeholder="자기소개" />
-												  </div>
-												</div>
-												<div class="mb-3 col-md-6">
-												  <label for="nickName" class="form-label">닉 네 임 수 정</label>
-												  <input class="form-control" type="text" id="nickName" name="nickName" value="" placeholder="닉 네 임" />
-												  <span id="chkSameNickname" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
-												</div>
-											  <div class="mt-2">
-												<button type="submit" id="update_accountBTN" class="btn btn-primary me-2" status="true">변 경 사 항 저 장</button>
-					  <!--                           <button type="reset" class="btn btn-outline-secondary">취 소</button> -->
-											  </div>
-											<!-- </form> -->
-										  </div>
-										  <!-- /Account -->
-										</div>
-										<div class="card">
-										  <h5 class="card-header">계정 삭제</h5>
-										  <div class="card-body">
-											<div class="mb-3 col-12 mb-0">
-											  <div class="alert alert-warning">
-												<h6 class="alert-heading fw-bold mb-1">계정을 삭제하기를 원하시나요?</h6>
-												<p class="mb-0">만약 계정을 삭제한다면, 복구는 불가능합니다. 주의부탁드립니다.</p>
-											  </div>
-											  <div class="row">
-												<div class="mb-3 col-md-6">
-												  <label for="deleteUserId" class="form-label">I D 확 인</label>
-												  <input class="form-control" type="text" id="deleteUserId" name="deleteUserId" placeholder="ID를 확인해 주세요"/>
-												</div>
-												<div class="mb-3 col-md-6 form-password-toggle">
-												  <label class="form-label" for="deletePassword">비 밀 번 호 확 인</label>
-												  <div class="input-group input-group-merge">
-													<input type="password" id="deletePassword" class="form-control" name="deletePassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-													<span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-												  </div>
-												</div>
-											</div>
-											
-											<!-- <form id="formAccountDeactivation" onsubmit="return false"> -->
-											  <div class="form-check mb-3">
-												<input class="form-check-input" type="checkbox" id="accountActivation" name="accountActivation" />
-												<label class="form-check-label" for="accountActivation">계정 삭제에 동의합니다.</label>
-											  </div>
-											  <button type="submit" id="delete_accountBTN" class="btn btn-danger deactivate-account">계 정 삭 제</button>
-										   <!-- </form> -->
-									</div>
-								</div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card mb-4">
+					<h5 class="card-header">계정 상세</h5>
+					<!-- Account -->
+					<div class="card-body">
+						<div class="d-flex align-items-start align-items-sm-center gap-4">
+							<img src="../assets/img/achievements/<%=userSetting.getUser_profile() %>" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+							<div class="button-wrapper">
+								<label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0"> <span class="d-none d-sm-block">
+										사 진 변 경</span> <i class="bx bx-upload d-block d-sm-none"></i> <input type="file" id="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg">
+								</label>
+								<button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+									<i class="bx bx-reset d-block d-sm-none"></i> <span class="d-none d-sm-block">초기화</span>
+								</button>
+	
+								<p class="text-muted mb-0">JPG, GIF, PNG. 최대파일 크기 800KB</p>
 							</div>
 						</div>
-						<br />
 					</div>
-					<!-- / Content -->
-
-					<!-- Footer -->
-<!-- 					<footer class="content-footer footer bg-footer-theme"> </footer> -->
-					<!-- / Footer -->
-
-					<div class="content-backdrop fade"></div>
+					
+					<hr class="my-0">
+					<div class="card-body">
+						<!-- <form id="formAccountSettings" method="POST" onsubmit="return false"> -->
+						<div class="row">
+							<div class="mb-3 col-md-6">
+								<label for="userId" class="form-label">I D 확 인</label> <input class="form-control" type="text" id="userId" name="userId" value="" placeholder="ID를 확인해 주세요" readonly="">
+							</div>
+							<div class="mb-3 col-md-6 form-password-toggle">
+								<label class="form-label" for="password">비 밀 번 호 수 정</label>
+								<div class="input-group input-group-merge">
+									<input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password"> <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+								</div>
+							</div>
+							<!-- <div class="mb-3 col-md-6">
+								  <label for="password" class="form-label">비 밀 번 호 수 정</label>
+								  <input class="form-control" type="text" id="password" name="password" value="" placeholder="Password" />
+								  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+								</div> -->
+							<div class="mb-3 col-md-6">
+								<label for="nickName" class="form-label">닉 네 임 수 정</label> <input class="form-control" type="text" id="nickName" name="nickName" value="" placeholder="닉 네 임"> <span id="chkSameNickname" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
+							</div>
+							<div class="mb-3 col-md-6">
+								<label for="phoneNo" class="form-label">연 락 처 수 정</label> <input type="text" class="form-control" id="phoneNo" name="phoneNo" value="" maxlength="13" placeholder="연 락 처">
+							</div>
+							<div>
+								<label class="form-label" for="introSelf">자 기 소 개</label>
+								<div class="input-group input-group-merge">
+									<textarea class="form-control" id="introSelf" name="introSelf" aria-label="With textarea" placeholder="자기소개를 입력해주세요."></textarea>
+								</div>
+							</div>
+	
+							<div class="mt-2">
+								<button type="submit" id="update_accountBTN" class="btn btn-primary me-2" status="true">
+								변경사항 저장</button>
+								<!--                           <button type="reset" class="btn btn-outline-secondary">취 소</button> -->
+							</div>
+							<!-- </form> -->
+						</div>
+						<!-- /Account -->
+					</div>
 				</div>
-				<!-- Content wrapper -->
-			</div>
-			<!-- / Layout page -->
-		</div>
+					<div class="card">
+						<h5 class="card-header">계정 삭제</h5>
+						<div class="card-body">
+							<div class="mb-3 col-12 mb-0">
+							
+								<div class="alert alert-warning">
+									<h6 class="alert-heading fw-bold mb-1">계정을 삭제하기를
+										원하시나요?</h6>
+									<p class="mb-0">만약 계정을 삭제한다면, 복구는 불가능합니다. 주의부탁드립니다.</p>
+								</div>
+								
+								<div class="row">
+									<div class="mb-3 col-md-6">
+										<label for="deleteUserId" class="form-label">
+											I D 확 인</label> <input class="form-control" type="text" id="deleteUserId" name="deleteUserId" placeholder="ID를 확인해 주세요">
+									</div>
+									<div class="mb-3 col-md-6 form-password-toggle">
+										<label class="form-label" for="deletePassword">
+											비 밀 번 호 확 인</label>
+										<div class="input-group input-group-merge">
+											<input type="password" id="deletePassword" class="form-control" name="deletePassword" placeholder="············" aria-describedby="password"> <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+										</div>
+									</div>
+								</div>
+								<!-- <form id="formAccountDeactivation" onsubmit="return false"> -->
+								<div class="form-check mb-3">
+									<input class="form-check-input" type="checkbox" id="accountActivation" name="accountActivation"> <label class="form-check-label" for="accountActivation">
+										계정 삭제에 동의합니다.</label>
+								</div>
+								<button type="submit" id="delete_accountBTN" class="btn btn-danger deactivate-account">계 정 삭 제</button>
+								<!-- </form> -->
+							</div>
+						</div>
+					</div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
 
-		<!-- Overlay -->
-		<div class="layout-overlay layout-menu-toggle"></div>
-	</div>
-	<!-- / Layout wrapper -->
+<!--             Footer -->
+<!--             <footer class="content-footer footer bg-footer-theme"> -->
+<!--               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
+<!--                 <div class="mb-2 mb-md-0"> -->
+<!--                   © -->
+<!--                   <script> -->
+<!--                     document.write(new Date().getFullYear()); -->
+<!--                   </script>2022 -->
+<!--                   , made with ❤️ by -->
+<!--                   <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
+<!--                 </div> -->
+<!--                 <div> -->
+<!--                   <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a> -->
+<!--                   <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a> -->
 
-	<!-- Core JS -->
-	<!-- build:js assets/vendor/js/core.js -->
-	<script src="../assets/vendor/libs/jquery/jquery.js"></script>
-	<script src="../assets/vendor/libs/popper/popper.js"></script>
-	<script src="../assets/vendor/js/bootstrap.js"></script>
-	<script
-		src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<!--                   <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation</a> -->
 
-	<script src="../assets/vendor/js/menu.js"></script>
-	<!-- endbuild -->
+<!--                   <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="footer-link me-4">Support</a> -->
+<!--                 </div> -->
+<!--               </div> -->
+<!--             </footer> -->
+            <!-- / Footer -->
 
-	<!-- Vendors JS -->
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
 
-	<!-- Main JS -->
-	<script src="../assets/js/main.js"></script>
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+    <!-- / Layout wrapper -->
 
-	<!-- Page JS -->
-	<script src="../assets/js/pages-account-settings-account.js"></script>
 
-	<!-- Place this tag in your head or just before your close body tag. -->
-	<script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="../assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="../assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="../assets/js/pages-account-settings-account.js"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

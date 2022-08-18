@@ -54,6 +54,9 @@ public class ControllerLogin {
 		DTOUser to = dao_User.signIn(user);
 		session.setAttribute("user_num", to.getUser_num());
 		
+		// 세션 유지시간 무제한
+		session.setMaxInactiveInterval(-1);
+		
 		return to;
 	}
 	

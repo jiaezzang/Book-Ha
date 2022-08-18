@@ -2,13 +2,18 @@ package com.bookha.main.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bookha.main.dao.DAOUser;
+import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelLogoHtml;
+import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelProfileHtml;
 
 @RestController
@@ -16,8 +21,11 @@ public class ControllerMypage {
 	
 	private String title = "마이 페이지";
 	
+	@Autowired
+	private DAOUser dao;
+	
 	@RequestMapping(value = "/mypage.do")
-	public ModelAndView mypage(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView mypage(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
@@ -28,13 +36,24 @@ public class ControllerMypage {
 		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
+		
+		//로그인 한 회원의 정보
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		DTOUser userSetting = new DTOUser();
+		userSetting = dao.userSetting(session_user_num);
+		mv.addObject("userSetting", userSetting);
+		
+		//Navbar Model
+		ModelNavBar model = new ModelNavBar();
+		String navBar = model.navBar(userSetting);
+		mv.addObject("navBar", navBar);
 		
 		mv.setViewName("mypage/my_attendance");
 		return mv;
 	}
 	
 	@RequestMapping(value = "/my_achievements.do")
-	public ModelAndView my_achievements(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView my_achievements(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
@@ -45,13 +64,24 @@ public class ControllerMypage {
 		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
+		
+		//로그인 한 회원의 정보
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		DTOUser userSetting = new DTOUser();
+		userSetting = dao.userSetting(session_user_num);
+		mv.addObject("userSetting", userSetting);
+		
+		//Navbar Model
+		ModelNavBar model = new ModelNavBar();
+		String navBar = model.navBar(userSetting);
+		mv.addObject("navBar", navBar);
 		
 		mv.setViewName("mypage/my_achievements");
 		return mv;
 	}
 	
 	@RequestMapping(value = "/user_account_setting.do")
-	public ModelAndView user_account_setting(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView user_account_setting(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
@@ -62,6 +92,19 @@ public class ControllerMypage {
 		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
+		
+		//로그인 한 회원의 정보
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		DTOUser userSetting = new DTOUser();
+		userSetting = dao.userSetting(session_user_num);
+		mv.addObject("userSetting", userSetting);
+		
+		//Navbar Model
+		ModelNavBar model = new ModelNavBar();
+		String navBar = model.navBar(userSetting);
+		mv.addObject("navBar", navBar);
+
+		
 		
 		mv.setViewName("mypage/user_account_setting");
 		return mv;

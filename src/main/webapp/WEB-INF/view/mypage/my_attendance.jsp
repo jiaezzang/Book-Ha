@@ -5,6 +5,8 @@ request.setCharacterEncoding("UTF-8");
 
 String title = (String) request.getAttribute("title");
 String profile = (String) request.getAttribute("profile");
+
+String navBar = (String)request.getAttribute("navBar");
 %>
 <!DOCTYPE html>
 
@@ -240,22 +242,15 @@ $(document).ready(function(){
 				<div class="menu-inner-shadow"></div>
 
 				<ul class="menu-inner py-1">
+
+					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">마이 페이지</span></li>
-					<li class="menu-item"><a href="user_account_setting.html"
+						class="menu-header-text">목표를 얼마나 달성하셨나요?</span></li>
+
+					<!-- Tables -->
+					<li class="menu-item active"><a href="/my_achievements.do"
 						class="menu-link"> <i
-							class="menu-icon tf-icons bx bx-dock-top"></i>
-							<div data-i18n="Boxicons">개인 정보 수정</div>
-					</a></li>
-
-					<!-- Components -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
-
-
-					<li class="menu-item"><a href="/review_list.do"
-						class="menu-link"> <i
-							class='menu-icon bx bx-crown bx bx-table'></i>
+							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
 							<div data-i18n="Tables">나의 업적 확인</div>
 					</a></li>
 
@@ -264,30 +259,35 @@ $(document).ready(function(){
 						class="menu-header-text">작성글을 확인해 봅시다.</span></li>
 
 					<!-- Tables -->
-					<li class="menu-item"><a href="javascript:void(0);"
+					<li class="menu-item" style=""><a href="javascript:void(0)"
 						class="menu-link menu-toggle"> <i
-							class="menu-icon tf-icons bx bx-table"></i>
-							<div data-i18n="Tables">내글 모아 보기</div>
+							class="menu-icon tf-icons bx bx-box"></i>
+							<div data-i18n="User interface">내 글 모아보기</div>
 					</a>
 						<ul class="menu-sub">
-							<li class="menu-item"><a href="user_board_review.html"
+							<li class="menu-item"><a href="/re_list.do"
 								class="menu-link">
-									<div data-i18n="Without menu">리뷰 게시판</div>
-							</a></li></li>
-				</ul>
-				<ul class="menu-sub">
-					<li class="menu-item"><a href="user_board_album.html"
-						class="menu-link">
-							<div data-i18n="Without menu">앨범 게시판</div>
+									<div data-i18n="Accordion">독후감 나누기</div>
+							</a></li>
+							<li class="menu-item"><a href="/al_list.do"
+								class="menu-link">
+									<div data-i18n="Badges">찔끔 챌린지</div>
+							</a></li>
+							<li class="menu-item"><a href="/sh_list.do"
+								class="menu-link">
+									<div data-i18n="Buttons">나눔과 공유하기</div>
+							</a></li>
+						</ul></li>
+					<!-- Forms & Tables -->
+					<li class="menu-header small text-uppercase"><span
+						class="menu-header-text"></span></li>
+
+					<!-- Tables -->
+					<li class="menu-item"><a href="/user_account_setting.do"
+						class="menu-link"> <i class='menu-icon bx bx-book-open'
+							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
+							<div data-i18n="Tables">개인 정보 수정</div>
 					</a></li>
-					</li>
-				</ul>
-				<ul class="menu-sub">
-					<li class="menu-item"><a href="user_board_share.html"
-						class="menu-link">
-							<div data-i18n="Without menu">공유 게시판</div>
-					</a></li>
-					</li>
 				</ul>
 			</aside>
 			<!-- / Menu -->
@@ -296,30 +296,7 @@ $(document).ready(function(){
 			<div class="layout-page">
 				<!-- Navbar -->
 
-				<nav
-					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-					id="layout-navbar">
-					<div
-						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-						<a class="nav-item nav-link px-0 me-xl-4"
-							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
-						</a>
-					</div>
-
-					<div class="navbar-nav-right d-flex align-items-center"
-						id="navbar-collapse">
-
-
-
-						<ul class="navbar-nav flex-row align-items-center ms-auto">
-							<!-- Place this tag where you want the button to render. -->
-
-							<!-- User -->
-							<%=profile%>
-							<!--/ User -->
-						</ul>
-					</div>
-				</nav>
+				<%=navBar %>
 
 				<!-- / Navbar -->
 
