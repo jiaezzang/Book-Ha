@@ -23,7 +23,7 @@
 <body>
 	<header>
 		<div class="logoandmp">
-			<a href="#" class="logo">
+			<a href="/login" class="logo">
 				<img src="../assets/img/logo/logo2.png" title="Book-Ha!" />
 			</a>
 			<a href="/account/user_account_setting" class="mypage">

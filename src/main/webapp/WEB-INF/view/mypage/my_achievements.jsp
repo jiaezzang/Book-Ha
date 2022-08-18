@@ -6,6 +6,8 @@
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
+	
+	String navBar = (String)request.getAttribute("navBar");
 %>
 <!DOCTYPE html>
 
@@ -114,7 +116,7 @@
 						</ul></li>
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">나를 소개해주세요.</span></li>
+						class="menu-header-text"></span></li>
 
 					<!-- Tables -->
 					<li class="menu-item"><a href="/user_account_setting.do"
@@ -130,30 +132,7 @@
 			<div class="layout-page">
 				<!-- Navbar -->
 
-				<nav
-					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-					id="layout-navbar">
-					<div
-						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-						<a class="nav-item nav-link px-0 me-xl-4"
-							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
-						</a>
-					</div>
-
-					<div class="navbar-nav-right d-flex align-items-center"
-						id="navbar-collapse">
-
-
-
-						<ul class="navbar-nav flex-row align-items-center ms-auto">
-							<!-- Place this tag where you want the button to render. -->
-
-							<!-- User -->
-							<%=profile%>
-							<!--/ User -->
-						</ul>
-					</div>
-				</nav>
+				<%=navBar %>
 
 				<!-- / Navbar -->
 
