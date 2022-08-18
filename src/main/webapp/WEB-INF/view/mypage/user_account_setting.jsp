@@ -239,7 +239,7 @@ String navBar = (String)request.getAttribute("navBar");
 						class="menu-header-text">목표를 얼마나 달성하셨나요?</span></li>
 
 					<!-- Tables -->
-					<li class="menu-item active"><a href="/my_achievements.do"
+					<li class="menu-item"><a href="/my_achievements.do"
 						class="menu-link"> <i
 							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
 							<div data-i18n="Tables">나의 업적 확인</div>
@@ -271,10 +271,10 @@ String navBar = (String)request.getAttribute("navBar");
 						</ul></li>
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">나를 소개해주세요.</span></li>
+						class="menu-header-text"></span></li>
 
 					<!-- Tables -->
-					<li class="menu-item"><a href="/user_account_setting.do"
+					<li class="menu-item active"><a href="/user_account_setting.do"
 						class="menu-link"> <i class='menu-icon bx bx-book-open'
 							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
 							<div data-i18n="Tables">개인 정보 수정</div>
@@ -345,7 +345,7 @@ String navBar = (String)request.getAttribute("navBar");
 							<div>
 								<label class="form-label" for="introSelf">자 기 소 개</label>
 								<div class="input-group input-group-merge">
-									<textarea class="form-control" id="introSelf" name="introSelf" aria-label="With textarea" placeholder="자기소개"></textarea>
+									<textarea class="form-control" id="introSelf" name="introSelf" aria-label="With textarea" placeholder="자기소개를 입력해주세요."></textarea>
 								</div>
 							</div>
 	
