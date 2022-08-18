@@ -323,7 +323,7 @@ String navBar = (String)request.getAttribute("navBar");
 						<!-- <form id="formAccountSettings" method="POST" onsubmit="return false"> -->
 						<div class="row">
 							<div class="mb-3 col-md-6">
-								<label for="userId" class="form-label">I D 확 인</label> <input class="form-control" type="text" id="userId" name="userId" value="" placeholder="ID를 확인해 주세요">
+								<label for="userId" class="form-label">I D 확 인</label> <input class="form-control" type="text" id="userId" name="userId" value="" placeholder="ID를 확인해 주세요" readonly="">
 							</div>
 							<div class="mb-3 col-md-6 form-password-toggle">
 								<label class="form-label" for="password">비 밀 번 호 수 정</label>
