@@ -188,7 +188,6 @@
           user_nickname: $("#userNickname").val(),
           user_phonenumber: $("#phonenumber").val().replaceAll("-", ""),
           // userProfile: $("#"),
-          // userProfile_size: $("#"),
           // userSelf: $("#"),
           // user_enterdate: new Date().toLocaleDateString(),
           // user_final: new Date().toLocaleDateString(),
