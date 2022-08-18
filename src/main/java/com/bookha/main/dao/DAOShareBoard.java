@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bookha.main.dto.DTOShareBoard;
 import com.bookha.main.dto.DTOShareComment;
+import com.bookha.main.dto.DTOShareTotal;
 import com.bookha.main.mapper.MapperShare;
 
 import lombok.RequiredArgsConstructor;
@@ -19,29 +20,29 @@ public class DAOShareBoard implements MapperShare {
 	private MapperShare mapper;
 
 	@Override
-	public ArrayList<DTOShareBoard> listAll() {
+	public ArrayList<DTOShareBoard> list(DTOShareTotal dto) {
 		// TODO Auto-generated method stub
-		return mapper.listAll();
+		return mapper.list(dto);
 	}
-
+	
 	@Override
-	public ArrayList<DTOShareBoard> listHashTag(String hash_tag) {
+	public int countBoard(String hashTag) {
 		// TODO Auto-generated method stub
-		return mapper.listHashTag(hash_tag);
+		return mapper.countBoard(hashTag);
 	}
-
-	@Override
-	public void viewHit(int seq) {
-		// TODO Auto-generated method stub
-		mapper.viewHit(seq);
-	}
-
+	
 	@Override
 	public DTOShareBoard view(int seq) {
 		// TODO Auto-generated method stub
 		return mapper.view(seq);
 	}
-
+	
+	@Override
+	public void viewHit(int seq) {
+		// TODO Auto-generated method stub
+		mapper.viewHit(seq);
+	}
+	
 	@Override
 	public int writeOk(DTOShareBoard to) {
 		// TODO Auto-generated method stub
@@ -62,12 +63,7 @@ public class DAOShareBoard implements MapperShare {
 	@Override
 	public int modifyOk(DTOShareBoard to) {
 		// TODO Auto-generated method stub
-		int flag = 1;
-		int result = mapper.modifyOk(to); 
-		if(result == 1) {
-			flag = 0;
-		}
-		return flag;
+		return mapper.modifyOk(to); 
 	}
 
 	@Override
@@ -88,15 +84,15 @@ public class DAOShareBoard implements MapperShare {
 	}
 
 	@Override
-	public int commentWriteOk(DTOShareComment to) {
+	public int commentWrite(DTOShareComment to) {
 		// TODO Auto-generated method stub
-		return mapper.commentWriteOk(to);
+		return mapper.commentWrite(to);
 	}
 
 	@Override
-	public int commentDeleteOk(int seq) {
+	public int commentDelete(int comment_seq) {
 		// TODO Auto-generated method stub
-		return mapper.commentDeleteOk(seq);
+		return mapper.commentDelete(comment_seq);
 	}
 
 }
