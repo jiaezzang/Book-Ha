@@ -28,9 +28,8 @@ public class DAOUser {
 		user.setUser_name(user.getUser_name());
 		user.setUser_nickname(user.getUser_nickname());
 		user.setUser_phonenumber(user.getUser_phonenumber());
-		user.setUser_profile(null);
-		user.setUser_profile_size(0);
-		user.setUser_self(null);
+		user.setUser_profile("none.png");
+		user.setUser_self("");
 		user.setUser_enterdate(user.getUser_enterdate());
 		user.setUser_final(user.getUser_final());
 		user.setUser_role(user.getUser_role());
