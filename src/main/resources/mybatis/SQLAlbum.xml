@@ -21,6 +21,13 @@
         	al_seq desc
     </select>
     
+    <select id="countBoard" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			album_board
+    </select>
+    
     <insert id="albumWrite" parameterType="com.bookha.main.dto.DTOAlbumBoard">
     	INSERT INTO
     		album_board
