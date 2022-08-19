@@ -178,6 +178,7 @@
 <!-- Toastr -->
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="../js/toastr.js"></script>
 
 <script>
 	$(document).ready(function() {
@@ -225,8 +226,8 @@
 		// 댓글 작성
 		$('#writeReply').on('click', function() {
 			let com_content = $("#reply-text-area").val();
-	
-			let DTO_Share_Comment = {
+			
+			let DTOShareComment = {
 					"user_num" : <%=session_user_num %>,
 					"content" : com_content,
 					"board_seq" : <%=seq %>
@@ -235,7 +236,7 @@
 			$.ajax({
 				type: "POST",
 				url: "/share_cmt_write.do",
-				data: JSON.strigify(DTO_Share_Comment),
+				data: JSON.stringify(DTOShareComment),
 				contentType: "application/json; chareset=UTF-8",
 				dataType: "text",
 				success: function(data) {
@@ -250,7 +251,7 @@
 		$(document).on('click', '.deleteReply', function(e) {
 			let com_seq = $(this).next().html();
 			
-			let DTO_Share_Comment = {
+			let DTOShareComment = {
 					"seq" : com_seq,
 					"user_num": <%=session_user_num %>
 			}
@@ -258,7 +259,7 @@
 			$.ajax({
 				type: "POST",
 				url: "/share_cmt_delete.do",
-				data: JSON.strigify(DTO_Share_Comment),
+				data: JSON.stringify(DTOShareComment),
 				contentType: "application/json; chareset=UTF-8",
 				dataType: "text",
 				success: function(data) {

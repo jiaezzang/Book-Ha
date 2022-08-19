@@ -63,7 +63,12 @@ public class DAOShareBoard implements MapperShare {
 	@Override
 	public int modifyOk(DTOShareBoard to) {
 		// TODO Auto-generated method stub
-		return mapper.modifyOk(to); 
+		int flag = 1;
+		int result = mapper.modifyOk(to); 
+		if(result == 1) {
+			flag = 0;
+		}
+		return flag;
 	}
 
 	@Override
