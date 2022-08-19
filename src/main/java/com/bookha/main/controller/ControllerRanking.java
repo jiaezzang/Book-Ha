@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bookha.main.dao.DAOAlbumBoard;
 import com.bookha.main.dao.DAORanking;
+import com.bookha.main.dao.DAOUser;
 import com.bookha.main.dto.DTOAlbumBoard;
 import com.bookha.main.dto.DTOAttendance;
 import com.bookha.main.dto.DTOReviewBoard;
@@ -19,6 +21,7 @@ import com.bookha.main.dto.DTOShareBoard;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelAlbumList;
 import com.bookha.model.ModelLogoHtml;
+import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelProfileHtml;
 import com.bookha.model.ModelRanking;
 
@@ -30,9 +33,12 @@ public class ControllerRanking {
 	
 	@Autowired
 	private DAORanking dao;
+	
+	@Autowired
+	private DAOUser daoUser;
 
 	@RequestMapping(value = "/ranking.do")
-	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView list(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
@@ -60,7 +66,7 @@ public class ControllerRanking {
 		albumLists = dao.albumRanking();
 		shareLists = dao.shareRanking();
 		
-		//review ranking 1-3 순위 리스트
+		//attendance ranking 1-3 순위 리스트
 		ArrayList<DTOUser> userLists1 = new ArrayList<DTOUser>();
 		for( DTOAttendance list : atLists ) {
 			//System.out.println(list.getUser_num());
@@ -99,6 +105,20 @@ public class ControllerRanking {
 		mv.addObject("reviewList", reviewList);
 		mv.addObject("albumList", albumList);
 		mv.addObject("shareList", shareList);
+		
+		
+		//로그인 한 회원의 정보
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		DTOUser userSetting = new DTOUser();
+		userSetting = daoUser.userSetting(session_user_num);
+		mv.addObject("userSetting", userSetting);
+		
+		mv.addObject("session_user_num", session_user_num);
+		
+		//Navbar Model
+		ModelNavBar navModel = new ModelNavBar();
+		String navBar = navModel.navBar(userSetting);
+		mv.addObject("navBar", navBar);
 		
 		
 		mv.setViewName("ranking/ranking");

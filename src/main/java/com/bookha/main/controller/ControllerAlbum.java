@@ -19,6 +19,7 @@ import com.bookha.main.dto.DTOAlbumBoard;
 import com.bookha.main.dto.DTOAlbumTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelAlbumList;
+import com.bookha.model.ModelLogoHtml;
 import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelProfileHtml;
 import com.oreilly.servlet.MultipartRequest;
@@ -77,6 +78,9 @@ public class ControllerAlbum {
 
 		
 		mv.addObject("totalLists", totalLists);
+		// 로고
+		ModelLogoHtml logo = new ModelLogoHtml();
+		mv.addObject("logo", logo.getLogo().toString());
 		
 		//앨범 게시글 list
 		ModelAlbumList model = new ModelAlbumList();

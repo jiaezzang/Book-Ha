@@ -22,7 +22,6 @@ import com.bookha.model.ModelLogoHtml;
 import com.bookha.model.ModelProfileHtml;
 import com.bookha.model.ModelShareCmt;
 import com.bookha.model.ModelShareList;
-import com.bookha.model.ModelShareMyself;
 import com.bookha.model.ModelSharePageNavigation;
 
 @RestController
@@ -264,7 +263,6 @@ public class ControllerShare {
 		
 		dao.viewHit(seq);
 		DTOShareBoard to = dao.view(seq);
-		to.setUser_num(session_user_num);
 		mv.addObject("to", to);
 		
 		// 댓글
@@ -299,7 +297,7 @@ public class ControllerShare {
 		
 		DTOShareBoard to = dao.view(seq);
 		to.setUser_num(session_user_num);
-		mv.addObject("to", to);	
+		mv.addObject("to", to);
 		
 		mv.setViewName("share_board/board_modify");
 		return mv;

@@ -248,7 +248,7 @@ $(document).ready(function(){
 						class="menu-header-text">목표를 얼마나 달성하셨나요?</span></li>
 
 					<!-- Tables -->
-					<li class="menu-item active"><a href="/my_achievements.do"
+					<li class="menu-item"><a href="/my_achievements.do"
 						class="menu-link"> <i
 							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
 							<div data-i18n="Tables">나의 업적 확인</div>
