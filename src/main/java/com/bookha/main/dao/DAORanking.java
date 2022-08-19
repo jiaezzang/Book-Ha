@@ -23,23 +23,7 @@ public class DAORanking implements MapperRanking {
 
 	@Autowired
 	private MapperRanking mapper;
-	
-	@Override
-	public int checkAttendance(int user_num) {
-		// TODO Auto-generated method stub
-		int flag = mapper.checkAttendance(user_num);
-		
-		return flag;
-	}
 
-	@Override
-	public int addAttendance(int user_num) {
-		// TODO Auto-generated method stub
-		int flag = mapper.addAttendance(user_num);
-		
-		return flag;
-	}
-	
 	@Override
 	public ArrayList<DTOAttendance> countAttendance() {
 		// TODO Auto-generated method stub

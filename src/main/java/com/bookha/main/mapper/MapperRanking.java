@@ -14,10 +14,6 @@ import com.bookha.main.dto.DTOUser;
 @Mapper
 @Repository
 public interface MapperRanking {
-	// Board
-	int checkAttendance(int user_num);
-	
-	int addAttendance(int user_num);
 	
 	ArrayList<DTOAttendance> countAttendance();
 	
