@@ -14,6 +14,4 @@ public class DTOShareBoard {
 	private String wgap;
 	private String user_nickname;
 	private int cmt_cnt;
-	private String myprofile;
-	private String self;
 }

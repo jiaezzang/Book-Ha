@@ -19,7 +19,6 @@ import com.bookha.main.dto.DTOShareComment;
 import com.bookha.main.dto.DTOShareTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelLogoHtml;
-import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelProfileHtml;
 import com.bookha.model.ModelShareCmt;
 import com.bookha.model.ModelShareList;
@@ -107,9 +106,9 @@ public class ControllerShare {
 		String listTable = sh.ShareList(lists);
 		mv.addObject("listTable", listTable);
 		
-		ModelSharePageNavigation pageModel = new ModelSharePageNavigation();
-		String paging = pageModel.getPageNav(dto);
-		mv.addObject("paging", paging);
+		ModelSharePageNavigation navModel = new ModelSharePageNavigation();
+		String nav = navModel.getPageNav(dto);
+		mv.addObject("nav", nav);
 		
 		if(hashTag.equals("#")) {
 			hashTag = "# 전체";

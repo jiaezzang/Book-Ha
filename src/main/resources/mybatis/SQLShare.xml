@@ -51,16 +51,9 @@
             sh_content as content,
             sh_hashtag as hash_tag,
             sh_hit as hit,
-            date_format(sh_date, '%Y-%m-%d') as wdate,
-            user_nickname,
-            user_profile as myprofile,
-            user_self as self
+            sh_date as wdate
         FROM
         	share_board
-        INNER JOIN
-        	user
-        ON
-        	sh_num = user_num
         WHERE
         	sh_seq = #{seq}
     </select>
