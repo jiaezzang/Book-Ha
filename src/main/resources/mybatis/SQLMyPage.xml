@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookha.main.mapper.MapperMyPage">
+	
+	<!-- 오늘 날짜 출석체크 여부 확인 -->
+	<select id="checkAttendance" parameterType="int" resultType="int">
+		SELECT EXISTS(
+			SELECT
+				at_login
+			FROM
+				attendance
+			WHERE
+				at_num = ${user_num}
+			AND
+				DATE(at_login)=DATE(now())
+		)AS flag
+	</select>
+	
+	<!-- 출석체크 도장을 찍을 때 -->
+	<insert id="addAttendance" parameterType="int">
+		INSERT INTO
+			attendance
+		VALUES (
+			0, ${user_num}, now()
+		)
+	</insert>
+	
+	<select id="countAttendance" parameterType="int" resultType="int">
+			SELECT
+				count(*)
+			FROM
+				attendance
+			WHERE
+				at_num = ${user_num}
+	</select>
+	
+	<select id="countReview" parameterType="int" resultType="int">
+			SELECT
+				count(*)
+			FROM
+				review_board
+			WHERE
+				re_num = ${user_num}
+	</select>
+	
+	<select id="countAlbum" parameterType="int" resultType="int">
+			SELECT
+				count(*)
+			FROM
+				album_board
+			WHERE
+				al_user_num = ${user_num}
+	</select>
+	
+	<select id="countShare" parameterType="int" resultType="int">
+			SELECT
+				count(*)
+			FROM
+				share_board
+			WHERE
+				sh_num = ${user_num}
+	</select>
+	
+</mapper>

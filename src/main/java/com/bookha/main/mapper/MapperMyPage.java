@@ -13,17 +13,18 @@ import com.bookha.main.dto.DTOUser;
 
 @Mapper
 @Repository
-public interface MapperRanking {
+public interface MapperMyPage {
+	// Board
+	int checkAttendance(int user_num);
 	
-	ArrayList<DTOAttendance> countAttendance();
+	int addAttendance(int user_num);
 	
-	ArrayList<DTOReviewBoard> reviewRanking();
+	int countAttendance(int user_num);
 	
-	ArrayList<DTOAlbumBoard> albumRanking();
+	int countReview(int user_num);
 	
-	ArrayList<DTOShareBoard> shareRanking();
+	int countAlbum(int user_num);
 	
-	DTOUser getProfile(int user_num);
-
+	int countShare(int user_num);
 }
 	

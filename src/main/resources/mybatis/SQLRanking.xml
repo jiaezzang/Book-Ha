@@ -4,29 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bookha.main.mapper.MapperRanking">
 	
-	<!-- 오늘 날짜 출석체크 여부 확인 -->
-	<select id="checkAttendance" parameterType="int" resultType="int">
-		SELECT EXISTS(
-			SELECT
-				at_login
-			FROM
-				attendance
-			WHERE
-				at_num = ${user_num}
-			AND
-				DATE(at_login)=DATE(now())
-		)AS flag
-	</select>
-	
-	<!-- 출석체크 도장을 찍을 때 -->
-	<insert id="addAttendance" parameterType="int">
-		INSERT INTO
-			attendance
-		VALUES (
-			0, ${user_num}, now()
-		)
-	</insert>
-	
 	<select id="countAttendance" resultType="com.bookha.main.dto.DTOAttendance">
 		SELECT
 			at_num,
@@ -111,8 +88,7 @@
     	FROM
     		user
     	WHERE
-    		user_num = ${user_num}
-    		
+    		user_num = ${user_num}    		
     </select>
 
 </mapper>
