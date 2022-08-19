@@ -60,7 +60,7 @@ public class ControllerRanking {
 		albumLists = dao.albumRanking();
 		shareLists = dao.shareRanking();
 		
-		//review ranking 1-3 순위 리스트
+		//attendance ranking 1-3 순위 리스트
 		ArrayList<DTOUser> userLists1 = new ArrayList<DTOUser>();
 		for( DTOAttendance list : atLists ) {
 			//System.out.println(list.getUser_num());
