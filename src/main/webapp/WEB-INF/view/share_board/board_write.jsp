@@ -140,7 +140,7 @@
 <script>
 	$(document).ready(function() {
 
-		let tag_radio = '';
+		let tag_radio = "";
 
 		$('.btn-check').on('click', function(e) {
 			tag_radio = $(this).next().text();
@@ -255,7 +255,7 @@
 		    previewHighlight: false,
 		    height: '700px',
 		    // 사전입력 항목
-		    initialValue: '# 안녕하세요. 제목입니다.\n### 사전입력 테스트\n본문본문본문\n\n',
+		    initialValue: '# 제목을 입력해주세요.\n### 안녕하세요.=)\n내용을 작성해주세요.\n\n',
 		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 		    hooks: {
 		    	addImageBlobHook: (blob, callback) => {
@@ -415,6 +415,13 @@
 							<h5 class="card-header">
 								나눔과 공유하기&nbsp;&nbsp;>&nbsp;&nbsp;<strong>공유 게시판</strong>
 							</h5>
+							
+							<div>
+								<input type="text" class="form-control"
+									id="defaultFormControlInput" placeholder="제목을 입력하세요"
+									aria-describedby="defaultFormControlHelp" />
+							</div>
+							
 							<div class="table-responsive text-nowrap">
 								<table class="table table-borderless">
 									<tbody class="table-border-bottom-0">
@@ -441,11 +448,7 @@
 
 							<br />
 
-							<div>
-								<input type="text" class="form-control"
-									id="defaultFormControlInput" placeholder="제목을 입력하세요"
-									aria-describedby="defaultFormControlHelp" />
-							</div>
+							
 
 							<!-- Hoverable Table rows -->
 
@@ -456,34 +459,6 @@
 						</div>
 					</div>
 					<!-- / Content -->
-
-
-					<!-- Footer -->
-					<!-- 					<footer class="content-footer footer bg-footer-theme"> -->
-					<!-- 						<div -->
-					<!-- 							class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
-					<!-- 							<div class="mb-2 mb-md-0"> -->
-					<!-- 								© -->
-					<!-- 								<script> -->
-					<!--  						            document.write(new Date().getFullYear()); -->
-					<!-- 								</script> -->
-					<!-- 								, made with ❤️ by <a href="https://themeselection.com" -->
-					<!-- 									target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
-					<!-- 							</div> -->
-					<!-- 							<div> -->
-					<!-- 								<a href="https://themeselection.com/license/" -->
-					<!-- 									class="footer-link me-4" target="_blank">License</a> <a -->
-					<!-- 									href="https://themeselection.com/" target="_blank" -->
-					<!-- 									class="footer-link me-4">More Themes</a> <a -->
-					<!-- 									href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" -->
-					<!-- 									target="_blank" class="footer-link me-4">Documentation</a> <a -->
-					<!-- 									href="https://github.com/themeselection/sneat-html-admin-template-free/issues" -->
-					<!-- 									target="_blank" class="footer-link me-4">Support</a> -->
-					<!-- 							</div> -->
-					<!-- 						</div> -->
-					<!-- 					</footer> -->
-					<!-- / Footer -->
-
 					<div class="content-backdrop fade"></div>
 				</div>
 				<!-- Content wrapper -->

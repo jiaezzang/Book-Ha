@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bookha.main.mapper.MapperShare">
-    <select id="listAll" resultType="com.bookha.main.dto.DTOShareBoard">
+    <select id="list" parameterType="com.bookha.main.dto.DTOShareTotal" resultType="com.bookha.main.dto.DTOShareBoard">
         SELECT
         	s.sh_seq as seq,
         	sh_num as user_num,
@@ -16,47 +16,31 @@
 			count(c.sh_seq) cmt_cnt
         FROM
         	share_board s
-        LEFT JOIN
+        LEFT OUTER JOIN
         	user
         ON
         	sh_num = user_num
-        LEFT JOIN
-        	share_board_comment c
-        ON
-        	s.sh_seq = c.sh_seq
-        GROUP BY
-        	s.sh_seq, c.sh_seq
-        ORDER BY
-        	s.sh_seq desc
-    </select>
-    
-    <select id="listHashTag" parameterType="String" resultType="com.bookha.main.dto.DTOShareBoard">
-        SELECT
-        	s.sh_seq as seq,
-        	sh_num as user_num,
-            sh_subject as subject,
-            sh_hashtag as hash_tag,
-            sh_hit as hit,
-            date_format(sh_date, '%Y-%m-%d') as wdate,
-            datediff( now(), sh_date ) wgap,
-			user_name,
-			count(c.sh_seq) cmt
-        FROM
-        	share_board s
-        LEFT JOIN
-        	user
-        ON
-        	sh_num = user_num
-        LEFT JOIN
+        LEFT OUTER JOIN
         	share_board_comment c
         ON
         	s.sh_seq = c.sh_seq
         WHERE
-        	s.sh_hashtag = #{hashTag}
+        	s.sh_hashtag like CONCAT(#{hash_tag}, '%')
         GROUP BY
         	s.sh_seq, c.sh_seq
         ORDER BY
-        	s.sh_seq desc
+        	s.sh_date desc, s.sh_seq desc
+        LIMIT
+        	#{skip}, #{recordPerPage}
+    </select>
+    
+    <select id="countBoard" parameterType="String" resultType="int">
+    	SELECT
+    		count(*)
+    	FROM
+    		share_board
+    	WHERE
+    		sh_hashtag like CONCAT(#{hashTag}, '%')
     </select>
     
     <select id="view" parameterType="int" resultType="com.bookha.main.dto.DTOShareBoard">
@@ -74,7 +58,7 @@
         	sh_seq = #{seq}
     </select>
     
-    <update id="vieHit" parameterType="int">
+    <update id="viewHit" parameterType="int">
     	UPDATE
     		share_board
     	SET
@@ -82,7 +66,7 @@
     	WHERE
     		sh_seq = #{seq}
     </update>
- 
+    
     <insert id="writeOk" parameterType="com.bookha.main.dto.DTOShareBoard">
         INSERT INTO share_board (
             sh_seq,
@@ -110,6 +94,8 @@
             sh_subject,
             sh_content,
             sh_hashtag,
+            sh_hit,
+            sh_date
         FROM
         	share_board
         WHERE
@@ -146,7 +132,7 @@
     		sh_com_content as content,
     		sh_com_date as wdate,
     		sh_seq as board_seq,
-    		user_nickname
+    		user_nickname as nickname
     	FROM
     		share_board_comment
     	INNER JOIN
@@ -157,7 +143,7 @@
     		sh_seq = #{board_seq}
     </select>
     
-    <insert id="commentWriteOk" parameterType="com.bookha.main.dto.DTOShareComment">
+    <insert id="commentWrite" parameterType="com.bookha.main.dto.DTOShareComment">
     	INSERT INTO share_board_comment (
     		sh_com_seq,
             sh_com_num,
@@ -177,11 +163,11 @@
 		</selectKey>
     </insert>
     
-    <delete id="commentDeleteOk" parameterType="int">
+    <delete id="commentDelete" parameterType="int">
     	DELETE
     	FROM
     		share_board_comment
     	WHERE
-    		sh_com_seq = #{com_seq}
+    		sh_com_seq = #{comment_seq}
     </delete>
 </mapper>

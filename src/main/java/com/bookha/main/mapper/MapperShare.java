@@ -7,18 +7,20 @@ import org.springframework.stereotype.Repository;
 
 import com.bookha.main.dto.DTOShareBoard;
 import com.bookha.main.dto.DTOShareComment;
+import com.bookha.main.dto.DTOShareTotal;
+import com.bookha.main.dto.DTOUser;
 
 @Mapper
 @Repository
 public interface MapperShare {
 	// Board
-	ArrayList<DTOShareBoard> listAll();
+	ArrayList<DTOShareBoard> list(DTOShareTotal dto);
 	
-	ArrayList<DTOShareBoard> listHashTag(String hash_tag);
-	
-	void viewHit(int seq);
+	int countBoard(String hashTag);
 	
 	DTOShareBoard view(int seq);
+	
+	void viewHit(int seq);
 	
 	int writeOk(DTOShareBoard to);
 	
@@ -31,7 +33,7 @@ public interface MapperShare {
 	// comment
 	ArrayList<DTOShareComment> commentList(int board_seq);
 	
-	int commentWriteOk(DTOShareComment to);
+	int commentWrite(DTOShareComment to);
 	
-	int commentDeleteOk(int seq);
+	int commentDelete(int comment_seq);
 }
