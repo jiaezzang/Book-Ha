@@ -27,7 +27,7 @@ public class ModelUrlInterceptor implements HandlerInterceptor {
 	    if(login == false) {
 			response.sendRedirect("/login");
 		}
-	    return true;
+	    return false;
 	}
 	
 	@Override
