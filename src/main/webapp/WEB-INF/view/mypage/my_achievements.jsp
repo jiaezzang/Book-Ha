@@ -8,6 +8,12 @@
 	String logo = (String)request.getAttribute("logo");
 	
 	String navBar = (String)request.getAttribute("navBar");
+	
+	String atList = (String)request.getAttribute("atList");
+	String reList = (String)request.getAttribute("reList");
+	String alList = (String)request.getAttribute("alList");
+	String shList = (String)request.getAttribute("shList");
+
 %>
 <!DOCTYPE html>
 
@@ -145,296 +151,303 @@
 
 						<!-- Hoverable Table rows -->
 						<div>
-							<div class="card h-100">
-								<div class="card-body"
-									style="height: 220px; display: flex; justify-content: space-around; align-items: center;">
+<!-- 							<div class="card h-100"> -->
+<!-- 								<div class="card-body" -->
+<!-- 									style="height: 220px; display: flex; justify-content: space-around; align-items: center;"> -->
+									
 									<!-- 동일 라인에 들어가는 컨텐츠 -->
-									<div class="rankingtitle1" style="display: inline-block;">
-										<h5>출석왕</h5>
-									</div>
-									<div class="mt-3 first"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/flower_1.png"
-												style="width: 100px;" />
-										</div>
-										<div>
-											</br>
-											<p>1/1</p>
-										</div>
-									</div>
+									
+									<%=atList %>
+									<%=reList %>
+									<%=alList %>
+									<%=shList %>
+<!-- 									<div class="rankingtitle1" style="display: inline-block;"> -->
+<!-- 										<h5>출석왕</h5> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 first" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/flower_1.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<div> -->
+<!-- 											</br> -->
+<!-- 											<p>1/1</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
 
-									<div class="mt-3 second"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/5</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/10</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/15</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/20</p>
-										</div>
-									</div>
+<!-- 									<div class="mt-3 second" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/5</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/10</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/15</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/20</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									/동일 라인에 들어가는 컨텐츠 -->
+
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 							<br /> -->
+
+<!-- 							<div class="card h-100"> -->
+<!-- 								<div class="card-body" -->
+<!-- 									style="height: 220px; display: flex; justify-content: space-around; align-items: center;"> -->
+<!-- 									동일 라인에 들어가는 컨텐츠 -->
+<!-- 									<div class="rankingtitle1" style="display: inline-block;"> -->
+<!-- 										<h5>리뷰왕</h5> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 first" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/animal_1.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<div> -->
+<!-- 											</br> -->
+<!-- 											<p>1/1</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+
+<!-- 									<div class="mt-3 second" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/5</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/10</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/15</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/20</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									/동일 라인에 들어가는 컨텐츠 -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 							<br /> -->
+
+<!-- 							<div class="card h-100"> -->
+<!-- 								<div class="card-body" -->
+<!-- 									style="height: 220px; display: flex; justify-content: space-around; align-items: center;"> -->
+<!-- 									동일 라인에 들어가는 컨텐츠 -->
+<!-- 									<div class="rankingtitle1" style="display: inline-block;"> -->
+<!-- 										<h5>인증왕</h5> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 first" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/food_1.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<div> -->
+<!-- 											</br> -->
+<!-- 											<p>1/1</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+
+<!-- 									<div class="mt-3 second" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/5</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/10</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/15</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/20</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									/동일 라인에 들어가는 컨텐츠 -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 							<br /> -->
+
+<!-- 							<div class="card h-100"> -->
+<!-- 								<div class="card-body" -->
+<!-- 									style="height: 220px; display: flex; justify-content: space-around; align-items: center;"> -->
+<!-- 									동일 라인에 들어가는 컨텐츠 -->
+<!-- 									<div class="rankingtitle1" style="display: inline-block;"> -->
+<!-- 										<h5>공유왕</h5> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 first" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/fruit_1.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<div> -->
+<!-- 											</br> -->
+<!-- 											<p>1/1</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+
+<!-- 									<div class="mt-3 second" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/5</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/10</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/15</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div class="mt-3 third" -->
+<!-- 										style="display: inline-block; text-align: center;"> -->
+<!-- 										<div> -->
+<!-- 											<img class="mb-sm-0 mb-2 h-auto" -->
+<!-- 												src="../assets/img/achievements/none.png" -->
+<!-- 												style="width: 100px;" /> -->
+<!-- 										</div> -->
+<!-- 										<br /> -->
+<!-- 										<div> -->
+<!-- 											<p>1/20</p> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
 									<!-- /동일 라인에 들어가는 컨텐츠 -->
-								</div>
-							</div>
-							<br />
-
-							<div class="card h-100">
-								<div class="card-body"
-									style="height: 220px; display: flex; justify-content: space-around; align-items: center;">
-									<!-- 동일 라인에 들어가는 컨텐츠 -->
-									<div class="rankingtitle1" style="display: inline-block;">
-										<h5>리뷰왕</h5>
-									</div>
-									<div class="mt-3 first"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/animal_1.png"
-												style="width: 100px;" />
-										</div>
-										<div>
-											</br>
-											<p>1/1</p>
-										</div>
-									</div>
-
-									<div class="mt-3 second"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/5</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/10</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/15</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/20</p>
-										</div>
-									</div>
-									<!-- /동일 라인에 들어가는 컨텐츠 -->
-								</div>
-							</div>
-							<br />
-
-							<div class="card h-100">
-								<div class="card-body"
-									style="height: 220px; display: flex; justify-content: space-around; align-items: center;">
-									<!-- 동일 라인에 들어가는 컨텐츠 -->
-									<div class="rankingtitle1" style="display: inline-block;">
-										<h5>인증왕</h5>
-									</div>
-									<div class="mt-3 first"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/food_1.png"
-												style="width: 100px;" />
-										</div>
-										<div>
-											</br>
-											<p>1/1</p>
-										</div>
-									</div>
-
-									<div class="mt-3 second"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/5</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/10</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/15</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/20</p>
-										</div>
-									</div>
-									<!-- /동일 라인에 들어가는 컨텐츠 -->
-								</div>
-							</div>
-							<br />
-
-							<div class="card h-100">
-								<div class="card-body"
-									style="height: 220px; display: flex; justify-content: space-around; align-items: center;">
-									<!-- 동일 라인에 들어가는 컨텐츠 -->
-									<div class="rankingtitle1" style="display: inline-block;">
-										<h5>공유왕</h5>
-									</div>
-									<div class="mt-3 first"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/fruit_1.png"
-												style="width: 100px;" />
-										</div>
-										<div>
-											</br>
-											<p>1/1</p>
-										</div>
-									</div>
-
-									<div class="mt-3 second"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/5</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/10</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/15</p>
-										</div>
-									</div>
-									<div class="mt-3 third"
-										style="display: inline-block; text-align: center;">
-										<div>
-											<img class="mb-sm-0 mb-2 h-auto"
-												src="../assets/img/achievements/none.png"
-												style="width: 100px;" />
-										</div>
-										<br />
-										<div>
-											<p>1/20</p>
-										</div>
-									</div>
-									<!-- /동일 라인에 들어가는 컨텐츠 -->
-								</div>
-							</div>
+<!-- 								</div> -->
+<!-- 							</div> -->
 							<br />
 						</div>
 					</div>

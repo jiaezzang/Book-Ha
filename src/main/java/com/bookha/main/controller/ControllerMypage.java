@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bookha.main.dao.DAOMyPage;
 import com.bookha.main.dao.DAOUser;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelLogoHtml;
+import com.bookha.model.ModelMyAchievements;
 import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelProfileHtml;
 
@@ -23,6 +25,9 @@ public class ControllerMypage {
 	
 	@Autowired
 	private DAOUser dao;
+	
+	@Autowired
+	private DAOMyPage daoMypage;
 	
 	@RequestMapping(value = "/mypage.do")
 	public ModelAndView mypage(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -75,6 +80,27 @@ public class ControllerMypage {
 		ModelNavBar model = new ModelNavBar();
 		String navBar = model.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//출석 업적
+		ModelMyAchievements modelAchieve = new ModelMyAchievements();
+		int atCount = daoMypage.countAttendance(session_user_num);
+		String atList = modelAchieve.getAchieveAttendance(atCount);
+		mv.addObject("atList", atList);
+		
+		//리뷰게시판 업적
+		int reCount = daoMypage.countReview(session_user_num);
+		String reList = modelAchieve.getAchieveReview(reCount);
+		mv.addObject("reList", reList);
+		
+		//앨범게시판 업적
+		int alCount = daoMypage.countAlbum(session_user_num);
+		String alList = modelAchieve.getAchieveAlbum(alCount);
+		mv.addObject("alList", alList);
+		
+		//공유게시판 업적
+		int shCount = daoMypage.countShare(session_user_num);
+		String shList = modelAchieve.getAchieveShare(shCount);
+		mv.addObject("shList", shList);
 		
 		mv.setViewName("mypage/my_achievements");
 		return mv;
