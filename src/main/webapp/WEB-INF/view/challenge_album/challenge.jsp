@@ -9,6 +9,7 @@
 	
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
+	String logo = (String)request.getAttribute("logo");
 	
 	DTOAlbumBoard dto = (DTOAlbumBoard)request.getAttribute("dto");
 	DTOAlbumTotal totalLists = (DTOAlbumTotal)request.getAttribute("totalLists");
@@ -328,13 +329,7 @@ const reload = function(){
 			<aside id="layout-menu"
 				class="layout-menu menu-vertical menu bg-menu-theme">
 				<div class="app-brand demo">
-					<a href="/mainpage" class="app-brand-link">
-					<!--  로고 이미지  -->
-					<img class="logo-demo" src="../assets/img/logo/logo2.png">
-					</a> <a href="javascript:void(0);"
-						class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-						<i class="bx bx-chevron-left bx-sm align-middle"></i>
-					</a>
+					<%= logo %>
 				</div>
 
 				<div class="menu-inner-shadow"></div>
