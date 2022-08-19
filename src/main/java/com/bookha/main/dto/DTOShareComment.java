@@ -9,5 +9,5 @@ public class DTOShareComment {
 	private String content;
 	private String wdate;
 	private int board_seq;
-	private String user_nickname;
+	private String nickname;
 }

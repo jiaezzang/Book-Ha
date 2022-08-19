@@ -14,11 +14,9 @@
 	DTOShareBoard to = (DTOShareBoard) request.getAttribute("to");
 	
 	int seq = Integer.parseInt(request.getParameter("seq"));
-	
 	String subject = to.getSubject();
 	String content = to.getContent();
 	String hash_tag = to.getHash_tag();
-	//
 	int user_num = to.getUser_num();
 	
 	String btnradio1 = "";
@@ -251,7 +249,7 @@
 			obj2.setAttribute('type', 'hidden');
 			obj2.setAttribute('name', 'user_num');
 			obj2.setAttribute('value', <%=user_num %>);
-			//obj2.setAttribute('value', 4);
+			/* obj2.setAttribute('value', 4); */
 			
 			let obj3;
 			obj3 = document.createElement('input');
@@ -423,7 +421,7 @@
 						<ul class="navbar-nav flex-row align-items-center ms-auto">
 
 							<!-- User -->
-							<%=profile%>
+							<%=profile %>
 							<!--/ User -->
 						</ul>
 					</div>
@@ -482,40 +480,14 @@
 							<!-- Hoverable Table rows -->
 
 							<!-- TOAST UI Editor가 들어갈 div태그 -->
-							<div id="editor"></div>
+							<div id="editor">
 								<%=content %>
+							</div>
+								
 							<br />
 						</div>
 					</div>
 					<!-- / Content -->
-
-
-					<!-- Footer -->
-					<!-- 					<footer class="content-footer footer bg-footer-theme"> -->
-					<!-- 						<div -->
-					<!-- 							class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
-					<!-- 							<div class="mb-2 mb-md-0"> -->
-					<!-- 								© -->
-					<!-- 								<script> -->
-					<!--  						            document.write(new Date().getFullYear()); -->
-					<!-- 								</script> -->
-					<!-- 								, made with ❤️ by <a href="https://themeselection.com" -->
-					<!-- 									target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
-					<!-- 							</div> -->
-					<!-- 							<div> -->
-					<!-- 								<a href="https://themeselection.com/license/" -->
-					<!-- 									class="footer-link me-4" target="_blank">License</a> <a -->
-					<!-- 									href="https://themeselection.com/" target="_blank" -->
-					<!-- 									class="footer-link me-4">More Themes</a> <a -->
-					<!-- 									href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" -->
-					<!-- 									target="_blank" class="footer-link me-4">Documentation</a> <a -->
-					<!-- 									href="https://github.com/themeselection/sneat-html-admin-template-free/issues" -->
-					<!-- 									target="_blank" class="footer-link me-4">Support</a> -->
-					<!-- 							</div> -->
-					<!-- 						</div> -->
-					<!-- 					</footer> -->
-					<!-- / Footer -->
-
 					<div class="content-backdrop fade"></div>
 				</div>
 				<!-- Content wrapper -->

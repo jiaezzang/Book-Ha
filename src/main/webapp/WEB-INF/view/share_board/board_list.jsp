@@ -8,9 +8,29 @@
 
 	String title = (String)request.getAttribute( "title" );
 	String profile = (String)request.getAttribute( "profile" );
-	String logo = (String) request.getAttribute( "logo" );
+	String logo = (String)request.getAttribute( "logo" );
 	
 	String listTable = (String)request.getAttribute( "listTable" );
+	String nav = (String)request.getAttribute("nav");
+	String hashTag = (String)request.getAttribute("hashTag");
+	
+	String btnradio0 = "";
+	String btnradio1 = "";
+	String btnradio2 = "";
+	String btnradio3 = "";
+	String btnradio4 = "";
+	
+	if(hashTag.equals("# 전체")) {
+		btnradio0 = "checked";
+	} else if(hashTag.equals("# 나눔")) {
+		btnradio1 = "checked";
+	} else if(hashTag.equals("# 교환")) {
+		btnradio2 = "checked";
+	} else if(hashTag.equals("# 빌려줌")) {
+		btnradio3 = "checked";
+	} else if(hashTag.equals("# 빌려줘")) {
+		btnradio4 = "checked";
+	} 
 
 %>
 <!DOCTYPE html>
@@ -125,24 +145,42 @@
 		toastr.options.closeMethod = 'fadeOut';
 		
 		$(document).on('click', '.btn-check', function() {
+			
 			let hash_tag = $(this).next().text();
 			
 			let DTOShareBoard = {
-					"hash_tag" : hash_tag
+				"hash_tag": hash_tag
 			}
 			
 			$.ajax({
-				type: "POST",
+				type: 'POST',
 				url: "/share_list_hashTag.do",
 				data: JSON.stringify(DTOShareBoard),
 				contentType: "application/json; charset=UTF-8",
 				dataType: "text",
 				success: function(data) {
-					$('#listTable').html(data);
+					$("#listTable").html(data);
 					toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공');
+					pageNavigation(hash_tag);
 				}
 			});
-			
+		});
+	});
+	
+	const pageNavigation = function(hash_tag) {
+		let DTOShareBoard = {
+				"hash_tag": hash_tag
+		}
+		
+		$.ajax({
+			type: "POST",
+			url: "/shre_list_pageNav.do",
+			data: JSON.stringify(DTOShareBoard),
+			contentType: "application/json; charset=UTF-8",
+			dataType: "text",
+			success: function(data) {
+				$('#pageNav').html(data);
+			}
 		});
 	}
 </script>
@@ -323,19 +361,19 @@
 										<tr>
 											<td>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio0" checked autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio0 %> id="btnradio0" checked autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio0"># 전체</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio1 %> id="btnradio1" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio1"># 나눔</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio2 %> id="btnradio2" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio2"># 교환</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio3 %> id="btnradio3" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio3"># 빌려줌</label>
 												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio4 %> id="btnradio4" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 빌려줘</label>
 											</td>
 										</tr>
@@ -366,32 +404,7 @@
 							</div>
 							<div class="demo-inline-spacing">
 								<!-- Basic Pagination -->
-								<nav aria-label="Page navigation">
-									<ul class="pagination">
-										<li class="page-item first"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevrons-left"></i></a></li>
-										<li class="page-item prev"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevron-left"></i></a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">1</a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">2</a></li>
-										<li class="page-item active"><a class="page-link"
-											href="javascript:void(0);">3</a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">4</a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">5</a></li>
-										<li class="page-item next"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevron-right"></i></a></li>
-										<li class="page-item last"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevrons-right"></i></a></li>
-									</ul>
-								</nav>
+								<%=nav %>
 								<!--/ Basic Pagination -->
 							</div>
 						</div>
@@ -399,33 +412,6 @@
 
 					</div>
 					<!-- / Content -->
-
-					<!-- Footer -->
-<!-- 					<footer class="content-footer footer bg-footer-theme"> -->
-<!-- 						<div -->
-<!-- 							class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
-<!-- 							<div class="mb-2 mb-md-0"> -->
-<!-- 								© -->
-<!-- 								<script> -->
-<!--  						            document.write(new Date().getFullYear()); -->
-<!-- 								</script> -->
-<!-- 								, made with ❤️ by <a href="https://themeselection.com" -->
-<!-- 									target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
-<!-- 							</div> -->
-<!-- 							<div> -->
-<!-- 								<a href="https://themeselection.com/license/" -->
-<!-- 									class="footer-link me-4" target="_blank">License</a> <a -->
-<!-- 									href="https://themeselection.com/" target="_blank" -->
-<!-- 									class="footer-link me-4">More Themes</a> <a -->
-<!-- 									href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" -->
-<!-- 									target="_blank" class="footer-link me-4">Documentation</a> <a -->
-<!-- 									href="https://github.com/themeselection/sneat-html-admin-template-free/issues" -->
-<!-- 									target="_blank" class="footer-link me-4">Support</a> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</footer> -->
-					<!-- / Footer -->
-
 					<div class="content-backdrop fade"></div>
 				</div>
 				<!-- Content wrapper -->
