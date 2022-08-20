@@ -7,6 +7,8 @@ request.setCharacterEncoding("UTF-8");
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	
+	int session_user_num = (int)request.getAttribute("session_user_num");
+	
 	DTOReviewBoard to = (DTOReviewBoard)request.getAttribute("to");
 	
 	int seq = Integer.parseInt(request.getParameter("seq"));
@@ -332,6 +334,13 @@ request.setCharacterEncoding("UTF-8");
 				return false;
 			}
 			
+			for(let i=1; i<=6; i++) {
+				if(editor.getHTML().indexOf('<h' + i + '><br></h' + i + '>') != -1) {
+					toastr.error('소제목을 다시 확인하세요', '입력 오류!');
+					return false;
+				}
+			}
+			
 			if(tag_radio == '') {
 				toastHtml('선택 오류!', '해시태그를 선택하세요.');
 				return false;	
@@ -375,8 +384,7 @@ request.setCharacterEncoding("UTF-8");
 			obj2 = document.createElement('input');
 			obj2.setAttribute('type', 'hidden');
 			obj2.setAttribute('name', 'user_num');
-	//			obj2.setAttribute('value', user_num);
-			obj2.setAttribute('value', 4);
+			obj2.setAttribute('value', <%= session_user_num %>);
 			
 			let obj3;
 			obj3 = document.createElement('input');

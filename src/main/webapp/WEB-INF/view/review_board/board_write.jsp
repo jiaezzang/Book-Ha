@@ -253,36 +253,37 @@
 			tag_radio = $(this).next().text();
 		});
 		
-		const toastHtml = function(title, message) {
-			toastr.error(message, title);
-		};
-		
-		
 		
 		$('#board_submit').on("click", function(e) {
 			if($('#defaultFormControlInput').val() == '') {
-				toastHtml('입력 오류!', '제목을 입력하세요.');
+				toastr.error('제목을 입력하세요.', '입력 오류!');
 				return false;
 			}
 			
 			if(editor.getHTML() == '') {
-				console.log(editor.getHTML());
-				toastHtml('입력 오류!', '본문을 입력하세요.');
+				toastr.error('본문을 입력하세요.', '입력 오류!');
 				return false;
 			}
 			
+			for(let i=1; i<=6; i++) {
+				if(editor.getHTML().indexOf('<h' + i + '><br></h' + i + '>') != -1) {
+					toastr.error('소제목을 다시 확인하세요', '입력 오류!');
+					return false;
+				}
+			}
+			
 			if(tag_radio == '') {
-				toastHtml('선택 오류!', '해시태그를 선택하세요.');
+				toastr.error('해시태그를 선택하세요.', '선택 오류!');
 				return false;	
 			}
 			
 			if($("#query").val() == '') {
-				toastHtml('입력 오류!', '읽은 책을 검색하세요.');
+				toastr.error('읽은 책을 검색하세요.', '입력 오류!');
 				return false;	
 			}
 			
 			if($("input[name='bookRadio']").length == $("input[name='bookRadio']:not(:checked)").length) {
-				toastHtml('선택 오류!', '읽은 책을 선택하세요.');
+				toastr.error('읽은 책을 선택하세요.', '선택 오류!');
 				return false;
 			}
 			
@@ -309,7 +310,6 @@
 			obj2.setAttribute('type', 'hidden');
 			obj2.setAttribute('name', 'user_num');
 			obj2.setAttribute('value', <%= session_user_num %>);
-// 			obj2.setAttribute('value', 1);
 			
 			let obj3;
 			obj3 = document.createElement('input');
@@ -383,7 +383,8 @@
 		    previewHighlight: false,
 		    height: '700px',
 		    // 사전입력 항목
-		    initialValue: '# 안녕하세요. 제목입니다.\n### 사전입력 테스트\n본문본문본문\n\n',
+		    initialValue: '',
+		    placeholder: '# 안녕하세요. 제목입니다.\n### 사전입력 테스트\n본문본문본문\n\n',
 		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 		    hooks: {
 		    	addImageBlobHook: (blob, callback) => {
@@ -415,7 +416,7 @@
 		           		error: function(e) {
 		           			//console.log('ajax 이미지 업로드 실패');
 		           			//console.log(e.abort([statusText]));
-		           			
+		           			toastr.error('이미지 업로드가 실패하였습니다.', '입력 오류!');
 		           			callback('image_load_fail', '사진 대체 텍스트 입력');
 		           		}
 		           	});

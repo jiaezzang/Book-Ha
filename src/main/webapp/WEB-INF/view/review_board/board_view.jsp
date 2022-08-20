@@ -1,3 +1,4 @@
+<%@page import="com.bookha.main.dto.DTOUser"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.bookha.main.dto.DTOReviewBoard" %>
@@ -11,6 +12,8 @@ request.setCharacterEncoding("UTF-8");
 	int session_user_num = (int)request.getAttribute("session_user_num");
 	
 	DTOReviewBoard to = (DTOReviewBoard)request.getAttribute("to");
+	
+	DTOUser user = (DTOUser)request.getAttribute("user");
 	
 	int user_num = to.getUser_num();
 	int seq = to.getSeq();
@@ -193,6 +196,11 @@ $(document).ready(function() {
 	
 	$('#replyWriteBtn').on('click', function() {
 		let com_content = $("#reply-text-area").val();
+		
+		if(com_content == null || com_content == "") {
+			toastr.error('댓글이 입력되지 않았습니다.', '입력 오류!');
+			return false;
+		}
 		
 		let DTO_Review_Comment = {
 			"user_num": <%= session_user_num %>,
@@ -484,12 +492,12 @@ const reload = function(board_seq) {
 								<label class='list-group-item'>
 									<div class='d-grid d-sm-flex p-3'>
 										<img
-											src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgCc_yb9hC0afzbtVF6a56iYz2N_4Ci8ouSg&usqp=CAU'
+											src='../assets/img/achievements/<%= user.getUser_profile() %>'
 											style='width: 120px'
-											class='me-4 mb-sm-0 mb-2 h-auto rounded-circle' /> <span>
-											<h6 style="color: #696CFF">아기고양이 33</h6>
-											<div>안녕하세요. 말하는 고양이입니다.</div>
-											<div>야옹</div>
+											class='me-4 mb-sm-0 mb-2 h-auto rounded-circle' />
+										<span>
+											<h6 style="color: #696CFF"><%= user.getUser_nickname() %></h6>
+											<div><%= user.getUser_self() %></div>
 										</span>
 									</div>
 								</label>

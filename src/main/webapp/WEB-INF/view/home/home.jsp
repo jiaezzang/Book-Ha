@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String setting = (String)request.getAttribute("setting");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,10 +26,10 @@
 <body>
 	<header>
 		<div class="logoandmp">
-			<a href="/mypage.do" class="logo">
+			<a href="/mainpage.do" class="logo">
 				<img src="../assets/img/logo/logo2.png" title="Book-Ha!" />
 			</a>
-			<a href="/mypage.do" class="mypage">
+			<a href=<%=setting %> class="mypage">
 				<i class="bx bx-user-circle bx-md" style="color:#696cff; font-size:40px;"></i>
 			</a>
 	</header>

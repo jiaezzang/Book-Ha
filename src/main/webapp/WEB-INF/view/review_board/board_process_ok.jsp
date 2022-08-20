@@ -29,7 +29,7 @@
 <script>
 $(document).ready(function() {
 	
-	toastr.succeses('MariaDB 업로드를 성공하였습니다.', '작업 성공!');
+	toastr.success('MariaDB 업로드를 성공하였습니다.', '작업 성공!');
 	
 };
 </script>
