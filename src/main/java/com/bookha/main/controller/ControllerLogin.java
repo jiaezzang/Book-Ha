@@ -16,13 +16,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bookha.main.dao.DAOUser;
 import com.bookha.main.dto.DTOUser;
+import com.bookha.model.ModelProfileHtml;
 
 
 @RestController
 public class ControllerLogin {
 	
 	@Autowired
-	private DAOUser dao_User;
+	private DAOUser daoUser;
 	
 	@GetMapping("/")
 	public ModelAndView index(ModelAndView mav) {
@@ -51,7 +52,7 @@ public class ControllerLogin {
 		session = request.getSession();
 		session.setAttribute("login", true);
 		
-		DTOUser to = dao_User.signIn(user);
+		DTOUser to = daoUser.signIn(user);
 		session.setAttribute("user_num", to.getUser_num());
 		
 		// 세션 유지시간 무제한
@@ -62,8 +63,21 @@ public class ControllerLogin {
 	
 	@GetMapping("/login/mainpage")
 	public ModelAndView mainpage(HttpSession session, ModelAndView mav) {
-//		int user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
-//		System.out.println(user_num);
+
+		//로그인 한 회원의 정보
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		DTOUser userSetting = new DTOUser();
+		userSetting = daoUser.userSetting(session_user_num);
+
+		//관리자와 일반유저 구분
+		String setting = "";
+		if(userSetting.getUser_role().equals("user")) {
+			setting = "/mypage.do";
+		} else if(userSetting.getUser_role().equals("admin")) {
+			setting = "/main.do";
+		}
+		
+		mav.addObject("setting", setting);
 		
 		mav.setViewName("home/home");
 		
@@ -87,7 +101,7 @@ public class ControllerLogin {
 	@PostMapping("/findUserId")
 	public List<Map<String, String>> findUserId(@RequestBody DTOUser user) {
 		
-		return dao_User.findUserId(user);
+		return daoUser.findUserId(user);
 	}
 	
 	@GetMapping("/findPw")
@@ -100,6 +114,6 @@ public class ControllerLogin {
 	@PostMapping("/findPw")
 	public List<Map<String, String>> findPw(@RequestBody DTOUser user) {
 		
-		return dao_User.findPw(user);
+		return daoUser.findPw(user);
 	}
 }
