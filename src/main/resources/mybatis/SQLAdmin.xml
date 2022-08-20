@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookha.main.mapper.MapperNotice">
+    <select id="list" parameterType="com.bookha.main.dto.DTOAdminBoard" resultType="com.bookha.main.dto.DTOAdminBoard">
+        SELECT
+        	no_seq as seq,
+        	no_user_num
+            no_subject as subject,
+            no_hit as hit,
+            date_format(sh_date, '%Y-%m-%d') as wdate,
+            datediff( now(), sh_date ) wgap,
+			user_nickname
+        FROM
+        	notice_board
+        INNER JOIN
+        	user
+        ON
+        	no_num = user_num
+    </select>
+    
+    <select id="countBoard" resultType="int">
+    	SELECT
+    		count(*)
+    	FROM
+    		notice_board
+    </select>
+    
+    <select id="view" parameterType="int" resultType="com.bookha.main.dto.DTOAdminBoard">
+        SELECT
+        	no_seq as seq,
+        	no_user_num,
+            no_subject as subject,
+            no_content as content,
+            no_hit as hit,
+            no_date as wdate
+        FROM
+        	notice_board
+        WHERE
+        	no_seq = #{seq}
+    </select>
+    
+    <insert id="writeOk" parameterType="com.bookha.main.dto.DTOAdminBoard">
+        INSERT INTO notice_board (
+            no_seq,
+            no_user_num,
+            no_subject,
+            no_content,
+            no_date
+        ) VALUES (
+			0,
+			#{user_num},
+			#{subject},
+			#{content},
+			now()
+		);
+    </insert>
+    
+    <select id="modify" parameterType="int" resultType="com.bookha.main.dto.DTOAdminBoard">
+        SELECT
+        	no_seq,
+            no_user_num,
+            no_subject,
+            no_content,
+            no_date
+        FROM
+        	notice_board
+        WHERE
+        	no_seq = #{seq}
+    </select>
+    
+    <update id="modifyOk" parameterType="com.bookha.main.dto.DTOAdminBoard">
+    	UPDATE
+    		notice_board
+    	SET
+    		no_subject = #{subject},
+    		no_content = #{content}
+    	WHERE
+    		no_seq = #{seq}
+    </update>
+    
+    <delete id="deleteOk" parameterType="com.bookha.main.dto.DTOAdminBoard">
+    	DELETE
+    	FROM
+    		notice_board
+    	WHERE
+    		no_seq = #{seq}
+    </delete>
+</mapper>
