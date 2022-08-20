@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bookha.main.dto.DTOAlbumBoard;
+import com.bookha.main.dto.DTOAlbumTotal;
 import com.bookha.main.mapper.MapperAlbum;
 
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,8 @@ public class DAOAlbumBoard implements MapperAlbum {
 	private MapperAlbum mapper;
 
 	@Override
-	public ArrayList<DTOAlbumBoard> albumList() {
-		return mapper.albumList();
+	public ArrayList<DTOAlbumBoard> albumList(DTOAlbumTotal dto) {
+		return mapper.albumList(dto);
 	}
 	
 	@Override
@@ -46,6 +47,12 @@ public class DAOAlbumBoard implements MapperAlbum {
 		int flag = mapper.albumModify(dto);
 		
 		return flag;
+	}
+
+	@Override
+	public int countBoard() {
+		// TODO Auto-generated method stub
+		return mapper.countBoard();
 	}
 
 }
