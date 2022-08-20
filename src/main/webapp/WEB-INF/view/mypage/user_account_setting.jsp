@@ -10,6 +10,7 @@ String logo = (String) request.getAttribute("logo");
 
 DTOUser userSetting = (DTOUser)request.getAttribute("userSetting");
 String navBar = (String)request.getAttribute("navBar");
+int session_user_num = (Integer)request.getAttribute("session_user_num");
 %>
 <!DOCTYPE html>
 
@@ -65,50 +66,67 @@ String navBar = (String)request.getAttribute("navBar");
 <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 <script src="../assets/js/config.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
-    
+    <!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script src="../assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assets/vendor/libs/popper/popper.js"></script>
+<script src="../assets/vendor/js/bootstrap.js"></script>
+<script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="../assets/vendor/js/menu.js"></script>
+
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="../js/toastr.js"></script>
+
+	<script>
         $(document).ready(function() {
-        phoneNo(); 
-        
-        $("#userId").val("<%=userSetting.getUser_mail()%>");
-        $("#nickName").val("<%=userSetting.getUser_nickname()%>");
-        $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
-        $("#introSelf").val("<%=userSetting.getUser_self()%>");
+            $('modal-body').removeClass('modal-open');
 
-        $("#chkSameNickname").on("click", () => {
-          let sendData = {
-            user_nickname: $("#nickName").val().trim()
-          };
-
-          $.ajax({
-            url:"http://localhost:8080/signUp/chkSameNickname",
-            type: "post",
-            contentType: "application/json; charset=utf-8",
-            data : JSON.stringify(sendData),
-            dataType:"json",
-            success : function(result){
-              if(result === 0) {
-                $("#update_accountBTN").attr("status", "true");
-                $("#nickName").css("border", "1px solid red");
-                alert("닉네임이 중복 됩니다.");
-              } else {
-                $("#update_accountBTN").attr("status", "false");
-                // $("#userId").css("border", "1px solid #d9dee3");
-                // $("#userId").css("border", "1px solid #696cff");
-                $("#nickName").css("border", "1px solid green");
-              }
-            },
-            error : function(jqXHR,textStatus,errorThrown){
-              console.log(jqXHR);
-              console.log(textStatus);
-              console.log(errorThrown);
-            }
-          });
-
-        }); 
+            $('#modalCenter').modal('show');
+            
+	        phoneNo(); 
+	        
+	        $("#userId").val("<%=userSetting.getUser_mail()%>");
+	        $("#nickName").val("<%=userSetting.getUser_nickname()%>");
+	        $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
+	        $("#introSelf").val("<%=userSetting.getUser_self()%>");
+	        
+	        $("#chkSameNickname").on("click", () => {
+	          let sendData = {
+	            user_nickname: $("#nickName").val().trim()
+	          };
+	
+	          $.ajax({
+	            url:"http://localhost:8080/signUp/chkSameNickname",
+	            type: "post",
+	            contentType: "application/json; charset=utf-8",
+	            data : JSON.stringify(sendData),
+	            dataType:"json",
+	            success : function(result){
+	              if(result === 0) {
+	                $("#update_accountBTN").attr("status", "true");
+	                $("#nickName").css("border", "1px solid red");
+	                alert("닉네임이 중복 됩니다.");
+	              } else {
+	                $("#update_accountBTN").attr("status", "false");
+	                // $("#userId").css("border", "1px solid #d9dee3");
+	                // $("#userId").css("border", "1px solid #696cff");
+	                $("#nickName").css("border", "1px solid green");
+	              }
+	            },
+	            error : function(jqXHR,textStatus,errorThrown){
+	              console.log(jqXHR);
+	              console.log(textStatus);
+	              console.log(errorThrown);
+	            }
+	          });
+	
+	        }); 
 
         $('#update_accountBTN').on("click", function() {
 
@@ -149,7 +167,6 @@ String navBar = (String)request.getAttribute("navBar");
         let sendData = {
           user_mail: $("#userId").val(),
           user_password: $("#password").val(),
-          user_name: $("#userName").val(),
           user_nickname: $("#nickName").val(),
           user_phonenumber: $("#phoneNo").val().replaceAll("-", ""),
           user_self: $("#introSelf").val()
@@ -214,10 +231,48 @@ String navBar = (String)request.getAttribute("navBar");
           }
         });
       }
+        
+        function goBack(){
+        	window.history.back();
+        }
+        
+        function checkPw(){
+        	let DTOUser = {
+   					"user_num" : <%=session_user_num%>,
+   					"user_password" : $("#checkPw").val()
+
+   			}
+        	
+   			//console.log(DTOUser);
+        	if($("#checkPw").val() == "" || $("#checkPw").val() == null){
+				toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+				return false;
+        	}
+   			$.ajax({
+   				type: "POST",
+   				url: "check_pw.do",
+   				data: JSON.stringify(DTOUser),
+   				contentType: "application/json; charset=utf-8",
+   				dataType: "text",
+   				success: function(data){
+   					if(data == 1 ) {
+	   					$("#modalCenter").modal("hide");
+	   					toastr.success('비밀번호 확인 완료!', '작업 성공!');
+   					}else {
+   	   					toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+   	   					$("#checkPw").val("");
+   					}
+   				},
+   				error: function(e) {
+	   				toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+	   				$("#checkPw").val("");
+   				}
+   			});
+        }
 
     </script>
 </head>
-<body>
+<body class="modal-open" style="padding-right:17px;">
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
@@ -350,7 +405,7 @@ String navBar = (String)request.getAttribute("navBar");
 							</div>
 	
 							<div class="mt-2">
-								<button type="submit" id="update_accountBTN" class="btn btn-primary me-2" status="true">
+								<button type="submit" id="update_accountBTN" class="btn btn-primary me-2" status="true" style="float: right;">
 								변경사항 저장</button>
 								<!--                           <button type="reset" class="btn btn-outline-secondary">취 소</button> -->
 							</div>
@@ -397,6 +452,33 @@ String navBar = (String)request.getAttribute("navBar");
               </div>
             </div>
             <!-- / Content -->
+            
+            <!--  PWD check Modal  -->
+			<div class="modal fade" id="modalCenter" tabindex="-1" data-bs-backdrop="static"
+				style="display: none;" role="dialog">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalCenterTitle">비밀번호를 확인해주세요.</h5>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col mb-3">
+									<label for="checkPw" class="form-label">비밀번호 입력</label> 
+									<input
+										type="text" id="checkPw" class="form-control"
+										placeholder="PASSWORD">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-secondary"
+							data-bs-dismiss="modal" aria-label="Close" onclick="goBack();">취소</button>
+							<button type="button" class="btn btn-primary" id="check" onclick="checkPw();">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
 <!--             Footer -->
 <!--             <footer class="content-footer footer bg-footer-theme"> -->
@@ -434,19 +516,14 @@ String navBar = (String)request.getAttribute("navBar");
     <!-- / Layout wrapper -->
 
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../assets/vendor/js/bootstrap.js"></script>
-    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-    <script src="../assets/vendor/js/menu.js"></script>
+    
     <!-- endbuild -->
 
     <!-- Vendors JS -->
 
     <!-- Main JS -->
+    
+
     <script src="../assets/js/main.js"></script>
 
     <!-- Page JS -->

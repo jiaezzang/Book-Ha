@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -124,6 +125,7 @@ public class ControllerMypage {
 		DTOUser userSetting = new DTOUser();
 		userSetting = dao.userSetting(session_user_num);
 		mv.addObject("userSetting", userSetting);
+		mv.addObject("session_user_num", session_user_num);
 		
 		//Navbar Model
 		ModelNavBar model = new ModelNavBar();
@@ -219,6 +221,12 @@ public class ControllerMypage {
 		
 		mv.setViewName("mypage/my_share_view");
 		return mv;
+	}
+	
+	@RequestMapping(value = "/check_pw.do")
+	public int checkPw(@RequestBody DTOUser dto) {
+		int flag = daoMypage.checkPw(dto);
+		return flag;
 	}
 
 }
