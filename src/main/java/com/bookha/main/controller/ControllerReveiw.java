@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bookha.main.dao.DAOReviewBoard;
+import com.bookha.main.dao.DAOUser;
 import com.bookha.main.dto.DTOReviewBoard;
 import com.bookha.main.dto.DTOReviewComment;
 import com.bookha.main.dto.DTOReviewTotal;
+import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelLogoHtml;
 import com.bookha.model.ModelProfileHtml;
 import com.bookha.model.ModelReviewCommentList;
@@ -32,6 +34,9 @@ public class ControllerReveiw {
 	
 	@Autowired
 	private DAOReviewBoard dao;
+	
+	@Autowired
+	private DAOUser daoUser;
 
 	@RequestMapping(value = "/review_list.do")
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -234,6 +239,10 @@ public class ControllerReveiw {
 		DTOReviewBoard to = dao.view(seq);
 		mv.addObject("to", to);
 		
+		DTOUser userSetting = new DTOUser();
+		userSetting = daoUser.userSetting(session_user_num);
+		mv.addObject("user", userSetting);
+		
 		ArrayList<DTOReviewComment> com_lists = dao.commentList(seq);
 		ModelReviewCommentList comment = new ModelReviewCommentList();
 		String commentHtml = comment.getCommentList(com_lists, session_user_num);
@@ -263,6 +272,7 @@ public class ControllerReveiw {
 		
 		int seq = Integer.parseInt(request.getParameter("seq"));
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		mv.addObject("session_user_num", session_user_num);
 		
 		DTOReviewBoard to = dao.view(seq);
 		to.setUser_num(session_user_num);
@@ -303,11 +313,11 @@ public class ControllerReveiw {
 		to.setBook_publisher(book_publisher);
 		to.setBook_summary(book_summary);
 
-		int flag = dao.writeOk(to);
+		int flag = dao.modifyOk(to);
 		
 		mv.addObject("flag", flag);
 		
-		mv.setViewName("review_board/board_write_ok");
+		mv.setViewName("review_board/board_process_ok");
 		return mv;
 	}
 	
@@ -369,7 +379,7 @@ public class ControllerReveiw {
 		
 		mv.addObject("flag", flag);
 		
-		mv.setViewName("review_board/board_write_ok");
+		mv.setViewName("review_board/board_process_ok");
 		return mv;
 	}
 	
@@ -386,14 +396,11 @@ public class ControllerReveiw {
 		to.setSeq(seq);
 		to.setUser_num(session_user_num);
 		
-//		System.out.println("seq : " + seq);
-//		System.out.println("user_num : " + user_num);
-		
 		int flag = dao.deleteOk(to);
 		
 		mv.addObject("flag", flag);
 		
-		mv.setViewName("review_board/board_delete_ok");
+		mv.setViewName("review_board/board_process_ok");
 		return mv;
 	}
 	
@@ -408,18 +415,15 @@ public class ControllerReveiw {
 	
 	@RequestMapping(value = "/review_comment_write.do", method = RequestMethod.POST)
 	public String comment_write(@RequestBody DTOReviewComment to) {
-//		System.out.println(to.getContent());
-//		System.out.println("user_num : " + to.getUser_num());
-//		System.out.println("content : " + to.getContent());
-//		System.out.println("board_seq : " + to.getBoard_seq());
+
 		int flag = dao.commentWrite(to);
-//		System.out.println("flag : " + flag);
+
 		return "write success : " + flag;
 	}
 	
 	@RequestMapping(value = "/review_comment_delete.do", method = RequestMethod.POST)
 	public String comment_delete(@RequestBody DTOReviewComment to) {
-//		System.out.println(to.getSeq());
+
 		dao.commentDelete(to.getSeq());
 		return "delete success";
 	}

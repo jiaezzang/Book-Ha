@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bookha.main.dao.DAOUser;
 import com.bookha.main.dto.DTOUser;
-import com.bookha.model.ModelProfileHtml;
+import com.bookha.model.ModelLogoHtml;
 
 
 @RestController
@@ -35,6 +35,7 @@ public class ControllerLogin {
 
 	@GetMapping("/login")
 	public ModelAndView login(HttpSession session, ModelAndView mav) {
+		mav.addObject("logo", new ModelLogoHtml().getLogo().toString());
 		mav.setViewName("login/login");
 		
 		return mav;

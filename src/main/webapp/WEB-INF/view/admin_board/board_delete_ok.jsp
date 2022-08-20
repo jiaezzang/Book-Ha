@@ -1,17 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("UTF-8");
-	
-	//String result = (String)request.getAttribute("result");
-	int flag = (Integer)request.getAttribute("flag");
+	request.setCharacterEncoding( "utf-8" );
+
+	int flag = (Integer)request.getAttribute( "flag" );
 	
 	String result = "";
-	
-	if(flag == 0) {
-		result = "DB Insert Complete";
-		response.sendRedirect("/review_list.do");
-	} else {
+	if( flag == 0 ){
+		result = "삭제 성공";
+		response.sendRedirect("/list.do");		
+	} else { 
 		result = "<script>history.back();</script>";
 	}
 %>
@@ -27,9 +25,7 @@
 <script src="../js/toastr.js"></script>
 
 <script>
-$(document).ready(function() {
-	
-	toastr.succeses('MariaDB 업로드를 성공하였습니다.', '작업 성공!');
-	
-};
+	$(document).ready(function() {		
+		toastr.succeses('게시글을 삭제하였습니다.', '게시글 삭제');
+	};
 </script>

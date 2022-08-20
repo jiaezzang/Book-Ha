@@ -6,12 +6,6 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 
-	Boolean login = (Boolean)session.getAttribute("login");
-	//System.out.println("login : " + login);
-// 	if(!login) {
-// 		response.sendRedirect("");
-// 	}
-
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
