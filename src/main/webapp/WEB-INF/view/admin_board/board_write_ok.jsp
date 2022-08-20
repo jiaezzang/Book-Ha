@@ -1,18 +1,14 @@
-<%@page import="com.bookha.main.dto.DTOShareBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding( "utf-8" );
 
-	DTOShareBoard to = (DTOShareBoard) request.getAttribute("to");
-	int seq = Integer.parseInt(request.getParameter("seq"));
-
 	int flag = (Integer)request.getAttribute( "flag" );
-		
+	
 	String result = "";
 	if( flag == 0 ){
 		result = "성공";
-		response.sendRedirect("/share_view.do?seq="+seq);		
+		response.sendRedirect("/list.do");		
 	} else { 
 		result = "<script>history.back();</script>";
 	}
@@ -30,6 +26,6 @@
 
 <script>
 	$(document).ready(function() {
-		toastr.succeses('게시글을 수정하였습니다.', '게시글 수정');
+		toastr.succeses('게시글을 작성하였습니다.', '게시글 작성');
 	};
 </script>

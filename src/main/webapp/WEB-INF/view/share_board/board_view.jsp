@@ -8,8 +8,9 @@
 
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
+	String logo = (String)request.getAttribute( "logo" );
 	
-	String cmtTable = (String) request.getAttribute("cmtTable");
+	String cmtTable = (String)request.getAttribute("cmtTable");
 	
 	int session_user_num = (int)request.getAttribute("session_user_num");
 	
@@ -21,7 +22,11 @@
 	String subject = to.getSubject();
 	String content = to.getContent();
 	String hash_tag = to.getHash_tag();
-
+	String date = to.getWdate();
+	int hit = to.getHit();
+	
+	String myprofile = "../assets/img/achievements/" + to.getMyprofile();
+	String self = to.getSelf();
 	String nickname = to.getUser_nickname();
 	
 	String btnradio1 = "disabled";
@@ -182,46 +187,6 @@
 
 <script>
 	$(document).ready(function() {
-		// escapeHtml 허용여부
-		toastr.options.escapeHtml = true;
-		// closeButton을 생성여부
-		toastr.options.closeButton = true;
-		// closeButton의 커스텀
-		toastr.options.closeHtml = '';
-		// 메시지 창이 사라질 때의 애니메이션 효과
-		toastr.options.closeMethod = 'fadeOut';
-		// 메시지 창의 애니메이션 효과 시간
-		toastr.options.closeDuration = 300;
-		toastr.options.closeEasing = 'swing';
-		// 새로운 창의 위치, true이면 가장 위 포지션, false면 가장 아래 포지션
-		toastr.options.newestOnTop = false;
-		// 이벤트 옵션// 추가될 때 이벤트
-		//toastr.options.onShown = function() { console.log('hello'); }
-		// 사라질 때 이벤트
-		//toastr.options.onHidden = function() { console.log('goodbye'); }
-		// 클릭될 때 이벤트
-		//toastr.options.onclick = function() { console.log('clicked'); }
-		// 닫기 버튼이 눌릴 때 이벤트
-		//toastr.options.onCloseClick = function() { console.log('close button clicked'); }
-		// 메시지 중복 허용 여부, 두개 이상 메시지가 생성될 때 이 전꺼는 사라짐
-		toastr.options.preventDuplicates = true;
-		// 메시지가 표시되는 시간
-		toastr.options.timeOut = 2000;
-		// 메시지 위로 커서를 올렸을 때 표시되는 시간
-		toastr.options.extendedTimeOut = 60;
-		// 만약 메시지 표시되는 시간과 올렸을 때 표시되는 시간을 0으로 하면 메시지는 사라지지 않는다.
-		// 프로그래스바 표시 여부
-		toastr.options.progressBar = true;
-		// 글자를 오른쪽 정렬 여부
-		toastr.options.rtl = false;
-		//애니메이션 설정 여부
-		toastr.options.showEasing = 'swing';
-		
-		toastr.options.hideEasing = 'linear';
-		toastr.options.closeEasing = 'linear';
-		toastr.options.showMethod = 'fadeIn';
-		toastr.options.hideMethod = 'fadeOut';
-		toastr.options.closeMethod = 'fadeOut';
 		
 		// 댓글 작성
 		$('#writeReply').on('click', function() {
@@ -336,13 +301,9 @@
 			<aside id="layout-menu"
 				class="layout-menu menu-vertical menu bg-menu-theme">
 				<div class="app-brand demo">
-					<a href="/home.do" class="app-brand-link">
-					<!--  로고 이미지  -->
-					<img class="logo-demo" src="../assets/img/logo/logo2.png">
-					</a> <a href="javascript:void(0);"
-						class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-						<i class="bx bx-chevron-left bx-sm align-middle"></i>
-					</a>
+					<!-- LOGO -->
+					<%=logo%>
+					<!-- /LOGO -->
 				</div>
 
 				<div class="menu-inner-shadow"></div>
@@ -474,6 +435,9 @@
 												<input type="radio" class="btn-check" name="btnradio" <%= btnradio4 %> id="btnradio4" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 빌려줘</label>
 											</td>
+											<td align="right">
+												<label><%=date%>  |  <%=hit%>&nbsp;&nbsp;</label>
+											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -495,12 +459,12 @@
 								<label class='list-group-item'>
 									<div class='d-grid d-sm-flex p-3'>
 										<img
-											src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgCc_yb9hC0afzbtVF6a56iYz2N_4Ci8ouSg&usqp=CAU'
+											src='<%=myprofile %>'
 											style='width: 120px'
 											class='me-4 mb-sm-0 mb-2 h-auto rounded-circle' /> <span>
-											<h6 style="color: #696CFF">아기고양이 33</h6>
-											<div>안녕하세요. 말하는 고양이입니다.</div>
-											<div>야옹</div>
+											<h6 style="color: #696CFF"><%=nickname %></h6>
+											<div><%=self %></div>
+											<div></div>
 										</span>
 									</div>
 								</label>

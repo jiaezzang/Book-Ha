@@ -106,9 +106,9 @@ public class ControllerShare {
 		String listTable = sh.ShareList(lists);
 		mv.addObject("listTable", listTable);
 		
-		ModelSharePageNavigation navModel = new ModelSharePageNavigation();
-		String nav = navModel.getPageNav(dto);
-		mv.addObject("nav", nav);
+		ModelSharePageNavigation pageModel = new ModelSharePageNavigation();
+		String paging = pageModel.getPageNav(dto);
+		mv.addObject("paging", paging);
 		
 		if(hashTag.equals("#")) {
 			hashTag = "# 전체";
