@@ -53,7 +53,7 @@
             re_content as content,
             re_hashtag as hash_tag,
             re_hit as hit,
-            re_date as wdate,
+            date_format(re_date, '%Y-%m-%d') as wdate,
             re_book_img_url as book_img_url,
             re_book_info_url as book_info_url,
             re_book_title as book_title,

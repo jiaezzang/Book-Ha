@@ -457,6 +457,9 @@ const reload = function(board_seq) {
 												<input type="radio" class="btn-check" name="btnradio" <%= btnradio6 %> id="btnradio6" autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio6"># 기타</label>
 											</td>
+											<td align="right">
+												<label><%= to.getWdate() %>  |  <%= to.getHit() %>&nbsp;&nbsp;</label>
+											</td>
 										</tr>
 									</tbody>
 								</table>
