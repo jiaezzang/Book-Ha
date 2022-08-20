@@ -41,9 +41,16 @@ public class ModelNavBar {
 		sbHtml.append("<div class='dropdown-divider'></div>");
 		sbHtml.append("</li>");
 		sbHtml.append("<li>");
-		sbHtml.append("<a class='dropdown-item' href='/mypage.do'>");
-		sbHtml.append("<i class='bx bx-user me-2'></i>");
-		sbHtml.append("<span class='align-middle'>마이 페이지</span>");
+		if(dto.getUser_role().equals("admin")) {
+			sbHtml.append("<a class='dropdown-item' href='/main.do'>");
+			sbHtml.append("<i class='bx bx-user me-2'></i>");
+			sbHtml.append("<span class='align-middle'>관리자 페이지</span>");
+		} else {
+			sbHtml.append("<a class='dropdown-item' href='/mypage.do'>");
+			sbHtml.append("<i class='bx bx-user me-2'></i>");
+			sbHtml.append("<span class='align-middle'>마이 페이지</span>");
+		}
+
 		sbHtml.append("</a>");
 		sbHtml.append("</li>");
 		sbHtml.append("<li>");

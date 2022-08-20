@@ -9,7 +9,7 @@ public class ModelAlbumList {
 		
 	}
 	
-	public String getAlbumList(ArrayList<DTOAlbumBoard> lists) {
+	public String getAlbumList(ArrayList<DTOAlbumBoard> lists, int session_user_num) {
 		
 		StringBuilder sbHtml = new StringBuilder();
 		for( DTOAlbumBoard dto : lists){
@@ -25,24 +25,26 @@ public class ModelAlbumList {
 			sbHtml.append("</div>");
 			
 			//Dropdown Button
-			sbHtml.append("<div class='btn-group'");
-			sbHtml.append("style='display: inline-block; float: right;'>");
-			sbHtml.append("<button type='button'");
-			sbHtml.append("class='btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow'");
-			sbHtml.append("data-bs-toggle='dropdown' aria-expanded='false'>");
-			sbHtml.append("<i class='bx bx-dots-vertical-rounded'></i>");
-			sbHtml.append("</button>");
-			sbHtml.append("<ul class='dropdown-menu dropdown-menu-right'");
-			sbHtml.append("style='position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);'");
-			sbHtml.append("data-popper-placement='top-start'>");
-			sbHtml.append("<li><a class='dropdown-item'");
-			sbHtml.append("href='javascript:void(0);' data-bs-toggle='modal'");
-			sbHtml.append("data-bs-target='#modalCenter1' onclick='modifyData(" + dto.getAl_seq() + ", \"" + dto.getAl_subject()+ "\")'>수정</a></li>");
-			sbHtml.append("<li><a class='dropdown-item'");
-			sbHtml.append("href='javascript:void(0);' data-bs-toggle='modal'");
-			sbHtml.append("data-bs-target='#modalCenter2' onclick='deleteData(" + dto.getAl_seq() + ")'>삭제</a></li>");
-			sbHtml.append("</ul>");
-			sbHtml.append("</div>");
+			if(dto.getAl_user_num() == session_user_num) {
+				sbHtml.append("<div class='btn-group'");
+				sbHtml.append("style='display: inline-block; float: right;'>");
+				sbHtml.append("<button type='button'");
+				sbHtml.append("class='btn btn-outline-secondary btn-icon rounded-pill dropdown-toggle hide-arrow'");
+				sbHtml.append("data-bs-toggle='dropdown' aria-expanded='false'>");
+				sbHtml.append("<i class='bx bx-dots-vertical-rounded'></i>");
+				sbHtml.append("</button>");
+				sbHtml.append("<ul class='dropdown-menu dropdown-menu-right'");
+				sbHtml.append("style='position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(0px, -40.8px, 0px);'");
+				sbHtml.append("data-popper-placement='top-start'>");
+				sbHtml.append("<li><a class='dropdown-item'");
+				sbHtml.append("href='javascript:void(0);' data-bs-toggle='modal'");
+				sbHtml.append("data-bs-target='#modalCenter1' onclick='modifyData(" + dto.getAl_seq() + ", \"" + dto.getAl_subject()+ "\")'>수정</a></li>");
+				sbHtml.append("<li><a class='dropdown-item'");
+				sbHtml.append("href='javascript:void(0);' data-bs-toggle='modal'");
+				sbHtml.append("data-bs-target='#modalCenter2' onclick='deleteData(" + dto.getAl_seq() + ")'>삭제</a></li>");
+				sbHtml.append("</ul>");
+				sbHtml.append("</div>");
+			}
 
 			sbHtml.append("</div>");
 			sbHtml.append("<br /><br />");

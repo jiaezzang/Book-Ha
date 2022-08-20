@@ -16,7 +16,8 @@
 	
 	String albumlist = (String)request.getAttribute("albumlist");
 	System.out.println(albumlist);
-	ArrayList<DTOAlbumBoard> lists = totalLists.getBoard();
+	
+	String nav = (String)request.getAttribute("nav");
 	
 	int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 	String navBar = (String)request.getAttribute("navBar");
@@ -100,52 +101,9 @@
 <!-- Toastr -->
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="../js/toastr.js"></script>
 
 <script>
-const toastHtml = function(title, message) {
-	// escapeHtml 허용여부
-	toastr.options.escapeHtml = true;
-	// closeButton을 생성여부
-	toastr.options.closeButton = true;
-	// closeButton의 커스텀
-	toastr.options.closeHtml = '';
-	// 메시지 창이 사라질 때의 애니메이션 효과
-	toastr.options.closeMethod = 'fadeOut';
-	// 메시지 창의 애니메이션 효과 시간
-	toastr.options.closeDuration = 300;
-	toastr.options.closeEasing = 'swing';
-	// 새로운 창의 위치, true이면 가장 위 포지션, false면 가장 아래 포지션
-	toastr.options.newestOnTop = false;
-	// 이벤트 옵션// 추가될 때 이벤트
-	//toastr.options.onShown = function() { console.log('hello'); }
-	// 사라질 때 이벤트
-	//toastr.options.onHidden = function() { console.log('goodbye'); }
-	// 클릭될 때 이벤트
-	//toastr.options.onclick = function() { console.log('clicked'); }
-	// 닫기 버튼이 눌릴 때 이벤트
-	//toastr.options.onCloseClick = function() { console.log('close button clicked'); }
-	// 메시지 중복 허용 여부, 두개 이상 메시지가 생성될 때 이 전꺼는 사라짐
-	toastr.options.preventDuplicates = true;
-	// 메시지가 표시되는 시간
-	toastr.options.timeOut = 2000;
-	// 메시지 위로 커서를 올렸을 때 표시되는 시간
-	toastr.options.extendedTimeOut = 60;
-	// 만약 메시지 표시되는 시간과 올렸을 때 표시되는 시간을 0으로 하면 메시지는 사라지지 않는다.
-	// 프로그래스바 표시 여부
-	toastr.options.progressBar = true;
-	// 글자를 오른쪽 정렬 여부
-	toastr.options.rtl = false;
-	//애니메이션 설정 여부
-	toastr.options.showEasing = 'swing';
-	
-	toastr.options.hideEasing = 'linear';
-	toastr.options.closeEasing = 'linear';
-	toastr.options.showMethod = 'fadeIn';
-	toastr.options.hideMethod = 'fadeOut';
-	toastr.options.closeMethod = 'fadeOut';
-	
-	toastr.error(message, title);
-	};
 
 $(document).ready(function(){
 	$('#writeNew').on("click", function(){
@@ -157,28 +115,27 @@ $(document).ready(function(){
 $(document).ready(function(){
 	$('#write').on("click", function(){
 		//제목 미입력 시
-// 		if($("#nameWithTitle").val() == ""){
-// 			toastHtml("입력 오류!", "제목을 입력하세요.");
-// 			return false;
-// 		}
+		if($("#writeSubject").val() == ""){
+			toastr.error('제목을 입력하세요.', '입력 오류!');
+			return false;
+		}
 
 		//이미지 미등록 시 
-// 		if($("#formFile").val() == ""){
-// 			toastHtml("입력 오류!", "이미지를 등록하세요.");
-// 			return false;
-// 		} else {
-// 			let extension = document.wfrm.upload.value.split( "." ).pop();
-// 			//alert( extension );
-// 			if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
-// 				toastHtml("입력 오류!", "이미지 파일(jpg, jpeg, gif, png)을 입력하세요.");
-// 				return false;
-// 			}
-// 		}
+		if($("#formFile").val() == ""|| $("#formFile").val() == null){
+			toastr.error("이미지를 등록하세요.", "입력 오류!");
+			return false;
+		} else {
+			let extension = $("#formFile").val().split( "." ).pop();
+			if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
+				toastr.error("이미지 파일(jpg, jpeg, gif, png)을 입력하세요.", "입력 오류!");
+				return false;
+			}
+		}
 		const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
     	formData.append('image', $('#formFile')[0].files[0]);
     	
-    	console.log($('#formFile')[0].files[0]);
-    	console.log(formData);
+    	//console.log($('#formFile')[0].files[0]);
+    	//console.log(formData);
 		
     	let url = '/images/';
 		$.ajax({
@@ -194,14 +151,14 @@ $(document).ready(function(){
        		success: function(data) {
        			//console.log('ajax 이미지 업로드 성공');
        			url += data.filename;
-       			console.log(url);
+       			//console.log(url);
        			
        			let DTO_Album_board = {
        					"al_user_num" : <%=session_user_num%>,
        					"al_subject" : $("#writeSubject").val(),
        					"al_imgName" : data.filename
        			}
-       			console.log(DTO_Album_board);
+       			//console.log(DTO_Album_board);
        			$.ajax({
        				type: "POST",
        				url: "album_write.do",
@@ -210,11 +167,12 @@ $(document).ready(function(){
        				dataType: "text",
        				success: function(data){
        					$("#modalCenter0").modal("hide");
-       					console.log("DB 추가 성공");
+       					//console.log("DB 추가 성공");
        					reload();
+       					toastr.success('게시글 작성에 성공하였습니다.', '작업 성공!');
        				},
        				error: function(error) {
-       					console.log("error : " + error);
+       					//console.log("error : " + error);
        				}
        			});
        		}
@@ -228,16 +186,32 @@ const modifyData = function(seq, subject){
 	al_seq = seq;
 	$("#modifySubject").val(subject);
 	$("#formFile2").val("");
-	console.log(subject);
 }
 
 $(document).ready(function(){
 	$( "#modify" ).on("click", function(){
+		//제목 미입력 시
+		if($("#modifySubject").val() == ""){
+			toastr.error('제목을 입력하세요.', '입력 오류!');
+			return false;
+		}
+
+		//이미지 미등록 시 
+		if($("#formFile2").val() == ""|| $("#formFile2").val() == null){
+			toastr.error("이미지를 등록하세요.", "입력 오류!");
+			return false;
+		} else {
+			let extension = $("#formFile2").val().split( "." ).pop();
+			if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
+				toastr.error("이미지 파일(jpg, jpeg, gif, png)을 입력하세요.", "입력 오류!");
+				return false;
+			}
+		}
 		const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
     	formData.append('image', $('#formFile2')[0].files[0]);
     	
-    	console.log($('#formFile2')[0].files[0]);
-    	console.log(formData);
+    	//console.log($('#formFile2')[0].files[0]);
+    	//console.log(formData);
 		
     	let url = '/images/';
 		$.ajax({
@@ -253,7 +227,7 @@ $(document).ready(function(){
        		success: function(data) {
        			//console.log('ajax 이미지 업로드 성공');
        			url += data.filename;
-       			console.log(url);
+       			//console.log(url);
        			
        			let DTO_Album_board = {
        					"al_user_num" : <%=session_user_num%>,
@@ -261,7 +235,7 @@ $(document).ready(function(){
        					"al_subject" : $("#modifySubject").val(),
        					"al_imgName" : data.filename
        			}
-       			console.log(DTO_Album_board);
+       			//console.log(DTO_Album_board);
        			$.ajax({
        				type: "POST",
        				url: "album_modify.do",
@@ -270,8 +244,9 @@ $(document).ready(function(){
        				dataType: "text",
        				success: function(data){
        					$("#modalCenter1").modal("hide");
-       					console.log("DB 추가 성공");
+       					//console.log("DB 추가 성공");
        					reload();
+       					toastr.success('게시글 수정에 성공하였습니다.', '작업 성공!');
        				}
        			});
        		}
@@ -287,6 +262,7 @@ const deleteData = function(al_seq){
 }
 $(document).ready(function(){
 	$('#delete').on("click", function(){
+		
 		let DTO_Album_board = {
 				"al_seq" : data
 		}
@@ -301,6 +277,7 @@ $(document).ready(function(){
 				$("#modalCenter2").modal("hide");
 				//console.log(data);
 				reload();
+				toastr.success('게시글을 삭제하였습니다.', '작업 성공!');
 			}
 		});
 	});
@@ -450,49 +427,7 @@ const reload = function(){
 							
 							<!-- 페이징 -->
 							<div class="demo-inline-spacing" style="display:flex; justify-content: center;">
-								<nav aria-label="Page navigation">
- 									<ul class="pagination">
-<%
-//첫 페이지 
-if( totalLists.getStartBlock() == 1 ){
-	out.println("<li class='page-item first'><a class='page-link'><i class='tf-icon bx bx-chevrons-left'></i></a></li>" );
-} else {
-	out.println( "<li class='page-item first'><a class='page-link' href='album_list.do?cpage=" + ( totalLists.getStartBlock() - totalLists.getBlockPerPage() ) + "'><i class='tf-icon bx bx-chevrons-left'></i></a></li>" ); 
-}
-
-//이전 페이지 
-if( totalLists.getCpage() == 1 ) { 
-	out.println( "<li class='page-item prev'><a class='page-link'><i class='tf-icon bx bx-chevron-left'></i></a></li>" );
-} else {
-	out.println( "<li class='page-item prev'><a class='page-link' href='album_list.do?cpage=" + ( totalLists.getCpage()-1 ) + "'><i class='tf-icon bx bx-chevron-left'></i></a></li>" ); 
-}	
-
-//페이지 블록
-for( int i=totalLists.getStartBlock(); i<=totalLists.getEndBlock() ; i++ ){
-	if( i == totalLists.getCpage() ) { 
-		out.println( "<li class='page-item active'><a class='page-link'>" + i + "</a></li>" );
-	} else {
-		out.println( "<li class='page-item'><a class='page-link' href='album_list.do?cpage=" + i + "'>" + i + "</a></li>" );
-		
-	}
-}
-
-//다음 페이지
-if( totalLists.getCpage() == totalLists.getTotalPage() ) { 
-	out.println( "<li class='page-item next'><a class='page-link'><i class='tf-icon bx bx-chevron-right'></i></a></li>" );
-} else {
-	out.println( "<li class='page-item next'><a class='page-link' href='album_list.do?cpage=" + ( totalLists.getCpage()+1 ) + "'><i class='tf-icon bx bx-chevron-right'></i></a></li>" ); 
-}
-
-//마지막 페이지
-if( totalLists.getEndBlock() == totalLists.getTotalPage() ){
-		out.println("<li class='page-item last'><a class='page-link'><i class='tf-icon bx bx-chevrons-right'></i></a></li>" );
-	} else {
-		out.println( "<li class='page-item last'><a class='page-link' href='album_list.do?cpage=" + ( totalLists.getStartBlock() + totalLists.getBlockPerPage() ) + "'><i class='tf-icon bx bx-chevrons-right'></i></a></li>" ); 
-	}
-%>
-									</ul>
-								</nav>
+							<%= nav %>
 							</div>
 							<!-- /페이징 -->
 							

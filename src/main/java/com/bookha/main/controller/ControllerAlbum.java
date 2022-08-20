@@ -19,9 +19,11 @@ import com.bookha.main.dto.DTOAlbumBoard;
 import com.bookha.main.dto.DTOAlbumTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelAlbumList;
+import com.bookha.model.ModelAlbumPageNavigation;
 import com.bookha.model.ModelLogoHtml;
 import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelProfileHtml;
+import com.bookha.model.ModelReviewPageNavigation;
 import com.oreilly.servlet.MultipartRequest;
 
 @RestController
@@ -50,43 +52,51 @@ public class ControllerAlbum {
 			mv.addObject("profile", profile.getAdminProfile().toString());
 		}
 		
-		ArrayList<DTOAlbumBoard> lists = dao.albumList();
+		//paging
+		// 페이징 처리
+		DTOAlbumTotal dto = new DTOAlbumTotal();
+		int skip, cpage, blockPerPage, totalPage, totalRecord, startBlock, endBlock;
 		
-		DTOAlbumTotal totalLists = new DTOAlbumTotal();
-		
-		
-		totalLists.setTotalRecord(lists.size());
-		totalLists.setTotalPage(((totalLists.getTotalRecord()-1)/totalLists.getRecordPerPage())+1);
-		
-		//skip은 페이지 시작번호 
-		int skip = ( totalLists.getCpage() -1 ) * totalLists.getRecordPerPage();
-		//if( skip != 0 ) rs.absolute(skip);
-		
-		for( int i=0; i<totalLists.getRecordPerPage()/* && rs.next()*/; i++ ) {
-			DTOAlbumBoard dto = new DTOAlbumBoard();
-			
-			totalLists.setBoard(lists);
+		// 1. 현재 페이지 수 가져오기
+		cpage = dto.getCpage();
+		if(request.getParameter("cpage") != null) {
+			cpage = Integer.parseInt(request.getParameter("cpage"));
+			dto.setCpage(cpage);
 		}
 		
-		totalLists.setBoard( totalLists.getBoard() );
-		totalLists.setStartBlock( ( (totalLists.getCpage() -1 ) / totalLists.getBlockPerPage() ) * totalLists.getBlockPerPage() + 1 );
-		totalLists.setEndBlock( ( ( totalLists.getCpage()-1 ) / totalLists.getBlockPerPage() ) * totalLists.getBlockPerPage() + totalLists.getBlockPerPage());
-		if( totalLists.getEndBlock() >= totalLists.getTotalPage() ) {
-			totalLists.setEndBlock( totalLists.getTotalPage() );
+		// 2. 게시글 시작 번호
+		skip = (cpage - 1) * dto.getRecordPerPage();
+		dto.setSkip(skip);
+		
+		// 3. 총 게시글 수 DB에서 가져오기
+		dto.setTotalRecord(dao.countBoard());
+		totalRecord = dto.getTotalRecord();
+		
+		// 4. 전체 페이지 수
+		totalPage = ((totalRecord - 1) / dto.getRecordPerPage()) + 1;
+		dto.setTotalPage(totalPage);
+		
+		// 5. 보여질 블록 수 : max = 5
+		blockPerPage = dto.getBlockPerPage();
+		
+		// 6. 시작, 종료 블록 지정
+		startBlock = (((cpage - 1) / blockPerPage) * blockPerPage) + 1;
+		dto.setStartBlock(startBlock);
+		endBlock = (((cpage - 1) / blockPerPage) * blockPerPage) + blockPerPage;
+		if(endBlock >= totalPage) {
+			endBlock = totalPage;
 		}
+		dto.setEndBlock(endBlock);
 		
-
+		// Page Navigation 버튼
+		ModelAlbumPageNavigation pageModel = new ModelAlbumPageNavigation();
+		String nav = pageModel.getPageNav(dto);
+		mv.addObject("nav", nav);
 		
-		mv.addObject("totalLists", totalLists);
 		// 로고
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
-		
-		//앨범 게시글 list
-		ModelAlbumList model = new ModelAlbumList();
-		String albumlist = model.getAlbumList(dao.albumList());
-		mv.addObject("albumlist", albumlist);
-		
+			
 		//로그인 한 회원의 정보
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		DTOUser userSetting = new DTOUser();
@@ -94,6 +104,11 @@ public class ControllerAlbum {
 		mv.addObject("userSetting", userSetting);
 		
 		mv.addObject("session_user_num", session_user_num);
+		
+		//앨범 게시글 list
+		ModelAlbumList model = new ModelAlbumList();
+		String albumlist = model.getAlbumList(dao.albumList(dto), session_user_num);
+		mv.addObject("albumlist", albumlist);
 		
 		//Navbar Model
 		ModelNavBar navModel = new ModelNavBar();
@@ -158,9 +173,13 @@ public class ControllerAlbum {
 	}
 	
 	@RequestMapping(value ="/album_reload.do")
-	public String reloadData() {
+	public String reloadData(HttpSession session) {
 		ModelAlbumList model = new ModelAlbumList();
-		String albumlist = model.getAlbumList(dao.albumList());
+		
+		//로그인 한 회원의 정보
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		
+		String albumlist = model.getAlbumList(dao.albumList(new DTOAlbumTotal()), session_user_num);
 		
 		return albumlist;
 	}

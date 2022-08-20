@@ -111,7 +111,7 @@
     
     <select id="userSetting" parameterType="int" resultType="com.bookha.main.dto.DTOUser">
         select 
-        	user_profile, user_mail, user_phonenumber, user_self, user_nickname,user_role
+        	user_profile, user_mail, user_phonenumber, user_self, user_nickname, user_role
           from user
          where user_num = #{user_num}
     </select>
