@@ -27,6 +27,15 @@
 		)
 	</insert>
 	
+	<select id="checkPw" parameterType="com.bookha.main.dto.DTOUser" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			user
+		WHERE
+			user_num = ${user_num} and user_password = ${user_password}
+	</select>
+	
 	<select id="countAttendance" parameterType="int" resultType="int">
 			SELECT
 				count(*)

@@ -3,6 +3,7 @@ package com.bookha.main.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bookha.main.dto.DTOUser;
 import com.bookha.main.mapper.MapperMyPage;
 
 
@@ -55,6 +56,12 @@ public class DAOMyPage implements MapperMyPage {
 		// TODO Auto-generated method stub
 		
 		return mapper.countShare(user_num);
+	}
+
+	@Override
+	public int checkPw(DTOUser dto) {
+		// TODO Auto-generated method stub
+		return mapper.checkPw(dto);
 	}
 
 }
