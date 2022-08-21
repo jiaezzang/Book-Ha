@@ -57,7 +57,7 @@ public class ControllerLogin {
 		session.setAttribute("user_num", to.getUser_num());
 		
 		// 세션 유지시간 무제한
-		session.setMaxInactiveInterval(-1);
+		session.setMaxInactiveInterval(20);
 		
 		return to;
 	}
@@ -87,6 +87,7 @@ public class ControllerLogin {
 	
 	@GetMapping("/logout")
 	public ModelAndView logout(ModelAndView mav, HttpSession session) {
+		session.setAttribute("login", false);
 		session.invalidate();
 		mav.setViewName("/login/index");
 		return mav;

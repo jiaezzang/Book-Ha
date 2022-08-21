@@ -178,7 +178,7 @@ public class ControllerReveiw {
 		
 		// 1. 현재 페이지 수 가져오기
 		cpage = dto.getCpage();
-		System.out.println("cpage : " + cpage);
+		//System.out.println("cpage : " + cpage);
 		
 		// 2. 게시글 시작 번호
 		skip = (cpage - 1) * dto.getRecordPerPage();
