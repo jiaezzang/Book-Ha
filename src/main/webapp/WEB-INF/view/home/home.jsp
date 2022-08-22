@@ -26,7 +26,7 @@
 <body>
 	<header>
 		<div class="logoandmp">
-			<a href="/mainpage.do" class="logo">
+			<a href="/login/mainpage" class="logo">
 				<img src="../assets/img/logo/logo2.png" title="Book-Ha!" />
 			</a>
 			<a href=<%=setting %> class="mypage">
