@@ -10,6 +10,18 @@ String logo = (String) request.getAttribute("logo");
 
 DTOUser userSetting = (DTOUser)request.getAttribute("userSetting");
 String navBar = (String)request.getAttribute("navBar");
+int session_user_num = (Integer)request.getAttribute("session_user_num");
+
+//프로필 변경 Modal 내부 Contents
+String startProfile = (String)request.getAttribute("startProfile");
+String endProfile = (String)request.getAttribute("endProfile");
+String atList = (String)request.getAttribute("atList");
+String reList = (String)request.getAttribute("reList");
+String alList = (String)request.getAttribute("alList");
+String shList = (String)request.getAttribute("shList");
+
+//프로필 변경 시 다시 로드할 프로필 이미지 영역
+String myProfile = (String)request.getAttribute("myProfile");
 %>
 <!DOCTYPE html>
 
@@ -65,50 +77,67 @@ String navBar = (String)request.getAttribute("navBar");
 <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 <script src="../assets/js/config.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
-    
+    <!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script src="../assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assets/vendor/libs/popper/popper.js"></script>
+<script src="../assets/vendor/js/bootstrap.js"></script>
+<script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="../assets/vendor/js/menu.js"></script>
+
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="../js/toastr.js"></script>
+
+	<script>
         $(document).ready(function() {
-        phoneNo(); 
-        
-        $("#userId").val("<%=userSetting.getUser_mail()%>");
-        $("#nickName").val("<%=userSetting.getUser_nickname()%>");
-        $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
-        $("#introSelf").val("<%=userSetting.getUser_self()%>");
 
-        $("#chkSameNickname").on("click", () => {
-          let sendData = {
-            user_nickname: $("#nickName").val().trim()
-          };
-
-          $.ajax({
-            url:"http://localhost:8080/signUp/chkSameNickname",
-            type: "post",
-            contentType: "application/json; charset=utf-8",
-            data : JSON.stringify(sendData),
-            dataType:"json",
-            success : function(result){
-              if(result === 0) {
-                $("#update_accountBTN").attr("status", "true");
-                $("#nickName").css("border", "1px solid red");
-                alert("닉네임이 중복 됩니다.");
-              } else {
-                $("#update_accountBTN").attr("status", "false");
-                // $("#userId").css("border", "1px solid #d9dee3");
-                // $("#userId").css("border", "1px solid #696cff");
-                $("#nickName").css("border", "1px solid green");
-              }
-            },
-            error : function(jqXHR,textStatus,errorThrown){
-              console.log(jqXHR);
-              console.log(textStatus);
-              console.log(errorThrown);
-            }
-          });
-
-        }); 
+            $('#modalCenter').modal('show');
+            
+	        phoneNo(); 
+	        
+	        reload();
+	        $("#userId").val("<%=userSetting.getUser_mail()%>");
+	        $("#nickName").val("<%=userSetting.getUser_nickname()%>");
+	        $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
+	        $("#introSelf").val("<%=userSetting.getUser_self()%>");
+	        
+	        $("#chkSameNickname").on("click", () => {
+	          let sendData = {
+	            user_nickname: $("#nickName").val().trim()
+	          };
+	
+	          $.ajax({
+	            url:"http://localhost:8080/signUp/chkSameNickname",
+	            type: "post",
+	            contentType: "application/json; charset=utf-8",
+	            data : JSON.stringify(sendData),
+	            dataType:"json",
+	            success : function(result){
+	              if(result === 0) {
+	                $("#update_accountBTN").attr("status", "true");
+	                $("#nickName").css("border", "1px solid red");
+	                alert("닉네임이 중복 됩니다.");
+	              } else {
+	                $("#update_accountBTN").attr("status", "false");
+	                // $("#userId").css("border", "1px solid #d9dee3");
+	                // $("#userId").css("border", "1px solid #696cff");
+	                $("#nickName").css("border", "1px solid green");
+	              }
+	            },
+	            error : function(jqXHR,textStatus,errorThrown){
+	              console.log(jqXHR);
+	              console.log(textStatus);
+	              console.log(errorThrown);
+	            }
+	          });
+	
+	        }); 
 
         $('#update_accountBTN').on("click", function() {
 
@@ -120,7 +149,7 @@ String navBar = (String)request.getAttribute("navBar");
             return alert('비밀번호를 입력 해주세요.');
           }
 
-          if($(this).attr("status") === "true") {
+          if($(this).attr("status") === "false") {
             $("#nickName").css("border", "1px solid red");
             return alert("닉네임 중복검사를 해주세요.");
           }
@@ -149,7 +178,6 @@ String navBar = (String)request.getAttribute("navBar");
         let sendData = {
           user_mail: $("#userId").val(),
           user_password: $("#password").val(),
-          user_name: $("#userName").val(),
           user_nickname: $("#nickName").val(),
           user_phonenumber: $("#phoneNo").val().replaceAll("-", ""),
           user_self: $("#introSelf").val()
@@ -214,21 +242,113 @@ String navBar = (String)request.getAttribute("navBar");
           }
         });
       }
+        
+        function goBack(){
+        	window.history.back();
+        }
+        
+        function checkPw(){
+        	let DTOUser = {
+   					"user_num" : <%=session_user_num%>,
+   					"user_password" : $("#checkPw").val()
 
+   			}
+        	
+   			//console.log(DTOUser);
+        	if($("#checkPw").val() == "" || $("#checkPw").val() == null){
+				toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+				return false;
+        	}
+   			$.ajax({
+   				type: "POST",
+   				url: "check_pw.do",
+   				data: JSON.stringify(DTOUser),
+   				contentType: "application/json; charset=utf-8",
+   				dataType: "text",
+   				success: function(data){
+   					if(data == 1 ) {
+	   					$("#modalCenter").modal("hide");
+	   					toastr.success('비밀번호 확인 완료!', '작업 성공!');
+   					}else {
+   	   					toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+   	   					$("#checkPw").val("");
+   					}
+   				},
+   				error: function(e) {
+	   				toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+	   				$("#checkPw").val("");
+   				}
+   			});
+        }
+
+        function changePf(){
+            $('#exLargeModal').modal('show');
+        }
+        
+        function changePfOk(){
+        	let DTOUser = {
+   					"user_profile" : $('input[name=profile]:checked').val(),
+   					"user_num" : <%=session_user_num%>
+   			}
+        	console.log(DTOUser)
+   			$.ajax({
+   				type: "POST",
+   				url: "change_pf.do",
+   				data: JSON.stringify(DTOUser),
+   				contentType: "application/json; charset=utf-8",
+   				dataType: "text",
+   				success: function(data){
+   					if(data == 1) {
+	   					$("#exLargeModal").modal("hide");
+	   					toastr.success('프로필 수정 완료!', '작업 성공!');
+	   					reloadNav();
+	   					reload();
+
+   					}else {
+   	   					toastr.error('프로필 이미지를 선택해주세요.', '입력 오류!');
+   	   					$('input[name=profile]:checked').val("");
+   					}
+   				},
+   				error: function(e) {
+	   				toastr.error('프로필 이미지를 선택해주세요.', '입력 오류!');
+	   				$('input[name=profile]:checked').val("");
+   				}
+   			});
+        }
+        
+        const reload = function(){
+        	$.ajax({
+        		type: 'POST',
+        		url: "/reload_profile.do",
+        		datatype: "text",
+        		success: function(data){
+        			$("#profileImg").html(data);
+        		}
+        	});
+        }
+        
+        const reloadNav = function(){
+        	$.ajax({
+        		type: 'POST',
+        		url: "/reload_nav.do",
+        		datatype: "text",
+        		success: function(data){
+        			$("#navBar").html(data);
+        		}
+        	});
+        }
     </script>
 </head>
-<body>
+<body class="modal-open" style="padding-right:17px;">
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <!-- Menu -->
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" data-bg-class="bg-menu-theme">
-	      <div class="app-brand demo">
-				<!-- LOGO -->
-				<a href="/login/mainpage" class="app-brand-link"><img class="logo-demo" src="../assets/img/logo/logo2.png"></a><a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none"><i class="bx bx-chevron-left bx-sm align-middle"></i></a>
-				<!-- /LOGO -->
-		  </div>
+				<div class="app-brand demo">
+					<%= logo %>
+				</div>
 
           <div class="menu-inner-shadow"></div>
 
@@ -286,118 +406,159 @@ String navBar = (String)request.getAttribute("navBar");
         <!-- Layout container -->
         <div class="layout-page">
           <!-- Navbar -->
-
-         <%=navBar %>
+			<div id="navBar"><%=navBar %></div>
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
-          <div class="content-wrapper">
+          	<div class="content-wrapper">
             <!-- Content -->
 
-            <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">개인 정보 수정</span></h4>
+            	<div class="container-xxl flex-grow-1 container-p-y">
+              	<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">개인 정보 수정</span></h4>
 
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="card mb-4">
-					<h5 class="card-header">계정 상세</h5>
-					<!-- Account -->
-					<div class="card-body">
-						<div class="d-flex align-items-start align-items-sm-center gap-4">
-							<img src="../assets/img/achievements/<%=userSetting.getUser_profile() %>" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
-							<div class="button-wrapper">
-								<label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0"> <span class="d-none d-sm-block">
-										사 진 변 경</span> <i class="bx bx-upload d-block d-sm-none"></i> <input type="file" id="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg">
-								</label>
-								<button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
-									<i class="bx bx-reset d-block d-sm-none"></i> <span class="d-none d-sm-block">초기화</span>
-								</button>
-	
-								<p class="text-muted mb-0">JPG, GIF, PNG. 최대파일 크기 800KB</p>
-							</div>
-						</div>
-					</div>
-					
-					<hr class="my-0">
-					<div class="card-body">
-						<!-- <form id="formAccountSettings" method="POST" onsubmit="return false"> -->
-						<div class="row">
-							<div class="mb-3 col-md-6">
-								<label for="userId" class="form-label">I D 확 인</label> <input class="form-control" type="text" id="userId" name="userId" value="" placeholder="ID를 확인해 주세요" readonly="">
-							</div>
-							<div class="mb-3 col-md-6 form-password-toggle">
-								<label class="form-label" for="password">비 밀 번 호 수 정</label>
-								<div class="input-group input-group-merge">
-									<input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password"> <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-								</div>
-							</div>
-							<!-- <div class="mb-3 col-md-6">
-								  <label for="password" class="form-label">비 밀 번 호 수 정</label>
-								  <input class="form-control" type="text" id="password" name="password" value="" placeholder="Password" />
-								  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-								</div> -->
-							<div class="mb-3 col-md-6">
-								<label for="nickName" class="form-label">닉 네 임 수 정</label> <input class="form-control" type="text" id="nickName" name="nickName" value="" placeholder="닉 네 임"> <span id="chkSameNickname" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
-							</div>
-							<div class="mb-3 col-md-6">
-								<label for="phoneNo" class="form-label">연 락 처 수 정</label> <input type="text" class="form-control" id="phoneNo" name="phoneNo" value="" maxlength="13" placeholder="연 락 처">
-							</div>
-							<div>
-								<label class="form-label" for="introSelf">자 기 소 개</label>
-								<div class="input-group input-group-merge">
-									<textarea class="form-control" id="introSelf" name="introSelf" aria-label="With textarea" placeholder="자기소개를 입력해주세요."></textarea>
-								</div>
-							</div>
-	
-							<div class="mt-2">
-								<button type="submit" id="update_accountBTN" class="btn btn-primary me-2" status="true">
-								변경사항 저장</button>
-								<!--                           <button type="reset" class="btn btn-outline-secondary">취 소</button> -->
-							</div>
-							<!-- </form> -->
-						</div>
-						<!-- /Account -->
-					</div>
-				</div>
-					<div class="card">
-						<h5 class="card-header">계정 삭제</h5>
-						<div class="card-body">
-							<div class="mb-3 col-12 mb-0">
-							
-								<div class="alert alert-warning">
-									<h6 class="alert-heading fw-bold mb-1">계정을 삭제하기를
-										원하시나요?</h6>
-									<p class="mb-0">만약 계정을 삭제한다면, 복구는 불가능합니다. 주의부탁드립니다.</p>
-								</div>
-								
-								<div class="row">
-									<div class="mb-3 col-md-6">
-										<label for="deleteUserId" class="form-label">
-											I D 확 인</label> <input class="form-control" type="text" id="deleteUserId" name="deleteUserId" placeholder="ID를 확인해 주세요">
-									</div>
-									<div class="mb-3 col-md-6 form-password-toggle">
-										<label class="form-label" for="deletePassword">
-											비 밀 번 호 확 인</label>
-										<div class="input-group input-group-merge">
-											<input type="password" id="deletePassword" class="form-control" name="deletePassword" placeholder="············" aria-describedby="password"> <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+             		 <div class="row">
+                		<div class="col-md-12">
+                  			<div class="card mb-4">
+								<h5 class="card-header">계정 상세</h5>
+									<!-- Account -->
+									<div class="card-body">
+										<div class="d-flex align-items-start align-items-sm-center gap-4" id="profileImg">
+											<%=myProfile %>
 										</div>
 									</div>
+					
+								<hr class="my-0">
+									<div class="card-body">
+										<!-- <form id="formAccountSettings" method="POST" onsubmit="return false"> -->
+										<div class="row">
+											<div class="mb-3 col-md-6">
+												<label for="userId" class="form-label">I D 확 인</label> <input class="form-control" type="text" id="userId" name="userId" value="" placeholder="ID를 확인해 주세요" readonly="">
+											</div>
+											<div class="mb-3 col-md-6 form-password-toggle">
+												<label class="form-label" for="password">비 밀 번 호 수 정</label>
+												<div class="input-group input-group-merge">
+													<input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password"> <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+												</div>
+											</div>
+											<!-- <div class="mb-3 col-md-6">
+												  <label for="password" class="form-label">비 밀 번 호 수 정</label>
+								 				 <input class="form-control" type="text" id="password" name="password" value="" placeholder="Password" />
+								 				 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+												</div> -->
+											<div class="mb-3 col-md-6">
+												<label for="nickName" class="form-label">닉 네 임 수 정</label> <input class="form-control" type="text" id="nickName" name="nickName" value="" placeholder="닉 네 임"> <span id="chkSameNickname" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
+											</div>
+											<div class="mb-3 col-md-6">
+												<label for="phoneNo" class="form-label">연 락 처 수 정</label> <input type="text" class="form-control" id="phoneNo" name="phoneNo" value="" maxlength="13" placeholder="연 락 처">
+											</div>
+											<div>
+												<label class="form-label" for="introSelf">자 기 소 개</label>
+												<div class="input-group input-group-merge">
+													<textarea class="form-control" id="introSelf" name="introSelf" aria-label="With textarea" placeholder="자기소개를 입력해주세요."></textarea>
+												</div>
+											</div>
+					
+											<div class="mt-2">
+												<button type="submit" id="update_accountBTN" class="btn btn-primary me-2" status="true" style="float: right;">
+												변경사항 저장</button>
+												<!--                           <button type="reset" class="btn btn-outline-secondary">취 소</button> -->
+											</div>
+											<!-- </form> -->
+										</div>
+										<!-- /Account -->
+									</div>
 								</div>
-								<!-- <form id="formAccountDeactivation" onsubmit="return false"> -->
-								<div class="form-check mb-3">
-									<input class="form-check-input" type="checkbox" id="accountActivation" name="accountActivation"> <label class="form-check-label" for="accountActivation">
-										계정 삭제에 동의합니다.</label>
+									<div class="card">
+										<h5 class="card-header">계정 삭제</h5>
+										<div class="card-body">
+											<div class="mb-3 col-12 mb-0">
+											
+												<div class="alert alert-warning">
+													<h6 class="alert-heading fw-bold mb-1">계정을 삭제하기를
+														원하시나요?</h6>
+													<p class="mb-0">만약 계정을 삭제한다면, 복구는 불가능합니다. 주의부탁드립니다.</p>
+												</div>
+												
+												<div class="row">
+													<div class="mb-3 col-md-6">
+														<label for="deleteUserId" class="form-label">
+															I D 확 인</label> <input class="form-control" type="text" id="deleteUserId" name="deleteUserId" placeholder="ID를 확인해 주세요">
+													</div>
+													<div class="mb-3 col-md-6 form-password-toggle">
+														<label class="form-label" for="deletePassword">
+															비 밀 번 호 확 인</label>
+														<div class="input-group input-group-merge">
+															<input type="password" id="deletePassword" class="form-control" name="deletePassword" placeholder="············" aria-describedby="password"> <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+														</div>
+													</div>
+												</div>
+												<!-- <form id="formAccountDeactivation" onsubmit="return false"> -->
+												<div class="form-check mb-3">
+													<input class="form-check-input" type="checkbox" id="accountActivation" name="accountActivation"> <label class="form-check-label" for="accountActivation">
+														계정 삭제에 동의합니다.</label>
+												</div>
+												<button type="submit" id="delete_accountBTN" class="btn btn-danger deactivate-account">계 정 삭 제</button>
+												<!-- </form> -->
+											</div>
+										</div>
+									</div>
+				                </div>
+				              </div>
+				            </div>
+            <!-- / Content -->
+            
+            <!--  PWD check Modal  -->
+			<div class="modal fade" id="modalCenter" tabindex="-1" data-bs-backdrop="static" style="display: none;" role="dialog">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalCenterTitle">비밀번호를 확인해주세요.</h5>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col mb-3">
+									<label for="checkPw" class="form-label">비밀번호 입력</label> 
+									<input
+										type="text" id="checkPw" class="form-control"
+										placeholder="PASSWORD">
 								</div>
-								<button type="submit" id="delete_accountBTN" class="btn btn-danger deactivate-account">계 정 삭 제</button>
-								<!-- </form> -->
 							</div>
 						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-secondary"
+							data-bs-dismiss="modal" aria-label="Close" onclick="goBack();">취소</button>
+							<button type="button" class="btn btn-primary" id="check" onclick="checkPw();">확인</button>
+						</div>
 					</div>
-                </div>
-              </div>
-            </div>
-            <!-- / Content -->
+				</div>
+			</div>
+			
+			<!-- Profile change Modal -->
+			<div class="modal fade" id="exLargeModal" tabindex="-1" data-bs-backdrop="static" style="display: none;" role="dialog">
+            	<div class="modal-dialog modal-xl" role="document">
+                	<div class="modal-content">
+                    	<div class="modal-header">
+                     		<h5 class="modal-title" id="exampleModalLabel4">프로필 변경하기</h5>
+                         	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+                     	<div class="modal-body">
 
+							<%=startProfile %>
+                        	<%=atList %>
+                        	<%=reList %>
+                        	<%=alList %>
+                        	<%=shList %>
+							<%=endProfile %>
+
+                       	</div>
+                       	<div class="modal-footer">
+                         	<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+                         	<button type="button" class="btn btn-primary" onclick="changePfOk();">확인</button>
+                       	</div>
+           			</div>
+        		</div>
+			</div>
+			
 <!--             Footer -->
 <!--             <footer class="content-footer footer bg-footer-theme"> -->
 <!--               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
@@ -434,19 +595,14 @@ String navBar = (String)request.getAttribute("navBar");
     <!-- / Layout wrapper -->
 
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../assets/vendor/js/bootstrap.js"></script>
-    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-    <script src="../assets/vendor/js/menu.js"></script>
+    
     <!-- endbuild -->
 
     <!-- Vendors JS -->
 
     <!-- Main JS -->
+    
+
     <script src="../assets/js/main.js"></script>
 
     <!-- Page JS -->

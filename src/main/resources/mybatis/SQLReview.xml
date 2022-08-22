@@ -109,19 +109,19 @@
     
     <select id="modify" parameterType="int" resultType="com.bookha.main.dto.DTOReviewBoard">
         SELECT
-        	re_seq,
-            re_subject,
-            re_num,
-            re_content,
-            re_hashtag,
-            re_hit,
-            re_date,
-            re_book_img_url,
-            re_book_info_url,
-            re_book_title,
-            re_book_author,
-            re_book_publisher,
-            re_book_summary
+        	re_seq as seq,
+            re_subject as subject,
+            re_num as user_num,
+            re_content as content,
+            re_hashtag as hash_tag,
+            re_hit as hit,
+            date_format(re_date, '%Y-%m-%d') as wdate,
+            re_book_img_url as book_img_url,
+            re_book_info_url as book_info_url,
+            re_book_title as book_title,
+            re_book_author as book_author,
+            re_book_publisher as book_publisher,
+            re_book_summary as book_summary
         FROM
         	review_board
         WHERE

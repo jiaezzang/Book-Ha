@@ -1,7 +1,5 @@
 package com.bookha.main.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,15 +20,11 @@ import com.bookha.model.ModelAlbumList;
 import com.bookha.model.ModelAlbumPageNavigation;
 import com.bookha.model.ModelLogoHtml;
 import com.bookha.model.ModelNavBar;
-import com.bookha.model.ModelProfileHtml;
-import com.bookha.model.ModelReviewPageNavigation;
-import com.oreilly.servlet.MultipartRequest;
 
 @RestController
 public class ControllerAlbum {
 
 	private String title = "찔끔 챌린지";
-	private String user_role = "user";
 
 	@Autowired
 	private DAOAlbumBoard dao;
@@ -44,15 +38,7 @@ public class ControllerAlbum {
 		//mv.addObject("msg", "get");
 		
 		mv.addObject("title", title);
-		
-		ModelProfileHtml profile = new ModelProfileHtml();
-		if(this.user_role.equals("user")) {
-			mv.addObject("profile", profile.getProfile().toString());
-		} else if(this.user_role.equals("admin")) {
-			mv.addObject("profile", profile.getAdminProfile().toString());
-		}
-		
-		//paging
+
 		// 페이징 처리
 		DTOAlbumTotal dto = new DTOAlbumTotal();
 		int skip, cpage, blockPerPage, totalPage, totalRecord, startBlock, endBlock;
@@ -122,51 +108,23 @@ public class ControllerAlbum {
 
 	@RequestMapping(value = "/album_delete.do", method = RequestMethod.POST)
 	public String deleteData(@RequestBody DTOAlbumBoard dto, HttpSession session) {
-		//System.out.println(dto.getAl_seq());
+
 		dao.albumDelete(dto.getAl_seq());
 
 		return "";
 	}
 	
 	@RequestMapping(value = "/album_write.do", method = RequestMethod.POST)
-	public String writeData(@RequestBody DTOAlbumBoard dto, HttpSession session) {
-		
-		String uploadPath = "C:/imageSaveStorage/";
-		int maxFileSize = 20 * 1024 * 1024;
-		String encType = "utf-8";
-		
-		System.out.println("dto : " + dto);
-		
-//		MultipartRequest multi = null;
-//		
-//		int al_user_Num = dto.getAl_user_num();
-//		String al_subject = dto.getAl_subject();
-//		String user_Name = dto.getUser_name();
-//
-//		String imgName = multi.getFilesystemName( dto.getAl_imgName() );
-//		long imgSize = 0;
-//		if( multi.getFile( dto.getAl_imgName() ) != null ){
-//			imgSize = multi.getFile( dto.getAl_imgName() ).length();
-//		}
-//		//System.out.println(dto.getAl_seq());
-		
-		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
-		
+	public String writeData(@RequestBody DTOAlbumBoard dto) {
+
 		dao.albumWrite(dto);
 		
 		return "";
 	}
 	
 	@RequestMapping(value = "/album_modify.do", method = RequestMethod.POST)
-	public String modifyData(@RequestBody DTOAlbumBoard dto, HttpSession session) {
-		
-		String uploadPath = "C:/imageSaveStorage/";
-		int maxFileSize = 20 * 1024 * 1024;
-		String encType = "utf-8";
-		
-		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
-		
-		System.out.println("dto : " + dto);
+	public String modifyData(@RequestBody DTOAlbumBoard dto) {
+
 		dao.albumModify(dto);
 		
 		return "";
@@ -179,6 +137,7 @@ public class ControllerAlbum {
 		//로그인 한 회원의 정보
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		
+		//ajax를 통해 수정, 삭제 후 다시 불러 올 앨범의 list 페이지
 		String albumlist = model.getAlbumList(dao.albumList(new DTOAlbumTotal()), session_user_num);
 		
 		return albumlist;

@@ -23,7 +23,7 @@ public interface MapperReview {
 	
 	int writeOk(DTOReviewBoard to);
 	
-	DTOReviewBoard modify(DTOReviewBoard to);
+	DTOReviewBoard modify(int seq);
 	
 	int modifyOk(DTOReviewBoard to);
 	

@@ -1,5 +1,7 @@
 package com.bookha.main.dao;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +18,11 @@ public class DAOKakaoUser {
 	@Transactional
 	public void kakaoUserJoin(DTOUser user) {
 		user.setUser_mail(user.getUser_mail());
-		user.setUser_password("kakao");
+		Random random = new Random();
+		random.setSeed(System.currentTimeMillis());
+		int randomPw1 = random.nextInt(999999999)+1000000000;
+		int randomPw2 = random.nextInt(999999999)+1000000000;
+		user.setUser_password("kakao" + randomPw1 + randomPw2);
 		user.setUser_name(user.getUser_name());
 		user.setUser_nickname(user.getUser_nickname());
 		user.setUser_phonenumber(user.getUser_phonenumber());

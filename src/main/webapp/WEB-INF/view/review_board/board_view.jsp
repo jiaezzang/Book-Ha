@@ -51,6 +51,8 @@ request.setCharacterEncoding("UTF-8");
 	}
 	
 	String btnHide = "";
+	System.out.println(session_user_num);
+	System.out.println(user_num);
 	if(session_user_num != user_num) {
 		btnHide = "display: none;";
 	}
@@ -208,7 +210,7 @@ $(document).ready(function() {
 			"board_seq": <%= seq %>
 		}
 		
-		console.log(DTO_Review_Comment);
+		//console.log(DTO_Review_Comment);
 		
 		$.ajax({
 			type: 'POST',

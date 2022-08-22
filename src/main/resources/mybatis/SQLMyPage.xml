@@ -27,6 +27,16 @@
 		)
 	</insert>
 	
+	<select id="checkPw" parameterType="com.bookha.main.dto.DTOUser" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			user
+		WHERE
+			user_num = ${user_num} and user_password = ${user_password}
+	</select>
+	
+	
 	<select id="countAttendance" parameterType="int" resultType="int">
 			SELECT
 				count(*)
@@ -35,6 +45,26 @@
 			WHERE
 				at_num = ${user_num}
 	</select>
+	
+	<!-- 프로필 변경 시 -->
+	<update id="changePf" parameterType="com.bookha.main.dto.DTOUser">
+	    UPDATE
+        	user
+        SET
+        	user_profile= #{user_profile}
+        WHERE
+        	user_num=#{user_num}
+    </update>
+    
+    <!-- 프로필 변경 후 프로필이미지 영역 다시 로드할 때 -->
+    <select id="reloadPf" parameterType="int" resultType="String">
+    	SELECT
+    		user_profile
+    	FROM
+    		user
+    	WHERE
+    		user_num=${user_num}
+    </select>
 	
 	<select id="countReview" parameterType="int" resultType="int">
 			SELECT
