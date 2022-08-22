@@ -16,8 +16,6 @@ public class DTOAdminTotal {
 	private int startBlock;
 	private int endBlock;
 	
-	private String hash_tag;
-	
 	private int skip;
 	
 	private ArrayList<DTOAdminBoard> board;

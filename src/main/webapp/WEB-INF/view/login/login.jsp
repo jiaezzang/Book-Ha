@@ -180,7 +180,8 @@ String logo = (String) request.getAttribute("logo");
 				console.log("kakao login");
 				Kakao.Auth.login({
 					success: function(authObj) {
-						alert(JSON.stringify(authObj))
+						Kakao.Auth.setAccessToken(authObj.access_token);
+						location.href = "/kakaoUser/kakao_add";
 					},
 					fail: function(err) {
 						alert(JSON.stringify(err))

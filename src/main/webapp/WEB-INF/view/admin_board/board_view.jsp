@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.bookha.main.dto.DTOAdminBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -6,6 +8,39 @@
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
+	String navBar = (String)request.getAttribute("navBar");
+
+	int session_user_num = (int)request.getAttribute("session_user_num");
+	
+	DTOAdminBoard to = (DTOAdminBoard)request.getAttribute("to");
+	int seq = to.getSeq();
+	String subject = to.getSubject();
+	int user_num = to.getUser_num();
+	String content = to.getContent();
+	String date = to.getWdate();
+	
+	// 이전글
+	DTOAdminBoard to1 = (DTOAdminBoard)request.getAttribute("to1");
+	String beforeSeq = Integer.toString( to1.getSeq() );
+	String beforeSubject = "";
+	if( !beforeSeq.equals(seq) ) {
+		beforeSubject = to1.getSubject();
+	} else if( beforeSeq == null || beforeSeq.equals("")){
+		beforeSubject = "이전글이 없습니다.";
+	}
+	
+	DTOAdminBoard to2 = (DTOAdminBoard)request.getAttribute("to2");
+	String afterSeq = Integer.toString( to2.getSeq() );
+	String afterSubject = "";
+	if( !afterSeq.equals(seq) ) {
+		afterSubject = to2.getSubject();
+	} else if( afterSeq == null ) {
+		afterSubject = "다음글이 없습니다.";
+	}
+	
+	System.out.println( seq );
+	System.out.println( beforeSeq );
+	System.out.println( afterSeq );
 %>
 <!DOCTYPE html>
 
@@ -85,6 +120,7 @@
 .list-group {
 	width: 95%;
 	margin: 10px auto;
+	padding: 0; important;
 }
 
 #exampleFormControlReadOnlyInputPlain1 {
@@ -111,21 +147,19 @@
 .buy-now .btn-buy-now:hover {
 	color: blue;
 }
-
-#basic-default-div {
+.input-group {
 	margin: auto;
 	width: 95%;
-	display: inline-block;
+}
+#reply-text-area {
+	height: 6.25em;
+	resize: none;
 }
 
-#basic-default-message {
-	display: inline-block;
-	width: 90%;
+.demo-inline-spacing > * {
+    margin: 0 !important;
 }
 
-#replySendBtn {
-	display: inline-block;
-}
 </style>
 
 <!-- jQuery UI CSS CDN -->
@@ -144,9 +178,55 @@
 <script
 	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
-<script>
-	
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="../js/toastr.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		const viewer = new toastui.Editor.factory({
+			el : document.querySelector('#viewer'),
+			viewer : true,
+			intialValue : '<%= content %>'
+		});
+		
+		// delete
+		$('#boardDelete').on('click', function() {
+			// 모달창
+		});
+		
+		// delete_ok
+		$('#boardDeleteOk').on('click', function() {
+			let f = document.createElement('form');
+			
+			let obj1;
+			obj1 = document.createElement('input');
+			obj1.setAttribute('type', 'hidden');
+			obj1.setAttribute('name', 'seq');
+			obj1.setAttribute('value', <%=seq %>);
+			
+			let obj2;
+			obj2 = document.createElement('input');
+			obj2.setAttribute('type', 'hidden');
+			obj2.setAttribute('name', 'user_num');
+			obj2.setAttribute('value', <%=session_user_num %>);
+			
+			f.appendChild(obj1);
+			f.appendChild(obj2);
+			
+			f.setAttribute('method', 'post');
+			f.setAttribute('action', '/delete_ok.do');
+			document.body.appendChild(f);
+			f.submit();
+			
+			toastr.success( '게시글이 삭제되었습니다.', '게시글 삭제' );
+			
+		});
+	});
 </script>
+
 </head>
 
 <body>
@@ -215,31 +295,7 @@
 			<!-- Layout container -->
 			<div class="layout-page">
 				<!-- Navbar -->
-
-				<nav
-					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-					id="layout-navbar">
-					<div
-						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-						<a class="nav-item nav-link px-0 me-xl-4"
-							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
-						</a>
-					</div>
-
-					<div class="navbar-nav-right d-flex align-items-center"
-						id="navbar-collapse">
-
-						<!-- /Search -->
-
-						<ul class="navbar-nav flex-row align-items-center ms-auto">
-
-							<!-- User -->
-							<%= profile %>
-							<!--/ User -->
-						</ul>
-					</div>
-				</nav>
-
+				<%=navBar %>
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
@@ -251,7 +307,7 @@
 							<span class="text-muted fw-light">공지글 관리하기 > 게시판 목록 ></span> 게시글
 						</h4>
 
-						<div class="card">
+						<div class="card" height="800" >
 							<h5 class="card-header">
 								<strong>공지 게시판</strong>
 							</h5>
@@ -260,61 +316,35 @@
 
 							<div class="mb-3">
 								<p class="form-control-plaintext"
-									id="exampleFormControlReadOnlyInputPlain1">제목이 들어갈 항목</p>
+									id="exampleFormControlReadOnlyInputPlain1"><%= subject %></p>
+								<p align="right" ><%=date%>&nbsp;&nbsp;&nbsp;&nbsp;</p>
 							</div>
-
+							
 							<!-- Hoverable Table rows -->
 
 							<!-- TOAST UI Editor가 들어갈 div태그 -->
 							<div id="viewer">
-
-								<h2>게시판 사용시 주의사항 및 규칙 5 (반드시 확인 바랍니다)</h2>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-
+								<%=content %>
 							</div>
 							<br /><br />
-							
+
 						</div>
 						<!--/ Hoverable Table rows -->
 
 						<br />
-
+						
+						<div class="card">
+							 <div class="demo-inline-spacing">
+						          <div class="list-group list-group-flush">
+						            <a href="view.do?seq=<%=afterSeq %>" class="list-group-item list-group-item-action"><strong>다음글</strong>  | <%=afterSubject %></a>
+						            <a href="view.do?seq=<%=beforeSeq %>" class="list-group-item list-group-item-action"><strong>이전글</strong>  | <%=beforeSubject %></a>
+						          </div>
+       						 </div>
+						</div>
+						
 						<!-- / Content -->
 
-
-<!-- 						Footer -->
-<!-- 						<footer class="content-footer footer bg-footer-theme"> -->
-<!-- 							<div -->
-<!-- 								class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
-<!-- 								<div class="mb-2 mb-md-0"> -->
-<!-- 									© -->
-<!-- 									<script> -->
-<!--  						            document.write(new Date().getFullYear()); -->
-<!-- 									</script> -->
-<!-- 									, made with ❤️ by <a href="https://themeselection.com" -->
-<!-- 										target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
-<!-- 								</div> -->
-<!-- 								<div> -->
-<!-- 									<a href="https://themeselection.com/license/" -->
-<!-- 										class="footer-link me-4" target="_blank">License</a> <a -->
-<!-- 										href="https://themeselection.com/" target="_blank" -->
-<!-- 										class="footer-link me-4">More Themes</a> <a -->
-<!-- 										href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" -->
-<!-- 										target="_blank" class="footer-link me-4">Documentation</a> <a -->
-<!-- 										href="https://github.com/themeselection/sneat-html-admin-template-free/issues" -->
-<!-- 										target="_blank" class="footer-link me-4">Support</a> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</footer> -->
-<!-- 						/ Footer -->
-
-						<div class="content-backdrop fade"></div>
+						<!-- <div class="content-backdrop fade"></div> -->
 					</div>
 					<!-- Content wrapper -->
 				</div>
@@ -326,14 +356,14 @@
 		</div>
 		<!-- / Layout wrapper -->
 		<div class="buy-now2">
-			<a href="./modify.do"
+			<a href="/modify.do?seq=<%=seq %>"
 				class="btn btn-outline-primary btn-buy-now2"
 				style="background-color: #f5f5f9">수정하기</a>
 		</div>
 		<div class="buy-now">
 			<a data-bs-toggle="modal" data-bs-target="#backDropModal"
 				class="btn btn-outline-primary btn-buy-now"
-				style="background-color: #f5f5f9">삭제하기</a>
+				style="background-color: #f5f5f9" id="boardDelete">삭제하기</a>
 		</div>
 
 		<div class="modal fade" id="backDropModal" data-bs-backdrop="static"
@@ -345,7 +375,7 @@
 							style="color: #696CFF">최종 확인</h4>
 					</div>
 					<div class="modal-body">
-						<div class="row">
+						<div class="row" style="color: gray;">
 							&nbsp;&nbsp;&nbsp;현재 게시글을 정말로 삭제하시겠습니까?<br />
 							&nbsp;&nbsp;&nbsp;삭제 후 되돌릴 수 없습니다.
 						</div>
@@ -353,7 +383,7 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-outline-secondary"
 							data-bs-dismiss="modal" aria-label="Close">취소</button>
-						<button type="button" class="btn btn-primary">삭제</button>
+						<button type="button" id="boardDeleteOk" class="btn btn-primary">삭제</button>
 					</div>
 				</form>
 			</div>

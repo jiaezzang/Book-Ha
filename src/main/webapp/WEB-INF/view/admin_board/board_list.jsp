@@ -6,6 +6,10 @@
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
+	String navBar = (String)request.getAttribute("navBar");
+
+	String AdminList = (String)request.getAttribute("AdminList");
+	String paging = (String)request.getAttribute("paging");
 %>
 <!DOCTYPE html>
 
@@ -26,8 +30,7 @@
 	data-template="vertical-menu-template-free">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
 <title><%= title %></title>
 
@@ -40,8 +43,7 @@
 </style>
 
 <!-- Favicon -->
-<link rel="icon" type="image/x-icon"
-	href="../assets/img/favicon/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,15 +56,12 @@
 <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
 
 <!-- Core CSS -->
-<link rel="stylesheet" href="../assets/vendor/css/core.css"
-	class="template-customizer-core-css" />
-<link rel="stylesheet" href="../assets/vendor/css/theme-default.css"
-	class="template-customizer-theme-css" />
+<link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+<link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
 <link rel="stylesheet" href="../assets/css/demo.css" />
 
 <!-- Vendors CSS -->
-<link rel="stylesheet"
-	href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
 <!-- Page CSS -->
 
@@ -72,6 +71,21 @@
 <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 <script src="../assets/js/config.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="../js/toastr.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+	});
+</script>
+
 </head>
 
 <body>
@@ -97,7 +111,7 @@
 						class="menu-header-text"></span></li>
 
 					<!-- Tables -->
-					<li class="menu-item active"><a href="/admin_list.do"
+					<li class="menu-item active"><a href="/list.do"
 						class="menu-link"> <i class='menu-icon bx bx-book-open bx-tada'
 							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
 							<div data-i18n="Tables">공지글 관리하기</div>
@@ -138,31 +152,7 @@
 			<!-- Layout container -->
 			<div class="layout-page">
 				<!-- Navbar -->
-
-				<nav
-					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-					id="layout-navbar">
-					<div
-						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-						<a class="nav-item nav-link px-0 me-xl-4"
-							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
-						</a>
-					</div>
-
-					<div class="navbar-nav-right d-flex align-items-center"
-						id="navbar-collapse">
-
-						<!-- /Search -->
-
-						<ul class="navbar-nav flex-row align-items-center ms-auto">
-
-							<!-- User -->
-							<%= profile %>
-							<!--/ User -->
-						</ul>
-					</div>
-				</nav>
-
+				<%=navBar %>
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
@@ -182,85 +172,23 @@
 							<div class="table-responsive text-nowrap">
 								<table class="table table-hover">
 									<thead>
-										<tr>
-											<th>제목</th>
+										<tr align="center">
+											<th>제  목</th>
 											<th>작성자</th>
 											<th>작성일자</th>
 										</tr>
 									</thead>
 									<tbody class="table-border-bottom-0">
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="./view.do" style="color: gray"> <strong>[필독]&nbsp;&nbsp;</strong>게시판
-													사용시 주의사항 및 규칙 5 (반드시 확인 바랍니다)
-											</a></td>
-											<td>운영자</td>
-											<td>2022-07-27</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> <strong>[필독]&nbsp;&nbsp;</strong>게시판
-													사용시 주의사항 및 규칙 4 (반드시 확인 바랍니다)
-											</a></td>
-											<td>운영자</td>
-											<td>2022-07-27</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> <strong>[필독]&nbsp;&nbsp;</strong>게시판
-													사용시 주의사항 및 규칙 3 (반드시 확인 바랍니다)
-											</a></td>
-											<td>운영자</td>
-											<td>2022-07-27</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> <strong>[필독]&nbsp;&nbsp;</strong>게시판
-													사용시 주의사항 및 규칙 2 (반드시 확인 바랍니다)
-											</a></td>
-											<td>운영자</td>
-											<td>2022-07-27</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> <strong>[필독]&nbsp;&nbsp;</strong>게시판
-													사용시 주의사항 및 규칙 1 (반드시 확인 바랍니다)
-											</a></td>
-											<td>운영자</td>
-											<td>2022-07-26</td>
-										</tr>
+										<!-- 리스트 -->
+										<%=AdminList %>
+										<!-- /리스트 -->
 									</tbody>
 								</table>
 							</div>
 							<br /><br />
-							<div class="demo-inline-spacing">
+							<div class="demo-inline-spacing" style="display:flex; justify-content: center;">
 								<!-- Basic Pagination -->
-								<nav aria-label="Page navigation">
-									<ul class="pagination">
-										<li class="page-item first"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevrons-left"></i></a></li>
-										<li class="page-item prev"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevron-left"></i></a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">1</a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">2</a></li>
-										<li class="page-item active"><a class="page-link"
-											href="javascript:void(0);">3</a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">4</a></li>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);">5</a></li>
-										<li class="page-item next"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevron-right"></i></a></li>
-										<li class="page-item last"><a class="page-link"
-											href="javascript:void(0);"><i
-												class="tf-icon bx bx-chevrons-right"></i></a></li>
-									</ul>
-								</nav>
+								<%=paging %>
 								<!--/ Basic Pagination -->
 							</div>
 						</div>
@@ -273,32 +201,6 @@
 
 				</div>
 				<!-- / Content -->
-
-				<!-- Footer -->
-<!-- 				<footer class="content-footer footer bg-footer-theme"> -->
-<!-- 					<div -->
-<!-- 						class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
-<!-- 						<div class="mb-2 mb-md-0"> -->
-<!-- 							© -->
-<!-- 							<script> -->
-<!--  								document.write(new Date().getFullYear()); -->
-<!-- 							</script> -->
-<!-- 							, made with ❤️ by <a href="https://themeselection.com" -->
-<!-- 								target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
-<!-- 						</div> -->
-<!-- 						<div> -->
-<!-- 							<a href="https://themeselection.com/license/" -->
-<!-- 								class="footer-link me-4" target="_blank">License</a> <a -->
-<!-- 								href="https://themeselection.com/" target="_blank" -->
-<!-- 								class="footer-link me-4">More Themes</a> <a -->
-<!-- 								href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" -->
-<!-- 								target="_blank" class="footer-link me-4">Documentation</a> <a -->
-<!-- 								href="https://github.com/themeselection/sneat-html-admin-template-free/issues" -->
-<!-- 								target="_blank" class="footer-link me-4">Support</a> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</footer> -->
-				<!-- / Footer -->
 
 				<div class="content-backdrop fade"></div>
 			</div>
@@ -313,8 +215,7 @@
 	<!-- / Layout wrapper -->
 
 	<div class="buy-now">
-		<a href="./write.do" class="btn btn-outline-primary btn-buy-now">글
-			작성하기</a>
+		<a href="./write.do" class="btn btn-outline-primary btn-buy-now">글 작성하기</a>
 	</div>
 
 	<!-- Core JS -->
