@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
+<%@page import="com.bookha.main.dto.DTOAdminBoard"%>
+	
 <%
 	request.setCharacterEncoding("UTF-8");
 
@@ -9,7 +11,14 @@
 	String logo = (String)request.getAttribute("logo");
 	String navBar = (String)request.getAttribute("navBar");
 	
-	int session_user_num = (int)request.getAttribute("session_user_num");
+	DTOAdminBoard to = (DTOAdminBoard) request.getAttribute("to");
+	
+	int seq = Integer.parseInt(request.getParameter("seq"));
+	String subject = to.getSubject();
+	String content = to.getContent();
+	int user_num = to.getUser_num();
+	
+	//System.out.println( seq );
 %>
 <!DOCTYPE html>
 
@@ -160,6 +169,12 @@
 			
 			let f = document.createElement('form');
 			
+			let obj0;
+			obj0 = document.createElement('input');
+			obj0.setAttribute('type', 'hidden');
+			obj0.setAttribute('name', 'seq');
+			obj0.setAttribute('value', <%=seq %> );
+			
 			let obj1;
 			obj1 = document.createElement('input');
 			obj1.setAttribute('type', 'hidden');
@@ -170,7 +185,7 @@
 			obj2 = document.createElement('input');
 			obj2.setAttribute('type', 'hidden');
 			obj2.setAttribute('name', 'user_num');
-			obj2.setAttribute('value', <%= session_user_num %>);
+			obj2.setAttribute('value', <%= user_num %>);
 			
 			let obj3;
 			obj3 = document.createElement('input');
@@ -178,12 +193,13 @@
 			obj3.setAttribute('name', 'content');
 			obj3.setAttribute('value', editor.getHTML());
 			
+			f.appendChild(obj0);
 			f.appendChild(obj1);
 			f.appendChild(obj2);
 			f.appendChild(obj3);
 			
 			f.setAttribute('method', 'post');
-			f.setAttribute('action', '/write_ok.do');
+			f.setAttribute('action', '/modify_ok.do');
 			document.body.appendChild(f);
 			f.submit();
 		});
@@ -195,7 +211,7 @@
 			previewHighlight: false,
 			height: '700px',
 			// 사전입력 항목
-			initialValue: '# 안녕하세요. 제목입니다.\n### 사전입력 테스트\n본문본문본문\n\n',
+			initialValue: '',
 			// 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 			hooks: {
 				addImageBlobHook: (blob, callback) => {
@@ -209,7 +225,7 @@
 					$.ajax({
 						type: 'POST',
 						enctype: 'multipart/form-data',
-						url: '/writeTest.do',
+						url: '/img_change.do',
 						data: formData,
 						dataType: 'json',
 						processData: false,
@@ -323,7 +339,7 @@
 							<div>
 								<input type="text" class="form-control"
 									id="defaultFormControlInput" placeholder="제목을 입력하세요"
-									aria-describedby="defaultFormControlHelp" />
+									aria-describedby="defaultFormControlHelp" value="<%= subject %>"/>
 							</div>
 							<br />
 							<div class="table-responsive text-nowrap">
@@ -336,9 +352,11 @@
 							<!-- Hoverable Table rows -->
 
 							<!-- TOAST UI Editor가 들어갈 div태그 -->
-							<div id="editor"></div>
-
-							<!-- Markdown을 설명할 accordion이 들어갈 div태그 -->
+							<div id="editor">
+								<%=content %>
+							</div>
+								
+							
 							<br />
 						</div>
 						
@@ -363,7 +381,7 @@
 		<a href="javascript:void(0);"
 			class="btn btn-outline-primary btn-buy-now"
 			style="background-color: #f5f5f9"
-			id="board_submit">작성 완료</a>
+			id="board_submit">수정 완료</a>
 	</div>
 
 	<!-- Core JS -->

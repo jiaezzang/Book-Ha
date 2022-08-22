@@ -3,11 +3,16 @@ package com.bookha.main.dao;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bookha.main.dto.DTOAdminBoard;
 import com.bookha.main.dto.DTOAdminTotal;
 import com.bookha.main.mapper.MapperAdmin;
 
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
 public class DAOAdminBoard implements MapperAdmin {
 
 	@Autowired
@@ -18,7 +23,7 @@ public class DAOAdminBoard implements MapperAdmin {
 		// TODO Auto-generated method stub
 		return mapper.list(dto);
 	}
-
+	
 	@Override
 	public int countBoard() {
 		// TODO Auto-generated method stub
@@ -29,6 +34,18 @@ public class DAOAdminBoard implements MapperAdmin {
 	public DTOAdminBoard view(int seq) {
 		// TODO Auto-generated method stub
 		return mapper.view(seq);
+	}
+	
+	@Override
+	public DTOAdminBoard viewBefore(int seq) {
+		// TODO Auto-generated method stub
+		return mapper.viewBefore(seq);
+	}
+
+	@Override
+	public DTOAdminBoard viewAfter(int seq) {
+		// TODO Auto-generated method stub
+		return mapper.viewAfter(seq);
 	}
 
 	@Override

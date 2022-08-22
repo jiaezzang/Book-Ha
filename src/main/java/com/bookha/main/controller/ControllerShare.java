@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bookha.main.dao.DAOShareBoard;
+import com.bookha.main.dao.DAOUser;
 import com.bookha.main.dto.DTOShareBoard;
 import com.bookha.main.dto.DTOShareComment;
 import com.bookha.main.dto.DTOShareTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelLogoHtml;
+import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelProfileHtml;
 import com.bookha.model.ModelShareCmt;
 import com.bookha.model.ModelShareList;
@@ -32,6 +34,9 @@ public class ControllerShare {
 	
 	@Autowired
 	private DAOShareBoard dao;
+	
+	@Autowired
+	private DAOUser daoUser;
 																																																																																																																									
 	@RequestMapping(value = "/share_list.do")									// 세션 -> 자바에서 부를떄만 적어주기
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -114,6 +119,14 @@ public class ControllerShare {
 			hashTag = "# 전체";
 		}
 		mv.addObject("hashTag", hashTag);
+		
+		//Navbar Model
+		DTOUser userSetting = new DTOUser();
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		userSetting = daoUser.userSetting(session_user_num);
+		ModelNavBar navModel = new ModelNavBar();
+		String navBar = navModel.navBar(userSetting);
+		mv.addObject("navBar", navBar);
 		
 		mv.setViewName("share_board/board_list");
 		return mv;
@@ -208,6 +221,13 @@ public class ControllerShare {
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		mv.addObject("session_user_num", session_user_num);
 		
+		//Navbar Model
+		DTOUser userSetting = new DTOUser();
+		userSetting = daoUser.userSetting(session_user_num);
+		ModelNavBar navModel = new ModelNavBar();
+		String navBar = navModel.navBar(userSetting);
+		mv.addObject("navBar", navBar);
+		
 		mv.setViewName("share_board/board_write");
 		return mv;
 	}
@@ -234,7 +254,7 @@ public class ControllerShare {
 		int flag = dao.writeOk(to);
 		mv.addObject("flag", flag);
 		
-		mv.setViewName("share_board/board_write_ok");
+		mv.setViewName("share_board/board_update_ok");
 		return mv;
 	}
 	
@@ -265,6 +285,13 @@ public class ControllerShare {
 		DTOShareBoard to = dao.view(seq);
 		mv.addObject("to", to);
 		
+		//Navbar Model
+		DTOUser userSetting = new DTOUser();
+		userSetting = daoUser.userSetting(session_user_num);
+		ModelNavBar navModel = new ModelNavBar();
+		String navBar = navModel.navBar(userSetting);
+		mv.addObject("navBar", navBar);
+		
 		// 댓글
 		ArrayList<DTOShareComment> comment_lists = dao.commentList(seq);
 		ModelShareCmt comment = new ModelShareCmt();
@@ -294,10 +321,18 @@ public class ControllerShare {
 		
 		int seq = Integer.parseInt( request.getParameter( "seq" ) );
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		mv.addObject("session_user_num", session_user_num);
 		
 		DTOShareBoard to = dao.view(seq);
 		to.setUser_num(session_user_num);
 		mv.addObject("to", to);
+		
+		//Navbar Model
+		DTOUser userSetting = new DTOUser();
+		userSetting = daoUser.userSetting(session_user_num);
+		ModelNavBar navModel = new ModelNavBar();
+		String navBar = navModel.navBar(userSetting);
+		mv.addObject("navBar", navBar);
 		
 		mv.setViewName("share_board/board_modify");
 		return mv;
@@ -345,7 +380,7 @@ public class ControllerShare {
 		int flag = dao.deleteOk(to);
 		mv.addObject("flag", flag);
 		
-		mv.setViewName("share_board/board_delete_ok");
+		mv.setViewName("share_board/board_update_ok");
 		return mv;
 	}
 	

@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@page import="com.bookha.main.dto.DTOUser"%>
-
 <%
 	request.setCharacterEncoding("UTF-8");
 	
 	String title = (String) request.getAttribute("title");
 	String profile = (String) request.getAttribute("profile");
 	String logo = (String) request.getAttribute( "logo" );
+	String navBar = (String)request.getAttribute("navBar");
 	
 	int session_user_num = (int)request.getAttribute("session_user_num");
 %>
@@ -149,18 +148,24 @@
 		
 		$('#board_submit').on("click", function(e) {
 			if($('#defaultFormControlInput').val() == '') {
-				toastHtml('입력 오류!', '제목을 입력하세요.');
+				toastr.error('제목을 입력하세요.', '입력 오류!');
 				return false;
 			}
 			
 			if(editor.getHTML() == '') {
-				console.log(editor.getHTML());
-				toastHtml('입력 오류!', '본문을 입력하세요.');
+				toastr.error('본문을 입력하세요.', '입력 오류!');
 				return false;
 			}
 			
+			for(let i=1; i<=6; i++) {
+				if(editor.getHTML().indexOf('<h' + i + '><br></h' + i + '>') != -1) {
+					toastr.error('소제목을 다시 확인하세요', '입력 오류!');
+					return false;
+				}
+			}
+			
 			if(tag_radio == '') {
-				toastHtml('선택 오류!', '해시태그를 선택하세요.');
+				toastr.error('해시태그를 선택하세요.', '선택 오류!');
 				return false;	
 			}
 
@@ -205,11 +210,13 @@
 		<!-- TOAST UI Editor 생성 JavaScript 코드 -->
 		const editor = new toastui.Editor({
 		    el: document.querySelector('#editor'),
+		    // 미리보기 스타일 지정
 		    previewStyle: 'vertical',
 		    previewHighlight: false,
 		    height: '700px',
 		    // 사전입력 항목
-		    initialValue: '# 제목을 입력해주세요.\n### 안녕하세요.=)\n내용을 작성해주세요.\n\n',
+		    initialValue: '',
+		    placeholder: '# 해시태그의 개수에 따라\n### 글자크기가 달라집니다. \n도구에서 H를 눌러보세요.\n\n',
 		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 		    hooks: {
 		    	addImageBlobHook: (blob, callback) => {
@@ -241,7 +248,7 @@
 		           		error: function(e) {
 		           			//console.log('ajax 이미지 업로드 실패');
 		           			//console.log(e.abort([statusText]));
-		           			
+		           			toastr.error('이미지 업로드가 실패하였습니다.', '입력 오류!');
 		           			callback('image_load_fail', '사진 대체 텍스트 입력');
 		           		}
 		           	});
@@ -322,38 +329,7 @@
 			<!-- Layout container -->
 			<div class="layout-page">
 				<!-- Navbar -->
-
-				<nav
-					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-					id="layout-navbar">
-					<div
-						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-						<a class="nav-item nav-link px-0 me-xl-4"
-							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
-						</a>
-					</div>
-
-					<div class="navbar-nav-right d-flex align-items-center"
-						id="navbar-collapse">
-						<!-- Search -->
-						<div class="navbar-nav align-items-center">
-							<div class="nav-item d-flex align-items-center">
-								<i class="bx bx-search fs-4 lh-0"></i> <input type="text"
-									class="form-control border-0 shadow-none"
-									placeholder="Search..." aria-label="Search..." />
-							</div>
-						</div>
-						<!-- /Search -->
-
-						<ul class="navbar-nav flex-row align-items-center ms-auto">
-
-							<!-- User -->
-							<%=profile%>
-							<!--/ User -->
-						</ul>
-					</div>
-				</nav>
-
+				<%=navBar %>
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->

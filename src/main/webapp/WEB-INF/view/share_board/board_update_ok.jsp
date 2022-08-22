@@ -7,8 +7,8 @@
 	
 	String result = "";
 	if( flag == 0 ){
-		result = "삭제 성공";
-		response.sendRedirect("/list.do");		
+		result = "성공";
+		response.sendRedirect("/share_list.do");		
 	} else { 
 		result = "<script>history.back();</script>";
 	}
@@ -25,7 +25,7 @@
 <script src="../js/toastr.js"></script>
 
 <script>
-	$(document).ready(function() {		
-		toastr.succeses('게시글을 삭제하였습니다.', '게시글 삭제');
+	$(document).ready(function() {
+		toastr.succeses('DB를 업데이트했습니다.', '성공');
 	};
 </script>
