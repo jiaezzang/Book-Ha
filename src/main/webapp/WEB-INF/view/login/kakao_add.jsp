@@ -187,13 +187,13 @@
           user_name: $("#userName").val(),
           user_nickname: $("#userNickname").val(),
           user_phonenumber: $("#phonenumber").val().replaceAll("-", ""),
-          // userProfile: $("#"),
+          user_profile: "none.png",
           // userSelf: $("#"),
           // user_enterdate: new Date().toLocaleDateString(),
           // user_final: new Date().toLocaleDateString(),
           user_enterdate: null,
           user_final: null,
-          user_role: "USER",
+          user_role: "user",
           user_option: $("#option").val()
         };
 
