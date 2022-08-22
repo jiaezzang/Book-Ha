@@ -17,10 +17,11 @@ public class FilterUrlInterceptor implements HandlerInterceptor {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private Boolean login = false;
+	private int session_user_num = 0;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-	    logger.info("[preHandle]");
+//	    logger.info("[preHandle]");
 	    
 	    response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
 	    response.addHeader("Cache-Control", "post-check=0, pre-check=0");
@@ -32,9 +33,13 @@ public class FilterUrlInterceptor implements HandlerInterceptor {
 		    if(session.getAttribute("login") != null) {
 		    	this.login = (Boolean)session.getAttribute("login");
 		    }
+		    if(session.getAttribute("user_num") != null) {
+		    	this.session_user_num = (int)session.getAttribute("user_num");
+		    }
 	    }
 	    
-	    System.out.println("login : " + this.login);
+//	    logger.info("[preHandle] [value] login : " + this.login);
+//	    logger.info("[preHandle] [value] user_num : " + this.session_user_num);
 	    if(this.login == false) {
 			response.sendRedirect("/login");
 			return false;
@@ -44,11 +49,11 @@ public class FilterUrlInterceptor implements HandlerInterceptor {
 	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-	    logger.info("[postHandle]");
+//	    logger.info("[postHandle]");
 	}
 	
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object object, Exception ex) throws Exception {
-	    logger.info("[afterCompletion]");
+//	    logger.info("[afterCompletion]");
 	}
 }

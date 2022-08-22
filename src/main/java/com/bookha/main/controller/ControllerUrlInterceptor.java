@@ -16,7 +16,14 @@ public class ControllerUrlInterceptor implements WebMvcConfigurer {
 		// 모든 경로에 인터셉터가 가로채 필터처리할 예정.
 		.addPathPatterns("/*")
         // 해당 경로는 인터셉터가 가로채지 않는다.
-		.excludePathPatterns("/static/*")
+		.excludePathPatterns("/assets/*")
+		.excludePathPatterns("/css/*")
+		.excludePathPatterns("/fonts/*")
+		.excludePathPatterns("/images/*")
+		.excludePathPatterns("/js/*")
+		.excludePathPatterns("/libs/*")
+		.excludePathPatterns("/scss/*")
+		.excludePathPatterns("/tasks/*")
         .excludePathPatterns("/login")
         .excludePathPatterns("/logout")
         .excludePathPatterns("/findUserId")

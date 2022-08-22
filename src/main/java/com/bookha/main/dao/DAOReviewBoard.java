@@ -52,9 +52,9 @@ public class DAOReviewBoard implements MapperReview {
 	}
 
 	@Override
-	public DTOReviewBoard modify(DTOReviewBoard to) {
+	public DTOReviewBoard modify(int seq) {
 		// TODO Auto-generated method stub
-		return mapper.modify(to);
+		return mapper.modify(seq);
 	}
 
 	@Override

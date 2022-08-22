@@ -240,7 +240,7 @@ public class ControllerReveiw {
 		mv.addObject("to", to);
 		
 		DTOUser userSetting = new DTOUser();
-		userSetting = daoUser.userSetting(session_user_num);
+		userSetting = daoUser.userSetting(to.getUser_num());
 		mv.addObject("user", userSetting);
 		
 		ArrayList<DTOReviewComment> com_lists = dao.commentList(seq);
@@ -274,7 +274,7 @@ public class ControllerReveiw {
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		mv.addObject("session_user_num", session_user_num);
 		
-		DTOReviewBoard to = dao.view(seq);
+		DTOReviewBoard to = dao.modify(seq);
 		to.setUser_num(session_user_num);
 		mv.addObject("to", to);
 		

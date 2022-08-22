@@ -37,8 +37,7 @@ String logo = (String) request.getAttribute("logo");
 <link rel="stylesheet" href="../assets/css/demo.css" />
 
 <!-- Vendors CSS -->
-<link rel="stylesheet"
-	href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
 <!-- Page CSS -->
 <!-- Page -->
@@ -50,8 +49,7 @@ String logo = (String) request.getAttribute("logo");
 <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 <script src="../assets/js/config.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
@@ -59,7 +57,6 @@ String logo = (String) request.getAttribute("logo");
 		$("#signIn").on("click", function() {
 			signIn();
 		});
-
 	});
 
 	function signIn() {
@@ -110,21 +107,21 @@ String logo = (String) request.getAttribute("logo");
 						</p>
 
 						<div class="mb-3">
-							<label for="username" class="form-label">ID</label> <input
-								type="text" class="form-control" id="username" name="username"
-								placeholder="ID" autofocus />
+							<label for="username" class="form-label">ID</label>
+							<input type="text" class="form-control" id="username" name="username" 
+							placeholder="ID" autofocus />
 						</div>
 						<div class="mb-3 form-password-toggle">
 							<div class="d-flex justify-content-between">
 								<label class="form-label" for="password">Password</label>
 							</div>
 							<div class="input-group input-group-merge">
-								<input type="password" id="password" class="form-control"
-									name="password"
+								<input type="password" id="password" class="form-control" name="password"
 									placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-									aria-describedby="password" /> <span
-									class="input-group-text cursor-pointer"><i
-									class="bx bx-hide"></i></span>
+									aria-describedby="password" />
+								<span class="input-group-text cursor-pointer">
+									<i class="bx bx-hide"></i>
+								</span>
 							</div>
 						</div>
 
@@ -134,16 +131,15 @@ String logo = (String) request.getAttribute("logo");
 						<div onclick="kakaoLogin()" style="cursor: pointer;">
 							<img src="../KakaoTalk.png" />
 						</div>
-
 						<br>
 						<p class="text-center">
 							<span>처음방문 하셨나요?</span>
-							<a href="/signUp"> <span>회원가입</span> </a>
+							<a href="/signUp"><span>회원가입</span></a>
 						</p>
 						<p class="text-center">
-							<a href="/findUserId"> <span>아이디 찾기</span>
-							</a> <span> / </span> <a href="/findPw"> <span>비밀번호 찾기</span>
-							</a>
+							<a href="/findUserId"><span>아이디 찾기</span></a>
+							<span> / </span>
+							<a href="/findPw"><span>비밀번호 찾기</span></a>
 						</p>
 					</div>
 				</div>
@@ -157,9 +153,7 @@ String logo = (String) request.getAttribute("logo");
 	<script src="../assets/vendor/libs/jquery/jquery.js"></script>
 	<script src="../assets/vendor/libs/popper/popper.js"></script>
 	<script src="../assets/vendor/js/bootstrap.js"></script>
-	<script
-		src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
+	<script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 	<script src="../assets/vendor/js/menu.js"></script>
 	<!-- endbuild -->
 
@@ -172,7 +166,7 @@ String logo = (String) request.getAttribute("logo");
 
 		function kakaoLogin() {
 			if (!Kakao.Auth.getAccessToken()) {
-				console.log("kakao login");
+				
 				Kakao.Auth.loginForm({
 					success : function(result) {
 						Kakao.Auth.setAccessToken(result.access_token);
@@ -183,6 +177,15 @@ String logo = (String) request.getAttribute("logo");
 					}
 				});
 			} else {
+				console.log("kakao login");
+				Kakao.Auth.login({
+					success: function(authObj) {
+						alert(JSON.stringify(authObj))
+					},
+					fail: function(err) {
+						alert(JSON.stringify(err))
+					},
+			    });
 				return;
 			}
 		}

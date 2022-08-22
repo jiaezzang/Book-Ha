@@ -54,10 +54,11 @@ public class ControllerLogin {
 		session.setAttribute("login", true);
 		
 		DTOUser to = daoUser.signIn(user);
+		System.out.println(to.getUser_num());
 		session.setAttribute("user_num", to.getUser_num());
 		
 		// 세션 유지시간 무제한
-		session.setMaxInactiveInterval(20);
+		session.setMaxInactiveInterval(-1);
 		
 		return to;
 	}
@@ -88,7 +89,15 @@ public class ControllerLogin {
 	@GetMapping("/logout")
 	public ModelAndView logout(ModelAndView mav, HttpSession session) {
 		session.setAttribute("login", false);
-		session.invalidate();
+		
+		if((Boolean)session.getAttribute("login") != false) {
+			System.out.println("안되네");
+		}
+		
+		session.setAttribute("user_num", 0);
+		session.setMaxInactiveInterval(0);
+//		session.invalidate();
+		
 		mav.setViewName("/login/index");
 		return mav;
 	}
