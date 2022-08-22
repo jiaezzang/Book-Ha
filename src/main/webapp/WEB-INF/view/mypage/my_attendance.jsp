@@ -3,8 +3,9 @@
 <%
 request.setCharacterEncoding("UTF-8");
 
-String title = (String) request.getAttribute("title");
-String profile = (String) request.getAttribute("profile");
+String title = (String)request.getAttribute("title");
+String profile = (String)request.getAttribute("profile");
+String logo = (String)request.getAttribute("logo");
 
 String navBar = (String)request.getAttribute("navBar");
 %>
