@@ -1,17 +1,24 @@
 package com.bookha.main.mapper;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.bookha.main.dto.DTOAttendance;
 import com.bookha.main.dto.DTOUser;
 
 @Mapper
 @Repository
 public interface MapperMyPage {
 	// Board
-	int checkAttendance(int user_num);
+	String checkAttendance(int user_num);
 	
 	int addAttendance(int user_num);
+	
+	String addStamp();
+	
+	ArrayList<DTOAttendance> listAt(int user_num);
 	
 	int countAttendance(int user_num);
 	
@@ -26,5 +33,6 @@ public interface MapperMyPage {
 	int changePf(DTOUser dto);
 	
 	String reloadPf(int user_num);
+	
 }
 	

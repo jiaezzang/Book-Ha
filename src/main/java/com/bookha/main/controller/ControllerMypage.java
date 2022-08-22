@@ -18,6 +18,7 @@ import com.bookha.main.dto.DTOAlbumBoard;
 import com.bookha.main.dto.DTOAlbumTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelAlbumList;
+import com.bookha.model.ModelCalendar;
 import com.bookha.model.ModelChangeProfile;
 import com.bookha.model.ModelLogoHtml;
 import com.bookha.model.ModelMyAchievements;
@@ -60,9 +61,30 @@ public class ControllerMypage {
 		String navBar = model.navBar(userSetting);
 		mv.addObject("navBar", navBar);
 		
+		//출석 정보
+		String checkAt = daoMypage.checkAttendance(session_user_num);
+		String addStamp = daoMypage.addStamp();
+		
+		mv.addObject("checkAt", checkAt);
+		mv.addObject("addStamp", addStamp);
+		
+		//출석 리스트 
+		ModelCalendar modelAt = new ModelCalendar();
+		String listAt = modelAt.ModelCheckAt(daoMypage.listAt(session_user_num));
+		mv.addObject("listAt", listAt);
+		
 		mv.setViewName("mypage/my_attendance");
 		return mv;
 	}
+	
+	@RequestMapping(value = "/add_attendance.do")
+	public int addAttendance(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		//로그인 한 회원의 정보
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		
+		return daoMypage.addAttendance(session_user_num);
+	}
+	
 	
 	@RequestMapping(value = "/my_achievements.do")
 	public ModelAndView my_achievements(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

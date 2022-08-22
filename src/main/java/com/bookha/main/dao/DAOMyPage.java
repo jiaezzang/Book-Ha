@@ -1,8 +1,11 @@
 package com.bookha.main.dao;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bookha.main.dto.DTOAttendance;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.main.mapper.MapperMyPage;
 
@@ -17,17 +20,31 @@ public class DAOMyPage implements MapperMyPage {
 	private MapperMyPage mapper;
 
 	@Override
-	public int checkAttendance(int user_num) {
+	public String checkAttendance(int user_num) {
 		// TODO Auto-generated method stub
 		
 		return mapper.checkAttendance(user_num);
 	}
-
+	
 	@Override
 	public int addAttendance(int user_num) {
 		// TODO Auto-generated method stub
 		
 		return mapper.addAttendance(user_num);
+	}
+	
+	@Override
+	public String addStamp() {
+		// TODO Auto-generated method stub
+		
+		return mapper.addStamp();
+	}
+	
+	@Override
+	public ArrayList<DTOAttendance> listAt(int user_num) {
+		// TODO Auto-generated method stub
+		
+		return mapper.listAt(user_num);
 	}
 
 	@Override
