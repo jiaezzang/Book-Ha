@@ -196,6 +196,8 @@
           user_role: "user",
           user_option: $("#option").val()
         };
+        
+        console.log(sendData);
 
         $.ajax({
           url:"http://localhost:8080/kakaoUser/userInfo",
