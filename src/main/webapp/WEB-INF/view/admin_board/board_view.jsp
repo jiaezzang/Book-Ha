@@ -19,29 +19,26 @@
 	int user_num = to.getUser_num();
 	String content = to.getContent();
 	String date = to.getWdate();
-	
+
 	// 이전글
 	DTOAdminBoard to1 = (DTOAdminBoard)request.getAttribute("to1");
-	String beforeSeq = Integer.toString( to1.getSeq() );
-	String beforeSubject = "";
-	if( !beforeSeq.equals(seq) ) {
-		beforeSubject = to1.getSubject();
-	} else if( beforeSeq == null || beforeSeq.equals("")){
-		beforeSubject = "이전글이 없습니다.";
+	int beforeSeq = to1.getSeq();
+	String beforeSubject = to1.getSubject();
+	if( beforeSeq == 0 ) {
+		String before = "javascript:void(0);";
+	} else {
+		String before = "view.do?seq=" + beforeSeq;
 	}
 	
+	// 다음글
 	DTOAdminBoard to2 = (DTOAdminBoard)request.getAttribute("to2");
-	String afterSeq = Integer.toString( to2.getSeq() );
-	String afterSubject = "";
-	if( !afterSeq.equals(seq) ) {
-		afterSubject = to2.getSubject();
-	} else if( afterSeq == null ) {
-		afterSubject = "다음글이 없습니다.";
+	int afterSeq = to2.getSeq();
+	String afterSubject = to2.getSubject();
+	if( afterSeq == 0 ) {
+		String after = "javascript:void(0);";
+	} else {
+		String after = "view.do?seq" + afterSeq;
 	}
-	
-	System.out.println( seq );
-	System.out.println( beforeSeq );
-	System.out.println( afterSeq );
 %>
 <!DOCTYPE html>
 
@@ -184,7 +181,7 @@
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="../js/toastr.js"></script>
 
-<script type="text/javascript">
+<script>
 	$(document).ready(function() {
 		
 		const viewer = new toastui.Editor.factory({
@@ -223,7 +220,49 @@
 			f.submit();
 			
 			toastr.success( '게시글이 삭제되었습니다.', '게시글 삭제' );
+		});
+		
+		// 다음글 | 이전글
+		$('#after').on('click', function() {
+			let f = document.createElement('form');
 			
+			let obj1;
+			obj1 = document.createElement('input');
+			obj1.setAttribute('type', 'hidden');
+			obj1.setAttribute('name', 'seq');
+			obj1.setAttribute('value', <%=afterSeq %>);
+			
+			f.appendChild(obj1);
+			
+			f.setAttribute('method', 'get');
+			if( <%=afterSeq %> == 0 ) {
+				f.setAttribute('action', 'javascript:void(0);');
+			} else {
+				f.setAttribute('action', '/view.do');
+			}
+			document.body.appendChild(f);
+			f.submit();
+		});
+		
+		$('#before').on('click', function() {
+			let f = document.createElement('form');
+			
+			let obj1;
+			obj1 = document.createElement('input');
+			obj1.setAttribute('type', 'hidden');
+			obj1.setAttribute('name', 'seq');
+			obj1.setAttribute('value', <%=beforeSeq %>);
+			
+			f.appendChild(obj1);
+			
+			f.setAttribute('method', 'get');
+			if( <%=beforeSeq %> == 0 ) {
+				f.setAttribute('action', 'javascript:void(0);');
+			} else {
+				f.setAttribute('action', '/view.do');
+			}
+			document.body.appendChild(f);
+			f.submit();
 		});
 	});
 </script>
@@ -337,8 +376,8 @@
 						<div class="card">
 							 <div class="demo-inline-spacing">
 						          <div class="list-group list-group-flush">
-						            <a href="view.do?seq=<%=afterSeq %>" class="list-group-item list-group-item-action"><strong>다음글</strong>  | <%=afterSubject %></a>
-						            <a href="view.do?seq=<%=beforeSeq %>" class="list-group-item list-group-item-action"><strong>이전글</strong>  | <%=beforeSubject %></a>
+						            <a href="javascript:void(0);" class="list-group-item list-group-item-action" id="after"><strong>다음글</strong>  | <%=afterSubject %></a>
+						            <a href="javascript:void(0);" class="list-group-item list-group-item-action" id="before"><strong>이전글</strong>  | <%=beforeSubject %></a>
 						          </div>
        						 </div>
 						</div>

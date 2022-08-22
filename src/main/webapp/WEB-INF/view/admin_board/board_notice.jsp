@@ -25,6 +25,7 @@
 	int beforeSeq = to1.getSeq();
 	String beforeSubject = to1.getSubject();
 	
+	// 다음글
 	DTOAdminBoard to2 = (DTOAdminBoard)request.getAttribute("to2");
 	int afterSeq = to2.getSeq();
 	String afterSubject = to2.getSubject();
@@ -167,6 +168,49 @@
 			viewer : true,
 			intialValue : '<%= content %>'
 		});
+		
+		// 다음글 | 이전글
+		$('#after').on('click', function() {
+			let f = document.createElement('form');
+			
+			let obj1;
+			obj1 = document.createElement('input');
+			obj1.setAttribute('type', 'hidden');
+			obj1.setAttribute('name', 'seq');
+			obj1.setAttribute('value', <%=afterSeq %>);
+			
+			f.appendChild(obj1);
+			
+			f.setAttribute('method', 'get');
+			if( <%=afterSeq %> == 0 ) {
+				f.setAttribute('action', 'javascript:void(0);');
+			} else {
+				f.setAttribute('action', '/notice.do');
+			}
+			document.body.appendChild(f);
+			f.submit();
+		});
+		
+		$('#before').on('click', function() {
+			let f = document.createElement('form');
+			
+			let obj1;
+			obj1 = document.createElement('input');
+			obj1.setAttribute('type', 'hidden');
+			obj1.setAttribute('name', 'seq');
+			obj1.setAttribute('value', <%=beforeSeq %>);
+			
+			f.appendChild(obj1);
+			
+			f.setAttribute('method', 'get');
+			if( <%=beforeSeq %> == 0 ) {
+				f.setAttribute('action', 'javascript:void(0);');
+			} else {
+				f.setAttribute('action', '/notice.do');
+			}
+			document.body.appendChild(f);
+			f.submit();
+		});		
 	});
 </script>
 </head>
@@ -284,8 +328,8 @@
 						<div class="card">
 							 <div class="demo-inline-spacing">
 						          <div class="list-group list-group-flush">
-						            <a href="view.do?seq=<%=afterSeq %>" class="list-group-item list-group-item-action"><strong>다음글</strong>  | <%=afterSubject %></a>
-						            <a href="view.do?seq=<%=beforeSeq %>" class="list-group-item list-group-item-action"><strong>이전글</strong>  | <%=beforeSubject %></a>
+						            <a href="javascript:void(0);" class="list-group-item list-group-item-action" id="after"><strong>다음글</strong>  | <%=afterSubject %></a>
+						            <a href="javascript:void(0);" class="list-group-item list-group-item-action" id="before"><strong>이전글</strong>  | <%=beforeSubject %></a>
 						          </div>
        						 </div>
 						</div>
