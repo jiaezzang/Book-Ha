@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bookha.main.mapper.MapperAdmin">
-    <select id="list" parameterType="com.bookha.main.dto.DTOAdminBoard" resultType="com.bookha.main.dto.DTOAdminBoard">
+    <select id="list" parameterType="com.bookha.main.dto.DTOAdminTotal" resultType="com.bookha.main.dto.DTOAdminBoard">
         SELECT
         	no_seq as seq,
         	no_user_num as user_num,
@@ -17,7 +17,13 @@
         	user u
         ON
         	n.no_user_num = u.user_num
-		ORDER BY
+        ORDER BY
+        	(case
+        		when no_subject like '%리뷰%' then 1 
+				when no_subject like '%챌린지%' then 2
+				when no_subject like '%공유%' then 3
+        		else 4 end
+        	),
         	no_seq desc
         LIMIT
         	#{skip}, #{recordPerPage}
@@ -52,7 +58,7 @@
         WHERE
         	no_seq
         IN (
-        	( select max(no_seq) from notice_board where no_seq <![CDATA[<]]> #{seq} )
+        	( select max(no_seq) from notice_board where no_seq &lt; #{seq} )
         )
     </select>
     
@@ -65,7 +71,7 @@
         WHERE
         	no_seq
         IN (
-        	( select min(no_seq) from notice_board where no_seq <![CDATA[>]]> #{seq} )
+        	( select min(no_seq) from notice_board where no_seq &gt; #{seq} )
         )
     </select>
     
@@ -119,4 +125,31 @@
     	AND
     		no_user_num = #{user_num}
     </delete>
+    
+    <select id="nolist" parameterType="com.bookha.main.dto.DTOAdminBoard" resultType="com.bookha.main.dto.DTOAdminBoard">
+        SELECT
+        	no_seq as seq,
+        	no_user_num as user_num,
+            no_subject as subject,
+            date_format(no_date, '%Y-%m-%d') as wdate,
+            datediff( now(), no_date ) wgap,
+			user_nickname
+        FROM
+        	notice_board n
+        INNER JOIN
+        	user u
+        ON
+        	n.no_user_num = u.user_num
+        ORDER BY
+        	(case
+        		when no_subject like '%리뷰%' then 1 
+				when no_subject like '%챌린지%' then 2
+				when no_subject like '%공유%' then 3
+        		else 4 end
+        	),
+        	no_seq desc
+        LIMIT
+        	0, 5
+    </select>
+    
 </mapper>

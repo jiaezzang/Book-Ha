@@ -1,7 +1,8 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.bookha.main.dto.DTOAdminBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%@page import="com.bookha.main.dto.DTOAdminBoard"%>
+
 <%
 	request.setCharacterEncoding("UTF-8");
 

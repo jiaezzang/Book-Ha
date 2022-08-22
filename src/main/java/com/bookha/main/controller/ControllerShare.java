@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bookha.main.dao.DAOAdminBoard;
 import com.bookha.main.dao.DAOShareBoard;
 import com.bookha.main.dao.DAOUser;
+import com.bookha.main.dto.DTOAdminBoard;
 import com.bookha.main.dto.DTOShareBoard;
 import com.bookha.main.dto.DTOShareComment;
 import com.bookha.main.dto.DTOShareTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelLogoHtml;
 import com.bookha.model.ModelNavBar;
+import com.bookha.model.ModelNoticeList;
 import com.bookha.model.ModelProfileHtml;
 import com.bookha.model.ModelShareCmt;
 import com.bookha.model.ModelShareList;
@@ -34,6 +37,9 @@ public class ControllerShare {
 	
 	@Autowired
 	private DAOShareBoard dao;
+	
+	@Autowired
+	private DAOAdminBoard daoAdmin;
 	
 	@Autowired
 	private DAOUser daoUser;
@@ -119,6 +125,15 @@ public class ControllerShare {
 			hashTag = "# 전체";
 		}
 		mv.addObject("hashTag", hashTag);
+		
+		// notice list
+		DTOAdminBoard adto = new DTOAdminBoard();
+		ArrayList<DTOAdminBoard> nolists = new ArrayList<DTOAdminBoard>();
+		nolists = daoAdmin.nolist(adto);
+		
+		ModelNoticeList no = new ModelNoticeList();
+		String NoticeList = no.NoticeList(nolists);
+		mv.addObject("NoticeList", NoticeList );
 		
 		//Navbar Model
 		DTOUser userSetting = new DTOUser();
@@ -323,7 +338,7 @@ public class ControllerShare {
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		mv.addObject("session_user_num", session_user_num);
 		
-		DTOShareBoard to = dao.view(seq);
+		DTOShareBoard to = dao.modify(seq);
 		to.setUser_num(session_user_num);
 		mv.addObject("to", to);
 		

@@ -60,9 +60,9 @@ public class DAOAdminBoard implements MapperAdmin {
 	}
 
 	@Override
-	public DTOAdminBoard modify(DTOAdminBoard to) {
+	public DTOAdminBoard modify(int seq) {
 		// TODO Auto-generated method stub
-		return mapper.modify(to);
+		return mapper.modify(seq);
 	}
 
 	@Override
@@ -85,6 +85,12 @@ public class DAOAdminBoard implements MapperAdmin {
 			flag = 0;
 		}
 		return flag;
+	}
+
+	@Override
+	public ArrayList<DTOAdminBoard> nolist(DTOAdminBoard to) {
+		// TODO Auto-generated method stub
+		return mapper.nolist(to);
 	}
 
 }

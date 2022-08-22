@@ -1,11 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%@page import="com.bookha.main.dto.DTOAdminBoard"%>
+
 <%
 	request.setCharacterEncoding("UTF-8");
 
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
+	String navBar = (String)request.getAttribute("navBar");
+	
+	int session_user_num = (int)request.getAttribute("session_user_num");
+	
+	DTOAdminBoard to = (DTOAdminBoard)request.getAttribute("to");
+	int seq = to.getSeq();
+	String subject = to.getSubject();
+	int user_num = to.getUser_num();
+	String content = to.getContent();
+	String date = to.getWdate();
+	
+	// 이전글
+	DTOAdminBoard to1 = (DTOAdminBoard)request.getAttribute("to1");
+	int beforeSeq = to1.getSeq();
+	String beforeSubject = to1.getSubject();
+	
+	DTOAdminBoard to2 = (DTOAdminBoard)request.getAttribute("to2");
+	int afterSeq = to2.getSeq();
+	String afterSubject = to2.getSubject();
 %>
 <!DOCTYPE html>
 
@@ -137,7 +159,15 @@
 <script
 	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
-<script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		const viewer = new toastui.Editor.factory({
+			el : document.querySelector('#viewer'),
+			viewer : true,
+			intialValue : '<%= content %>'
+		});
+	});
 </script>
 </head>
 
@@ -213,31 +243,7 @@
 			<!-- Layout container -->
 			<div class="layout-page">
 				<!-- Navbar -->
-
-				<nav
-					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-					id="layout-navbar">
-					<div
-						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-						<a class="nav-item nav-link px-0 me-xl-4"
-							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
-						</a>
-					</div>
-
-					<div class="navbar-nav-right d-flex align-items-center"
-						id="navbar-collapse">
-						<!-- Search -->
-						<!-- /Search -->
-
-						<ul class="navbar-nav flex-row align-items-center ms-auto">
-							
-							<!-- User -->
-							<%= profile %>
-							<!--/ User -->
-						</ul>
-					</div>
-				</nav>
-
+				<%=navBar %>
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
@@ -258,22 +264,15 @@
 
 							<div class="mb-3">
 								<p class="form-control-plaintext"
-									id="exampleFormControlReadOnlyInputPlain1">제목이 들어갈 항목</p>
+									id="exampleFormControlReadOnlyInputPlain1"><%= subject %></p>
+								<p align="right" ><%=date%>&nbsp;&nbsp;&nbsp;&nbsp;</p>
 							</div>
 
 							<!-- Hoverable Table rows -->
 
 							<!-- TOAST UI Editor가 들어갈 div태그 -->
 							<div id="viewer">
-
-								<h2>게시판 사용시 주의사항 및 규칙 5 (반드시 확인 바랍니다)</h2>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-								<p>공지내용공지내용</p>
-								
+								<%=content %>
 							</div>
 							<br /><br />
 							
@@ -281,33 +280,17 @@
 						<!--/ Hoverable Table rows -->
 
 						<br />
-
+						
+						<div class="card">
+							 <div class="demo-inline-spacing">
+						          <div class="list-group list-group-flush">
+						            <a href="view.do?seq=<%=afterSeq %>" class="list-group-item list-group-item-action"><strong>다음글</strong>  | <%=afterSubject %></a>
+						            <a href="view.do?seq=<%=beforeSeq %>" class="list-group-item list-group-item-action"><strong>이전글</strong>  | <%=beforeSubject %></a>
+						          </div>
+       						 </div>
+						</div>
+	
 					<!-- / Content -->
-
-
-<!-- 					Footer -->
-<!-- 					<footer class="content-footer footer bg-footer-theme"> -->
-<!-- 						<div -->
-<!-- 							class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
-<!-- 							<div class="mb-2 mb-md-0"> -->
-<!-- 								© -->
-<!-- 								<script>document.write(new Date().getFullYear());</script> -->
-<!-- 								, made with ❤️ by <a href="https://themeselection.com" -->
-<!-- 									target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
-<!-- 							</div> -->
-<!-- 							<div> -->
-<!-- 								<a href="https://themeselection.com/license/" -->
-<!-- 									class="footer-link me-4" target="_blank">License</a> <a -->
-<!-- 									href="https://themeselection.com/" target="_blank" -->
-<!-- 									class="footer-link me-4">More Themes</a> <a -->
-<!-- 									href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" -->
-<!-- 									target="_blank" class="footer-link me-4">Documentation</a> <a -->
-<!-- 									href="https://github.com/themeselection/sneat-html-admin-template-free/issues" -->
-<!-- 									target="_blank" class="footer-link me-4">Support</a> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</footer> -->
-<!-- 					/ Footer -->
 
 					<div class="content-backdrop fade"></div>
 				</div>

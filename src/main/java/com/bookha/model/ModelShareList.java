@@ -22,7 +22,7 @@ public class ModelShareList {
 			} else {
 				table+= "<span class='badge bg-info rounded-pill' style='visibility: hidden;'>New</span>&nbsp;&nbsp;";
 			}
-			table += "<a href='./share_view.do?seq=" + dto.getSeq() + "' style='color: gray'> <strong>[공유하기]&nbsp;&nbsp;</strong>" + dto.getSubject() +" </a>";
+			table += "<a href='/share_view.do?seq=" + dto.getSeq() + "' style='color: gray'> <strong>[공유하기]&nbsp;&nbsp;</strong>" + dto.getSubject() +" </a>";
 			table += "<span class='badge rounded-pill badge-center h-px-20 w-px-20 bg-danger'>" + dto.getCmt_cnt() + "</span>";
 			table += "</td>";
 			table+= "<td style='margin: auto; text-align: center;'>";

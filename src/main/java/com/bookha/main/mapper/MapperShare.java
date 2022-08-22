@@ -24,7 +24,7 @@ public interface MapperShare {
 	
 	int writeOk(DTOShareBoard to);
 	
-	DTOShareBoard modify(DTOShareBoard to);
+	DTOShareBoard modify(int seq);
 	
 	int modifyOk(DTOShareBoard to);
 	

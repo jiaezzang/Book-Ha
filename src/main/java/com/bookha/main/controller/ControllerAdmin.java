@@ -253,7 +253,7 @@ public class ControllerAdmin {
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		mv.addObject("session_user_num", session_user_num);
 		
-		DTOAdminBoard to = dao.view(seq);
+		DTOAdminBoard to = dao.modify(seq);
 		to.setUser_num(session_user_num);
 		mv.addObject("to", to);
 		
@@ -332,6 +332,22 @@ public class ControllerAdmin {
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		// view
+		int seq = Integer.parseInt(request.getParameter("seq"));
+		//int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		mv.addObject("session_user_num", session_user_num);
+		
+		DTOAdminBoard to = dao.view(seq);
+		mv.addObject("to", to);
+		
+		// 이전글
+		DTOAdminBoard to1 = dao.viewBefore(seq);
+		mv.addObject("to1", to1);
+		
+		// 다음글
+		DTOAdminBoard to2 = dao.viewAfter(seq);
+		mv.addObject("to2", to2);
 		
 		mv.setViewName("admin_board/board_notice");
 		return mv;

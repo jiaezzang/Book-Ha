@@ -24,9 +24,11 @@ public interface MapperAdmin {
 	
 	int writeOk(DTOAdminBoard to);
 	
-	DTOAdminBoard modify(DTOAdminBoard to);
+	DTOAdminBoard modify(int seq);
 	
 	int modifyOk(DTOAdminBoard to);
 	
 	int deleteOk(DTOAdminBoard to);
+	
+	ArrayList<DTOAdminBoard> nolist(DTOAdminBoard to);
 }
