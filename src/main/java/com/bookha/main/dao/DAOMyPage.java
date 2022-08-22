@@ -64,4 +64,16 @@ public class DAOMyPage implements MapperMyPage {
 		return mapper.checkPw(dto);
 	}
 
+	@Override
+	public int changePf(DTOUser dto) {
+		// TODO Auto-generated method stub
+		return mapper.changePf(dto);
+	}
+
+	@Override
+	public String reloadPf(int user_num) {
+		// TODO Auto-generated method stub
+		return mapper.reloadPf(user_num);
+	}
+
 }

@@ -22,5 +22,9 @@ public interface MapperMyPage {
 	int countShare(int user_num);
 	
 	int checkPw(DTOUser dto);
+	
+	int changePf(DTOUser dto);
+	
+	String reloadPf(int user_num);
 }
 	
