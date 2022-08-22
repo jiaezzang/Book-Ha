@@ -8,14 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bookha.main.dao.DAOMyPage;
 import com.bookha.main.dao.DAOUser;
+import com.bookha.main.dto.DTOAlbumBoard;
+import com.bookha.main.dto.DTOAlbumTotal;
 import com.bookha.main.dto.DTOUser;
+import com.bookha.model.ModelAlbumList;
+import com.bookha.model.ModelChangeProfile;
 import com.bookha.model.ModelLogoHtml;
 import com.bookha.model.ModelMyAchievements;
+import com.bookha.model.ModelMyPageProfile;
 import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelProfileHtml;
 
@@ -131,9 +137,36 @@ public class ControllerMypage {
 		ModelNavBar model = new ModelNavBar();
 		String navBar = model.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//프로필 변경 모델
+		ModelChangeProfile modelChangePf = new ModelChangeProfile();
+		
+		//전체 div 틀
+		String startProfile = modelChangePf.getAchieveStart();
+		String endProfile = modelChangePf.getAchieveEnd();
+		mv.addObject("startProfile", startProfile);
+		mv.addObject("endProfile", endProfile);
+		
+		//출석 업적 프로필 
+		int atCount = daoMypage.countAttendance(session_user_num);
+		String atList = modelChangePf.getAchieveAttendance(atCount);
+		mv.addObject("atList", atList);
+		
+		//리뷰 업적 프로필
+		int reCount = daoMypage.countReview(session_user_num);
+		String reList = modelChangePf.getAchieveReview(reCount);
+		mv.addObject("reList", reList);
+		
+		//앨범 업적 프로필
+		int alCount = daoMypage.countAlbum(session_user_num);
+		String alList = modelChangePf.getAchieveAlbum(alCount);
+		mv.addObject("alList", alList);
+		
+		//공유 업적 프로필
+		int shCount = daoMypage.countShare(session_user_num);
+		String shList = modelChangePf.getAchieveShare(shCount);
+		mv.addObject("shList", shList);
 
-		
-		
 		mv.setViewName("mypage/user_account_setting");
 		return mv;
 	}
@@ -228,5 +261,38 @@ public class ControllerMypage {
 		int flag = daoMypage.checkPw(dto);
 		return flag;
 	}
+	
+	@RequestMapping(value = "/change_pf.do", method = RequestMethod.POST)
+	public int modifyData(@RequestBody DTOUser dto) {
 
+		return daoMypage.changePf(dto);
+	}
+	
+	@RequestMapping(value ="reload_profile.do")
+	public String reloadProfile(HttpSession session) {
+		ModelMyPageProfile model = new ModelMyPageProfile();
+		
+		//로그인 한 회원의 정보
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		
+		//ajax를 통해 프로필 변경 후 다시 불러 올 마이 페이지의 프로필 영역
+		String reloadPf = model.reloadPf(daoMypage.reloadPf(session_user_num));
+		
+		return reloadPf;
+	}
+	
+	@RequestMapping(value ="reload_nav.do")
+	public String reloadnav(HttpSession session) {
+		
+		//로그인 한 회원의 정보
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		DTOUser userSetting = new DTOUser();
+		userSetting = dao.userSetting(session_user_num);
+		
+		//Navbar Model
+		ModelNavBar model = new ModelNavBar();
+		String reloadNav = model.navBar(userSetting);
+		
+		return reloadNav;
+	}
 }
