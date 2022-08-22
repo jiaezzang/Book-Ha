@@ -8,6 +8,12 @@ String profile = (String)request.getAttribute("profile");
 String logo = (String)request.getAttribute("logo");
 
 String navBar = (String)request.getAttribute("navBar");
+
+//출석체크 스탬프 관련
+String checkAt = (String)request.getAttribute("checkAt");
+String addStamp = (String)request.getAttribute("addStamp");
+String listAt = (String)request.getAttribute("listAt");
+
 %>
 <!DOCTYPE html>
 
@@ -130,8 +136,24 @@ html, body {
 
 <link href='../libs/fullcalendar/main.css' rel='stylesheet' />
 <script src='../libs/fullcalendar/main.js'></script>
+
+<!-- build:js assets/vendor/js/core.js -->
+<script src="../assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assets/vendor/libs/popper/popper.js"></script>
+<script src="../assets/vendor/js/bootstrap.js"></script>
+<script
+	src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="../assets/vendor/js/menu.js"></script>
+
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="../js/toastr.js"></script>
+
 <script type="text/javascript">
 	document.addEventListener('DOMContentLoaded', function() {
+		
 		var calendarEl = document.getElementById('calendar');
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 			initialView : 'dayGridMonth',
@@ -139,26 +161,22 @@ html, body {
 			    myCustomButton: {
 			      text: '출석 체크',
 			      click: function() {
-			        alert('출석체크 완료!');
-			        //click 시 스탬프 이미지 추가 action
+			    	  if( "<%=checkAt%>" == "0"){
+			    		  addAt();
+			    		  calendar.addEvent({
+			                  start: "<%=addStamp%>",
+			                  image_url : "../assets/img/stamps/stamp.png"
+			                });
+	       				  toastr.success('출석체크 완료하였습니다.', '작업 성공!');
+	       				  window.location.href = "/mypage.do";
+			    	  }else{
+			  			  toastr.error('이미 출석체크 하셨습니다.', '입력 오류!');
+			    	  }
 			      }
 			    }
 			},
-			 		    events: [
- 		    	{
- 		    		 start : "2022-08-01",
- 		    		 image_url : "../assets/img/stamps/stamp.png"
- 		    	},
-
- 		    	{
-		    		 start : "2022-08-15",
-		    		 image_url : "../assets/img/stamps/stamp.png"
-		    	},
-
-		    	{
-		    		 start : "2022-08-29",
-		    		 image_url : "../assets/img/stamps/stamp.png"
-		    	}
+			events: [
+ 		    	<%=listAt %>
  		    ],
  			//image content
  			eventContent: function(arg) {
@@ -187,6 +205,18 @@ html, body {
 		calendar.render();
 	});
 	
+
+	function addAt(){
+		$.ajax({
+			type: 'POST',
+			url: "add_attendance.do",
+			datatype: "text",
+			success: function(data){
+				console.log("data : " + data);
+			}
+		});
+	}
+
 
 </script>
 <!-- 
@@ -358,14 +388,7 @@ $(document).ready(function(){
 	<!-- / Layout wrapper -->
 
 	<!-- Core JS -->
-	<!-- build:js assets/vendor/js/core.js -->
-	<script src="../assets/vendor/libs/jquery/jquery.js"></script>
-	<script src="../assets/vendor/libs/popper/popper.js"></script>
-	<script src="../assets/vendor/js/bootstrap.js"></script>
-	<script
-		src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-	<script src="../assets/vendor/js/menu.js"></script>
 	<!-- endbuild -->
 
 	<!-- Vendors JS -->

@@ -5,7 +5,7 @@
 <mapper namespace="com.bookha.main.mapper.MapperMyPage">
 	
 	<!-- 오늘 날짜 출석체크 여부 확인 -->
-	<select id="checkAttendance" parameterType="int" resultType="int">
+	<select id="checkAttendance" parameterType="int" resultType="String">
 		SELECT EXISTS(
 			SELECT
 				at_login
@@ -14,18 +14,38 @@
 			WHERE
 				at_num = ${user_num}
 			AND
-				DATE(at_login)=DATE(now())
+				date_format(at_login, '%Y-%m-%d' )= date_format(now(), '%Y-%m-%d' )
 		)AS flag
 	</select>
 	
-	<!-- 출석체크 도장을 찍을 때 -->
+	<!-- 출석체크를 기록할 때  -->
 	<insert id="addAttendance" parameterType="int">
 		INSERT INTO
 			attendance
 		VALUES (
-			0, ${user_num}, now()
+			0, ${user_num}, date_format(now(), '%Y-%m-%d')
 		)
 	</insert>
+	
+	<!-- 출석체크 도장을 기록 -->
+	<select id="listAt" parameterType="int" resultType="com.bookha.main.dto.DTOAttendance">
+
+		SELECT
+			date_format(at_login, '%Y-%m-%d' )as at_login
+		FROM
+			attendance
+		WHERE
+			at_num = ${user_num}
+	</select>
+	
+	<!-- 출석체크 내역 가져오기 -->
+	<select id="addStamp" resultType="String">
+
+		SELECT
+			date_format(now(), '%Y-%m-%d' )
+
+	</select>
+
 	
 	<select id="checkPw" parameterType="com.bookha.main.dto.DTOUser" resultType="int">
 		SELECT
