@@ -134,6 +134,7 @@ html, body {
 <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 <script src="../assets/js/config.js"></script>
 
+<!-- FullCalendar -->
 <link href='../libs/fullcalendar/main.css' rel='stylesheet' />
 <script src='../libs/fullcalendar/main.js'></script>
 
@@ -152,105 +153,71 @@ html, body {
 <script src="../js/toastr.js"></script>
 
 <script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
 		
-		var calendarEl = document.getElementById('calendar');
-		var calendar = new FullCalendar.Calendar(calendarEl, {
-			initialView : 'dayGridMonth',
-		    customButtons: {
-			    myCustomButton: {
-			      text: '출석 체크',
-			      click: function() {
-			    	  if( "<%=checkAt%>" == "0"){
-			    		  addAt();
-			    		  calendar.addEvent({
-			                  start: "<%=addStamp%>",
-			                  image_url : "../assets/img/stamps/stamp.png"
-			                });
-	       				  toastr.success('출석체크 완료하였습니다.', '작업 성공!');
-	       				  window.location.href = "/mypage.do";
-			    	  }else{
-			  			  toastr.error('이미 출석체크 하셨습니다.', '입력 오류!');
-			    	  }
-			      }
-			    }
-			},
-			events: [
- 		    	<%=listAt %>
- 		    ],
- 			//image content
- 			eventContent: function(arg) {
-                let arrayOfDomNodes = []
-                // title event
-                let titleEvent = document.createElement('div')
-                if(arg.event._def.title) {
-                  titleEvent.innerHTML = arg.event._def.title
-                  titleEvent.classList = "fc-event-title fc-sticky"
-                }
-    
-                // image event
-                let imgEventWrap = document.createElement('div')
-                if(arg.event.extendedProps.image_url) {
-                  let imgEvent = '<img class="stamp" src="'+arg.event.extendedProps.image_url+'" >'
-                  imgEventWrap.classList = "fc-event-img"
-                  imgEventWrap.innerHTML = imgEvent;
-                }
-    
-                arrayOfDomNodes = [ titleEvent,imgEventWrap ]
-    
-                return { domNodes: arrayOfDomNodes }
-              }, 
- 			
-		});
-		calendar.render();
-	});
-	
-
-	function addAt(){
-		$.ajax({
-			type: 'POST',
-			url: "add_attendance.do",
-			datatype: "text",
-			success: function(data){
-				console.log("data : " + data);
+	var calendarEl = document.getElementById('calendar');
+	var calendar = new FullCalendar.Calendar(calendarEl, {
+		initialView : 'dayGridMonth',
+		customButtons: {
+			myCustomButton: {
+				text: '출석 체크',
+			    click: function() {
+			    	if( "<%=checkAt%>" == "0"){
+			    		addAt();
+			    		calendar.addEvent({
+			        		start: "<%=addStamp%>",
+							image_url : "../assets/img/stamps/stamp.png"
+						});
+			    		 $('#calendar').load(location.href+' #calendar');
+						toastr.success('출석체크 완료하였습니다.', '작업 성공!');
+					} else {
+						toastr.error('이미 출석체크 하셨습니다.', '입력 오류!');
+					}
+				}
 			}
-		});
-	}
+		},
+		events : [
+					<%=listAt%>
+		],
+		//image content
+		eventContent : function(arg) {
+			let arrayOfDomNodes = []
+			// title event
+			let titleEvent = document.createElement('div')
+			if (arg.event._def.title) {
+				titleEvent.innerHTML = arg.event._def.title
+				titleEvent.classList = "fc-event-title fc-sticky"
+			}
+			// image event
+			let imgEventWrap = document.createElement('div')
+			if (arg.event.extendedProps.image_url) {
+				let imgEvent = '<img class="stamp" src="'+arg.event.extendedProps.image_url+'" >'
+				imgEventWrap.classList = "fc-event-img"
+				imgEventWrap.innerHTML = imgEvent;
+			}
+			arrayOfDomNodes = [ 
+				titleEvent, imgEventWrap
+			]
+			return {
+				domNodes : arrayOfDomNodes
+			}
+		},
 
-
-</script>
-<!-- 
-<script type="text/javascript">
-$(document).ready(function(){
-	  $('#calendar').fullCalendar({
-	    header: {
-	      right: 'checkButton prevYear,prev,next,nextYear'
-	    },
-        // 출석체크를 위한 버튼 생성
-	    customButtons: { 
-	        checkButton: {
-	          text: '출석체크하기',
-	          id: 'check',
-	          click: function() {	
-                    // ajax 통신으로 출석 정보 저장하기 
-                    // POST "/users/attendances" -> { status: "success", date:"2022-08-08"}
-                    // 통신 성공시 버튼 바꾸고, property disabled 만들기 
-	          }
-	        }
-	    },
-       // 달력 정보 가져오기 
-	    eventSources: [
-	    	{
-				// ajax 통신으로 달력 정보 가져오기 
-                // GET "/users/attendances" -> {dateList:[ date: "2016-03-21", ... ]}
-				color: 'purple',   
-			 	textColor: 'white' 
-	    	}
-	    ]
-	  }); 
+	});
+	calendar.render();
 });
+
+function addAt() {
+	$.ajax({
+		type : 'POST',
+		url : "add_attendance.do",
+		datatype : "text",
+		success : function(data) {
+			console.log("data : " + data);
+		}
+	});
+}
 </script>
- -->
 </head>
 <body>
 	<!-- Layout wrapper -->
@@ -261,7 +228,7 @@ $(document).ready(function(){
 			<aside id="layout-menu"
 				class="layout-menu menu-vertical menu bg-menu-theme">
 				<div class="app-brand demo">
-					<%= logo %>
+					<%=logo %>
 				</div>
 
 				<div class="menu-inner-shadow"></div>
@@ -328,11 +295,8 @@ $(document).ready(function(){
 				<div class="content-wrapper">
 					<!-- Content -->
 					<div class="container-xxl flex-grow-1 container-p-y">
-
 							<!-- calendar -->
 							<div id="calendar"></div>
-
-							
 				</div>
 				<!-- / Content -->
 				<!--  Write Modal  -->
