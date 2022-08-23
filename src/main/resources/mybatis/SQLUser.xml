@@ -111,7 +111,7 @@
     
     <select id="userSetting" parameterType="int" resultType="com.bookha.main.dto.DTOUser">
         select 
-        	user_profile, user_mail, user_phonenumber, user_self, user_nickname, user_role
+        	user_profile, user_mail, user_phonenumber, user_self, user_nickname, user_role, user_name
           from user
          where user_num = #{user_num}
     </select>
@@ -132,5 +132,14 @@
     		user
     	WHERE
     		user_role = "admin"
+    </select>
+    
+    <select id="checkNickname" parameterType="String" resultType="int">
+    	SELECT 
+    		count(*) 
+    	FROM 
+    		user 
+    	WHERE 
+    		user_nickname = #{user_nickname}
     </select>
 </mapper>

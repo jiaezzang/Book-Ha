@@ -33,4 +33,6 @@ public interface MapperUser {
 	int changeProfile(DTOUser user);
 	
 	int adminNum();
+	
+	public int checkNickname(String user_nickname);
 }
