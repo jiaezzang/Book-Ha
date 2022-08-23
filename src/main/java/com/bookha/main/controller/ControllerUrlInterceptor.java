@@ -36,7 +36,7 @@ public class ControllerUrlInterceptor implements WebMvcConfigurer {
         .excludePathPatterns("/kakaoUser/userInfo")
         .excludePathPatterns("/register_policy")
         .excludePathPatterns("/new")
-        .excludePathPatterns("/chkSameId")
-        .excludePathPatterns("/chkSameNickName");
+        .excludePathPatterns("/check_id.do")
+        .excludePathPatterns("/check_nickname.do");
 	}
 }

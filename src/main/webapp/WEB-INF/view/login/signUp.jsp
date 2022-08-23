@@ -72,6 +72,7 @@ String logo = (String) request.getAttribute("logo");
     		let DTOUser = {
     				"user_mail": $("#userId").val().trim()
     		};
+
     		$.ajax({
     			type: 'POST',
     			url: "/check_id.do",
@@ -79,7 +80,7 @@ String logo = (String) request.getAttribute("logo");
     			contentType: "application/json; charset=UTF-8",
     			dataType: "text",
     			success: function(data) {
-    				if (data >= 1){
+    				if (data == 1){
     					$("#alert-successId").css('display', 'none');
     	                $("#alert-dangerId").css('display', 'inline-block');
     				} else {
@@ -89,7 +90,7 @@ String logo = (String) request.getAttribute("logo");
     				}
     			},
     			error : function(){
-    				//console.log("서버요청실패");
+    				console.log("서버요청실패");
     			}
     		});
     	});
@@ -106,7 +107,7 @@ String logo = (String) request.getAttribute("logo");
     			contentType: "application/json; charset=UTF-8",
     			dataType: "text",
     			success: function(data) {
-    				if (data >= 1){
+    				if (data == 1){
     					$("#alert-successNick").css('display', 'none');
     	                $("#alert-dangerNick").css('display', 'inline-block');
     				} else {
@@ -116,7 +117,6 @@ String logo = (String) request.getAttribute("logo");
     				}
     			},
     			error : function(){
-    				//console.log("서버요청실패");
     			}
     		});
     	});
