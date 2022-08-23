@@ -34,6 +34,15 @@ public class ControllerImageChange {
 			String saveFileName = Model_FileSaveName.GenSaveFileName(extName);
 
 			//System.out.println("saveFileName : " + saveFileName);
+			
+			File folder = new File(path);
+			if(!folder.exists()) {
+				try {
+					folder.mkdir();
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
 
 			if (!multi.isEmpty()) {
 				File file = new File(uploadPath, saveFileName);
