@@ -220,13 +220,6 @@ public class ControllerReveiw {
 		
 		mv.addObject("title", title);
 		
-		ModelProfileHtml profile = new ModelProfileHtml();
-		if(this.user_role.equals("user")) {
-			mv.addObject("profile", profile.getProfile().toString());
-		} else if(this.user_role.equals("admin")) {
-			mv.addObject("profile", profile.getAdminProfile().toString());
-		}
-		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
@@ -243,9 +236,19 @@ public class ControllerReveiw {
 		userSetting = daoUser.userSetting(to.getUser_num());
 		mv.addObject("user", userSetting);
 		
+		ModelProfileHtml profile = new ModelProfileHtml();
+		this.user_role = daoUser.userSetting(session_user_num).getUser_role().toLowerCase();
+		mv.addObject("user_role", this.user_role);
+		
+		if(this.user_role.equals("user")) {
+			mv.addObject("profile", profile.getProfile().toString());
+		} else if(this.user_role.equals("admin")) {
+			mv.addObject("profile", profile.getAdminProfile().toString());
+		}
+		
 		ArrayList<DTOReviewComment> com_lists = dao.commentList(seq);
 		ModelReviewCommentList comment = new ModelReviewCommentList();
-		String commentHtml = comment.getCommentList(com_lists, session_user_num);
+		String commentHtml = comment.getCommentList(com_lists, session_user_num, this.user_role);
 		//System.out.println(commentHtml);
 		mv.addObject("comment", commentHtml);
 		
@@ -260,7 +263,13 @@ public class ControllerReveiw {
 		
 		mv.addObject("title", title);
 		
+		int seq = Integer.parseInt(request.getParameter("seq"));
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		mv.addObject("session_user_num", session_user_num);
+		
 		ModelProfileHtml profile = new ModelProfileHtml();
+		this.user_role = daoUser.userSetting(session_user_num).getUser_role().toLowerCase();
+		
 		if(this.user_role.equals("user")) {
 			mv.addObject("profile", profile.getProfile().toString());
 		} else if(this.user_role.equals("admin")) {
@@ -269,10 +278,6 @@ public class ControllerReveiw {
 		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
-		
-		int seq = Integer.parseInt(request.getParameter("seq"));
-		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
-		mv.addObject("session_user_num", session_user_num);
 		
 		DTOReviewBoard to = dao.modify(seq);
 		to.setUser_num(session_user_num);
@@ -316,6 +321,7 @@ public class ControllerReveiw {
 		int flag = dao.modifyOk(to);
 		
 		mv.addObject("flag", flag);
+		mv.addObject("seq", seq);
 		
 		mv.setViewName("review_board/board_process_ok");
 		return mv;
@@ -409,7 +415,8 @@ public class ControllerReveiw {
 		ArrayList<DTOReviewComment> com_lists = dao.commentList(to.getBoard_seq());
 		ModelReviewCommentList comment = new ModelReviewCommentList();
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
-		String commentHtml = comment.getCommentList(com_lists, session_user_num);
+		this.user_role = daoUser.userSetting(session_user_num).getUser_role().toLowerCase();
+		String commentHtml = comment.getCommentList(com_lists, session_user_num, this.user_role);
 		return commentHtml;
 	}
 	
