@@ -16,5 +16,4 @@ public class DTOUser {
 	private String user_enterdate;
 	private String user_final;
 	private String user_role;
-	private String user_option;
 }

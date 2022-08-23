@@ -30,7 +30,6 @@ public class DAOUser {
 		user.setUser_enterdate(user.getUser_enterdate());
 		user.setUser_final(user.getUser_final());
 		user.setUser_role(user.getUser_role());
-		user.setUser_option(user.getUser_option());
 		
 		mapper_User.userJoin(user);
 	}
@@ -109,5 +108,11 @@ public class DAOUser {
 	public int checkNickname(String user_nickname) {
 		
 		return mapper_User.checkNickname(user_nickname);
+	}
+	
+	@Transactional
+	public int checkId(String user_mail) {
+		
+		return mapper_User.checkId(user_mail);
 	}
 }

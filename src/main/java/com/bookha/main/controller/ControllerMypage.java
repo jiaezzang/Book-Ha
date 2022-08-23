@@ -320,9 +320,15 @@ public class ControllerMypage {
 	
 	@RequestMapping(value = "/check_nickname.do", method = RequestMethod.POST)
 	public String checkNickName(@RequestBody DTOUser to) {
-		System.out.println("DAO user_nickname : " + to.getUser_nickname());
+		
 		String result = String.valueOf(dao.checkNickname(to.getUser_nickname()));
-		System.out.println("testttttttttttttt : " + result);
+		return result;
+	}
+	
+	@RequestMapping(value = "/check_id.do", method = RequestMethod.POST)
+	public String checkId(@RequestBody DTOUser to) {
+		
+		String result = String.valueOf(dao.checkId(to.getUser_mail()));
 		return result;
 	}
 }

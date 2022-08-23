@@ -15,8 +15,7 @@
 	        user_self,
 	        user_enterdate,
 	        user_final,
-	        user_role,
-	        user_option
+	        user_role
         )
         VALUES(
 	        #{user_mail},
@@ -28,8 +27,7 @@
 	        #{user_self},
 	        now(),
 	        now(),
-	        #{user_role},
-	        #{user_option}
+	        #{user_role}
         );
     </insert>
     
@@ -141,5 +139,14 @@
     		user 
     	WHERE 
     		user_nickname = #{user_nickname}
+    </select>
+    
+    <select id="checkId" parameterType="String" resultType="int">
+    	SELECT 
+    		count(*) 
+    	FROM 
+    		user 
+    	WHERE 
+    		user_mail = #{user_mail}
     </select>
 </mapper>

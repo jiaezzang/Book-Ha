@@ -35,4 +35,6 @@ public interface MapperUser {
 	int adminNum();
 	
 	public int checkNickname(String user_nickname);
+	
+	public int checkId(String user_mail);
 }

@@ -460,7 +460,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 											<div class="mb-3 col-md-6">
 												<label for="nickName" class="form-label">닉 네 임 수 정</label> 
 												<input class="form-control" type="text" id="nickName" name="nickName" value="" placeholder="닉 네 임">
-												<span id="alert-successNick" style="display:none; color:#696cff;">&nbsp;&nbsp;&nbsp;사용 가능한 닉네임입니다!</span>
+												<span id="alert-successNick" style="display:none; color:#696cff;">&nbsp;&nbsp;&nbsp;사용 가능한 닉네임입니다.</span>
 												<span id="alert-dangerNick" style="display:none; color:#d92742; font-weight: bold;">&nbsp;&nbsp;&nbsp;이미 사용중인 닉네임입니다.</span> 
 											</div>
 											<div class="mb-3 col-md-6 form-password-toggle">
