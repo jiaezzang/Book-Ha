@@ -280,13 +280,6 @@ public class ControllerShare {
 		
 		mv.addObject("title", title);
 		
-		ModelProfileHtml profile = new ModelProfileHtml();
-		if(this.user_role.equals("user")) {
-			mv.addObject("profile", profile.getProfile().toString());
-		} else if(this.user_role.equals("admin")) {
-			mv.addObject("profile", profile.getAdminProfile().toString());
-		}
-		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
@@ -307,10 +300,20 @@ public class ControllerShare {
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
 		
+		ModelProfileHtml profile = new ModelProfileHtml();
+		if(this.user_role.equals("user")) {
+			mv.addObject("profile", profile.getProfile().toString());
+		} else if(this.user_role.equals("admin")) {
+			mv.addObject("profile", profile.getAdminProfile().toString());
+		}
+		
+		this.user_role = daoUser.userSetting(session_user_num).getUser_role();
+		mv.addObject("user_role", this.user_role);
+		
 		// 댓글
 		ArrayList<DTOShareComment> comment_lists = dao.commentList(seq);
 		ModelShareCmt comment = new ModelShareCmt();
-		String cmtTable = comment.cmtList(comment_lists, session_user_num);
+		String cmtTable = comment.cmtList(comment_lists, session_user_num, this.user_role);
 		mv.addObject("cmtTable", cmtTable);
 
 		mv.setViewName("share_board/board_view");
@@ -323,13 +326,6 @@ public class ControllerShare {
 		//mv.addObject("msg", "get");
 		
 		mv.addObject("title", title);
-		
-		ModelProfileHtml profile = new ModelProfileHtml();
-		if(this.user_role.equals("user")) {
-			mv.addObject("profile", profile.getProfile().toString());
-		} else if(this.user_role.equals("admin")) {
-			mv.addObject("profile", profile.getAdminProfile().toString());
-		}
 		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
@@ -348,6 +344,16 @@ public class ControllerShare {
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		ModelProfileHtml profile = new ModelProfileHtml();
+		if(this.user_role.equals("user")) {
+			mv.addObject("profile", profile.getProfile().toString());
+		} else if(this.user_role.equals("admin")) {
+			mv.addObject("profile", profile.getAdminProfile().toString());
+		}
+		
+		this.user_role = daoUser.userSetting(session_user_num).getUser_role();
+		mv.addObject("user_role", this.user_role);
 		
 		mv.setViewName("share_board/board_modify");
 		return mv;
@@ -405,7 +411,10 @@ public class ControllerShare {
 		ArrayList<DTOShareComment> cmt_lists = dao.commentList(to.getBoard_seq());
 		ModelShareCmt comment = new ModelShareCmt();
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
-		String cmtTable = comment.cmtList(cmt_lists, session_user_num);
+		
+		this.user_role = daoUser.userSetting(session_user_num).getUser_role();
+
+		String cmtTable = comment.cmtList(cmt_lists, session_user_num, this.user_role);
 		return cmtTable;
 	}
 	

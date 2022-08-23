@@ -14,6 +14,8 @@
 	String cmtTable = (String)request.getAttribute("cmtTable");
 	
 	int session_user_num = (int)request.getAttribute("session_user_num");
+	String user_role = (String)request.getAttribute("user_role");
+	//System.out.println( user_role ); -> admin
 	
 	DTOShareBoard to = (DTOShareBoard)request.getAttribute("to");
 	
@@ -44,10 +46,14 @@
 	} else if(hash_tag.equals("# 빌려줘")) {
 		btnradio4 = "checked";
 	}
-	
+
 	String btnHide = "";
 	if(session_user_num != user_num) {
 		btnHide = "display: none;";
+	}
+	
+	if(user_role.equals("admin")){
+		btnHide = "";
 	}
 %>
 <!DOCTYPE html>

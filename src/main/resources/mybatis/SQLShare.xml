@@ -118,8 +118,6 @@
     		sh_hashtag = #{hash_tag}
     	WHERE
     		sh_seq = #{seq}
-    	AND
-    		sh_num = #{user_num}
     </update>
     
     <delete id="deleteOk" parameterType="com.bookha.main.dto.DTOShareBoard">
@@ -128,8 +126,6 @@
     		share_board
     	WHERE
     		sh_seq = #{seq}
-    	AND
-    		sh_num = #{user_num}
     </delete>
     
     <select id="commentList" parameterType="int" resultType="com.bookha.main.dto.DTOShareComment">

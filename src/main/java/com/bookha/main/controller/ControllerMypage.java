@@ -33,9 +33,11 @@ public class ControllerMypage {
 	
 	@Autowired
 	private DAOUser dao;
-	
+
 	@Autowired
 	private DAOMyPage daoMypage;
+	
+	
 	
 	@RequestMapping(value = "/mypage.do")
 	public ModelAndView mypage(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -193,6 +195,8 @@ public class ControllerMypage {
 		return mv;
 	}
 
+	// my board
+	
 	@RequestMapping(value = "/al_list.do")
 	public ModelAndView al_list(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();

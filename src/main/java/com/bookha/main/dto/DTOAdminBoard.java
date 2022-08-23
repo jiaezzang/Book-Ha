@@ -11,4 +11,5 @@ public class DTOAdminBoard {
 	private String wdate;
 	private String wgap;
 	private String user_nickname;
+	private int rowno;
 }

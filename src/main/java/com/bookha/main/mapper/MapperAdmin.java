@@ -18,9 +18,9 @@ public interface MapperAdmin {
 	
 	DTOAdminBoard view(int seq);
 	
-	DTOAdminBoard viewBefore(int seq);
+	DTOAdminBoard viewBefore(int rowno);
 	
-	DTOAdminBoard viewAfter(int seq);
+	DTOAdminBoard viewAfter(int rowno);
 	
 	int writeOk(DTOAdminBoard to);
 	
