@@ -96,10 +96,12 @@ String myProfile = (String)request.getAttribute("myProfile");
 <script>
 	$(document).ready(function() {
 
+		//페이지 진입 시 비밀번호 확인 모달
 		$('#modalCenter').modal('show');
             
 	    phoneNo(); 
-	        
+	    
+	    //기본값 입력
 	    reload();
 	    $("#userId").val("<%=userSetting.getUser_mail()%>");
 	    $("#userName").val("<%=userSetting.getUser_name()%>");
@@ -107,6 +109,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 	    $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
 	    $("#introSelf").val("<%=userSetting.getUser_self()%>");
 
+	    //비동기 닉네임 일치검사
 		$("#nickName").keyup(function(){
     		let DTOUser = {
     				"user_nickname": $("#nickName").val().trim()
@@ -135,6 +138,7 @@ String myProfile = (String)request.getAttribute("myProfile");
     		}
     	});
 		
+		//비동기 비밀번호 일치 검사
 	    $('.pw').keyup(function () {
 	        var pwd1 = $("#password1").val();
 	        var pwd2 = $("#password2").val();
@@ -152,6 +156,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 	        }
 	    });
 	    
+	    //값을 입력하지 않고 개인정보 수정 버튼을 눌렀을 때
         $('#update_accountBTN').on("click", function() {
 
           if($('#userId').val().trim() === ''){
@@ -183,6 +188,7 @@ String myProfile = (String)request.getAttribute("myProfile");
         	});
       	}
 
+	    //정보 수정 완료 시
       	function update() {
     	 	 if ($("#password1").val()==$("#password2").val()){
 	       	 	let sendData = {
@@ -209,6 +215,7 @@ String myProfile = (String)request.getAttribute("myProfile");
     	  	}
       	}
 
+	    //계정 삭제 시
       	$('#delete_accountBTN').on("click", function() {
 
      		if($('#deleteUserId').val().trim() === ''){
@@ -250,7 +257,8 @@ String myProfile = (String)request.getAttribute("myProfile");
 	function goBack(){
 		window.history.back();
 	}
-	        
+	
+	//개인정보 수정 페이지 진입 시 비밀번호 확인 검사 모달
 	function checkPw(){
 		let DTOUser = {
 			"user_num" : <%=session_user_num%>,
@@ -283,10 +291,12 @@ String myProfile = (String)request.getAttribute("myProfile");
 		});
 	}
 	
+	//프로필사진 변경 시 사용되는 모달
 	function changePf(){
 		$('#exLargeModal').modal('show');
 	}
-	  
+	
+	//프로필 변경 완료 시 
 	function changePfOk(){
 	  	let DTOUser = {
 			"user_profile" : $('input[name=profile]:checked').val(),
@@ -318,6 +328,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 		});
 	}
 	        
+	//프로필 변경 완료 시 다시 로드 될 프로필 이미지 영역
 	const reload = function(){
 		$.ajax({
 			type: 'POST',
@@ -329,6 +340,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 		});
 	}
 	
+	//프로필 변경 완료 시 다시 로드 될 네비게이션바 영역
 	const reloadNav = function(){
 		$.ajax({
 			type: 'POST',
