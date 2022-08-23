@@ -1,10 +1,7 @@
 package com.bookha.main.dao;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +30,6 @@ public class DAOUser {
 		user.setUser_enterdate(user.getUser_enterdate());
 		user.setUser_final(user.getUser_final());
 		user.setUser_role(user.getUser_role());
-		user.setUser_option(user.getUser_option());
 		
 		mapper_User.userJoin(user);
 	}
@@ -100,5 +96,23 @@ public class DAOUser {
 		int flag = mapper_User.changeProfile(user);
 		
 		return flag;
+	}
+	
+	@Transactional
+	public int adminNum() {
+		
+		return mapper_User.adminNum();
+	}
+	
+	@Transactional
+	public int checkNickname(String user_nickname) {
+		
+		return mapper_User.checkNickname(user_nickname);
+	}
+	
+	@Transactional
+	public int checkId(String user_mail) {
+		
+		return mapper_User.checkId(user_mail);
 	}
 }

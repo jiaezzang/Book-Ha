@@ -15,8 +15,7 @@
 	        user_self,
 	        user_enterdate,
 	        user_final,
-	        user_role,
-	        user_option
+	        user_role
         )
         VALUES(
 	        #{user_mail},
@@ -28,8 +27,7 @@
 	        #{user_self},
 	        now(),
 	        now(),
-	        #{user_role},
-	        #{user_option}
+	        #{user_role}
         );
     </insert>
     
@@ -111,7 +109,7 @@
     
     <select id="userSetting" parameterType="int" resultType="com.bookha.main.dto.DTOUser">
         select 
-        	user_profile, user_mail, user_phonenumber, user_self, user_nickname, user_role
+        	user_profile, user_mail, user_phonenumber, user_self, user_nickname, user_role, user_name
           from user
          where user_num = #{user_num}
     </select>
@@ -124,4 +122,31 @@
         WHERE
         	user_num=#{user_num}
     </update>
+    
+    <select id="adminNum" resultType="int">
+    	SELECT
+    		user_num
+    	FROM
+    		user
+    	WHERE
+    		user_role = "admin"
+    </select>
+    
+    <select id="checkNickname" parameterType="String" resultType="int">
+    	SELECT 
+    		count(*) 
+    	FROM 
+    		user 
+    	WHERE 
+    		user_nickname = #{user_nickname}
+    </select>
+    
+    <select id="checkId" parameterType="String" resultType="int">
+    	SELECT 
+    		count(*) 
+    	FROM 
+    		user 
+    	WHERE 
+    		user_mail = #{user_mail}
+    </select>
 </mapper>

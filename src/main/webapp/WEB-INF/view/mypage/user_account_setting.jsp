@@ -93,251 +93,265 @@ String myProfile = (String)request.getAttribute("myProfile");
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="../js/toastr.js"></script>
+<script>
+	$(document).ready(function() {
 
-	<script>
-        $(document).ready(function() {
-
-            $('#modalCenter').modal('show');
+		//페이지 진입 시 비밀번호 확인 모달
+		$('#modalCenter').modal('show');
             
-	        phoneNo(); 
-	        
-	        reload();
-	        $("#userId").val("<%=userSetting.getUser_mail()%>");
-	        $("#nickName").val("<%=userSetting.getUser_nickname()%>");
-	        $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
-	        $("#introSelf").val("<%=userSetting.getUser_self()%>");
-	        
-	        $("#chkSameNickname").on("click", () => {
-	          let sendData = {
-	            user_nickname: $("#nickName").val().trim()
-	          };
-	
-	          $.ajax({
-	            url:"http://localhost:8080/signUp/chkSameNickname",
-	            type: "post",
-	            contentType: "application/json; charset=utf-8",
-	            data : JSON.stringify(sendData),
-	            dataType:"json",
-	            success : function(result){
-	              if(result === 0) {
-	                $("#update_accountBTN").attr("status", "true");
-	                $("#nickName").css("border", "1px solid red");
-	                alert("닉네임이 중복 됩니다.");
-	              } else {
-	                $("#update_accountBTN").attr("status", "false");
-	                // $("#userId").css("border", "1px solid #d9dee3");
-	                // $("#userId").css("border", "1px solid #696cff");
-	                $("#nickName").css("border", "1px solid green");
-	              }
-	            },
-	            error : function(jqXHR,textStatus,errorThrown){
-	              console.log(jqXHR);
-	              console.log(textStatus);
-	              console.log(errorThrown);
-	            }
-	          });
-	
-	        }); 
+	    phoneNo(); 
+	    
+	    //기본값 입력
+	    reload();
+	    $("#userId").val("<%=userSetting.getUser_mail()%>");
+	    $("#userName").val("<%=userSetting.getUser_name()%>");
+	    $("#nickName").val("<%=userSetting.getUser_nickname()%>");
+	    $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
+	    $("#introSelf").val("<%=userSetting.getUser_self()%>");
 
+	    //비동기 닉네임 일치검사
+		$("#nickName").keyup(function(){
+    		let DTOUser = {
+    				"user_nickname": $("#nickName").val().trim()
+    		};
+    		console.log(DTOUser);
+    		if($("#nickName").val().trim() != "<%=userSetting.getUser_nickname()%>"){
+	    		$.ajax({
+	    			type: 'POST',
+	    			url: "/check_nickname.do",
+	    			data: JSON.stringify(DTOUser),
+	    			contentType: "application/json; charset=UTF-8",
+	    			dataType: "text",
+	    			success: function(data) {
+	    				if (data >= 1){
+	    					$("#alert-successNick").css('display', 'none');
+	    	                $("#alert-dangerNick").css('display', 'inline-block');
+	    				} else {
+	    	                $("#alert-successNick").css('display', 'inline-block');
+	    	                $("#alert-dangerNick").css('display', 'none');
+	    				}
+	    			},
+	    			error : function(){
+	    				//console.log("서버요청실패");
+	    			}
+	    		});
+    		}
+    	});
+		
+		//비동기 비밀번호 일치 검사
+	    $('.pw').keyup(function () {
+	        var pwd1 = $("#password1").val();
+	        var pwd2 = $("#password2").val();
+	  
+	        if ( pwd1 != '' && pwd2 == '' ) {
+	            null;
+	        } else if (pwd1 != "" || pwd2 != "") {
+	            if (pwd1 == pwd2) {
+	                $("#alert-success").css('display', 'inline-block');
+	                $("#alert-danger").css('display', 'none');
+	            } else {
+	                $("#alert-success").css('display', 'none');
+	                $("#alert-danger").css('display', 'inline-block');
+	            }
+	        }
+	    });
+	    
+	    //값을 입력하지 않고 개인정보 수정 버튼을 눌렀을 때
         $('#update_accountBTN').on("click", function() {
 
           if($('#userId').val().trim() === ''){
-            return alert('ID를 입력 해주세요.');
+            return toastr.error('ID를 입력 해주세요.');
           }
 
-          if($('#password').val().trim() === ''){
-            return alert('비밀번호를 입력 해주세요.');
+          if($('.pw').val().trim() === ''){
+            return toastr.error('비밀번호를 입력 해주세요.');
           }
 
-          if($(this).attr("status") === "false") {
-            $("#nickName").css("border", "1px solid red");
-            return alert("닉네임 중복검사를 해주세요.");
-          }
+           if($("#alert-successNick").css("display") === "none") {
+             $("#nickName").css("border", "1px solid red");
+             return toastr.error("닉네임을 수정해주세요.");
+           }
 
           if($('#nickName').val().trim() === ''){
-            return alert('닉네임을 입력 해주세요.');
+            return toastr.error('닉네임을 입력 해주세요.');
           }
 
           if($('#phoneNo').val().trim() === ''){
-            return alert('휴대전화번호를 입력 해주세요.');
-          }
-
-          if($('#introSelf').val().trim() === ''){
-            return alert('자기소개를 입력 해주세요.');
+            return toastr.error('연락처를 입력 해주세요.');
           }
           update();
         })
 
-      function phoneNo() {
-        $("#phoneNo").on("keyup", () => {
-          $("#phoneNo").val( $("#phoneNo").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
-        });
-      }
+      	function phoneNo() {
+        	$("#phoneNo").on("keyup", () => {
+          	$("#phoneNo").val( $("#phoneNo").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
+        	});
+      	}
 
-      function update() {
-        let sendData = {
-          user_mail: $("#userId").val(),
-          user_password: $("#password").val(),
-          user_nickname: $("#nickName").val(),
-          user_phonenumber: $("#phoneNo").val().replaceAll("-", ""),
-          user_self: $("#introSelf").val()
-        };
+	    //정보 수정 완료 시
+      	function update() {
+    	 	 if ($("#password1").val()==$("#password2").val()){
+	       	 	let sendData = {
+	          		user_mail: $("#userId").val(),
+	          		user_password: $("#password1").val(),
+	          		user_nickname: $("#nickName").val(),
+	          		user_phonenumber: $("#phoneNo").val().replaceAll("-", ""),
+	          		user_self: $("#introSelf").val()
+	        	};
+	
+	        	$.ajax({
+	          		url:"http://localhost:8080/account/update",
+	          		type: "post",
+	          		contentType: "application/json; charset=utf-8",
+	          		data : JSON.stringify(sendData),
+	          		dataType:"json",
+	          		success : function(result){
+	            		window.location.href = "/user_account_setting.do";
+	          		},
+	          		error : function(jqXHR,textStatus,errorThrown){
+	            		alert("정보가 일치하지 않습니다.");
+	          		}
+	        	});
+    	  	}
+      	}
 
-        $.ajax({
-          url:"http://localhost:8080/account/update",
-          type: "post",
-          contentType: "application/json; charset=utf-8",
-          data : JSON.stringify(sendData),
-          dataType:"json",
-          success : function(result){
-            window.location.href = "/user_account_setting.do";
-          },
-          error : function(jqXHR,textStatus,errorThrown){
-            alert("정보가 일치하지 않습니다.");
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-          }
-        });
-      }
+	    //계정 삭제 시
+      	$('#delete_accountBTN').on("click", function() {
 
-      $('#delete_accountBTN').on("click", function() {
-
-        if($('#deleteUserId').val().trim() === ''){
-          return alert('ID를 입력 해주세요.');
-        }
-
-        if($('#deletePassword').val().trim() === ''){
-          return alert('비밀번호를 입력 해주세요.');
-        }
-
-        if(!$("#accountActivation").prop("checked")){
-          return alert('계정삭제를 원하신다면 체크해주세요.');
-        }
-
-        deleteUser();
-        })
-
-      })
-
-      function deleteUser() {
-        let sendData = {
-          user_mail: $("#deleteUserId").val(),
-          user_password: $("#deletePassword").val()
-        };
-
-        $.ajax({
-          url:"http://localhost:8080/account/delete",
-          type: "post",
-          contentType: "application/json; charset=utf-8",
-          data : JSON.stringify(sendData),
-          dataType:"json",
-          success : function(result){
-            window.location.href = "/";
-          },
-          error : function(jqXHR,textStatus,errorThrown){
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-          }
-        });
-      }
-        
-        function goBack(){
-        	window.history.back();
-        }
-        
-        function checkPw(){
-        	let DTOUser = {
-   					"user_num" : <%=session_user_num%>,
-   					"user_password" : $("#checkPw").val()
-
-   			}
-        	
-   			//console.log(DTOUser);
-        	if($("#checkPw").val() == "" || $("#checkPw").val() == null){
-				toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
-				return false;
+     		if($('#deleteUserId').val().trim() === ''){
+        		return alert('ID를 입력 해주세요.');
         	}
-   			$.ajax({
-   				type: "POST",
-   				url: "check_pw.do",
-   				data: JSON.stringify(DTOUser),
-   				contentType: "application/json; charset=utf-8",
-   				dataType: "text",
-   				success: function(data){
-   					if(data == 1 ) {
-	   					$("#modalCenter").modal("hide");
-	   					toastr.success('비밀번호 확인 완료!', '작업 성공!');
-   					}else {
-   	   					toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
-   	   					$("#checkPw").val("");
-   					}
-   				},
-   				error: function(e) {
-	   				toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
-	   				$("#checkPw").val("");
-   				}
-   			});
-        }
+        	if($('#deletePassword').val().trim() === ''){
+          		return alert('비밀번호를 입력 해주세요.');
+        	}
+        	if(!$("#accountActivation").prop("checked")){
+          		return alert('계정삭제를 원하신다면 체크해주세요.');
+        	}
+        	deleteUser();
+        })
+    })
 
-        function changePf(){
-            $('#exLargeModal').modal('show');
-        }
-        
-        function changePfOk(){
-        	let DTOUser = {
-   					"user_profile" : $('input[name=profile]:checked').val(),
-   					"user_num" : <%=session_user_num%>
-   			}
-        	console.log(DTOUser)
-   			$.ajax({
-   				type: "POST",
-   				url: "change_pf.do",
-   				data: JSON.stringify(DTOUser),
-   				contentType: "application/json; charset=utf-8",
-   				dataType: "text",
-   				success: function(data){
-   					if(data == 1) {
-	   					$("#exLargeModal").modal("hide");
-	   					toastr.success('프로필 수정 완료!', '작업 성공!');
-	   					reloadNav();
-	   					reload();
-
-   					}else {
-   	   					toastr.error('프로필 이미지를 선택해주세요.', '입력 오류!');
-   	   					$('input[name=profile]:checked').val("");
-   					}
-   				},
-   				error: function(e) {
-	   				toastr.error('프로필 이미지를 선택해주세요.', '입력 오류!');
-	   				$('input[name=profile]:checked').val("");
-   				}
-   			});
-        }
-        
-        const reload = function(){
-        	$.ajax({
-        		type: 'POST',
-        		url: "/reload_profile.do",
-        		datatype: "text",
-        		success: function(data){
-        			$("#profileImg").html(data);
-        		}
-        	});
-        }
-        
-        const reloadNav = function(){
-        	$.ajax({
-        		type: 'POST',
-        		url: "/reload_nav.do",
-        		datatype: "text",
-        		success: function(data){
-        			$("#navBar").html(data);
-        		}
-        	});
-        }
-    </script>
+	function deleteUser() {
+		let sendData = {
+	    user_mail: $("#deleteUserId").val(),
+	    user_password: $("#deletePassword").val()
+	    };
+	
+	    $.ajax({
+	    	url:"http://localhost:8080/account/delete",
+	        type: "post",
+	        contentType: "application/json; charset=utf-8",
+	        data : JSON.stringify(sendData),
+	        dataType:"json",
+	        success : function(result){
+	        	window.location.href = "/";
+	        },
+	        error : function(jqXHR,textStatus,errorThrown){
+	        	console.log(jqXHR);
+	            console.log(textStatus);
+	            console.log(errorThrown);
+	        }
+	    });
+	}
+	        
+	function goBack(){
+		window.history.back();
+	}
+	
+	//개인정보 수정 페이지 진입 시 비밀번호 확인 검사 모달
+	function checkPw(){
+		let DTOUser = {
+			"user_num" : <%=session_user_num%>,
+			"user_password" : $("#checkPw").val()
+		}
+		//console.log(DTOUser);
+		if($("#checkPw").val() == "" || $("#checkPw").val() == null){
+			toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+			return false;
+		}
+		$.ajax({
+			type: "POST",
+		   	url: "check_pw.do",
+		   	data: JSON.stringify(DTOUser),
+		   	contentType: "application/json; charset=utf-8",
+		   	dataType: "text",
+		   	success: function(data){
+		   		if(data == 1 ) {
+			   		$("#modalCenter").modal("hide");
+			   		toastr.success('비밀번호 확인 완료!', '작업 성공!');
+		   		}else {
+		   	   		toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+		   	   		$("#checkPw").val("");
+		   		}
+		   	},
+		   	error: function(e) {
+			   	toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+			   	$("#checkPw").val("");
+		   	}
+		});
+	}
+	
+	//프로필사진 변경 시 사용되는 모달
+	function changePf(){
+		$('#exLargeModal').modal('show');
+	}
+	
+	//프로필 변경 완료 시 
+	function changePfOk(){
+	  	let DTOUser = {
+			"user_profile" : $('input[name=profile]:checked').val(),
+			"user_num" : <%=session_user_num%>
+		}
+	  	console.log(DTOUser)
+		$.ajax({
+			type: "POST",
+			url: "change_pf.do",
+			data: JSON.stringify(DTOUser),
+			contentType: "application/json; charset=utf-8",
+			dataType: "text",
+			success: function(data){
+				if(data == 1) {
+					$("#exLargeModal").modal("hide");
+					toastr.success('프로필 수정 완료!', '작업 성공!');
+					reloadNav();
+					reload();
+		
+				}else {
+		 					toastr.error('프로필 이미지를 선택해주세요.', '입력 오류!');
+		 					$('input[name=profile]:checked').val("");
+				}
+			},
+			error: function(e) {
+				toastr.error('프로필 이미지를 선택해주세요.', '입력 오류!');
+				$('input[name=profile]:checked').val("");
+			}
+		});
+	}
+	        
+	//프로필 변경 완료 시 다시 로드 될 프로필 이미지 영역
+	const reload = function(){
+		$.ajax({
+			type: 'POST',
+			url: "/reload_profile.do",
+			datatype: "text",
+			success: function(data){
+				$("#profileImg").html(data);
+			}
+		});
+	}
+	
+	//프로필 변경 완료 시 다시 로드 될 네비게이션바 영역
+	const reloadNav = function(){
+		$.ajax({
+			type: 'POST',
+			url: "/reload_nav.do",
+			datatype: "text",
+			success: function(data){
+				$("#navBar").html(data);
+			}
+		});
+	}
+</script>
 </head>
 <body class="modal-open" style="padding-right:17px;">
     <!-- Layout wrapper -->
@@ -432,24 +446,38 @@ String myProfile = (String)request.getAttribute("myProfile");
 										<!-- <form id="formAccountSettings" method="POST" onsubmit="return false"> -->
 										<div class="row">
 											<div class="mb-3 col-md-6">
-												<label for="userId" class="form-label">I D 확 인</label> <input class="form-control" type="text" id="userId" name="userId" value="" placeholder="ID를 확인해 주세요" readonly="">
-											</div>
-											<div class="mb-3 col-md-6 form-password-toggle">
-												<label class="form-label" for="password">비 밀 번 호 수 정</label>
-												<div class="input-group input-group-merge">
-													<input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password"> <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-												</div>
-											</div>
-											<!-- <div class="mb-3 col-md-6">
-												  <label for="password" class="form-label">비 밀 번 호 수 정</label>
-								 				 <input class="form-control" type="text" id="password" name="password" value="" placeholder="Password" />
-								 				 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-												</div> -->
-											<div class="mb-3 col-md-6">
-												<label for="nickName" class="form-label">닉 네 임 수 정</label> <input class="form-control" type="text" id="nickName" name="nickName" value="" placeholder="닉 네 임"> <span id="chkSameNickname" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
+												<label for="userId" class="form-label">I D</label> 
+												<input class="form-control" type="text" id="userId" name="userId" value="" readonly="">
 											</div>
 											<div class="mb-3 col-md-6">
 												<label for="phoneNo" class="form-label">연 락 처 수 정</label> <input type="text" class="form-control" id="phoneNo" name="phoneNo" value="" maxlength="13" placeholder="연 락 처">
+												<div></div> 
+											</div>
+											<div class="mb-3 col-md-6">
+												<label for="userName" class="form-label">이 름</label> 
+												<input class="form-control" type="text" id="userName" name="userName" value="" readonly="">
+											</div>
+											<div class="mb-3 col-md-6">
+												<label for="nickName" class="form-label">닉 네 임 수 정</label> 
+												<input class="form-control" type="text" id="nickName" name="nickName" value="" placeholder="닉 네 임">
+												<span id="alert-successNick" style="display:none; color:#696cff;">&nbsp;&nbsp;&nbsp;사용 가능한 닉네임입니다.</span>
+												<span id="alert-dangerNick" style="display:none; color:#d92742; font-weight: bold;">&nbsp;&nbsp;&nbsp;이미 사용중인 닉네임입니다.</span> 
+											</div>
+											<div class="mb-3 col-md-6 form-password-toggle">
+												<label class="form-label" for="password1">비 밀 번 호 수 정</label>
+												<div class="input-group input-group-merge">
+													<input type="password" id="password1" class="pw form-control" name="password1" placeholder="············" aria-describedby="password">
+													<span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+												</div>
+											</div>
+											<div class="mb-3 col-md-6 form-password-toggle">
+												<label class="form-label" for="password2">비 밀 번 호 수 정  확 인</label>
+												<div class="input-group input-group-merge">
+													<input type="password" id="password2" class="pw form-control" name="password2" placeholder="············" aria-describedby="password"> 
+													<span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+												</div>
+												<span id="alert-success" style="display:none; color:#696cff;">&nbsp;&nbsp;&nbsp;비밀번호가 일치합니다</span>
+												<span id="alert-danger" style="display:none; color:#d92742; font-weight: bold;">&nbsp;&nbsp;&nbsp;비밀번호가 일치하지 않습니다.</span>
 											</div>
 											<div>
 												<label class="form-label" for="introSelf">자 기 소 개</label>
@@ -558,30 +586,6 @@ String myProfile = (String)request.getAttribute("myProfile");
            			</div>
         		</div>
 			</div>
-			
-<!--             Footer -->
-<!--             <footer class="content-footer footer bg-footer-theme"> -->
-<!--               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
-<!--                 <div class="mb-2 mb-md-0"> -->
-<!--                   © -->
-<!--                   <script> -->
-<!--                     document.write(new Date().getFullYear()); -->
-<!--                   </script>2022 -->
-<!--                   , made with ❤️ by -->
-<!--                   <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
-<!--                 </div> -->
-<!--                 <div> -->
-<!--                   <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a> -->
-<!--                   <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a> -->
-
-<!--                   <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation</a> -->
-
-<!--                   <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="footer-link me-4">Support</a> -->
-<!--                 </div> -->
-<!--               </div> -->
-<!--             </footer> -->
-            <!-- / Footer -->
-
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
@@ -593,16 +597,7 @@ String myProfile = (String)request.getAttribute("myProfile");
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-
-
     
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-
-    <!-- Main JS -->
-    
-
     <script src="../assets/js/main.js"></script>
 
     <!-- Page JS -->

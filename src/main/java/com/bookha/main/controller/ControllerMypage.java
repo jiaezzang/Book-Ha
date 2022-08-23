@@ -317,4 +317,18 @@ public class ControllerMypage {
 		
 		return reloadNav;
 	}
+	
+	@RequestMapping(value = "/check_nickname.do", method = RequestMethod.POST)
+	public String checkNickName(@RequestBody DTOUser to) {
+		
+		String result = String.valueOf(dao.checkNickname(to.getUser_nickname()));
+		return result;
+	}
+	
+	@RequestMapping(value = "/check_id.do", method = RequestMethod.POST)
+	public String checkId(@RequestBody DTOUser to) {
+		
+		String result = String.valueOf(dao.checkId(to.getUser_mail()));
+		return result;
+	}
 }

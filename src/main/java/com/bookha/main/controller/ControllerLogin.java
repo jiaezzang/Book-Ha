@@ -43,6 +43,7 @@ public class ControllerLogin {
 	
 	@GetMapping("/signUp")
 	public ModelAndView signUp(ModelAndView mav) {
+		mav.addObject("logo", new ModelLogoHtml().getLogo().toString());
 		mav.setViewName("login/signUp");
 		
 		return mav;
