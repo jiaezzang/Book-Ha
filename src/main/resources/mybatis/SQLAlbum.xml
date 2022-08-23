@@ -10,7 +10,8 @@
             al_subject,
             date_format(al_wdate, '%Y년 %m월 %d일' ) as al_wdate,
             al_imgName,
-            user_nickname as user_name
+            user_nickname as user_name,
+            user_role
         FROM
         	album_board
         INNER JOIN 

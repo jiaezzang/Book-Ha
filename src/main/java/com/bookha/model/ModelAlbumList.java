@@ -9,8 +9,7 @@ public class ModelAlbumList {
 		
 	}
 	
-	public String getAlbumList(ArrayList<DTOAlbumBoard> lists, int session_user_num) {
-		
+	public String getAlbumList(ArrayList<DTOAlbumBoard> lists, int session_user_num, int adminNum) {
 		StringBuilder sbHtml = new StringBuilder();
 		for( DTOAlbumBoard dto : lists){
 			sbHtml.append("<div class='col'>");
@@ -25,7 +24,7 @@ public class ModelAlbumList {
 			sbHtml.append("</div>");
 			
 			//Dropdown Button
-			if(dto.getAl_user_num() == session_user_num) {
+			if(dto.getAl_user_num() == session_user_num || session_user_num == adminNum ) {
 				sbHtml.append("<div class='btn-group'");
 				sbHtml.append("style='display: inline-block; float: right;'>");
 				sbHtml.append("<button type='button'");

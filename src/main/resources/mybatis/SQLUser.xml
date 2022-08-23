@@ -124,4 +124,13 @@
         WHERE
         	user_num=#{user_num}
     </update>
+    
+    <select id="adminNum" resultType="int">
+    	SELECT
+    		user_num
+    	FROM
+    		user
+    	WHERE
+    		user_role = "admin"
+    </select>
 </mapper>

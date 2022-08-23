@@ -11,4 +11,5 @@ public class DTOAlbumBoard {
 	private String al_imgName;
 	private String user_name;
 	private String user_nickname;
+	private String user_role;
 }

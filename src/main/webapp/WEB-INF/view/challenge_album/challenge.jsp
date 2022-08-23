@@ -14,6 +14,7 @@
 	DTOAlbumBoard dto = (DTOAlbumBoard)request.getAttribute("dto");
 	DTOAlbumTotal totalLists = (DTOAlbumTotal)request.getAttribute("totalLists");
 	
+	String NoticeList = (String)request.getAttribute( "NoticeList" );
 	String albumlist = (String)request.getAttribute("albumlist");
 	System.out.println(albumlist);
 	
@@ -388,29 +389,16 @@ const reload = function(){
 							<div class="table-responsive text-nowrap">
 								<table class="table table-hover">
 									<thead>
-										<tr>
-											<th>제목</th>
+										<tr align="center">
+											<th>제   목</th>
 											<th>작성자</th>
 											<th>작성일자</th>
 										</tr>
 									</thead>
 									<tbody class="table-border-bottom-0">
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> <strong>[필독]&nbsp;&nbsp;</strong>게시판
-													사용시 주의사항 및 규칙 2 (반드시 확인 바랍니다)
-											</a></td>
-											<td>운영자</td>
-											<td>2022-07-27</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> <strong>[필독]&nbsp;&nbsp;</strong>게시판
-													사용시 주의사항 및 규칙 1 (반드시 확인 바랍니다)
-											</a></td>
-											<td>운영자</td>
-											<td>2022-07-26</td>
-										</tr>
+										<!-- notice list -->
+										<%=NoticeList %>
+										<!-- /notice list -->
 									</tbody>
 								</table>
 							</div>

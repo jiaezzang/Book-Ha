@@ -101,4 +101,10 @@ public class DAOUser {
 		
 		return flag;
 	}
+	
+	@Transactional
+	public int adminNum() {
+		
+		return mapper_User.adminNum();
+	}
 }

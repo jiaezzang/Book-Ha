@@ -1,6 +1,5 @@
 package com.bookha.main.mapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,4 +31,6 @@ public interface MapperUser {
 	DTOUser userSetting(int user_num );
 	
 	int changeProfile(DTOUser user);
+	
+	int adminNum();
 }
