@@ -20,6 +20,7 @@ public class ControllerUrlInterceptor implements WebMvcConfigurer {
 		.excludePathPatterns("/css/*")
 		.excludePathPatterns("/fonts/*")
 		.excludePathPatterns("/images/*")
+		.excludePathPatterns("/img/*")
 		.excludePathPatterns("/js/*")
 		.excludePathPatterns("/libs/*")
 		.excludePathPatterns("/scss/*")

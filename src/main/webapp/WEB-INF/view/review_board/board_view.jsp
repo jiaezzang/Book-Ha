@@ -1,12 +1,13 @@
-<%@page import="com.bookha.main.dto.DTOUser"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.bookha.main.dto.DTOReviewBoard" %>
+<%@ page import="com.bookha.main.dto.DTOUser" %>
 <%
 request.setCharacterEncoding("UTF-8");
 
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
+	String logo = (String)request.getAttribute("logo");
 	String comment = (String)request.getAttribute("comment");
 	
 	int session_user_num = (int)request.getAttribute("session_user_num");
@@ -14,6 +15,8 @@ request.setCharacterEncoding("UTF-8");
 	DTOReviewBoard to = (DTOReviewBoard)request.getAttribute("to");
 	
 	DTOUser user = (DTOUser)request.getAttribute("user");
+	
+	String user_role = (String)request.getAttribute("user_role");
 	
 	int user_num = to.getUser_num();
 	int seq = to.getSeq();
@@ -51,10 +54,12 @@ request.setCharacterEncoding("UTF-8");
 	}
 	
 	String btnHide = "";
-	System.out.println(session_user_num);
-	System.out.println(user_num);
 	if(session_user_num != user_num) {
 		btnHide = "display: none;";
+	}
+	
+	if(user_role.equals("admin")) {
+		btnHide = "";
 	}
 %>
 <!DOCTYPE html>
@@ -323,13 +328,7 @@ const reload = function(board_seq) {
 			<aside id="layout-menu"
 				class="layout-menu menu-vertical menu bg-menu-theme">
 				<div class="app-brand demo">
-					<a href="index.html" class="app-brand-link"> <span
-						class="app-brand-logo demo"> 
-					</span> <img class="logo-demo" src="../assets/img/logo/logo2.png" >
-					</a> <a href="javascript:void(0);"
-						class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-						<i class="bx bx-chevron-left bx-sm align-middle"></i>
-					</a>
+					<%= logo %>
 				</div>
 
 				<div class="menu-inner-shadow"></div>

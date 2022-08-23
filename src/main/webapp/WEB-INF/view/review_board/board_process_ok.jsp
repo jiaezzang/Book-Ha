@@ -8,9 +8,18 @@
 	
 	String result = "";
 	
+	int seq = 0;
+	if(request.getAttribute("seq") != null) {
+		seq = (int)request.getAttribute("seq");
+	}
+	
 	if(flag == 0) {
 		result = "DB Insert Complete";
-		response.sendRedirect("/review_list.do");
+		if(seq == 0) {
+			response.sendRedirect("/review_list.do");
+		} else {
+			response.sendRedirect("/review_view.do?seq="+seq);
+		}
 	} else {
 		result = "<script>history.back();</script>";
 	}
