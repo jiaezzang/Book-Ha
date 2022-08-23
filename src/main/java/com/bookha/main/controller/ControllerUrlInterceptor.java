@@ -20,6 +20,7 @@ public class ControllerUrlInterceptor implements WebMvcConfigurer {
 		.excludePathPatterns("/css/*")
 		.excludePathPatterns("/fonts/*")
 		.excludePathPatterns("/images/*")
+		.excludePathPatterns("/img/*")
 		.excludePathPatterns("/js/*")
 		.excludePathPatterns("/libs/*")
 		.excludePathPatterns("/scss/*")
@@ -36,7 +37,7 @@ public class ControllerUrlInterceptor implements WebMvcConfigurer {
         .excludePathPatterns("/kakaoUser/userInfo")
         .excludePathPatterns("/register_policy")
         .excludePathPatterns("/new")
-        .excludePathPatterns("/chkSameId")
-        .excludePathPatterns("/chkSameNickName");
+        .excludePathPatterns("/check_id.do")
+        .excludePathPatterns("/check_nickname.do");
 	}
 }

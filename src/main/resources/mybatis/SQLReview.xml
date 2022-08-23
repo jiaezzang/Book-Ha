@@ -143,8 +143,6 @@
     		re_book_summary = #{book_summary}
     	WHERE
     		re_seq = #{seq}
-    	AND
-    		re_num = #{user_num}
     </update>
     
     <delete id="deleteOk" parameterType="com.bookha.main.dto.DTOReviewBoard">
@@ -153,8 +151,6 @@
     		review_board
     	WHERE
     		re_seq = #{seq}
-    	AND
-    		re_num = #{user_num}
     </delete>
     
     <select id="commentList" parameterType="int" resultType="com.bookha.main.dto.DTOReviewComment">

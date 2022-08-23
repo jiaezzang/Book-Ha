@@ -9,7 +9,7 @@ public class ModelReviewCommentList {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getCommentList(ArrayList<DTOReviewComment> lists, int session_user_num) {
+	public String getCommentList(ArrayList<DTOReviewComment> lists, int session_user_num, String user_role) {
 		String model = "";
 		
 		for(DTOReviewComment list : lists) {
@@ -18,6 +18,10 @@ public class ModelReviewCommentList {
 			model += "&emsp;&emsp;";
 			if(list.getUser_num() == session_user_num) {
 				model += "<a href='javascript:void(0);' class='deleteReply' style='color: gray; display: inline-block;'>댓글 삭제</a>";
+			} else {
+				if(user_role.equals("admin")) {
+					model += "<a href='javascript:void(0);' class='deleteReply' style='color: gray; display: inline-block;'>댓글 삭제</a>";
+				}
 			}
 			model += "<div style='display: inline-block; visibility: hidden;'>" + list.getSeq() + "</div>";
 			model += "<p>" + list.getContent().replaceAll("\n", "<br />") + "</p>";
