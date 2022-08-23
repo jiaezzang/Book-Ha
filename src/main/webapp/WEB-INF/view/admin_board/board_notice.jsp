@@ -19,16 +19,20 @@
 	int user_num = to.getUser_num();
 	String content = to.getContent();
 	String date = to.getWdate();
+	int rowno = to.getRowno();
 	
 	// 이전글
 	DTOAdminBoard to1 = (DTOAdminBoard)request.getAttribute("to1");
 	int beforeSeq = to1.getSeq();
 	String beforeSubject = to1.getSubject();
+	int beforeRowno = to1.getRowno();
 	
 	// 다음글
 	DTOAdminBoard to2 = (DTOAdminBoard)request.getAttribute("to2");
 	int afterSeq = to2.getSeq();
 	String afterSubject = to2.getSubject();
+	int afterRowno = to1.getRowno();
+	
 %>
 <!DOCTYPE html>
 
@@ -179,7 +183,14 @@
 			obj1.setAttribute('name', 'seq');
 			obj1.setAttribute('value', <%=afterSeq %>);
 			
+			let obj2;
+			obj2 = document.createElement('input');
+			obj2.setAttribute('type', 'hidden');
+			obj2.setAttribute('name', 'rowno');
+			obj2.setAttribute('value', <%=afterRowno %>);
+			
 			f.appendChild(obj1);
+			f.appendChild(obj2);
 			
 			f.setAttribute('method', 'get');
 			if( <%=afterSeq %> == 0 ) {
@@ -200,7 +211,14 @@
 			obj1.setAttribute('name', 'seq');
 			obj1.setAttribute('value', <%=beforeSeq %>);
 			
+			let obj2;
+			obj2 = document.createElement('input');
+			obj2.setAttribute('type', 'hidden');
+			obj2.setAttribute('name', 'rowno');
+			obj2.setAttribute('value', <%=beforeRowno %>);
+			
 			f.appendChild(obj1);
+			f.appendChild(obj2);
 			
 			f.setAttribute('method', 'get');
 			if( <%=beforeSeq %> == 0 ) {

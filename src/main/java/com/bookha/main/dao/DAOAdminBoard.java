@@ -37,12 +37,12 @@ public class DAOAdminBoard implements MapperAdmin {
 	}
 	
 	@Override
-	public DTOAdminBoard viewBefore(int seq) {
+	public DTOAdminBoard viewBefore(int rowno) {
 		// TODO Auto-generated method stub
 		
 		DTOAdminBoard to = new DTOAdminBoard(); 
-		if(mapper.viewBefore(seq) != null) {
-			to = mapper.viewBefore(seq);
+		if(mapper.viewBefore(rowno) != null) {
+			to = mapper.viewBefore(rowno);
 		} else {
 			to.setSeq(0);
 			to.setSubject("이전 게시글이 없습니다.");
@@ -52,12 +52,12 @@ public class DAOAdminBoard implements MapperAdmin {
 	}
 
 	@Override
-	public DTOAdminBoard viewAfter(int seq) {
+	public DTOAdminBoard viewAfter(int rowno) {
 		// TODO Auto-generated method stub
 		
 		DTOAdminBoard to = new DTOAdminBoard(); 
-		if(mapper.viewAfter(seq) != null) {
-			to = mapper.viewAfter(seq);
+		if(mapper.viewAfter(rowno) != null) {
+			to = mapper.viewAfter(rowno);
 		} else {
 			to.setSeq(0);
 			to.setSubject("다음 게시글이 없습니다.");

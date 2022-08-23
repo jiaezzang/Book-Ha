@@ -19,26 +19,19 @@
 	int user_num = to.getUser_num();
 	String content = to.getContent();
 	String date = to.getWdate();
+	int rowno = to.getRowno();
 
 	// 이전글
 	DTOAdminBoard to1 = (DTOAdminBoard)request.getAttribute("to1");
 	int beforeSeq = to1.getSeq();
 	String beforeSubject = to1.getSubject();
-	if( beforeSeq == 0 ) {
-		String before = "javascript:void(0);";
-	} else {
-		String before = "view.do?seq=" + beforeSeq;
-	}
 	
 	// 다음글
 	DTOAdminBoard to2 = (DTOAdminBoard)request.getAttribute("to2");
 	int afterSeq = to2.getSeq();
 	String afterSubject = to2.getSubject();
-	if( afterSeq == 0 ) {
-		String after = "javascript:void(0);";
-	} else {
-		String after = "view.do?seq" + afterSeq;
-	}
+	
+	//System.out.println( to2.getRowno() );
 %>
 <!DOCTYPE html>
 

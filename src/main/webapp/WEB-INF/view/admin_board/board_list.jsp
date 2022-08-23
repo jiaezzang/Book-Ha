@@ -75,17 +75,6 @@
 <!-- jQuery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Toastr -->
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="../js/toastr.js"></script>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		
-	});
-</script>
-
 </head>
 
 <body>
@@ -215,7 +204,7 @@
 	<!-- / Layout wrapper -->
 
 	<div class="buy-now">
-		<a href="./write.do" class="btn btn-outline-primary btn-buy-now">글 작성하기</a>
+		<a href="/write.do" class="btn btn-outline-primary btn-buy-now">글 작성하기</a>
 	</div>
 
 	<!-- Core JS -->

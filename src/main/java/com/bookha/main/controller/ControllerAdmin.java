@@ -121,8 +121,13 @@ public class ControllerAdmin {
 		
 		mv.addObject("title", title);
 		
+		// 프로필
 		ModelProfileHtml profile = new ModelProfileHtml();
-		mv.addObject("profile", profile.getAdminProfile().toString());
+		if(this.user_role.equals("user")) {
+			mv.addObject("profile", profile.getProfile().toString());
+		} else if(this.user_role.equals("admin")) {
+			mv.addObject("profile", profile.getAdminProfile().toString());
+		}
 		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
@@ -146,9 +151,14 @@ public class ControllerAdmin {
 		
 		mv.addObject("title", title);
 		
+		// 프로필
 		ModelProfileHtml profile = new ModelProfileHtml();
-		mv.addObject("profile", profile.getAdminProfile().toString());
-		
+		if(this.user_role.equals("user")) {
+			mv.addObject("profile", profile.getProfile().toString());
+		} else if(this.user_role.equals("admin")) {
+			mv.addObject("profile", profile.getAdminProfile().toString());
+		}
+
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
@@ -195,6 +205,7 @@ public class ControllerAdmin {
 		
 		mv.addObject("title", title);
 		
+		// 프로필
 		ModelProfileHtml profile = new ModelProfileHtml();
 		if(this.user_role.equals("user")) {
 			mv.addObject("profile", profile.getProfile().toString());
@@ -211,14 +222,15 @@ public class ControllerAdmin {
 		mv.addObject("session_user_num", session_user_num);
 		
 		DTOAdminBoard to = dao.view(seq);
+		int rowno = to.getRowno();
 		mv.addObject("to", to);
 		
 		// 이전글
-		DTOAdminBoard to1 = dao.viewBefore(seq);
+		DTOAdminBoard to1 = dao.viewBefore(rowno);
 		mv.addObject("to1", to1);
 		
 		// 다음글
-		DTOAdminBoard to2 = dao.viewAfter(seq);
+		DTOAdminBoard to2 = dao.viewAfter(rowno);
 		mv.addObject("to2", to2);
 		
 		//Navbar Model
@@ -239,6 +251,7 @@ public class ControllerAdmin {
 		
 		mv.addObject("title", title);
 		
+		// 프로필
 		ModelProfileHtml profile = new ModelProfileHtml();
 		if(this.user_role.equals("user")) {
 			mv.addObject("profile", profile.getProfile().toString());
@@ -319,9 +332,6 @@ public class ControllerAdmin {
 		
 		mv.addObject("title", title);
 		
-		ModelProfileHtml profile = new ModelProfileHtml();
-		mv.addObject("profile", profile.getAdminProfile().toString());
-		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
@@ -339,14 +349,15 @@ public class ControllerAdmin {
 		mv.addObject("session_user_num", session_user_num);
 		
 		DTOAdminBoard to = dao.view(seq);
+		int rowno = to.getRowno();
 		mv.addObject("to", to);
 		
 		// 이전글
-		DTOAdminBoard to1 = dao.viewBefore(seq);
+		DTOAdminBoard to1 = dao.viewBefore(rowno);
 		mv.addObject("to1", to1);
 		
 		// 다음글
-		DTOAdminBoard to2 = dao.viewAfter(seq);
+		DTOAdminBoard to2 = dao.viewAfter(rowno);
 		mv.addObject("to2", to2);
 		
 		mv.setViewName("admin_board/board_notice");

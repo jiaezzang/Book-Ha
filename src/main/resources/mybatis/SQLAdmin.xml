@@ -5,27 +5,38 @@
 <mapper namespace="com.bookha.main.mapper.MapperAdmin">
     <select id="list" parameterType="com.bookha.main.dto.DTOAdminTotal" resultType="com.bookha.main.dto.DTOAdminBoard">
         SELECT
-        	no_seq as seq,
-        	no_user_num as user_num,
-            no_subject as subject,
-            date_format(no_date, '%Y-%m-%d') as wdate,
-            datediff( now(), no_date ) wgap,
-			user_nickname
-        FROM
-        	notice_board n
-        INNER JOIN
+        	tb.no_seq as seq,
+			tb.no_user_num as user_num,
+			tb.no_subject as subject,
+			date_format(tb.no_date, '%Y-%m-%d') as wdate,
+			datediff( now(), tb.no_date ) wgap,
+			user_nickname,
+			tb.rowno as rowno
+		FROM
+			(SELECT
+				no_seq,
+				no_user_num,
+				no_subject,
+				no_date,
+				row_number() over(	
+								ORDER BY
+									(case
+										when no_subject like '%리뷰%' then 1 
+										when no_subject like '%챌린지%' then 2
+										when no_subject like '%공유%' then 3
+										else 4 end),
+										no_seq desc
+						      		) rowno
+   			FROM
+      			notice_board
+   			) as tb
+		INNER JOIN
         	user u
         ON
-        	n.no_user_num = u.user_num
-        ORDER BY
-        	(case
-        		when no_subject like '%리뷰%' then 1 
-				when no_subject like '%챌린지%' then 2
-				when no_subject like '%공유%' then 3
-        		else 4 end
-        	),
-        	no_seq desc
-        LIMIT
+        	tb.no_user_num = u.user_num
+		ORDER BY
+			tb.rowno
+		LIMIT
         	#{skip}, #{recordPerPage}
     </select>
 
@@ -38,41 +49,83 @@
     
     <select id="view" parameterType="int" resultType="com.bookha.main.dto.DTOAdminBoard">
         SELECT
-        	no_seq as seq,
-            no_subject as subject,
-            no_user_num as user_num,
-            no_content as content,
-            date_format(no_date, '%Y-%m-%d') as wdate
+        	tb.no_seq as seq,
+        	tb.no_user_num as user_num,
+            tb.no_subject as subject,
+            tb.no_content as content,
+            date_format(tb.no_date, '%Y-%m-%d') as wdate,
+            tb.rowno as rowno
         FROM
-        	notice_board
+			(SELECT
+				no_seq,
+				no_user_num,
+				no_subject,
+				no_content,
+				no_date,
+				row_number() over(	
+								ORDER BY
+									(case
+										when no_subject like '%리뷰%' then 1 
+										when no_subject like '%챌린지%' then 2
+										when no_subject like '%공유%' then 3
+										else 4 end),
+										no_seq desc
+						      		) rowno
+   			FROM
+      			notice_board
+   			) as tb
         WHERE
-        	no_seq = #{seq}
+        	tb.no_seq = #{seq}
     </select>
     
     <select id="viewBefore" parameterType="int" resultType="com.bookha.main.dto.DTOAdminBoard">
-    	SELECT
-        	no_seq as seq,
-            no_subject as subject
+       SELECT
+        	tb.no_seq as seq,
+            tb.no_subject as subject,
+            tb.rowno as rowno
         FROM
-        	notice_board
-        WHERE
-        	no_seq
-        IN (
-        	( select max(no_seq) from notice_board where no_seq &lt; #{seq} )
-        )
+			(SELECT
+				no_seq,
+				no_subject,
+				row_number() over(	
+								ORDER BY
+									(case
+										when no_subject like '%리뷰%' then 1 
+										when no_subject like '%챌린지%' then 2
+										when no_subject like '%공유%' then 3
+										else 4 end),
+										no_seq desc
+						      		) rowno
+   			FROM
+      			notice_board
+   			) as tb
+   		WHERE
+   			tb.rowno = #{rowno} + 1
     </select>
     
     <select id="viewAfter" parameterType="int" resultType="com.bookha.main.dto.DTOAdminBoard">
     	SELECT
-        	no_seq as seq,
-            no_subject as subject
+        	tb.no_seq as seq,
+            tb.no_subject as subject,
+            tb.rowno as rowno
         FROM
-        	notice_board
-        WHERE
-        	no_seq
-        IN (
-        	( select min(no_seq) from notice_board where no_seq &gt; #{seq} )
-        )
+			(SELECT
+				no_seq,
+				no_subject,
+				row_number() over(	
+								ORDER BY
+									(case
+										when no_subject like '%리뷰%' then 1 
+										when no_subject like '%챌린지%' then 2
+										when no_subject like '%공유%' then 3
+										else 4 end),
+										no_seq desc
+						      		) rowno
+   			FROM
+      			notice_board
+   			) as tb
+   		WHERE
+   			tb.rowno = #{rowno} - 1
     </select>
     
     <insert id="writeOk" parameterType="com.bookha.main.dto.DTOAdminBoard">
@@ -93,13 +146,13 @@
     
     <select id="modify" parameterType="int" resultType="com.bookha.main.dto.DTOAdminBoard">
         SELECT
-        	no_seq,
-            no_user_num,
-            no_subject,
-            no_content,
-            no_date
+        	no_seq as seq,
+            no_user_num as user_num,
+            no_subject as subject,
+            no_content as content,
+            no_date as wdate
         FROM
-        	notice_board
+      		notice_board
         WHERE
         	no_seq = #{seq}
     </select>
@@ -112,8 +165,6 @@
     		no_content = #{content}
     	WHERE
     		no_seq = #{seq}
-    	AND
-    		no_user_num = #{user_num}
     </update>
     
     <delete id="deleteOk" parameterType="com.bookha.main.dto.DTOAdminBoard">
@@ -122,33 +173,42 @@
     		notice_board
     	WHERE
     		no_seq = #{seq}
-    	AND
-    		no_user_num = #{user_num}
     </delete>
     
     <select id="nolist" parameterType="com.bookha.main.dto.DTOAdminBoard" resultType="com.bookha.main.dto.DTOAdminBoard">
         SELECT
-        	no_seq as seq,
-        	no_user_num as user_num,
-            no_subject as subject,
-            date_format(no_date, '%Y-%m-%d') as wdate,
-            datediff( now(), no_date ) wgap,
-			user_nickname
-        FROM
-        	notice_board n
-        INNER JOIN
+        	tb.no_seq as seq,
+			tb.no_user_num as user_num,
+			tb.no_subject as subject,
+			date_format(tb.no_date, '%Y-%m-%d') as wdate,
+			datediff( now(), tb.no_date ) wgap,
+			user_nickname,
+			tb.rowno as rowno
+		FROM
+			(SELECT
+				no_seq,
+				no_user_num,
+				no_subject,
+				no_date,
+				row_number() over(	
+								ORDER BY
+									(case
+										when no_subject like '%리뷰%' then 1 
+										when no_subject like '%챌린지%' then 2
+										when no_subject like '%공유%' then 3
+										else 4 end),
+										no_seq desc
+						      		) rowno
+   			FROM
+      			notice_board
+   			) as tb
+		INNER JOIN
         	user u
         ON
-        	n.no_user_num = u.user_num
-        ORDER BY
-        	(case
-        		when no_subject like '%리뷰%' then 1 
-				when no_subject like '%챌린지%' then 2
-				when no_subject like '%공유%' then 3
-        		else 4 end
-        	),
-        	no_seq desc
-        LIMIT
+        	tb.no_user_num = u.user_num
+		ORDER BY
+			tb.rowno
+		LIMIT
         	0, 5
     </select>
     
