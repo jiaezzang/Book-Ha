@@ -31,7 +31,6 @@ public class DAOKakaoUser {
 		user.setUser_enterdate(user.getUser_enterdate());
 		user.setUser_final(user.getUser_final());
 		user.setUser_role(user.getUser_role());
-		user.setUser_option("kakao");
 		
 		mapper_User.kakaoUserJoin(user);
 	}
