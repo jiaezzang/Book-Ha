@@ -168,7 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			        		start: "<%=addStamp%>",
 							image_url : "../assets/img/stamps/stamp.png"
 						});
-			    		 $('#calendar').load(location.href+' #calendar');
+			    		 //$('#calendar').load(location.href+' #calendar');
+			    		 window.location.href = "/mypage.do";
 						toastr.success('출석체크 완료하였습니다.', '작업 성공!');
 					} else {
 						toastr.error('이미 출석체크 하셨습니다.', '입력 오류!');
