@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bookha.main.dto.DTOAttendance;
+import com.bookha.main.dto.DTOShareBoard;
+import com.bookha.main.dto.DTOShareTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.main.mapper.MapperMyPage;
 
@@ -91,6 +93,20 @@ public class DAOMyPage implements MapperMyPage {
 	public String reloadPf(int user_num) {
 		// TODO Auto-generated method stub
 		return mapper.reloadPf(user_num);
+	}
+
+	// my board
+	
+	@Override
+	public ArrayList<DTOShareBoard> myshareList(DTOShareTotal sto) {
+		// TODO Auto-generated method stub
+		return mapper.myshareList(sto);
+	}
+
+	@Override
+	public int countMyshare(String hashTag) {
+		// TODO Auto-generated method stub
+		return mapper.countMyshare(hashTag);
 	}
 
 }

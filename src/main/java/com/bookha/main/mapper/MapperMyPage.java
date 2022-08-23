@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.bookha.main.dto.DTOAttendance;
+import com.bookha.main.dto.DTOShareBoard;
+import com.bookha.main.dto.DTOShareTotal;
 import com.bookha.main.dto.DTOUser;
 
 @Mapper
@@ -33,6 +35,11 @@ public interface MapperMyPage {
 	int changePf(DTOUser dto);
 	
 	String reloadPf(int user_num);
+	
+	// myboard
+	ArrayList<DTOShareBoard> myshareList(DTOShareTotal sto);
+	
+	int countMyshare(String hashTag);
 	
 }
 	
