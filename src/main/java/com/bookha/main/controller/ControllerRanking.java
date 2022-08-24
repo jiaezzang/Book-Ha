@@ -97,9 +97,9 @@ public class ControllerRanking {
 		
 		ModelRanking model = new ModelRanking();
 		String atList = model.getRankingList("부카의 출석왕", userLists1);
-		String reviewList = model.getRankingList("이 주의 리뷰왕", userLists2);
-		String albumList = model.getRankingList("이 주의 인증왕", userLists3);
-		String shareList = model.getRankingList("이 주의 공유왕", userLists4);
+		String reviewList = model.getRankingList("부카의 리뷰왕", userLists2);
+		String albumList = model.getRankingList("부카의 인증왕", userLists3);
+		String shareList = model.getRankingList("부카의 공유왕", userLists4);
 		
 		mv.addObject("atList", atList);
 		mv.addObject("reviewList", reviewList);
