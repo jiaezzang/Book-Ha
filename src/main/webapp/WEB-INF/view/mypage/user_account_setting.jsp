@@ -107,7 +107,8 @@ String myProfile = (String)request.getAttribute("myProfile");
 	    $("#userName").val("<%=userSetting.getUser_name()%>");
 	    $("#nickName").val("<%=userSetting.getUser_nickname()%>");
 	    $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
-	    $("#introSelf").val("<%=userSetting.getUser_self()%>");
+	    let user_self = "<%=userSetting.getUser_self().replaceAll("\n", "<br />")%>";
+	    $("#introSelf").val(user_self.replaceAll("<br />", "\n"));
 
 	    //비동기 닉네임 일치검사
 		$("#nickName").keyup(function(){

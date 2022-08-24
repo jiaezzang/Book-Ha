@@ -27,6 +27,9 @@ public class ControllerKakaoLogin {
 	@Autowired
 	private DAOKakaoUser dao_KakaoUser;
 	
+	@Autowired
+	private DAOUser dao_User;
+	
 	@RequestMapping(value = "/kakao_add", method = RequestMethod.POST)
 	public ModelAndView kakaoAdd(ModelAndView mav, HttpServletRequest request) {
 		mav.addObject("logo", new ModelLogoHtml().getLogo().toString());
@@ -54,9 +57,10 @@ public class ControllerKakaoLogin {
 	@RequestMapping(value = "/kakao_user_check", method = RequestMethod.POST)
 	public String kakoUserCheck(@RequestBody DTOUser user, HttpServletRequest request, HttpSession session) {
 		int user_num = 0;
+		int check = dao_User.checkId(user.getUser_mail());
 		String flag = "0";
 		
-		if(dao_KakaoUser.checkKakaoId(user.getUser_mail()) != 0) {
+		if(check != 0) {
 			user_num = dao_KakaoUser.checkKakaoId(user.getUser_mail());
 			flag = "1";
 		}
