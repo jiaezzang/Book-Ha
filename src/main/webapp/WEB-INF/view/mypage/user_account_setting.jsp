@@ -123,7 +123,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 	    			contentType: "application/json; charset=UTF-8",
 	    			dataType: "text",
 	    			success: function(data) {
-	    				if (data >= 1){
+	    				if(data == 1){
 	    					$("#alert-successNick").css('display', 'none');
 	    	                $("#alert-dangerNick").css('display', 'inline-block');
 	    				} else {
@@ -167,7 +167,9 @@ String myProfile = (String)request.getAttribute("myProfile");
             return toastr.error('비밀번호를 입력 해주세요.');
           }
 
-           if($("#alert-successNick").css("display") === "none") {
+           if($("#alert-successNick").css("display") === "none" && $("#alert-dangerNick").css("display") === "none"){
+        	   
+           }else if($("#alert-successNick").css("display") === "none") {
              $("#nickName").css("border", "1px solid red");
              return toastr.error("닉네임을 수정해주세요.");
            }
@@ -270,7 +272,6 @@ String myProfile = (String)request.getAttribute("myProfile");
 			"user_password" : $("#checkPw").val()
 		}
 		
-	   	console.log(DTOUser)
 		$.ajax({
 			type: "POST",
 		   	url: "/check_pw.do",
