@@ -107,7 +107,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 	    $("#userName").val("<%=userSetting.getUser_name()%>");
 	    $("#nickName").val("<%=userSetting.getUser_nickname()%>");
 	    $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
-	    $("#introSelf").val("<%=userSetting.getUser_self()%>");
+	    $("#introSelf").val("<%=userSetting.getUser_self()%>").replaceAll("\n", "<br />");
 
 	    //비동기 닉네임 일치검사
 		$("#nickName").keyup(function(){
@@ -547,7 +547,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 								<div class="col mb-3">
 									<label for="checkPw" class="form-label">비밀번호 입력</label> 
 									<input
-										type="text" id="checkPw" class="form-control"
+										type="password" id="checkPw" class="form-control"
 										placeholder="PASSWORD">
 								</div>
 							</div>
