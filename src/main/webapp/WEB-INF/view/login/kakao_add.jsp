@@ -225,8 +225,6 @@ String name = (String) request.getAttribute("name");
           user_role: "user"
         };
         
-        console.log(sendData);
-
         $.ajax({
           url:"http://localhost:8080/kakaoUser/userInfo",
           type: "post",

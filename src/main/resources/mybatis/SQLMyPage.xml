@@ -112,5 +112,14 @@
 			WHERE
 				sh_num = ${user_num}
 	</select>
+	
+	<select id="pathKakao" parameterType="int" resultType="String">
+			SELECT
+				user_path
+			FROM
+				user
+			WHERE
+				user_num = ${user_num}
+	</select>
 
 </mapper>

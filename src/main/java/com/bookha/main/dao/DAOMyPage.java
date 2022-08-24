@@ -95,4 +95,10 @@ public class DAOMyPage implements MapperMyPage {
 		return mapper.reloadPf(user_num);
 	}
 
+	@Override
+	public String pathKakao(int user_num) {
+		// TODO Auto-generated method stub
+		return mapper.pathKakao(user_num);
+	}
+
 }

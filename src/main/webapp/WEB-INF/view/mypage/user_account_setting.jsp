@@ -22,6 +22,9 @@ String shList = (String)request.getAttribute("shList");
 
 //프로필 변경 시 다시 로드할 프로필 이미지 영역
 String myProfile = (String)request.getAttribute("myProfile");
+
+//카카오 유저 판별
+String pathKakao = (String)request.getAttribute("pathKakao");
 %>
 <!DOCTYPE html>
 
@@ -95,18 +98,33 @@ String myProfile = (String)request.getAttribute("myProfile");
 <script src="../js/toastr.js"></script>
 <script>
 	$(document).ready(function() {
+		//카카오 유저와 일반 유저 구분
+		if("<%=pathKakao%>" != "kakao"){
+			$('#modalCenter').modal('show');
+            $('#password1').removeAttr("readonly");
+            $('#password2').removeAttr("readonly");
+		}
 
-		//페이지 진입 시 비밀번호 확인 모달
-		$('#modalCenter').modal('show');
-            
-	    phoneNo(); 
+	    //휴대폰 번호 정규식 검사
+		$("#userPhone").keyup(function(){
+			//phoneNo()
+      		var text = $("#userPhone").val().trim();
+
+      		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+      		if (regPhone.test(text) === true) {
+      			$("#alert-correctPhone").css('display', 'none');
+      			$('#userPhone').css('border', '1px solid #696cff');
+      		}else{
+      			$("#alert-correctPhone").css('display', 'inline-block');
+      		}
+  		});
 	    
 	    //기본값 입력
 	    reload();
 	    $("#userId").val("<%=userSetting.getUser_mail()%>");
 	    $("#userName").val("<%=userSetting.getUser_name()%>");
 	    $("#nickName").val("<%=userSetting.getUser_nickname()%>");
-	    $("#phoneNo").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
+	    $("#userPhone").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
 	    let user_self = "<%=userSetting.getUser_self().replaceAll("\n", "<br />")%>";
 	    $("#introSelf").val(user_self.replaceAll("<br />", "\n"));
 
@@ -163,7 +181,7 @@ String myProfile = (String)request.getAttribute("myProfile");
             return toastr.error('ID를 입력 해주세요.');
           }
 
-          if($('.pw').val().trim() === ''){
+          if('<%=pathKakao%>' != 'kakao' && $('.pw').val().trim() === ''){
             return toastr.error('비밀번호를 입력 해주세요.');
           }
 
@@ -178,15 +196,20 @@ String myProfile = (String)request.getAttribute("myProfile");
             return toastr.error('닉네임을 입력 해주세요.');
           }
 
-          if($('#phoneNo').val().trim() === ''){
+          if($('#userPhone').val().trim() === ''){
             return toastr.error('연락처를 입력 해주세요.');
+          }
+          
+          if($('#alert-correctPhone').css('display') === 'inline-block'){
+          	$('#userPhone').css('border', '1px solid red')
+              return toastr.error('올바른 형식의 연락처를 입력해주세요.');
           }
           update();
         })
 
       	function phoneNo() {
-        	$("#phoneNo").on("keyup", () => {
-          	$("#phoneNo").val( $("#phoneNo").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
+        	$("#userPhone").on("keyup", () => {
+          	$("#userPhone").val( $("#userPhone").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
         	});
       	}
 
@@ -197,7 +220,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 	          		user_mail: $("#userId").val(),
 	          		user_password: $("#password1").val(),
 	          		user_nickname: $("#nickName").val(),
-	          		user_phonenumber: $("#phoneNo").val().replaceAll("-", ""),
+	          		user_phonenumber: $("#userPhone").val().replaceAll("-", ""),
 	          		user_self: $("#introSelf").val()
 	        	};
 	
@@ -452,7 +475,8 @@ String myProfile = (String)request.getAttribute("myProfile");
 												<input class="form-control" type="text" id="userId" name="userId" value="" readonly="">
 											</div>
 											<div class="mb-3 col-md-6">
-												<label for="phoneNo" class="form-label">연 락 처 수 정</label> <input type="text" class="form-control" id="phoneNo" name="phoneNo" value="" maxlength="13" placeholder="연 락 처">
+												<label for="userPhone" class="form-label">연 락 처 수 정</label> <input type="text" class="form-control" id="userPhone" name="userPhone" value="" maxlength="13" placeholder="연 락 처">
+												<span id="alert-correctPhone" style="display:none; color:#d92742;">&nbsp;&nbsp;올바른 형식의 연락처를 입력해주세요.</span> 
 												<div></div> 
 											</div>
 											<div class="mb-3 col-md-6">
@@ -468,14 +492,14 @@ String myProfile = (String)request.getAttribute("myProfile");
 											<div class="mb-3 col-md-6 form-password-toggle">
 												<label class="form-label" for="password1">비 밀 번 호 수 정</label>
 												<div class="input-group input-group-merge">
-													<input type="password" id="password1" class="pw form-control" name="password1" placeholder="············" aria-describedby="password">
+													<input type="password" id="password1" class="pw form-control" name="password1" placeholder="············" aria-describedby="password" readonly="">
 													<span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
 												</div>
 											</div>
 											<div class="mb-3 col-md-6 form-password-toggle">
 												<label class="form-label" for="password2">비 밀 번 호 수 정  확 인</label>
 												<div class="input-group input-group-merge">
-													<input type="password" id="password2" class="pw form-control" name="password2" placeholder="············" aria-describedby="password"> 
+													<input type="password" id="password2" class="pw form-control" name="password2" placeholder="············" aria-describedby="password" readonly=""> 
 													<span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
 												</div>
 												<span id="alert-success" style="display:none; color:#696cff;">&nbsp;&nbsp;&nbsp;비밀번호가 일치합니다</span>

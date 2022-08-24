@@ -200,6 +200,10 @@ public class ControllerMypage {
 		int shCount = daoMypage.countShare(session_user_num);
 		String shList = modelChangePf.getAchieveShare(shCount);
 		mv.addObject("shList", shList);
+		
+		//kakao 회원가입 유저 판단
+		String pathKakao = daoMypage.pathKakao(session_user_num);
+		mv.addObject("pathKakao", pathKakao);
 
 		mv.setViewName("mypage/user_account_setting");
 		return mv;
