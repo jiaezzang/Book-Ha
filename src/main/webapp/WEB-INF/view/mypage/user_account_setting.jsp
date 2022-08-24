@@ -104,12 +104,26 @@ String pathKakao = (String)request.getAttribute("pathKakao");
             $('#password1').removeAttr("readonly");
             $('#password2').removeAttr("readonly");
 		}
+		
+		//기본값 입력
+	    reload();
+	    $("#userId").val("<%=userSetting.getUser_mail()%>");
+	    $("#userName").val("<%=userSetting.getUser_name()%>");
+	    $("#nickName").val("<%=userSetting.getUser_nickname()%>");
+	    $("#userPhone").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
+	    let user_self = "<%=userSetting.getUser_self().replaceAll("\n", "<br />")%>";
+	    $("#introSelf").val(user_self.replaceAll("<br />", "\n"));
+		
+		$("#userPhone").val( $("#userPhone").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replaceAll("--", "-") );
 
 	    //휴대폰 번호 정규식 검사
 		$("#userPhone").keyup(function(){
 			//phoneNo()
-      		var text = $("#userPhone").val().trim();
 
+      		$("#userPhone").val( $("#userPhone").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replaceAll("--", "-") );
+      		
+      		var text = $("#userPhone").val().trim();
+      		
       		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
       		if (regPhone.test(text) === true) {
       			$("#alert-correctPhone").css('display', 'none');
@@ -118,15 +132,6 @@ String pathKakao = (String)request.getAttribute("pathKakao");
       			$("#alert-correctPhone").css('display', 'inline-block');
       		}
   		});
-	    
-	    //기본값 입력
-	    reload();
-	    $("#userId").val("<%=userSetting.getUser_mail()%>");
-	    $("#userName").val("<%=userSetting.getUser_name()%>");
-	    $("#nickName").val("<%=userSetting.getUser_nickname()%>");
-	    $("#userPhone").val("<%=userSetting.getUser_phonenumber()%>").replaceAll("-", "");
-	    let user_self = "<%=userSetting.getUser_self().replaceAll("\n", "<br />")%>";
-	    $("#introSelf").val(user_self.replaceAll("<br />", "\n"));
 
 	    //비동기 닉네임 일치검사
 		$("#nickName").keyup(function(){
