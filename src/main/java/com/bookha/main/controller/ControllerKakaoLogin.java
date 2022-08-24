@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bookha.main.dao.DAOKakaoUser;
 import com.bookha.main.dto.DTOUser;
+import com.bookha.model.ModelLogoHtml;
 
 
 
@@ -25,6 +26,7 @@ public class ControllerKakaoLogin {
 	
 	@GetMapping("/kakao_add")
 	public ModelAndView kakaoAdd(ModelAndView mav) {
+		mav.addObject("logo", new ModelLogoHtml().getLogo().toString());
 		mav.setViewName("login/kakao_add");
 		
 		return mav;

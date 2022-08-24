@@ -71,7 +71,6 @@ String logo = (String) request.getAttribute("logo");
 
     <script type="text/javascript">
     $(document).ready(function() {
-        //phoneNo();
         
 	    //비동기 아이디 일치검사
 		$("#userId").keyup(function(){
