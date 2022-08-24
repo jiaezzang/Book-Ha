@@ -63,6 +63,12 @@ String logo = (String) request.getAttribute("logo");
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    
+    <!-- Toastr -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="../js/toastr.js"></script>
+
     <script type="text/javascript">
     $(document).ready(function() {
         phoneNo();
@@ -145,42 +151,42 @@ String logo = (String) request.getAttribute("logo");
         $('#signBtn').on('click', function() {
           if($('#alert-successId').css('display') === 'none') {
             $('#userId').css('border', '1px solid red');
-            return alert("이미 존재하는 아이디 입니다.");
+            return toastr.error("이미 존재하는 이메일 입니다.");
           }
 
           if($('#userId').val().trim() === ''){
-            return alert('ID를 입력해주세요.');
+            return toastr.error('이메일을 입력해주세요.');
           }
 
           if($('#password1').val().trim() === ''){
-            return alert('비밀번호를 입력해주세요.');
+            return toastr.error('비밀번호를 입력해주세요.');
           }
           
           if($('#alert-success').css('display') === 'none'){
               $('#password1').css('border', '1px solid red');
               $('#password2').css('border', '1px solid red');
-              return alert('비밀번호를 정확히 입력해주세요.');
+              return toastr.error('비밀번호를 정확히 입력해주세요.');
           }
 
           if($('#userName').val().trim() === ''){
-            return alert('이름을 입력해주세요.');
+            return toastr.error('이름을 입력해주세요.');
           }
 
           if($('#alert-successNick').css('display') === 'none') {
             $('#userNickname').css('border', '1px solid red');
-            return alert('이미 존재하는 닉네임입니다.');
+            return toastr.error('이미 존재하는 닉네임입니다.');
           }
 
           if($('#userNickname').val().trim() === ''){
-            return alert('닉네임을 입력 해주세요.');
+            return toastr.error('닉네임을 입력 해주세요.');
           }
 
           if($('#phonenumber').val().trim() === ''){
-            return alert('휴대전화번호를 입력 해주세요.');
+            return toastr.error('휴대전화번호를 입력 해주세요.');
           }
 
           if(!$("#checkbox").prop("checked")){
-            return alert('개인정보 정책에 동의 해주세요.');
+            return toastr.error('개인정보 정책에 동의 해주세요.');
           }
 
           signUp();
@@ -251,13 +257,13 @@ String logo = (String) request.getAttribute("logo");
               <p class="mb-4">자신의 생각과 타인의 생각을 찾아서</p>
 
               <div class="mb-3">
-                <label for="userId" class="form-label">ID</label>
+                <label for="userId" class="form-label">E-MAIL</label>
                 <input type="text" class="form-control" id="userId" name="userId" placeholder="Email을 입력해주세요" autofocus />
 				<span id="alert-successId" style="display:none; color:#696cff;">&nbsp;&nbsp;사용 가능한 이메일입니다.</span>
 				<span id="alert-dangerId" style="display:none; color:#d92742;">&nbsp;&nbsp;이미 사용중인 이메일입니다.</span> 
               </div>
               <div class="mb-3 form-password-toggle">
-                <label class="form-label" for="password1">비밀번호</label>
+                <label class="form-label" for="password1">PASSWORD</label>
                 <div class="input-group input-group-merge">
                   <input type="password" id="password1" class="pw form-control" name="password1" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                   <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>

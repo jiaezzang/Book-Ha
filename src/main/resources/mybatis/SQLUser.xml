@@ -43,8 +43,7 @@
 	        user_self,
 	        user_enterdate,
 	        user_final,
-	        user_role,
-	        user_option
+	        user_role
         )
         VALUES(
 	        #{user_mail},
@@ -56,8 +55,7 @@
 	        #{user_self},
 	        now(),
 	        now(),
-	        #{user_role},
-	        #{user_option}
+	        #{user_role}
         );
     </insert>
     
@@ -95,17 +93,12 @@
          where user_nickname = #{user_nickname};
     </select>
     
-    <select id="findUserId" parameterType="com.bookha.main.dto.DTOUser" resultType="map">
-        select user_mail
-          from user
-         where user_name = #{user_name} and user_option = #{user_option};
-    </select>
-    
-    <select id="findPw" parameterType="com.bookha.main.dto.DTOUser" resultType="map">
-        select user_password
-          from user
-         where user_mail = #{user_mail} and user_option = #{user_option};
-    </select>
+<!--     <select id="findUserId" parameterType="com.bookha.main.dto.DTOUser" resultType="map"> -->
+<!--         select user_mail -->
+<!--           from user -->
+<!--          where user_name = #{user_name} and user_phonenumber = #{user_phonenumber}; -->
+<!--     </select> -->
+
     
     <select id="userSetting" parameterType="int" resultType="com.bookha.main.dto.DTOUser">
         select 
