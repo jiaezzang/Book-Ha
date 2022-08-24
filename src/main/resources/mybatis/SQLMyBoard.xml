@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bookha.main.mapper.MapperMyPage">
+	
+	<!-- Review -->
+	<select id="myreviewList" parameterType="com.bookha.main.dto.DTOReviewTotal" resultType="com.bookha.main.dto.DTOReviewBoard">
+        SELECT
+        	r.re_seq as seq,
+        	re_num as user_num,
+            re_subject as subject,
+            re_hashtag as hash_tag,
+            re_hit as hit,
+            date_format(re_date, '%Y-%m-%d') as wdate,
+            datediff(now(), re_date) wgap,
+            re_book_img_url as book_img_url,
+            re_book_title as book_title,
+            user_nickname as user_name,
+            count(c.re_seq) cmt_cnt
+        FROM
+        	review_board r
+        LEFT OUTER JOIN
+        	user u
+        ON
+        	re_num = user_num
+        LEFT OUTER JOIN
+        	review_board_comment c
+        ON
+        	r.re_seq = c.re_seq
+        WHERE
+			re_num = #{user_num}
+        AND
+        	r.re_hashtag like CONCAT(#{hash_tag}, '%')
+        GROUP BY
+        	c.re_seq, r.re_seq
+        ORDER BY
+        	r.re_date desc, r.re_seq desc
+        LIMIT
+        	#{skip}, #{recordPerPage}
+    </select>
+    
+    <select id="countMyreview" parameterType="String" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			review_board
+		WHERE
+			re_num = #{user_num}
+        AND
+        	re_hashtag like CONCAT(#{hashTag}, '%')
+	</select>
+	<!-- /Review -->
+	
+	<!-- Share -->
+	<select id="myshareList" parameterType="com.bookha.main.dto.DTOShareTotal" resultType="com.bookha.main.dto.DTOShareBoard">
+        SELECT
+        	s.sh_seq as seq,
+        	sh_num as user_num,
+            sh_subject as subject,
+            sh_hashtag as hash_tag,
+            sh_hit as hit,
+            date_format(sh_date, '%Y-%m-%d') as wdate,
+            datediff( now(), sh_date ) wgap,
+			user_nickname,
+			count(c.sh_seq) cmt_cnt
+        FROM
+        	share_board s
+        LEFT OUTER JOIN
+        	user
+        ON
+        	sh_num = user_num
+        LEFT OUTER JOIN
+        	share_board_comment c
+        ON
+        	s.sh_seq = c.sh_seq
+        WHERE
+			sh_num = #{user_num}
+        AND
+        	s.sh_hashtag like CONCAT(#{hash_tag}, '%')
+        GROUP BY
+        	s.sh_seq, c.sh_seq
+        ORDER BY
+        	s.sh_date desc, s.sh_seq desc
+        LIMIT
+        	#{skip}, #{recordPerPage}
+    </select>
+    
+    <select id="countMyshare" parameterType="String" resultType="int">
+    	SELECT
+    		count(*)
+    	FROM
+    		share_board
+    	WHERE
+			sh_num = #{user_num}
+        AND
+    		sh_hashtag like CONCAT(#{hashTag}, '%')
+    </select>
+	<!-- /Share -->
+	
+	<!-- album -->
+	
+</mapper>

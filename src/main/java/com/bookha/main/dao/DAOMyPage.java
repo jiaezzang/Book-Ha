@@ -95,18 +95,4 @@ public class DAOMyPage implements MapperMyPage {
 		return mapper.reloadPf(user_num);
 	}
 
-	// my board
-	
-	@Override
-	public ArrayList<DTOShareBoard> myshareList(DTOShareTotal sto) {
-		// TODO Auto-generated method stub
-		return mapper.myshareList(sto);
-	}
-
-	@Override
-	public int countMyshare(String hashTag) {
-		// TODO Auto-generated method stub
-		return mapper.countMyshare(hashTag);
-	}
-
 }
