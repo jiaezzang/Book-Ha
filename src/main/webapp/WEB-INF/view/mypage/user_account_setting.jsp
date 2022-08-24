@@ -114,7 +114,6 @@ String myProfile = (String)request.getAttribute("myProfile");
     		let DTOUser = {
     				"user_nickname": $("#nickName").val().trim()
     		};
-    		console.log(DTOUser);
     		if($("#nickName").val().trim() != "<%=userSetting.getUser_nickname()%>"){
 	    		$.ajax({
 	    			type: 'POST',
@@ -247,9 +246,9 @@ String myProfile = (String)request.getAttribute("myProfile");
 	        	window.location.href = "/";
 	        },
 	        error : function(jqXHR,textStatus,errorThrown){
-	        	console.log(jqXHR);
-	            console.log(textStatus);
-	            console.log(errorThrown);
+// 	        	console.log(jqXHR);
+// 	            console.log(textStatus);
+// 	            console.log(errorThrown);
 	        }
 	    });
 	}
@@ -260,18 +259,20 @@ String myProfile = (String)request.getAttribute("myProfile");
 	
 	//개인정보 수정 페이지 진입 시 비밀번호 확인 검사 모달
 	function checkPw(){
+		if($("#checkPw").val() == "" || $("#checkPw").val() == null){
+			toastr.error('비밀번호를 입력해주세요.', '입력 오류!');
+			return false;
+		}
+		
 		let DTOUser = {
 			"user_num" : <%=session_user_num%>,
 			"user_password" : $("#checkPw").val()
 		}
-		//console.log(DTOUser);
-		if($("#checkPw").val() == "" || $("#checkPw").val() == null){
-			toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
-			return false;
-		}
+		
+	   	console.log(DTOUser)
 		$.ajax({
 			type: "POST",
-		   	url: "check_pw.do",
+		   	url: "/check_pw.do",
 		   	data: JSON.stringify(DTOUser),
 		   	contentType: "application/json; charset=utf-8",
 		   	dataType: "text",
@@ -285,7 +286,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 		   		}
 		   	},
 		   	error: function(e) {
-			   	toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+			   	toastr.error('서버 통신오류 - 500', '통신 오류!');
 			   	$("#checkPw").val("");
 		   	}
 		});
@@ -302,7 +303,6 @@ String myProfile = (String)request.getAttribute("myProfile");
 			"user_profile" : $('input[name=profile]:checked').val(),
 			"user_num" : <%=session_user_num%>
 		}
-	  	console.log(DTOUser)
 		$.ajax({
 			type: "POST",
 			url: "change_pf.do",
@@ -547,7 +547,7 @@ String myProfile = (String)request.getAttribute("myProfile");
 								<div class="col mb-3">
 									<label for="checkPw" class="form-label">비밀번호 입력</label> 
 									<input
-										type="text" id="checkPw" class="form-control"
+										type="password" id="checkPw" class="form-control"
 										placeholder="PASSWORD">
 								</div>
 							</div>

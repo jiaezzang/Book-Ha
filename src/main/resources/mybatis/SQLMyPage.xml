@@ -53,7 +53,7 @@
 		FROM
 			user
 		WHERE
-			user_num = ${user_num} and user_password = ${user_password}
+			user_num = ${user_num} and user_password = "${user_password}"
 	</select>
 	
 	
