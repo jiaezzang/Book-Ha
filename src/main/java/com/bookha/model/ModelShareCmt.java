@@ -25,7 +25,6 @@ public class ModelShareCmt {
 			cmtTable += "<div style='display: inline-block; visibility: hidden;'>" + cto.getSeq() +"</div>";
 			cmtTable += "<p>" + cto.getContent().replaceAll("\n", "<br />") +"</p>";
 			cmtTable += "</label>";
-			cmtTable += "<br /><br />";
 			
 		}
 		return cmtTable;

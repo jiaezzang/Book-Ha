@@ -1,48 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.bookha.main.dto.DTOReviewTotal" %>
-<%@ page import="com.bookha.main.dto.DTOReviewBoard" %>
-<%@ page import="java.util.ArrayList" %>
+
+<%@page import="com.bookha.main.dto.DTOShareBoard"%>
+
 <%
 	request.setCharacterEncoding("UTF-8");
 
-	String title = (String)request.getAttribute("title");
-	String profile = (String)request.getAttribute("profile");
-	String logo = (String)request.getAttribute("logo");
+	String title = (String)request.getAttribute( "title" );
+	String profile = (String)request.getAttribute( "profile" );
+	String logo = (String)request.getAttribute( "logo" );
+	/*
 	String navBar = (String)request.getAttribute("navBar");
 	
 	String NoticeList = (String)request.getAttribute( "NoticeList" );
-	String reviewTable = (String)request.getAttribute("reviewTable");
-	String nav = (String)request.getAttribute("nav");
+	String listTable = (String)request.getAttribute( "listTable" );
 	
+	String paging = (String)request.getAttribute("paging");
 	String hashTag = (String)request.getAttribute("hashTag");
-	
+	*/
 	String btnradio0 = "";
 	String btnradio1 = "";
 	String btnradio2 = "";
 	String btnradio3 = "";
 	String btnradio4 = "";
-	String btnradio5 = "";
-	String btnradio6 = "";
-	
+	/*
 	if(hashTag.equals("# 전체")) {
 		btnradio0 = "checked";
-	} else if(hashTag.equals("# 소설")) {
+	} else if(hashTag.equals("# 나눔")) {
 		btnradio1 = "checked";
-	} else if(hashTag.equals("# 수필")) {
+	} else if(hashTag.equals("# 교환")) {
 		btnradio2 = "checked";
-	} else if(hashTag.equals("# 시")) {
+	} else if(hashTag.equals("# 빌려줌")) {
 		btnradio3 = "checked";
-	} else if(hashTag.equals("# 인문/사회")) {
+	} else if(hashTag.equals("# 빌려줘")) {
 		btnradio4 = "checked";
-	} else if(hashTag.equals("# 과학")) {
-		btnradio5 = "checked";
-	} else if(hashTag.equals("# 기타")) {
-		btnradio6 = "checked";
-	}
+	} 
+*/
 %>
-
 <!DOCTYPE html>
+
 <!-- =========================================================
 * Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
 ==============================================================
@@ -60,8 +56,7 @@
 	data-template="vertical-menu-template-free">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
 <title><%= title %></title>
 
@@ -74,8 +69,7 @@
 </style>
 
 <!-- Favicon -->
-<link rel="icon" type="image/x-icon"
-	href="../assets/img/favicon/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -88,15 +82,12 @@
 <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
 
 <!-- Core CSS -->
-<link rel="stylesheet" href="../assets/vendor/css/core.css"
-	class="template-customizer-core-css" />
-<link rel="stylesheet" href="../assets/vendor/css/theme-default.css"
-	class="template-customizer-theme-css" />
+<link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
+<link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
 <link rel="stylesheet" href="../assets/css/demo.css" />
 
 <!-- Vendors CSS -->
-<link rel="stylesheet"
-	href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+<link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
 <!-- Page CSS -->
 
@@ -114,54 +105,51 @@
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="../js/toastr.js"></script>
-
+/*
 <script type="text/javascript">
-$(document).ready(function() {
-	$(document).on('click', '.btn-check', function() {
-		//console.log($(this).next().text());
-		
-		let hash_tag = $(this).next().text();
-		
-		let DTO_Review_Board = {
-			"hash_tag": hash_tag
+	$(document).ready(function() {
+
+		$(document).on('click', '.btn-check', function() {
+			
+			let hash_tag = $(this).next().text();
+			
+			let DTOShareBoard = {
+				"hash_tag": hash_tag
+			}
+			
+			$.ajax({
+				type: 'POST',
+				url: "/share_list_hashTag.do",
+				data: JSON.stringify(DTOShareBoard),
+				contentType: "application/json; charset=UTF-8",
+				dataType: "text",
+				success: function(data) {
+					$("#listTable").html(data);
+					//toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공');
+					pageNavigation(hash_tag);
+				}
+			});
+		});
+	});
+	
+	const pageNavigation = function(hash_tag) {
+		let DTOShareBoard = {
+				"hash_tag": hash_tag
 		}
-		//console.log(DTO_Review_Board);
 		
 		$.ajax({
-			type: 'POST',
-			url: "/review_list_hashTag.do",
-			data: JSON.stringify(DTO_Review_Board),
+			type: "POST",
+			url: "/shre_list_pageNav.do",
+			data: JSON.stringify(DTOShareBoard),
 			contentType: "application/json; charset=UTF-8",
 			dataType: "text",
 			success: function(data) {
-				$("#listTable").html(data);
-// 				console.log(data);
-				//toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공');
-				pageNavigation(hash_tag);
+				$('#pageNav').html(data);
 			}
 		});
-	});
-});
-
-const pageNavigation = function(hash_tag) {
-	//console.log(hash_tag);
-	
-	let DTO_Review_Board = {
-		"hash_tag": hash_tag
 	}
-	
-	$.ajax({
-		type: 'POST',
-		url: "/review_list_pageNav.do",
-		data: JSON.stringify(DTO_Review_Board),
-		contentType: "application/json; charset=UTF-8",
-		dataType: "text",
-		success: function(data) {
-			$('#pageNav').html(data);
-		}
-	});
-}
 </script>
+*/
 </head>
 
 <body>
@@ -174,7 +162,7 @@ const pageNavigation = function(hash_tag) {
 				class="layout-menu menu-vertical menu bg-menu-theme">
 				<div class="app-brand demo">
 					<!-- LOGO -->
-					<%= logo %>
+					<%=logo%>
 					<!-- /LOGO -->
 				</div>
 
@@ -184,49 +172,49 @@ const pageNavigation = function(hash_tag) {
 
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
+						class="menu-header-text">목표를 얼마나 달성하셨나요?</span></li>
 
 					<!-- Tables -->
-					<li class="menu-item"><a href="/ranking.do" class="menu-link">
-							<i class='menu-icon bx bx-crown' style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">업적과 순위</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">책을 읽고 느낀점을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item active"><a href="/review_list.do"
+					<li class="menu-item"><a href="/my_achievements.do"
 						class="menu-link"> <i
-							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
-							<!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
-							<div data-i18n="Tables">독후감 나누기</div>
+							class='menu-icon bx bx-book-open' style='color: #646363'></i>
+							<div data-i18n="Tables">나의 업적 확인</div>
 					</a></li>
 
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">하루하루 책을 읽어봐요!</span></li>
+						class="menu-header-text">작성글을 확인해 봅시다.</span></li>
 
 					<!-- Tables -->
-					<li class="menu-item"><a href="/album_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-photo-album'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-photo-album bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">찔끔 챌린지</div>
-					</a></li>
-
+					<li class="menu-item active" style=""><a href="javascript:void(0)"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-box bx-tada"></i>
+							<div data-i18n="User interface">내 글 모아보기</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="myreview_list.do"
+								class="menu-link">
+									<div data-i18n="Accordion">독후감 나누기</div>
+							</a></li>
+							<li class="menu-item"><a href="/myalbum.do"
+								class="menu-link">
+									<div data-i18n="Badges">찔끔 챌린지</div>
+							</a></li>
+							<li class="menu-item"><a href="/myshare_list.do"
+								class="menu-link">
+									<div data-i18n="Buttons">나눔과 공유하기</div>
+							</a></li>
+						</ul></li>
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">다른 사람들과 책을 나눠봐요!</span></li>
+						class="menu-header-text"></span></li>
 
 					<!-- Tables -->
-					<li class="menu-item"><a href="/share_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-gift'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-bx-gift bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">나눔과 공유하기</div>
+					<li class="menu-item"><a href="/user_account_setting.do"
+						class="menu-link"> <i class='menu-icon bx bx-book-open'
+							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
+							<div data-i18n="Tables">개인 정보 수정</div>
 					</a></li>
-
-
 				</ul>
 			</aside>
 			<!-- / Menu -->
@@ -234,7 +222,7 @@ const pageNavigation = function(hash_tag) {
 			<!-- Layout container -->
 			<div class="layout-page">
 				<!-- Navbar -->
-				<%=navBar %>
+				<%-- <%=navBar %> --%>
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
@@ -243,30 +231,12 @@ const pageNavigation = function(hash_tag) {
 
 					<div class="container-xxl flex-grow-1 container-p-y">
 						<h4 class="fw-bold py-3 mb-4">
-							<span class="text-muted fw-light">독후감 나누기 ></span> 게시판 목록
+							<span class="text-muted fw-light">나눔과 공유하기 ></span> 내가 작성한 글 목록
 						</h4>
 
 						<!-- Hoverable Table rows -->
 						<div class="card">
-							<h5 class="card-header">
-								<strong>공지 사항</strong>
-							</h5>
-							<div class="table-responsive text-nowrap">
-								<table class="table table-hover">
-									<thead>
-										<tr align="center">
-											<th>제   목</th>
-											<th>작성자</th>
-											<th>작성일자</th>
-										</tr>
-									</thead>
-									<tbody class="table-border-bottom-0">
-										<!-- notice list -->
-										<%=NoticeList %>
-										<!-- /notice list -->
-									</tbody>
-								</table>
-							</div>
+							
 						</div>
 						<!--/ Hoverable Table rows -->
 
@@ -274,7 +244,7 @@ const pageNavigation = function(hash_tag) {
 
 						<div class="card">
 							<h5 class="card-header">
-								독후감 나누기&nbsp;&nbsp;>&nbsp;&nbsp;<strong>독후감 게시판</strong>
+								나눔과 공유하기&nbsp;&nbsp;>&nbsp;&nbsp;<strong>공유 게시판</strong>
 							</h5>
 							<div class="table-responsive text-nowrap">
 								<table class="table table-borderless">
@@ -282,27 +252,21 @@ const pageNavigation = function(hash_tag) {
 									<tbody>
 										<tr>
 											<td>
-												&nbsp;&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" <%= btnradio0 %> id="btnradio0" autocomplete="off">
+												&nbsp;
+												<input type="radio" class="btn-check" name="btnradio" <%= btnradio0 %> id="btnradio0" checked autocomplete="off">
 												<label class="btn rounded-pill btn-outline-primary" for="btnradio0"># 전체</label>
 												&nbsp;
 												<input type="radio" class="btn-check" name="btnradio" <%= btnradio1 %> id="btnradio1" autocomplete="off">
-												<label class="btn rounded-pill btn-outline-primary" for="btnradio1"># 소설</label>
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio1"># 나눔</label>
 												&nbsp;
 												<input type="radio" class="btn-check" name="btnradio" <%= btnradio2 %> id="btnradio2" autocomplete="off">
-												<label class="btn rounded-pill btn-outline-primary" for="btnradio2"># 수필</label>
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio2"># 교환</label>
 												&nbsp;
 												<input type="radio" class="btn-check" name="btnradio" <%= btnradio3 %> id="btnradio3" autocomplete="off">
-												<label class="btn rounded-pill btn-outline-primary" for="btnradio3"># 시</label>
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio3"># 빌려줌</label>
 												&nbsp;
 												<input type="radio" class="btn-check" name="btnradio" <%= btnradio4 %> id="btnradio4" autocomplete="off">
-												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 인문/사회</label>
-												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" <%= btnradio5 %> id="btnradio5" autocomplete="off">
-												<label class="btn rounded-pill btn-outline-primary" for="btnradio5"># 과학</label>
-												&nbsp;
-												<input type="radio" class="btn-check" name="btnradio" <%= btnradio6 %> id="btnradio6" autocomplete="off">
-												<label class="btn rounded-pill btn-outline-primary" for="btnradio6"># 기타</label>
+												<label class="btn rounded-pill btn-outline-primary" for="btnradio4"># 빌려줘</label>
 											</td>
 										</tr>
 									</tbody>
@@ -316,22 +280,23 @@ const pageNavigation = function(hash_tag) {
 								<table class="table table-hover">
 									<thead>
 										<tr align="center">
-											<th>제   목</th>
-											<th>책 정보</th>
-											<th>태   그</th>
-											<th>조회수</th>
+											<th>제  목</th>
+											<th>태  그</th>
 											<th>작성자</th>
-											<th>작성일자</th>
+											<th>작성일</th>
+											<th>조회수</th>
 										</tr>
 									</thead>
 									<tbody class="table-border-bottom-0" id="listTable">
-										<%= reviewTable %>
+										<!-- share_board list -->
+										<%-- <%=listTable %> --%>
+										<!-- /share_board list -->
 									</tbody>
 								</table>
 							</div>
-							<div id="pageNav" class="demo-inline-spacing">
+							<div class="demo-inline-spacing">
 								<!-- Basic Pagination -->
-								<%= nav %>
+								<%-- <%=paging %> --%>
 								<!--/ Basic Pagination -->
 							</div>
 						</div>
@@ -352,8 +317,8 @@ const pageNavigation = function(hash_tag) {
 	<!-- / Layout wrapper -->
 
 	<div class="buy-now">
-		<a href="./review_write.do"
-			class="btn btn-outline-primary btn-buy-now">글 작성하기</a>
+		<a href="/share_list.do"
+			class="btn btn-outline-primary btn-buy-now">공유게시판</a>
 	</div>
 
 	<!-- Core JS -->

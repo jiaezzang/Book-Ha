@@ -76,7 +76,6 @@ String name = (String) request.getAttribute("name");
     <script type="text/javascript">
 
     $(document).ready(function() {
-        phoneNo();
         
 	    //비동기 아이디 일치검사
 		$("#userId").keyup(function(){
@@ -95,9 +94,7 @@ String name = (String) request.getAttribute("name");
     					$("#alert-successId").css('display', 'none');
     	                $("#alert-dangerId").css('display', 'inline-block');
     				} else {
-    	                $("#alert-successId").css('display', 'inline-block');
-    	                $("#alert-dangerId").css('display', 'none');
-    	                $('#userId').css('border', '1px solid #696cff');
+    					correctMail();
     				}
     			},
     			error : function(){
@@ -105,6 +102,22 @@ String name = (String) request.getAttribute("name");
     			}
     		});
     	});
+	    
+	    //이메일 정규식 검사
+	    function correctMail() {
+			var text = $("#userId").val().trim();
+			var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+			if (regEmail.test(text) === true) {
+                $("#alert-successId").css('display', 'inline-block');
+                $("#alert-dangerId").css('display', 'none');
+                $("#alert-correctId").css('display', 'none');
+                $('#userId').css('border', '1px solid #696cff');
+			} else {
+                $("#alert-successId").css('display', 'none');
+                $("#alert-dangerId").css('display', 'none');
+                $("#alert-correctId").css('display', 'inline-block');
+			}
+		}
 	    
 	    //비동기 닉네임 일치검사
 		$("#userNickname").keyup(function(){
@@ -132,6 +145,19 @@ String name = (String) request.getAttribute("name");
     		});
     	});
 	    
+	    //휴대폰 번호 정규식 검사
+		$("#userPhone").keyup(function(){
+			phoneNo()
+      		var text = $("#userPhone").val().trim();
+
+      		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+      		if (regPhone.test(text) === true) {
+      			$("#alert-correctPhone").css('display', 'none');
+      			$('#userPhone').css('border', '1px solid #696cff');
+      		}else{
+      			$("#alert-correctPhone").css('display', 'inline-block');
+      		}
+  		});
 
         $('#signBtn').on("click", function() {
 // 			if($('#alert-successId').css('display') === 'none') {
@@ -140,10 +166,12 @@ String name = (String) request.getAttribute("name");
 // 			}
 
 			if($('#userId').val().trim() === ''){
+				$('#userId').css('border', '1px solid red');
 				return toastr.error('이메일을 입력 해주세요.');
 			}
       
 			if($('#userName').val().trim() === ''){
+				$('#userName').css('border', '1px solid red');
             	return toastr.error('이름을 입력 해주세요.');
           	}
 
@@ -153,12 +181,19 @@ String name = (String) request.getAttribute("name");
 	        }
 
           	if($('#userNickname').val().trim() === ''){
+          		$('#userNickname').css('border', '1px solid red');
            		return toastr.error('닉네임을 입력 해주세요.');
           	}
 
-          	if($('#phonenumber').val().trim() === ''){
+          	if($('#userPhone').val().trim() === ''){
+          		$('#userPhone').css('border', '1px solid red');
             	return toastr.error('휴대전화번호를 입력 해주세요.');
           	}
+            
+            if($('#alert-correctPhone').css('display') === 'inline-block'){
+          	$('#userPhone').css('border', '1px solid red')
+              return toastr.error('올바른 형식의 연락처를 입력해주세요.');
+            }
         
           	if(!$("#checkbox").prop("checked")){
             	return toastr.error('개인정보 정책에 동의 해주세요.');
@@ -169,8 +204,8 @@ String name = (String) request.getAttribute("name");
      });
 
       function phoneNo() {
-        $("#phonenumber").on("keyup", () => {
-          $("#phonenumber").val( $("#phonenumber").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
+        $("#userPhone").on("keyup", () => {
+          $("#userPhone").val( $("#userPhone").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
         });
       }
 
@@ -180,7 +215,7 @@ String name = (String) request.getAttribute("name");
           user_password: $("#password").val(),
           user_name: $("#userName").val(),
           user_nickname: $("#userNickname").val(),
-          user_phonenumber: $("#phonenumber").val().replaceAll("-", ""),
+          user_phonenumber: $("#userPhone").val().replaceAll("-", ""),
           user_profile: "none.png",
           // userSelf: $("#"),
           // user_enterdate: new Date().toLocaleDateString(),
@@ -236,6 +271,7 @@ String name = (String) request.getAttribute("name");
                   <input type="text" class="form-control" id="userId" name="userId" placeholder="E-mail" value="<%= email %>" readonly=""/>
                   <span id="alert-successId" style="display:none; color:#696cff;">&nbsp;&nbsp;사용 가능한 이메일입니다.</span>
 				  <span id="alert-dangerId" style="display:none; color:#d92742;">&nbsp;&nbsp;이미 사용중인 이메일입니다.</span>
+				  <span id="alert-correctId" style="display:none; color:#d92742;">&nbsp;&nbsp;이메일 형식을 올바르게 입력해주세요.</span>
                 </div>
                 <div class="mb-3">
                   <label for="userName" class="form-label">이름</label>
@@ -249,7 +285,8 @@ String name = (String) request.getAttribute("name");
                 </div>
                <div class="mb-3">
                  <label for="phonenumber" class="form-label">연락처</label>
-                 <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="연락처" />
+                 <input type="text" class="form-control" id="userPhone" name="userPhone" placeholder="연락처" />
+                 <span id="alert-correctPhone" style="display:none; color:#d92742;">&nbsp;&nbsp;올바른 형식의 연락처를 입력해주세요.</span>
                </div>
 
                 <div class="mb-3">

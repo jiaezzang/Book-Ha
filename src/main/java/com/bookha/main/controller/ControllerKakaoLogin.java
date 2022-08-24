@@ -32,7 +32,6 @@ public class ControllerKakaoLogin {
 		mav.addObject("logo", new ModelLogoHtml().getLogo().toString());
 		mav.addObject("email", request.getParameter("email"));
 		mav.addObject("name", request.getParameter("name"));
-		
 		mav.setViewName("login/kakao_add");
 		
 		return mav;

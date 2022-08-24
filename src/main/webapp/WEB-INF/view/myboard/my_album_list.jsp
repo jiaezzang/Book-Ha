@@ -10,19 +10,20 @@
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
-	
+	/*
 	DTOAlbumBoard dto = (DTOAlbumBoard)request.getAttribute("dto");
 	DTOAlbumTotal totalLists = (DTOAlbumTotal)request.getAttribute("totalLists");
 	
 	String NoticeList = (String)request.getAttribute( "NoticeList" );
 	String albumlist = (String)request.getAttribute("albumlist");
+	System.out.println(albumlist);
 	
 	String nav = (String)request.getAttribute("nav");
 	
 	int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 	String navBar = (String)request.getAttribute("navBar");
 	
-	
+	*/
 %>
 <!DOCTYPE html>
 
@@ -102,7 +103,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="../js/toastr.js"></script>
-
+ 
 <script>
 
 $(document).ready(function(){
@@ -154,7 +155,7 @@ $(document).ready(function(){
        			//console.log(url);
        			
        			let DTO_Album_board = {
-       					"al_user_num" : <%=session_user_num%>,
+       					"al_user_num" : <%-- <%=session_user_num%> --%>,
        					"al_subject" : $("#writeSubject").val(),
        					"al_imgName" : data.filename
        			}
@@ -230,7 +231,7 @@ $(document).ready(function(){
        			//console.log(url);
        			
        			let DTO_Album_board = {
-       					"al_user_num" : <%=session_user_num%>,
+       					"al_user_num" : <%-- <%=session_user_num%> --%>,
        					"al_seq" : al_seq,
        					"al_subject" : $("#modifySubject").val(),
        					"al_imgName" : data.filename
@@ -316,51 +317,49 @@ const reload = function(){
 
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
+						class="menu-header-text">목표를 얼마나 달성하셨나요?</span></li>
 
 					<!-- Tables -->
-					<li class="menu-item"><a href="/ranking.do"
-						class="menu-link"> <i class='menu-icon bx bx-crown'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">업적과 순위</div>
+					<li class="menu-item"><a href="/my_achievements.do"
+						class="menu-link"> <i
+							class='menu-icon bx bx-book-open' style='color: #646363'></i>
+							<div data-i18n="Tables">나의 업적 확인</div>
 					</a></li>
 
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">책을 읽고 느낀점을 나눠봐요!</span></li>
+						class="menu-header-text">작성글을 확인해 봅시다.</span></li>
 
 					<!-- Tables -->
-					<li class="menu-item"><a href="/review_list.do"
-						class="menu-link"> <!-- <i class='menu-icon bx bx-book-open bx-tada' style='color:#646363'  ></i> -->
-							<i class='menu-icon bx bx-book-open' style='color: #646363'></i>
-							<div data-i18n="Tables">독후감 나누기</div>
-					</a></li>
-
-
+					<li class="menu-item active" style=""><a href="javascript:void(0)"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-box bx-tada"></i>
+							<div data-i18n="User interface">내 글 모아보기</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="myreview_list.do"
+								class="menu-link">
+									<div data-i18n="Accordion">독후감 나누기</div>
+							</a></li>
+							<li class="menu-item"><a href="/myalbum.do"
+								class="menu-link">
+									<div data-i18n="Badges">찔끔 챌린지</div>
+							</a></li>
+							<li class="menu-item"><a href="/myshare_list.do"
+								class="menu-link">
+									<div data-i18n="Buttons">나눔과 공유하기</div>
+							</a></li>
+						</ul></li>
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">하루하루 책을 읽어봐요!</span></li>
+						class="menu-header-text"></span></li>
 
 					<!-- Tables -->
-					<li class="menu-item active"><a href="/album_list.do"
-						class="menu-link"> <!-- <i class='menu-icon bx bx-photo-album' style='color:#646363' ></i> -->
-							<i class='menu-icon bx bx-photo-album bx-tada'
-							style='color: #646363'></i>
-							<div data-i18n="Tables">찔끔 챌린지</div>
+					<li class="menu-item"><a href="/user_account_setting.do"
+						class="menu-link"> <i class='menu-icon bx bx-book-open'
+							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
+							<div data-i18n="Tables">개인 정보 수정</div>
 					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">다른 사람들과 책을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/share_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-gift'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-bx-gift bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">나눔과 공유하기</div>
-					</a></li>
-
-
 				</ul>
 			</aside>
 			<!-- / Menu -->
@@ -369,7 +368,7 @@ const reload = function(){
 			<div class="layout-page" id="albumlayout">
 				<!-- Navbar -->
 
-				<%=navBar %>
+				<%-- <%=navBar %> --%>
 
 				<!-- / Navbar -->
 
@@ -378,43 +377,25 @@ const reload = function(){
 					<!-- Content -->
 					<div class="container-xxl flex-grow-1 container-p-y">
 						<h4 class="fw-bold py-3 mb-4">
-							<span class="text-muted fw-light">찔끔 챌린지</span> 
+							<span class="text-muted fw-light">찔끔 챌린지 ></span> 내가 작성한 글 목록
 						</h4>
 
 						<div class="card">
-							<h5 class="card-header">
-								<strong>공지 사항</strong>
-							</h5>
-							<div class="table-responsive text-nowrap">
-								<table class="table table-hover">
-									<thead>
-										<tr align="center">
-											<th>제   목</th>
-											<th>작성자</th>
-											<th>작성일자</th>
-										</tr>
-									</thead>
-									<tbody class="table-border-bottom-0">
-										<!-- notice list -->
-										<%=NoticeList %>
-										<!-- /notice list -->
-									</tbody>
-								</table>
-							</div>
+							
 						</div>
-						<br />
+						
 						<!-- Hoverable Table rows -->
 						<div>
 
 							<div class="row row-cols-4 row-cols-md-4 g-4 mb-4" id="albumContents">
 							
-									<%= albumlist %>	
+									<%-- <%= albumlist %> --%>	
 								
 							</div>
 							
 							<!-- 페이징 -->
 							<div class="demo-inline-spacing" style="display:flex; justify-content: center;">
-							<%= nav %>
+							<%-- <%= nav %> --%>
 							</div>
 							<!-- /페이징 -->
 							
@@ -535,8 +516,8 @@ const reload = function(){
 	<!-- / Layout wrapper -->
 
 	<div class="buy-now">
-		<a href="" class="btn btn-outline-primary btn-buy-now"
-			data-bs-toggle="modal" data-bs-target="#modalCenter0" id="writeNew">글 작성하기</a>
+		<a href="/album_list.do"
+			class="btn btn-outline-primary btn-buy-now">챌린지게시판</a>
 	</div>
 
 	<!-- Core JS -->

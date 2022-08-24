@@ -36,10 +36,5 @@ public interface MapperMyPage {
 	
 	String reloadPf(int user_num);
 	
-	// myboard
-	ArrayList<DTOShareBoard> myshareList(DTOShareTotal sto);
-	
-	int countMyshare(String hashTag);
-	
 }
 	

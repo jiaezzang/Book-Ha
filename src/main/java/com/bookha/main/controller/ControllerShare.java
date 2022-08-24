@@ -210,10 +210,10 @@ public class ControllerShare {
 		
 		lists = dao.list(dto);
 		
-		ModelSharePageNavigation navModel = new ModelSharePageNavigation();
-		String nav = navModel.getPageNav(dto);
+		ModelSharePageNavigation pageModel = new ModelSharePageNavigation();
+		String paging = pageModel.getPageNav(dto);
 		
-		return nav;
+		return paging;
 	}
 	
 	@RequestMapping(value = "/share_write.do")
@@ -296,6 +296,8 @@ public class ControllerShare {
 		//Navbar Model
 		DTOUser userSetting = new DTOUser();
 		userSetting = daoUser.userSetting(session_user_num);
+		mv.addObject("user", userSetting);
+		
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
@@ -334,9 +336,14 @@ public class ControllerShare {
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		mv.addObject("session_user_num", session_user_num);
 		
-		DTOShareBoard to = dao.modify(seq);
-		to.setUser_num(session_user_num);
-		mv.addObject("to", to);
+		ModelProfileHtml profile = new ModelProfileHtml();
+		if(this.user_role.equals("user")) {
+			mv.addObject("profile", profile.getProfile().toString());
+		} else if(this.user_role.equals("admin")) {
+			mv.addObject("profile", profile.getAdminProfile().toString());
+		}
+		
+		this.user_role = daoUser.userSetting(session_user_num).getUser_role().toLowerCase();
 		
 		//Navbar Model
 		DTOUser userSetting = new DTOUser();
@@ -345,15 +352,9 @@ public class ControllerShare {
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
 		
-		ModelProfileHtml profile = new ModelProfileHtml();
-		if(this.user_role.equals("user")) {
-			mv.addObject("profile", profile.getProfile().toString());
-		} else if(this.user_role.equals("admin")) {
-			mv.addObject("profile", profile.getAdminProfile().toString());
-		}
-		
-		this.user_role = daoUser.userSetting(session_user_num).getUser_role();
-		mv.addObject("user_role", this.user_role);
+		DTOShareBoard to = dao.modify(seq);
+		to.setUser_num(session_user_num);
+		mv.addObject("to", to);
 		
 		mv.setViewName("share_board/board_modify");
 		return mv;
@@ -379,9 +380,11 @@ public class ControllerShare {
 		to.setHash_tag(hash_tag);
 
 		int flag = dao.modifyOk(to);
-		mv.addObject("flag", flag);
 		
-		mv.setViewName("share_board/board_modify_ok");
+		mv.addObject("flag", flag);
+		mv.addObject("seq", seq);
+		
+		mv.setViewName("share_board/board_update_ok");
 		return mv;
 	}
 	
