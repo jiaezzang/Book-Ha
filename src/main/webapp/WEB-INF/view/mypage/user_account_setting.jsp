@@ -71,6 +71,13 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 	height: 6.25em;
 	resize: none;
 }
+
+.btn-kakao {
+  color: #FFF;
+  background-color: #FEE500;
+  border-color: #FEE500;
+  box-shadow: 0 0.125rem 0.25rem 0 #FEE500;
+}
 </style>
 
 <!-- Helpers -->
@@ -103,6 +110,11 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 			$('#modalCenter').modal('show');
             $('#password1').removeAttr("readonly");
             $('#password2').removeAttr("readonly");
+            $('#deleteUserId').removeAttr("readonly");
+            $('#deletePassword').removeAttr("readonly");
+            $("#delete_accountBTN").css('display', 'inline-block');
+		} else {
+			$("#delete_kakaoAccountBTN").css('display', 'inline-block');
 		}
 		
 		//기본값 입력
@@ -188,12 +200,12 @@ String pathKakao = (String)request.getAttribute("pathKakao");
             return toastr.error('비밀번호를 입력 해주세요.');
           }
 
-           if($("#alert-successNick").css("display") === "none" && $("#alert-dangerNick").css("display") === "none"){
+          if($("#alert-successNick").css("display") === "none" && $("#alert-dangerNick").css("display") === "none"){
         	   
-           }else if($("#alert-successNick").css("display") === "none") {
+          }else if($("#alert-successNick").css("display") === "none") {
              $("#nickName").css("border", "1px solid red");
              return toastr.error("닉네임을 수정해주세요.");
-           }
+          }
 
           if($('#nickName').val().trim() === ''){
             return toastr.error('닉네임을 입력 해주세요.');
@@ -243,8 +255,9 @@ String pathKakao = (String)request.getAttribute("pathKakao");
     	  	}
       	}
 
-	    //계정 삭제 시
+	    //일반 계정 삭제 시
       	$('#delete_accountBTN').on("click", function() {
+
 			if($('#deleteUserId').val().trim() != "<%=userSetting.getUser_mail()%>") {
 				return toastr.error('이메일을 올바르게 입력해주세요.');
 			}
@@ -256,35 +269,68 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 			}
         	if($('#deletePassword').val().trim() === ''){
         		return toastr.error('비밀번호를 입력 해주세요.');
-        	}
+      		}
         	if(!$("#accountActivation").prop("checked")){
         		return toastr.error('계정삭제를 원하신다면 체크해주세요.');
         	}
-        	deleteUser();
+        	
+        	$('#deleteOk').modal('show');
+        })
+        
+        //카카오 계정 삭제 시
+      	$('#delete_kakaoAccountBTN').on("click", function() {
+        	if(!$("#accountActivation").prop("checked")){
+        		return toastr.error('계정삭제를 원하신다면 체크해주세요.');
+        	}
+        	
+        	$('#deleteOk').modal('show');
         })
     })
 
+    
 	function deleteUser() {
-		let sendData = {
-	    user_mail: $("#deleteUserId").val(),
-	    user_password: $("#deletePassword").val()
-	    };
+
+		if("<%=pathKakao%>" != "kakao"){
+			let sendData = {
+		    	user_mail: $("#deleteUserId").val(),
+		    	user_password: $("#deletePassword").val()
+		    };
+		    $.ajax({
+		    	url:"http://localhost:8080/account/delete",
+		        type: "post",
+		        contentType: "application/json; charset=utf-8",
+		        data : JSON.stringify(sendData),
+		        dataType:"json",
+		        success : function(result){
+		        	window.location.href = "/";
+		        },
+		        error : function(jqXHR,textStatus,errorThrown){
+// 	        		console.log(jqXHR);
+// 	            	console.log(textStatus);
+// 	            	console.log(errorThrown);
+		        }
+		    });
+		} else {
+			let sendData = {
+				user_mail: "<%=userSetting.getUser_mail()%>"
+			};
 	
-	    $.ajax({
-	    	url:"http://localhost:8080/account/delete",
-	        type: "post",
-	        contentType: "application/json; charset=utf-8",
-	        data : JSON.stringify(sendData),
-	        dataType:"json",
-	        success : function(result){
-	        	window.location.href = "/";
-	        },
-	        error : function(jqXHR,textStatus,errorThrown){
-// 	        	console.log(jqXHR);
-// 	            console.log(textStatus);
-// 	            console.log(errorThrown);
-	        }
-	    });
+		    $.ajax({
+		    	url:"http://localhost:8080/account/delete_kakao",
+		        type: "post",
+		        contentType: "application/json; charset=utf-8",
+		        data : JSON.stringify(sendData),
+		        dataType:"json",
+		        success : function(result){
+		        	window.location.href = "/";
+		        },
+		        error : function(jqXHR,textStatus,errorThrown){
+// 	    	    	console.log(jqXHR);
+// 		            console.log(textStatus);
+//	 	            console.log(errorThrown);
+		        }
+		    });
+		}
 	}
 	        
 	function goBack(){
@@ -544,23 +590,23 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 												<div class="row">
 													<div class="mb-3 col-md-6">
 														<label for="deleteUserId" class="form-label">
-															I D 확 인</label> <input class="form-control" type="text" id="deleteUserId" name="deleteUserId" placeholder="ID를 확인해 주세요">
+															I D 확 인</label> <input class="form-control" type="text" id="deleteUserId" name="deleteUserId" placeholder="ID를 확인해 주세요" readonly="">
 													</div>
 													<div class="mb-3 col-md-6 form-password-toggle">
 														<label class="form-label" for="deletePassword">
 															비 밀 번 호 확 인</label>
 														<div class="input-group input-group-merge">
-															<input type="password" id="deletePassword" class="form-control" name="deletePassword" placeholder="············" aria-describedby="password"> <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+															<input type="password" id="deletePassword" class="form-control" name="deletePassword" placeholder="············" aria-describedby="password" readonly=""> <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
 														</div>
 													</div>
 												</div>
-												<!-- <form id="formAccountDeactivation" onsubmit="return false"> -->
-												<div class="form-check mb-3">
-													<input class="form-check-input" type="checkbox" id="accountActivation" name="accountActivation"> <label class="form-check-label" for="accountActivation">
+												<div class="form-check mb-3" style="display:inline-block;">
+													<input class="form-check-input" type="checkbox" id="accountActivation" name="accountActivation"> 
+													<label class="form-check-label" for="accountActivation">
 														계정 삭제에 동의합니다.</label>
 												</div>
-												<button type="submit" id="delete_accountBTN" class="btn btn-danger deactivate-account">계 정 삭 제</button>
-												<!-- </form> -->
+												<button type="submit" id="delete_accountBTN" class="btn btn-danger deactivate-account" style="float: right; display:none;">계정삭제</button>
+												<button type="submit" id="delete_kakaoAccountBTN" class="btn btn-kakao deactivate-account" style="float: right; display:none;">카카오계정 삭제</button>
 											</div>
 										</div>
 									</div>
@@ -594,6 +640,7 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 					</div>
 				</div>
 			</div>
+			<!--  /PWD check Modal  -->
 			
 			<!-- Profile change Modal -->
 			<div class="modal fade" id="exLargeModal" tabindex="-1" data-bs-backdrop="static" style="display: none;" role="dialog">
@@ -620,6 +667,28 @@ String pathKakao = (String)request.getAttribute("pathKakao");
            			</div>
         		</div>
 			</div>
+			<!--/ Profile change Modal -->
+			
+			<!-- Delete Account Modal -->
+			<div class="modal fade" id="deleteOk" tabindex="-1" data-bs-backdrop="static" style="display: none;" role="dialog">
+            	<div class="modal-dialog modal-dialog modal-dialog-centered" role="document">
+                	<div class="modal-content">
+                    	<div class="modal-header">
+                     		<h5 class="modal-title" id="exampleModalLabel4">계정 삭제</h5>
+                         	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+                     	<div class="modal-body">
+							<p>계정을 정말 삭제하시겠습니까?</p>
+                       	</div>
+                       	<div class="modal-footer">
+                         	<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+                         	<button type="button" class="btn btn-primary" onclick="deleteUser();">확인</button>
+                       	</div>
+           			</div>
+        		</div>
+			</div>
+			<!--/ Delete Account Modal -->
+			
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->

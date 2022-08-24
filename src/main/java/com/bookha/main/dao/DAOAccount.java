@@ -22,6 +22,13 @@ public class DAOAccount {
 	}
 	
 	@Transactional
+	public void deleteKakaoAccount(DTOUser user) {
+		user.setUser_mail(user.getUser_mail());
+		
+		mapper_User.deleteKakaoAccount(user);
+	}
+	
+	@Transactional
 	public void updateAccount(DTOUser user) {
 		user.setUser_mail(user.getUser_mail());
 		user.setUser_password(user.getUser_password());
