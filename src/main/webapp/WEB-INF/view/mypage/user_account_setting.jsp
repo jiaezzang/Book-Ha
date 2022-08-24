@@ -390,15 +390,15 @@ String myProfile = (String)request.getAttribute("myProfile");
 							<div data-i18n="User interface">내 글 모아보기</div>
 					</a>
 						<ul class="menu-sub">
-							<li class="menu-item"><a href="/re_list.do"
+							<li class="menu-item"><a href="myreview_list.do"
 								class="menu-link">
 									<div data-i18n="Accordion">독후감 나누기</div>
 							</a></li>
-							<li class="menu-item"><a href="/al_list.do"
+							<li class="menu-item"><a href="/myalbum.do"
 								class="menu-link">
 									<div data-i18n="Badges">찔끔 챌린지</div>
 							</a></li>
-							<li class="menu-item"><a href="/sh_list.do"
+							<li class="menu-item"><a href="/myshare_list.do"
 								class="menu-link">
 									<div data-i18n="Buttons">나눔과 공유하기</div>
 							</a></li>

@@ -112,53 +112,5 @@
 			WHERE
 				sh_num = ${user_num}
 	</select>
-	
-	<!-- My Board -->
-	<!-- Share -->
-	<select id="myshareList" parameterType="com.bookha.main.dto.DTOShareTotal" resultType="com.bookha.main.dto.DTOShareBoard">
-        SELECT
-        	s.sh_seq as seq,
-        	sh_num as user_num,
-            sh_subject as subject,
-            sh_hashtag as hash_tag,
-            sh_hit as hit,
-            date_format(sh_date, '%Y-%m-%d') as wdate,
-            datediff( now(), sh_date ) wgap,
-			user_nickname,
-			count(c.sh_seq) cmt_cnt
-        FROM
-        	share_board s
-        LEFT OUTER JOIN
-        	user
-        ON
-        	sh_num = user_num
-        LEFT OUTER JOIN
-        	share_board_comment c
-        ON
-        	s.sh_seq = c.sh_seq
-        WHERE
-			sh_num = #{user_num}
-        AND
-        	s.sh_hashtag like CONCAT(#{hash_tag}, '%')
-        GROUP BY
-        	s.sh_seq, c.sh_seq
-        ORDER BY
-        	s.sh_date desc, s.sh_seq desc
-        LIMIT
-        	#{skip}, #{recordPerPage}
-    </select>
-    
-    <select id="countMyshare" parameterType="String" resultType="int">
-    	SELECT
-    		count(*)
-    	FROM
-    		share_board
-    	WHERE
-			sh_num = #{user_num}
-        AND
-    		sh_hashtag like CONCAT(#{hashTag}, '%')
-    </select>
-	<!-- /Share -->
-	
-	
+
 </mapper>

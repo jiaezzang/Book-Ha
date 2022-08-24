@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bookha.main.dao.DAOAdminBoard;
 import com.bookha.main.dao.DAOReviewBoard;
 import com.bookha.main.dao.DAOUser;
+import com.bookha.main.dto.DTOAdminBoard;
 import com.bookha.main.dto.DTOReviewBoard;
 import com.bookha.main.dto.DTOReviewComment;
 import com.bookha.main.dto.DTOReviewTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelLogoHtml;
+import com.bookha.model.ModelNavBar;
+import com.bookha.model.ModelNoticeList;
 import com.bookha.model.ModelProfileHtml;
 import com.bookha.model.ModelReviewCommentList;
 import com.bookha.model.ModelReviewList;
@@ -34,6 +38,9 @@ public class ControllerReveiw {
 	
 	@Autowired
 	private DAOReviewBoard dao;
+	
+	@Autowired
+	private DAOAdminBoard daoAdmin;
 	
 	@Autowired
 	private DAOUser daoUser;
@@ -114,8 +121,8 @@ public class ControllerReveiw {
 		mv.addObject("reviewTable", reviewTable);
 		
 		// Page Navigation 버튼
-		ModelReviewPageNavigation navModel = new ModelReviewPageNavigation();
-		String nav = navModel.getPageNav(dto);
+		ModelReviewPageNavigation pageModel = new ModelReviewPageNavigation();
+		String nav = pageModel.getPageNav(dto);
 		mv.addObject("nav", nav);
 		
 		// 해시태그 넘겨주기
@@ -123,6 +130,23 @@ public class ControllerReveiw {
 			hashTag = "# 전체";
 		}
 		mv.addObject("hashTag", hashTag);
+		
+		// notice list
+		DTOAdminBoard adto = new DTOAdminBoard();
+		ArrayList<DTOAdminBoard> nolists = new ArrayList<DTOAdminBoard>();
+		nolists = daoAdmin.nolist(adto);
+		
+		ModelNoticeList no = new ModelNoticeList();
+		String NoticeList = no.NoticeList(nolists);
+		mv.addObject("NoticeList", NoticeList );
+		
+		//Navbar Model
+		DTOUser userSetting = new DTOUser();
+		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+		userSetting = daoUser.userSetting(session_user_num);
+		ModelNavBar navModel = new ModelNavBar();
+		String navBar = navModel.navBar(userSetting);
+		mv.addObject("navBar", navBar);
 		
 		mv.setViewName("review_board/board_list");
 		return mv;
@@ -236,6 +260,11 @@ public class ControllerReveiw {
 		userSetting = daoUser.userSetting(to.getUser_num());
 		mv.addObject("user", userSetting);
 		
+		//Navbar Model
+		ModelNavBar navModel = new ModelNavBar();
+		String navBar = navModel.navBar(userSetting);
+		mv.addObject("navBar", navBar);
+		
 		ModelProfileHtml profile = new ModelProfileHtml();
 		this.user_role = daoUser.userSetting(session_user_num).getUser_role().toLowerCase();
 		mv.addObject("user_role", this.user_role);
@@ -278,6 +307,13 @@ public class ControllerReveiw {
 		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
+		
+		//Navbar Model
+		DTOUser userSetting = new DTOUser();
+		userSetting = daoUser.userSetting(session_user_num);
+		ModelNavBar navModel = new ModelNavBar();
+		String navBar = navModel.navBar(userSetting);
+		mv.addObject("navBar", navBar);
 		
 		DTOReviewBoard to = dao.modify(seq);
 		to.setUser_num(session_user_num);
@@ -346,6 +382,13 @@ public class ControllerReveiw {
 		
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
+		
+		//Navbar Model
+		DTOUser userSetting = new DTOUser();
+		userSetting = daoUser.userSetting(session_user_num);
+		ModelNavBar navModel = new ModelNavBar();
+		String navBar = navModel.navBar(userSetting);
+		mv.addObject("navBar", navBar);
 		
 		mv.setViewName("review_board/board_write");
 		return mv;

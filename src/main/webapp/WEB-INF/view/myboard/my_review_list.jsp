@@ -9,6 +9,7 @@
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
+	/*
 	String navBar = (String)request.getAttribute("navBar");
 	
 	String NoticeList = (String)request.getAttribute( "NoticeList" );
@@ -16,7 +17,7 @@
 	String nav = (String)request.getAttribute("nav");
 	
 	String hashTag = (String)request.getAttribute("hashTag");
-	
+	*/
 	String btnradio0 = "";
 	String btnradio1 = "";
 	String btnradio2 = "";
@@ -24,7 +25,7 @@
 	String btnradio4 = "";
 	String btnradio5 = "";
 	String btnradio6 = "";
-	
+	/*
 	if(hashTag.equals("# 전체")) {
 		btnradio0 = "checked";
 	} else if(hashTag.equals("# 소설")) {
@@ -40,6 +41,7 @@
 	} else if(hashTag.equals("# 기타")) {
 		btnradio6 = "checked";
 	}
+	*/
 %>
 
 <!DOCTYPE html>
@@ -71,6 +73,12 @@
 .demo-inline-spacing {
 	margin: auto;
 }
+/*
+.bg-menu-theme .menu-sub>.menu-item.active>.menu-link:not(.menu-toggle) {
+    background-color: #696cff !important;
+    border: 3px solid #e7e7ff !important;
+}
+*/
 </style>
 
 <!-- Favicon -->
@@ -114,7 +122,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="../js/toastr.js"></script>
-
+<!--  
 <script type="text/javascript">
 $(document).ready(function() {
 	$(document).on('click', '.btn-check', function() {
@@ -161,7 +169,7 @@ const pageNavigation = function(hash_tag) {
 		}
 	});
 }
-</script>
+</script>-->
 </head>
 
 <body>
@@ -184,49 +192,49 @@ const pageNavigation = function(hash_tag) {
 
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
+						class="menu-header-text">목표를 얼마나 달성하셨나요?</span></li>
 
 					<!-- Tables -->
-					<li class="menu-item"><a href="/ranking.do" class="menu-link">
-							<i class='menu-icon bx bx-crown' style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">업적과 순위</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">책을 읽고 느낀점을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item active"><a href="/review_list.do"
+					<li class="menu-item"><a href="/my_achievements.do"
 						class="menu-link"> <i
-							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
-							<!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
-							<div data-i18n="Tables">독후감 나누기</div>
+							class='menu-icon bx bx-book-open' style='color: #646363'></i>
+							<div data-i18n="Tables">나의 업적 확인</div>
 					</a></li>
 
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">하루하루 책을 읽어봐요!</span></li>
+						class="menu-header-text">작성글을 확인해 봅시다.</span></li>
 
 					<!-- Tables -->
-					<li class="menu-item"><a href="/album_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-photo-album'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-photo-album bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">찔끔 챌린지</div>
-					</a></li>
-
+					<li class="menu-item active" style=""><a href="javascript:void(0)"
+						class="menu-link menu-toggle"> <i
+							class="menu-icon tf-icons bx bx-box bx-tada"></i>
+							<div data-i18n="User interface">내 글 모아보기</div>
+					</a>
+						<ul class="menu-sub">
+							<li class="menu-item"><a href="myreview_list.do"
+								class="menu-link">
+									<div data-i18n="Accordion">독후감 나누기</div>
+							</a></li>
+							<li class="menu-item"><a href="/myalbum.do"
+								class="menu-link">
+									<div data-i18n="Badges">찔끔 챌린지</div>
+							</a></li>
+							<li class="menu-item"><a href="/myshare_list.do"
+								class="menu-link">
+									<div data-i18n="Buttons">나눔과 공유하기</div>
+							</a></li>
+						</ul></li>
 					<!-- Forms & Tables -->
 					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">다른 사람들과 책을 나눠봐요!</span></li>
+						class="menu-header-text"></span></li>
 
 					<!-- Tables -->
-					<li class="menu-item"><a href="/share_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-gift'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-bx-gift bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">나눔과 공유하기</div>
+					<li class="menu-item"><a href="/user_account_setting.do"
+						class="menu-link"> <i class='menu-icon bx bx-book-open'
+							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
+							<div data-i18n="Tables">개인 정보 수정</div>
 					</a></li>
-
-
 				</ul>
 			</aside>
 			<!-- / Menu -->
@@ -234,7 +242,7 @@ const pageNavigation = function(hash_tag) {
 			<!-- Layout container -->
 			<div class="layout-page">
 				<!-- Navbar -->
-				<%=navBar %>
+				<%-- <%=navBar %> --%>
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
@@ -243,30 +251,12 @@ const pageNavigation = function(hash_tag) {
 
 					<div class="container-xxl flex-grow-1 container-p-y">
 						<h4 class="fw-bold py-3 mb-4">
-							<span class="text-muted fw-light">독후감 나누기 ></span> 게시판 목록
+							<span class="text-muted fw-light">독후감 나누기 ></span> 내가 작성한 글 목록
 						</h4>
 
 						<!-- Hoverable Table rows -->
 						<div class="card">
-							<h5 class="card-header">
-								<strong>공지 사항</strong>
-							</h5>
-							<div class="table-responsive text-nowrap">
-								<table class="table table-hover">
-									<thead>
-										<tr align="center">
-											<th>제   목</th>
-											<th>작성자</th>
-											<th>작성일자</th>
-										</tr>
-									</thead>
-									<tbody class="table-border-bottom-0">
-										<!-- notice list -->
-										<%=NoticeList %>
-										<!-- /notice list -->
-									</tbody>
-								</table>
-							</div>
+							
 						</div>
 						<!--/ Hoverable Table rows -->
 
@@ -325,13 +315,13 @@ const pageNavigation = function(hash_tag) {
 										</tr>
 									</thead>
 									<tbody class="table-border-bottom-0" id="listTable">
-										<%= reviewTable %>
+										<%-- <%= reviewTable %> --%>
 									</tbody>
 								</table>
 							</div>
 							<div id="pageNav" class="demo-inline-spacing">
 								<!-- Basic Pagination -->
-								<%= nav %>
+								<%-- <%= nav %> --%>
 								<!--/ Basic Pagination -->
 							</div>
 						</div>
@@ -352,8 +342,8 @@ const pageNavigation = function(hash_tag) {
 	<!-- / Layout wrapper -->
 
 	<div class="buy-now">
-		<a href="./review_write.do"
-			class="btn btn-outline-primary btn-buy-now">글 작성하기</a>
+		<a href="/review_list.do"
+			class="btn btn-outline-primary btn-buy-now">리뷰게시판</a>
 	</div>
 
 	<!-- Core JS -->

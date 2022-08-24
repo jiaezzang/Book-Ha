@@ -6,9 +6,19 @@
 	int flag = (Integer)request.getAttribute( "flag" );
 	
 	String result = "";
+	
+	int seq = 0;
+	if(request.getAttribute("seq") != null) {
+		seq = (int)request.getAttribute("seq");
+	}
+	
 	if( flag == 0 ){
 		result = "성공";
-		response.sendRedirect("/share_list.do");		
+		if(seq == 0) {
+			response.sendRedirect("/share_list.do");
+		} else {
+			response.sendRedirect("/share_view.do?seq=" + seq);
+		}	
 	} else { 
 		result = "<script>history.back();</script>";
 	}
@@ -26,6 +36,6 @@
 
 <script>
 	$(document).ready(function() {
-		toastr.succeses('DB를 업데이트했습니다.', '성공');
+		toastr.succeses('MariaDB를 업데이트했습니다.', '성공!');
 	};
 </script>

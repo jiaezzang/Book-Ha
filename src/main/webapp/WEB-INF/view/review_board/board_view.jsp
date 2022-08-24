@@ -8,6 +8,7 @@ request.setCharacterEncoding("UTF-8");
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
+	String navBar = (String)request.getAttribute("navBar");
 	String comment = (String)request.getAttribute("comment");
 	
 	int session_user_num = (int)request.getAttribute("session_user_num");
@@ -225,7 +226,7 @@ $(document).ready(function() {
 			dataType: "text",
 			success: function(data) {
 				$("#reply-text-area").val('');
-				toastr.success('댓글이 추가되었습니다.', '성공');
+				toastr.success('댓글이 작성되었습니다.', '성공!');
 //					console.log(data);
 				reload(<%= seq %>);
 			}
@@ -253,7 +254,7 @@ $(document).ready(function() {
 			contentType: "application/json; charset=UTF-8",
 			dataType: "text",
 			success: function(data) {
-				toastr.success('댓글이 삭제되었습니다.', '성공');
+				toastr.success('댓글이 삭제되었습니다.', '성공!');
 //					console.log(data);
 				reload(<%= seq %>);
 			}
@@ -287,7 +288,7 @@ $(document).ready(function() {
 		obj2 = document.createElement('input');
 		obj2.setAttribute('type', 'hidden');
 		obj2.setAttribute('name', 'user_num');
-		obj2.setAttribute('value', '1');
+		obj2.setAttribute('value', <%=session_user_num %>);
 		
 		f.appendChild(obj1);
 		f.appendChild(obj2);
@@ -388,31 +389,7 @@ const reload = function(board_seq) {
 			<!-- Layout container -->
 			<div class="layout-page">
 				<!-- Navbar -->
-
-				<nav
-					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-					id="layout-navbar">
-					<div
-						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-						<a class="nav-item nav-link px-0 me-xl-4"
-							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
-						</a>
-					</div>
-
-					<div class="navbar-nav-right d-flex align-items-center"
-						id="navbar-collapse">
-						<!-- Search -->
-						<!-- /Search -->
-
-						<ul class="navbar-nav flex-row align-items-center ms-auto">
-
-							<!-- User -->
-							<%= profile %>
-							<!--/ User -->
-						</ul>
-					</div>
-				</nav>
-
+				<%=navBar %>
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
@@ -421,7 +398,7 @@ const reload = function(board_seq) {
 
 					<div class="container-xxl flex-grow-1 container-p-y">
 						<h4 class="fw-bold py-3 mb-4">
-							<span class="text-muted fw-light">독후감 나누기 > 게시판 목록 ></span> 글 쓰기
+							<span class="text-muted fw-light">독후감 나누기 > 게시판 목록 ></span> 게시글
 						</h4>
 
 						<div class="card">
@@ -475,9 +452,9 @@ const reload = function(board_seq) {
 										<img src='<%= book_img_url %>' style='width: 120px' class='me-4 mb-sm-0 mb-2' />
 										<span>
 											<h6><a href='<%= book_info_url %>'><%= book_title %></a></h6>
-											<strong>저자:</strong> <%= book_author %><br>
+											<strong>저 자:</strong> <%= book_author %><br>
 											<strong>출판사:</strong> <%= book_publisher %><br>
-											<strong>요약:</strong> <%= book_summary %><br>
+											<strong>요 약:</strong> <%= book_summary %><br>
 										</span>
 									</div>
 								</label>

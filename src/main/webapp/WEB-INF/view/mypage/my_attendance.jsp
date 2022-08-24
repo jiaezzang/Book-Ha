@@ -243,7 +243,7 @@ function addAt() {
 					<!-- Tables -->
 					<li class="menu-item"><a href="/my_achievements.do"
 						class="menu-link"> <i
-							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
+							class='menu-icon bx bx-book-open' style='color: #646363'></i>
 							<div data-i18n="Tables">나의 업적 확인</div>
 					</a></li>
 
@@ -258,15 +258,15 @@ function addAt() {
 							<div data-i18n="User interface">내 글 모아보기</div>
 					</a>
 						<ul class="menu-sub">
-							<li class="menu-item"><a href="/re_list.do"
+							<li class="menu-item"><a href="myreview_list.do"
 								class="menu-link">
 									<div data-i18n="Accordion">독후감 나누기</div>
 							</a></li>
-							<li class="menu-item"><a href="/al_list.do"
+							<li class="menu-item"><a href="/myalbum.do"
 								class="menu-link">
 									<div data-i18n="Badges">찔끔 챌린지</div>
 							</a></li>
-							<li class="menu-item"><a href="/sh_list.do"
+							<li class="menu-item"><a href="/myshare_list.do"
 								class="menu-link">
 									<div data-i18n="Buttons">나눔과 공유하기</div>
 							</a></li>
