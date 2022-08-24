@@ -338,7 +338,7 @@
 
 					<div class="container-xxl flex-grow-1 container-p-y">
 						<h4 class="fw-bold py-3 mb-4">
-							<span class="text-muted fw-light">나눔과 공유하기 > 게시판 목록 ></span> 글 쓰기
+							<span class="text-muted fw-light">나눔과 공유하기 > 게시판 목록 ></span> 게시글 작성
 						</h4>
 
 						<div class="card">

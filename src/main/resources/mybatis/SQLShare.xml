@@ -52,9 +52,7 @@
             sh_hashtag as hash_tag,
             sh_hit as hit,
             date_format(sh_date, '%Y-%m-%d') as wdate,
-            user_nickname,
-            user_profile as myprofile,
-            user_self as self
+            user_nickname
         FROM
         	share_board
         INNER JOIN
@@ -96,13 +94,13 @@
   
     <select id="modify" parameterType="int" resultType="com.bookha.main.dto.DTOShareBoard">
         SELECT
-        	sh_seq,
-            sh_num,
-            sh_subject,
-            sh_content,
-            sh_hashtag,
-            sh_hit,
-            sh_date
+        	sh_seq as seq,
+            sh_num as user_num,
+            sh_subject as subject,
+            sh_content as content,
+            sh_hashtag as hash_tag,
+            sh_hit as hit,
+            date_format(sh_date, '%Y-%m-%d') as wdate
         FROM
         	share_board
         WHERE

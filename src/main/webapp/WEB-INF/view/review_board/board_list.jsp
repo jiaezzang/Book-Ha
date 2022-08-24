@@ -9,7 +9,9 @@
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
+	String navBar = (String)request.getAttribute("navBar");
 	
+	String NoticeList = (String)request.getAttribute( "NoticeList" );
 	String reviewTable = (String)request.getAttribute("reviewTable");
 	String nav = (String)request.getAttribute("nav");
 	
@@ -134,7 +136,7 @@ $(document).ready(function() {
 			success: function(data) {
 				$("#listTable").html(data);
 // 				console.log(data);
-				toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공');
+				//toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공');
 				pageNavigation(hash_tag);
 			}
 		});
@@ -232,38 +234,7 @@ const pageNavigation = function(hash_tag) {
 			<!-- Layout container -->
 			<div class="layout-page">
 				<!-- Navbar -->
-
-				<nav
-					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-					id="layout-navbar">
-					<div
-						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-						<a class="nav-item nav-link px-0 me-xl-4"
-							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
-						</a>
-					</div>
-
-					<div class="navbar-nav-right d-flex align-items-center"
-						id="navbar-collapse">
-						<!-- Search -->
-						<div class="navbar-nav align-items-center">
-							<div class="nav-item d-flex align-items-center">
-								<i class="bx bx-search fs-4 lh-0"></i> <input type="text"
-									class="form-control border-0 shadow-none"
-									placeholder="Search..." aria-label="Search..." />
-							</div>
-						</div>
-						<!-- /Search -->
-
-						<ul class="navbar-nav flex-row align-items-center ms-auto">
-
-							<!-- User -->
-							<%= profile %>
-							<!--/ User -->
-						</ul>
-					</div>
-				</nav>
-
+				<%=navBar %>
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
@@ -283,29 +254,16 @@ const pageNavigation = function(hash_tag) {
 							<div class="table-responsive text-nowrap">
 								<table class="table table-hover">
 									<thead>
-										<tr>
-											<th>제목</th>
+										<tr align="center">
+											<th>제   목</th>
 											<th>작성자</th>
 											<th>작성일자</th>
 										</tr>
 									</thead>
 									<tbody class="table-border-bottom-0">
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> <strong>[필독]&nbsp;&nbsp;</strong>게시판
-													사용시 주의사항 및 규칙 2 (반드시 확인 바랍니다)
-											</a></td>
-											<td>운영자</td>
-											<td>2022-07-27</td>
-										</tr>
-										<tr>
-											<td><i class="fab fa-angular fa-lg text-danger me-2"></i>
-												<a href="#" style="color: gray"> <strong>[필독]&nbsp;&nbsp;</strong>게시판
-													사용시 주의사항 및 규칙 1 (반드시 확인 바랍니다)
-											</a></td>
-											<td>운영자</td>
-											<td>2022-07-26</td>
-										</tr>
+										<!-- notice list -->
+										<%=NoticeList %>
+										<!-- /notice list -->
 									</tbody>
 								</table>
 							</div>
@@ -358,9 +316,9 @@ const pageNavigation = function(hash_tag) {
 								<table class="table table-hover">
 									<thead>
 										<tr align="center">
-											<th>제목</th>
+											<th>제   목</th>
 											<th>책 정보</th>
-											<th>태그</th>
+											<th>태   그</th>
 											<th>조회수</th>
 											<th>작성자</th>
 											<th>작성일자</th>

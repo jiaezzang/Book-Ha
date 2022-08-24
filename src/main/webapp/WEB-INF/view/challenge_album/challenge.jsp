@@ -170,7 +170,7 @@ $(document).ready(function(){
        					$("#modalCenter0").modal("hide");
        					//console.log("DB 추가 성공");
        					reload();
-       					toastr.success('게시글 작성에 성공하였습니다.', '작업 성공!');
+       					toastr.success('게시글이 작성되었습니다.', '성공!');
        				},
        				error: function(error) {
        					//console.log("error : " + error);
@@ -247,7 +247,7 @@ $(document).ready(function(){
        					$("#modalCenter1").modal("hide");
        					//console.log("DB 추가 성공");
        					reload();
-       					toastr.success('게시글 수정에 성공하였습니다.', '작업 성공!');
+       					toastr.success('게시글이 수정되었습니다.', '성공!');
        				}
        			});
        		}
@@ -278,7 +278,7 @@ $(document).ready(function(){
 				$("#modalCenter2").modal("hide");
 				//console.log(data);
 				reload();
-				toastr.success('게시글을 삭제하였습니다.', '작업 성공!');
+				toastr.success('게시글이 삭제되었습니다.', '성공!');
 			}
 		});
 	});

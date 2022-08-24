@@ -11,13 +11,15 @@
 	String logo = (String)request.getAttribute( "logo" );
 	String navBar = (String)request.getAttribute("navBar");
 	
+	int session_user_num = (int)request.getAttribute("session_user_num");
+	
 	DTOShareBoard to = (DTOShareBoard) request.getAttribute("to");
 	
 	int seq = Integer.parseInt(request.getParameter("seq"));
 	String subject = to.getSubject();
 	String content = to.getContent();
 	String hash_tag = to.getHash_tag();
-	int user_num = to.getUser_num();
+	//int user_num = to.getUser_num();
 	
 	String btnradio1 = "";
 	String btnradio2 = "";
@@ -205,7 +207,7 @@
 			obj2 = document.createElement('input');
 			obj2.setAttribute('type', 'hidden');
 			obj2.setAttribute('name', 'user_num');
-			obj2.setAttribute('value', <%=user_num %>);
+			obj2.setAttribute('value', <%=session_user_num %>);
 			/* obj2.setAttribute('value', 4); */
 			
 			let obj3;

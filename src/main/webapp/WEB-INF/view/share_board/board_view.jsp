@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 	
 <%@page import="com.bookha.main.dto.DTOShareBoard"%>
+<%@page import="com.bookha.main.dto.DTOUser"%>
 
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -14,10 +15,13 @@
 	String cmtTable = (String)request.getAttribute("cmtTable");
 	
 	int session_user_num = (int)request.getAttribute("session_user_num");
-	String user_role = (String)request.getAttribute("user_role");
-	//System.out.println( user_role ); -> admin
 	
 	DTOShareBoard to = (DTOShareBoard)request.getAttribute("to");
+	
+	DTOUser user = (DTOUser)request.getAttribute("user");
+	
+	String user_role = (String)request.getAttribute("user_role");
+	//System.out.println( user_role ); -> admin
 	
 	int user_num = to.getUser_num();
 	int seq = to.getSeq();
@@ -28,8 +32,8 @@
 	String date = to.getWdate();
 	int hit = to.getHit();
 	
-	String myprofile = "../assets/img/achievements/" + to.getMyprofile();
-	String self = to.getSelf();
+	String myprofile = "../assets/img/achievements/" + user.getUser_profile();
+	String self = user.getUser_self();
 	String nickname = to.getUser_nickname();
 	
 	String btnradio1 = "disabled";
@@ -218,7 +222,7 @@
 				dataType: "text",
 				success: function(data) {
 					$("#reply-text-area").val('');
-					toastr.success('댓글 작성 완료', '댓글 작성');
+					toastr.success('댓글이 작성되었습니다.', '성공!');
 					reload(<%=seq %>);
 				}
 			});
@@ -240,7 +244,7 @@
 				contentType: "application/json; chareset=UTF-8",
 				dataType: "text",
 				success: function(data) {
-					toastr.success('댓글 삭제 완료', '댓글 삭제');
+					toastr.success('댓글이 삭제되었습니다.', '성공!');
 					reload(<%=seq %>);
 				}
 			});
