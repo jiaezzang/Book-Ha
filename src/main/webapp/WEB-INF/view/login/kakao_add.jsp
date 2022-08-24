@@ -5,6 +5,8 @@ request.setCharacterEncoding("UTF-8");
 
 String title = (String) request.getAttribute("title");
 String logo = (String) request.getAttribute("logo");
+String email = (String) request.getAttribute("email");
+String name = (String) request.getAttribute("name");
 
 %>
 <!DOCTYPE html>
@@ -69,6 +71,8 @@ String logo = (String) request.getAttribute("logo");
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script src="../js/toastr.js"></script>
 	
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	
     <script type="text/javascript">
 
     $(document).ready(function() {
@@ -130,10 +134,10 @@ String logo = (String) request.getAttribute("logo");
 	    
 
         $('#signBtn').on("click", function() {
-			if($('#alert-successId').css('display') === 'none') {
-				$('#userId').css('border', '1px solid red');
-				return toastr.error("이미 존재하는 이메일입니다.");
-			}
+// 			if($('#alert-successId').css('display') === 'none') {
+// 				$('#userId').css('border', '1px solid red');
+// 				return toastr.error("이미 존재하는 이메일입니다.");
+// 			}
 
 			if($('#userId').val().trim() === ''){
 				return toastr.error('이메일을 입력 해주세요.');
@@ -195,7 +199,7 @@ String logo = (String) request.getAttribute("logo");
           data : JSON.stringify(sendData),
           dataType:"json",
           success : function(result){
-            window.location.href = "/";
+            window.location.href = "/login/mainpage";
           },
           error : function(jqXHR,textStatus,errorThrown){
           }
@@ -229,18 +233,17 @@ String logo = (String) request.getAttribute("logo");
              <!-- <form id="formAuthentication" class="mb-3" action="/signUp" method="POST"> -->
                 <div class="mb-3">
                   <label for="userId" class="form-label">E-mail</label>
-                  <input type="text" class="form-control" id="userId" name="userId" placeholder="E-mail"/>
+                  <input type="text" class="form-control" id="userId" name="userId" placeholder="E-mail" value="<%= email %>" readonly=""/>
                   <span id="alert-successId" style="display:none; color:#696cff;">&nbsp;&nbsp;사용 가능한 이메일입니다.</span>
 				  <span id="alert-dangerId" style="display:none; color:#d92742;">&nbsp;&nbsp;이미 사용중인 이메일입니다.</span>
                 </div>
                 <div class="mb-3">
                   <label for="userName" class="form-label">이름</label>
-                  <input type="text" class="form-control" id="userName" name="userName" placeholder="이름" />
+                  <input type="text" class="form-control" id="userName" name="userName" placeholder="이름" value="<%= name %>" readonly=""/>
                 </div>
                 <div class="mb-3">
                   <label for="userNickname" class="form-label">닉네임</label>
                   <input type="text" class="form-control" id="userNickname" name="userNickname" placeholder="닉네임" />
-                  <span id="kakaoChkSameNickname" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
 				  <span id="alert-successNick" style="display:none; color:#696cff;">&nbsp;&nbsp;사용 가능한 닉네임입니다.</span>
 				  <span id="alert-dangerNick" style="display:none; color:#d92742;">&nbsp;&nbsp;이미 사용중인 닉네임입니다.</span> 
                 </div>

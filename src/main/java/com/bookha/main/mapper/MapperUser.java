@@ -37,4 +37,8 @@ public interface MapperUser {
 	public int checkNickname(String user_nickname);
 	
 	public int checkId(String user_mail);
+	
+	public int checkKakaoId(String user_mail);
+	
+	public int lastUserNum();
 }

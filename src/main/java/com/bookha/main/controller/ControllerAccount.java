@@ -1,5 +1,7 @@
 package com.bookha.main.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +37,13 @@ public class ControllerAccount {
 	
 	
 	@PostMapping("/delete")
-	public DTOUser deleteAccount(@RequestBody DTOUser user) {
+	public DTOUser deleteAccount(@RequestBody DTOUser user, HttpSession session) {
 		dao_Account.deleteAccount(user);
+		
+		session.setAttribute("login", false);
+		
+		session.setAttribute("user_num", 0);
+		session.setMaxInactiveInterval(0);
 		
 		return user;
 		

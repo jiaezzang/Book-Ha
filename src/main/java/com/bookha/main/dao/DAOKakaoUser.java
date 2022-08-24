@@ -35,4 +35,15 @@ public class DAOKakaoUser {
 		mapper_User.kakaoUserJoin(user);
 	}
 	
+	@Transactional
+	public int lastUserNum() {
+		
+		return mapper_User.lastUserNum();
+	}
+	
+	@Transactional
+	public int checkKakaoId(String user_mail) {
+		
+		return mapper_User.checkKakaoId(user_mail);
+	}
 }

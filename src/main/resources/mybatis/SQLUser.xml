@@ -142,4 +142,24 @@
     	WHERE 
     		user_mail = #{user_mail}
     </select>
+    
+    <select id="checkKakaoId" parameterType="String" resultType="int">
+    	SELECT 
+    		user_num
+    	FROM 
+    		user 
+    	WHERE 
+    		user_mail = #{user_mail}
+    </select>
+    
+    <select id="lastUserNum" resultType="int">
+    	SELECT 
+    		user_num
+    	FROM 
+    		user 
+    	ORDER BY 
+    		user_num DESC
+    	LIMIT
+    		0, 1
+    </select>
 </mapper>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,7 +56,7 @@ public class ControllerLogin {
 		session.setAttribute("login", true);
 		
 		DTOUser to = daoUser.signIn(user);
-		System.out.println(to.getUser_num());
+		//System.out.println(to.getUser_num());
 		session.setAttribute("user_num", to.getUser_num());
 		
 		// 세션 유지시간 무제한
@@ -64,7 +65,7 @@ public class ControllerLogin {
 		return to;
 	}
 	
-	@GetMapping("/login/mainpage")
+	@RequestMapping(value = "/login/mainpage")
 	public ModelAndView mainpage(HttpSession session, ModelAndView mav) {
 
 		//로그인 한 회원의 정보
@@ -90,10 +91,6 @@ public class ControllerLogin {
 	@GetMapping("/logout")
 	public ModelAndView logout(ModelAndView mav, HttpSession session) {
 		session.setAttribute("login", false);
-		
-		if((Boolean)session.getAttribute("login") != false) {
-			System.out.println("안되네");
-		}
 		
 		session.setAttribute("user_num", 0);
 		session.setMaxInactiveInterval(0);
