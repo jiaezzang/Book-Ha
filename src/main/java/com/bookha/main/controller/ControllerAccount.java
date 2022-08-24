@@ -39,7 +39,20 @@ public class ControllerAccount {
 	@PostMapping("/delete")
 	public DTOUser deleteAccount(@RequestBody DTOUser user, HttpSession session) {
 		dao_Account.deleteAccount(user);
+
+		session.setAttribute("login", false);
 		
+		session.setAttribute("user_num", 0);
+		session.setMaxInactiveInterval(0);
+		
+		return user;
+		
+	}
+	
+	@PostMapping("/delete_kakao")
+	public DTOUser deleteKakaoAccount(@RequestBody DTOUser user, HttpSession session) {
+		dao_Account.deleteKakaoAccount(user);
+
 		session.setAttribute("login", false);
 		
 		session.setAttribute("user_num", 0);

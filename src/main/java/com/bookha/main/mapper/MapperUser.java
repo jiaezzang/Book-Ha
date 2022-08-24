@@ -26,6 +26,8 @@ public interface MapperUser {
 	
 	void deleteAccount(DTOUser user);
 	
+	void deleteKakaoAccount(DTOUser user);
+	
 	void updateAccount(DTOUser user);
 	
 	DTOUser userSetting(int user_num );
