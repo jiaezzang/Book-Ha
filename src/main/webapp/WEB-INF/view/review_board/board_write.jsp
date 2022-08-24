@@ -107,6 +107,7 @@
 	font: bold;
 	color: #696CFF;
 }
+
 .buy-now .btn-buy-now:hover {
   color: blue;
 }
@@ -387,7 +388,7 @@
 		    previewHighlight: false,
 		    height: '700px',
 		    // 사전입력 항목
-		    initialValue: '',
+		    placeholder: '# line1 \n line2',
 		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 		    hooks: {
 		    	addImageBlobHook: (blob, callback) => {

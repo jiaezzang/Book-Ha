@@ -102,6 +102,7 @@ public class ControllerLogin {
 	
 	@GetMapping("/findUserId")
 	public ModelAndView findUserId(ModelAndView mav) {
+		mav.addObject("logo", new ModelLogoHtml().getLogo().toString());
 		mav.setViewName("login/findUserId");
 		
 		return mav;
@@ -115,6 +116,7 @@ public class ControllerLogin {
 	
 	@GetMapping("/findPw")
 	public ModelAndView findPw(ModelAndView mav) {
+		mav.addObject("logo", new ModelLogoHtml().getLogo().toString());
 		mav.setViewName("login/findPw");
 		
 		return mav;
