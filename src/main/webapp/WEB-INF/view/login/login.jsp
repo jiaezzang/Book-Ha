@@ -163,7 +163,6 @@ String logo = (String) request.getAttribute("logo");
 	<script src="../assets/js/main.js"></script>
 	<script>
 		Kakao.init("f0e137541dcef23154b82f7c348b087a");
-		console.log(Kakao.isInitialized());
 
 		function kakaoLogin() {
 			
