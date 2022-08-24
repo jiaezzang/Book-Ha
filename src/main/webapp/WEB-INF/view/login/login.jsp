@@ -52,6 +52,12 @@ String logo = (String) request.getAttribute("logo");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="../js/toastr.js"></script>
+	
 <script>
 	$(document).ready(function() {
 		$("#signIn").on("click", function() {
@@ -64,6 +70,16 @@ String logo = (String) request.getAttribute("logo");
 			user_mail : $("#username").val(),
 			user_password : $("#password").val()
 		};
+		
+		if($("#username").val() == null || $("#username").val() == "") {
+			toastr.error("이메일을 확인해 주세요.", "입력 오류!");
+			return false;
+		}
+		
+		if($("#password").val() == null || $("#password").val() == "") {
+			toastr.error("비밀번호를 확인해 주세요.", "입력 오류!");
+			return false;
+		}
 
 		$.ajax({
 			url : "http://localhost:8080/signIn.do",
@@ -75,7 +91,7 @@ String logo = (String) request.getAttribute("logo");
 				window.location.href = "/login/mainpage";
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
-				alert("Id 또는 PASSWORD를 확인해 주세요.");
+				toastr.error("올바르지 않은 정보입니다.", "입력 오류!");
 			}
 		});
 	}
@@ -163,7 +179,7 @@ String logo = (String) request.getAttribute("logo");
 	<script src="../assets/js/main.js"></script>
 	<script>
 		Kakao.init("f0e137541dcef23154b82f7c348b087a");
-		console.log(Kakao.isInitialized());
+		//console.log(Kakao.isInitialized());
 
 		function kakaoLogin() {
 			
@@ -220,11 +236,13 @@ String logo = (String) request.getAttribute("logo");
 							},
 							fail: function(error) {
 								console.log(error);
+								toastr.error("Kakao에서 값을 불러오지 못했습니다.", "연결 오류!");
 							}
 			    		});
 					},
 					fail : function(err) {
 						console.log(JSON.stringify(err));
+						toastr.error("Kakao와 연결을 실패하였습니다.", "연결 오류!");
 					}
 				});
 			} else {

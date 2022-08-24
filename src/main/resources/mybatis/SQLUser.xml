@@ -93,12 +93,11 @@
          where user_nickname = #{user_nickname};
     </select>
     
-<!--     <select id="findUserId" parameterType="com.bookha.main.dto.DTOUser" resultType="map"> -->
-<!--         select user_mail -->
-<!--           from user -->
-<!--          where user_name = #{user_name} and user_phonenumber = #{user_phonenumber}; -->
-<!--     </select> -->
-
+    <select id="findUserId" parameterType="com.bookha.main.dto.DTOUser" resultType="map">
+        select user_mail, user_path
+          from user
+         where user_name = #{user_name} and user_phonenumber = #{user_phonenumber};
+    </select>
     
     <select id="userSetting" parameterType="int" resultType="com.bookha.main.dto.DTOUser">
         select 

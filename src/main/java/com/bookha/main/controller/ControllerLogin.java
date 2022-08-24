@@ -102,6 +102,7 @@ public class ControllerLogin {
 	
 	@GetMapping("/findUserId")
 	public ModelAndView findUserId(ModelAndView mav) {
+		mav.addObject("logo", new ModelLogoHtml().getLogo().toString());
 		mav.setViewName("login/findUserId");
 		
 		return mav;
@@ -109,12 +110,16 @@ public class ControllerLogin {
 	
 	@PostMapping("/findUserId")
 	public List<Map<String, String>> findUserId(@RequestBody DTOUser user) {
-		
+		List<Map<String, String>> lists = daoUser.findUserId(user);
+		Map<String, String> map = lists.get(0);
+		System.out.println(map.get("user_mail"));
+		System.out.println(map.get("user_path"));
 		return daoUser.findUserId(user);
 	}
 	
 	@GetMapping("/findPw")
 	public ModelAndView findPw(ModelAndView mav) {
+		mav.addObject("logo", new ModelLogoHtml().getLogo().toString());
 		mav.setViewName("login/findPw");
 		
 		return mav;
