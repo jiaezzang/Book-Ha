@@ -76,12 +76,28 @@ String logo = (String) request.getAttribute("logo");
 
           findId();
         });
+      
+      
+      //휴대폰 번호 정규식 검사
+		$("#userPhone").keyup(function() {
+			$("#userPhone").val( $("#userPhone").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
+			
+	  		var text = $("#userPhone").val().trim();
+	
+	  		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+	  		if(regPhone.test(text) === true) {
+	  			$("#alert-correctPhone").css('display', 'none');
+	  			$('#userPhone').css('border', '1px solid #696cff');
+	  		} else {
+	  			$("#alert-correctPhone").css('display', 'inline-block');
+	  		}
+		});
       });
 
       function findId() {
         let sendData = {
           user_name: $("#name").val(),
-          user_phonenumber: $("#userPhone").val()
+          user_phonenumber: $("#userPhone").val().replaceAll("-", "")
         };
 
         $.ajax({
@@ -139,7 +155,8 @@ String logo = (String) request.getAttribute("logo");
                 </div>
                 <div class="mb-3">
                   <label for="userPhone" class="form-label" style="font-size: 20px; font-weight: bold;">전화번호</label><br>
-                  <input type="text" id="userPhone" class="form-control" name="option" placeholder="가입했던 전화번호를 입력해주세요" autofocus />
+                  <input type="text" id="userPhone" class="form-control" name="userPhone" placeholder="가입했던 전화번호를 입력해주세요" autofocus />
+                  <span id="alert-correctPhone" style="display:none; color:#d92742;">&nbsp;&nbsp;올바른 형식의 연락처를 입력해주세요.</span>
                 </div>
                 <button id="findIdBtn" class="btn btn-primary d-grid w-100">ID 찾기</button>
               <!-- </form> -->

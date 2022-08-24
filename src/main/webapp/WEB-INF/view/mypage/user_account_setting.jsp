@@ -118,8 +118,6 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 
 	    //휴대폰 번호 정규식 검사
 		$("#userPhone").keyup(function(){
-			//phoneNo()
-
       		$("#userPhone").val( $("#userPhone").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replaceAll("--", "-") );
       		
       		var text = $("#userPhone").val().trim();
@@ -247,15 +245,20 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 
 	    //계정 삭제 시
       	$('#delete_accountBTN').on("click", function() {
-
+			if($('#deleteUserId').val().trim() != "<%=userSetting.getUser_mail()%>") {
+				return toastr.error('이메일을 올바르게 입력해주세요.');
+			}
      		if($('#deleteUserId').val().trim() === ''){
-        		return alert('ID를 입력 해주세요.');
+     			return toastr.error('이메일을 입력 해주세요.');
         	}
+			if($('#deletePassword').val().trim() != "<%=userSetting.getUser_password()%>") {
+				return toastr.error('비밀번호를 올바르게 입력해주세요.');
+			}
         	if($('#deletePassword').val().trim() === ''){
-          		return alert('비밀번호를 입력 해주세요.');
+        		return toastr.error('비밀번호를 입력 해주세요.');
         	}
         	if(!$("#accountActivation").prop("checked")){
-          		return alert('계정삭제를 원하신다면 체크해주세요.');
+        		return toastr.error('계정삭제를 원하신다면 체크해주세요.');
         	}
         	deleteUser();
         })
@@ -405,7 +408,7 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 					<!-- Tables -->
 					<li class="menu-item"><a href="/my_achievements.do"
 						class="menu-link"> <i
-							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
+							class='menu-icon bx bx-book-open' style='color: #646363'></i>
 							<div data-i18n="Tables">나의 업적 확인</div>
 					</a></li>
 
@@ -439,7 +442,7 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 
 					<!-- Tables -->
 					<li class="menu-item active"><a href="/user_account_setting.do"
-						class="menu-link"> <i class='menu-icon bx bx-book-open'
+						class="menu-link"> <i class='menu-icon bx bx-book-open  bx-tada'
 							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
 							<div data-i18n="Tables">개인 정보 수정</div>
 					</a></li>

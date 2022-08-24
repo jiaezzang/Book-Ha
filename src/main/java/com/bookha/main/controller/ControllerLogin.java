@@ -110,10 +110,7 @@ public class ControllerLogin {
 	
 	@PostMapping("/findUserId")
 	public List<Map<String, String>> findUserId(@RequestBody DTOUser user) {
-		List<Map<String, String>> lists = daoUser.findUserId(user);
-		Map<String, String> map = lists.get(0);
-		System.out.println(map.get("user_mail"));
-		System.out.println(map.get("user_path"));
+		
 		return daoUser.findUserId(user);
 	}
 	
