@@ -80,7 +80,7 @@ public class DAOUser {
 	}
 	
 	@Transactional
-	public List<Map<String, String>> findPw(DTOUser user) {
+	public Map<String, String> findPw(DTOUser user) {
 		
 		return mapper_User.findPw(user);
 	}

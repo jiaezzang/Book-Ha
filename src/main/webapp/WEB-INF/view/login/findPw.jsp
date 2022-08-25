@@ -57,6 +57,12 @@ String logo = (String) request.getAttribute("logo");
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    
+    <!-- Toastr -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="../js/toastr.js"></script>
+	
     <script>
       $(document).ready(function() {
         $("#findPwBtn").on("click", () => {
@@ -64,47 +70,56 @@ String logo = (String) request.getAttribute("logo");
             return alert("이메일을 입력해주세요.");
           }
 
-          if($("#option").val().length < 1) {
-            return alert("질문에 대한 답을 입력해주세요.");
-          }
+          if($("#userPhone").val().length < 1) {
+              return toastr.error("전화번호를 입력해주세요.", "입력 오류!");
+           }
 
           findPw();
         });
-      });
+      
+    //휴대폰 번호 정규식 검사
+		$("#userPhone").keyup(function() {
+			$("#userPhone").val( $("#userPhone").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
+			
+	  		var text = $("#userPhone").val().trim();
+	
+	  		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+	  		if(regPhone.test(text) === true) {
+	  			$("#alert-correctPhone").css('display', 'none');
+	  			$('#userPhone').css('border', '1px solid #696cff');
+	  		} else {
+	  			$("#alert-correctPhone").css('display', 'inline-block');
+	  		}
+		});
+    });
 
       function findPw() {
         let sendData = {
           user_mail: $("#email").val(),
-          user_option: $("#option").val()
+          user_phonenumber: $("#userPhone").val().replaceAll("-", "")
         };
 
         $.ajax({
-          url:"http://localhost:8080/findPw",
+          url:"/findPw",
           type: "post",
           contentType: "application/json; charset=utf-8",
           data : JSON.stringify(sendData),
-          dataType:"json",
+          dataType:"text",
           success : function(result){
-            if(result.length < 1) {
-              return alert("입력하신 정보로 PW를 못찾음");
-            }
-            
-            let strLength = Math.floor(result[0].user_password.length / 2);
-            let str = result[0].user_password.substr(0, strLength);
-            let strScTemp = result[0].user_password.substr(strLength);
-            let strSc = "";
-            
-            for(let i = 0; i < strScTemp.length; i++){
-              strSc += "*";
-            }
-
-            alert($("#email").val() + "ID의 PW는 " + str + strSc + " 입니다."); 
-            window.location.href = "/login";
+        	  if(result != "1") {
+                  return toastr.error("ID가 존재하지 않습니다.", "정보 오류!");
+                }
+        	  $("#userPwShow").html("회원님의 비밀번호가 가입 시 작성했던 메일로 전송 되었습니다.<br />메일함을 확인해주세요.");
+        	$("#modalCenter").modal("show");
           },
           error : function(jqXHR,textStatus,errorThrown){
-            alert("서버와의 통신에 요류가 발생하였습니다.");
+        	  toastr.error("서버와의 통신에 오류가 발생하였습니다.", "통신 오류!");
           }
         });
+      }
+      const windowLocationHref = function() {
+    	  //window.location.href = "/login";
+    	  $("#modalCenter").modal("hide");
       }
     </script>
   </head>
@@ -126,16 +141,16 @@ String logo = (String) request.getAttribute("logo");
               </div>
               <!-- /Logo -->
               <h4 class="mb-2">비밀번호 찾기 🔒</h4>
-              <p class="mb-4">가입 하실때 ID와 질문의 답을 입력해 주세요 </p>
+              <p class="mb-4">가입 시 작성했던 이름과 전화번호를 입력해 주세요 </p>
               <!-- <form id="formAuthentication" class="mb-3" action="index.html" method="POST"> -->
                 <div class="mb-3">
                   <label for="id" class="form-label" style="font-size: 20px; font-weight: bold;">ID</label>
                   <input type="text" class="form-control" id="email" name="email" placeholder="Email을 입력해주세요" autofocus />
                 </div>
                 <div class="mb-3">
-                  <label for="option" class="form-label" style="font-size: 20px; font-weight: bold;">질문</label><br>
-                  <label class="form-label">가입시 입력했던 전화번호</label>
-                  <input type="text" id="option" class="form-control" name="option" placeholder="전화번호" autofocus />
+                  <label for="userPhone" class="form-label" style="font-size: 20px; font-weight: bold;">전화번호</label><br>
+                  <input type="text" id="userPhone" class="form-control" name="userPhone" placeholder="가입했던 전화번호를 입력해주세요" autofocus />
+                  <span id="alert-correctPhone" style="display:none; color:#d92742;">&nbsp;&nbsp;올바른 형식의 연락처를 입력해주세요.</span>
                 </div>
                 <button id="findPwBtn" class="btn btn-primary d-grid w-100">비밀번호 찾기</button>
               <!-- </form> -->
@@ -151,6 +166,24 @@ String logo = (String) request.getAttribute("logo");
         </div>
       </div>
     </div>
+    
+    <!-- find id Modal -->
+	<div class="modal fade" id="modalCenter" tabindex="-1" data-bs-backdrop="static" style="display: none;" role="dialog">
+		<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="exampleModalLabel4" style="color: #696CFF">비밀번호 찾기</h4>
+				</div>
+				<div class="modal-body">
+					<p id="userPwShow"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="windowLocationHref();">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+    <!--/ find id Modal -->
 
     <!-- / Content -->
 
