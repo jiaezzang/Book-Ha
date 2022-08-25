@@ -17,6 +17,7 @@ public class DTOShareTotal {
 	private int endBlock;
 	
 	private String hash_tag;
+	private String searchSubject;
 	
 	private int skip;
 	
@@ -30,5 +31,7 @@ public class DTOShareTotal {
 		this.blockPerPage = 5;
 		this.totalPage = 1;
 		this.totalRecord = 0;
+		
+		this.searchSubject = "";
 	}
 }

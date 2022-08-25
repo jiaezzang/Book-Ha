@@ -26,9 +26,9 @@ public class DAOShareBoard implements MapperShare {
 	}
 	
 	@Override
-	public int countBoard(String hashTag) {
+	public int countBoard(DTOShareTotal dto) {
 		// TODO Auto-generated method stub
-		return mapper.countBoard(hashTag);
+		return mapper.countBoard(dto);
 	}
 	
 	@Override

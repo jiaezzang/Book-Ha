@@ -26,6 +26,8 @@
         	s.sh_seq = c.sh_seq
         WHERE
         	s.sh_hashtag like CONCAT(#{hash_tag}, '%')
+        AND
+        	s.sh_subject like CONCAT('%', #{searchSubject}, '%')
         GROUP BY
         	s.sh_seq, c.sh_seq
         ORDER BY
@@ -34,13 +36,15 @@
         	#{skip}, #{recordPerPage}
     </select>
     
-    <select id="countBoard" parameterType="String" resultType="int">
+    <select id="countBoard" parameterType="com.bookha.main.dto.DTOShareTotal" resultType="int">
     	SELECT
     		count(*)
     	FROM
     		share_board
     	WHERE
-    		sh_hashtag like CONCAT(#{hashTag}, '%')
+    		sh_hashtag like CONCAT(#{hash_tag}, '%')
+        AND
+        	sh_subject like CONCAT('%', #{searchSubject}, '%')
     </select>
     
     <select id="view" parameterType="int" resultType="com.bookha.main.dto.DTOShareBoard">

@@ -75,9 +75,16 @@ public class ControllerShare {
 			hashTag = "#";
 		}
 		
+		// 제목 검색 전, 검색단어 전처리
+		String searchSubject = "";
+		if(request.getParameter("searchSubject") != null) {
+			searchSubject = request.getParameter("searchSubject");
+		}
+		
 		// 페이징
 		DTOShareTotal dto = new DTOShareTotal();
 		dto.setHash_tag(hashTag);
+		dto.setSearchSubject(searchSubject);
 		int skip, cpage, blockPerPage, totalPage, totalRecord, startBlock, endBlock;
 		
 		// 현재 페이지
@@ -92,7 +99,7 @@ public class ControllerShare {
 		dto.setSkip(skip);
 		
 		// 총 게시글 수
-		dto.setTotalRecord(dao.countBoard(hashTag));
+		dto.setTotalRecord(dao.countBoard(dto));
 		totalRecord = dto.getTotalRecord();
 		
 		// 전체 페이지 수
@@ -141,7 +148,7 @@ public class ControllerShare {
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		userSetting = daoUser.userSetting(session_user_num);
 		ModelNavBar navModel = new ModelNavBar();
-		String navBar = navModel.navBar(userSetting);
+		String navBar = navModel.navBarSearch(userSetting);
 		mv.addObject("navBar", navBar);
 		
 		//좌측 Menu Model
@@ -153,8 +160,8 @@ public class ControllerShare {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/share_list_hashTag.do", method = RequestMethod.POST)
-	public String listHashTag(@RequestBody DTOShareBoard to, HttpServletRequest request) {
+	@RequestMapping(value = "/share_list_search.do", method = RequestMethod.POST)
+	public String listSearch(@RequestBody DTOShareTotal to, HttpServletRequest request) {
 		ArrayList<DTOShareBoard> lists = new ArrayList<DTOShareBoard>();
 		
 		String hashTag = to.getHash_tag();
@@ -163,9 +170,12 @@ public class ControllerShare {
 			hashTag = "#";
 		}
 		
+		String searchSubject = to.getSearchSubject();
+		
 		// 페이징
 		DTOShareTotal dto = new DTOShareTotal();
 		dto.setHash_tag(hashTag);
+		dto.setSearchSubject(searchSubject);
 		int skip, cpage;
 		
 		cpage = dto.getCpage();
@@ -181,8 +191,7 @@ public class ControllerShare {
 	}
 	
 	@RequestMapping(value= "share_list_pageNav.do", method = RequestMethod.POST)
-	public String listpageNav(@RequestBody DTOShareBoard to, HttpServletRequest request) {
-		ArrayList<DTOShareBoard> lists = new ArrayList<DTOShareBoard>();
+	public String listpageNav(@RequestBody DTOShareTotal to, HttpServletRequest request) {
 		
 		String hashTag = to.getHash_tag();
 		
@@ -190,15 +199,18 @@ public class ControllerShare {
 			hashTag = "#";
 		}
 		
+		String searchSubject = to.getSearchSubject();
+		
 		DTOShareTotal dto = new DTOShareTotal();
 		dto.setHash_tag(hashTag);
+		dto.setSearchSubject(searchSubject);
 		int skip, cpage, blockPerPage, totalPage, totalRecord, startBlock, endBlock;
 		
 		cpage = dto.getCpage();
 		skip = (cpage - 1) * dto.getRecordPerPage();
 		dto.setSkip(skip);
 		
-		dto.setTotalRecord(dao.countBoard(hashTag));
+		dto.setTotalRecord(dao.countBoard(dto));
 		totalRecord = dto.getTotalRecord();
 		
 		totalPage = ( (totalRecord - 1) / dto.getRecordPerPage() ) + 1;
@@ -213,8 +225,6 @@ public class ControllerShare {
 			endBlock = totalPage;
 		}
 		dto.setEndBlock(endBlock);
-		
-		lists = dao.list(dto);
 		
 		ModelSharePageNavigation pageModel = new ModelSharePageNavigation();
 		String paging = pageModel.getPageNav(dto);
