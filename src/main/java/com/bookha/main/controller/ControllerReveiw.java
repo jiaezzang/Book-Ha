@@ -23,6 +23,7 @@ import com.bookha.main.dto.DTOReviewComment;
 import com.bookha.main.dto.DTOReviewTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelLogoHtml;
+import com.bookha.model.ModelMenuBar;
 import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelNoticeList;
 import com.bookha.model.ModelProfileHtml;
@@ -140,7 +141,7 @@ public class ControllerReveiw {
 		String NoticeList = no.NoticeList(nolists);
 		mv.addObject("NoticeList", NoticeList );
 		
-		//Navbar Model
+		//상단 Navbar Model
 		DTOUser userSetting = new DTOUser();
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		userSetting = daoUser.userSetting(session_user_num);
@@ -148,7 +149,12 @@ public class ControllerReveiw {
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
 		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("review");
+		mv.addObject("menuBar", menuBar);
 		mv.setViewName("review_board/board_list");
+		
 		return mv;
 	}
 	
@@ -260,10 +266,16 @@ public class ControllerReveiw {
 		userSetting = daoUser.userSetting(to.getUser_num());
 		mv.addObject("user", userSetting);
 		
-		//Navbar Model
+		//상단 Navbar Model
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("review");
+		mv.addObject("menuBar", menuBar);
+		mv.setViewName("review_board/board_list");
 		
 		ModelProfileHtml profile = new ModelProfileHtml();
 		this.user_role = daoUser.userSetting(session_user_num).getUser_role().toLowerCase();
@@ -308,12 +320,18 @@ public class ControllerReveiw {
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
-		//Navbar Model
+		//상단 Navbar Model
 		DTOUser userSetting = new DTOUser();
 		userSetting = daoUser.userSetting(session_user_num);
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("review");
+		mv.addObject("menuBar", menuBar);
+		mv.setViewName("review_board/board_list");
 		
 		DTOReviewBoard to = dao.modify(seq);
 		to.setUser_num(session_user_num);
@@ -383,12 +401,18 @@ public class ControllerReveiw {
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
-		//Navbar Model
+		//상단 Navbar Model
 		DTOUser userSetting = new DTOUser();
 		userSetting = daoUser.userSetting(session_user_num);
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
-		mv.addObject("navBar", navBar);
+		mv.addObject("navBar", navBar);		
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("review");
+		mv.addObject("menuBar", menuBar);
+		mv.setViewName("review_board/board_list");
 		
 		mv.setViewName("review_board/board_write");
 		return mv;

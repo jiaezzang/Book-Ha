@@ -7,14 +7,15 @@
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
 	
+	//상단 네비게이션바와 좌측 메뉴바
 	String navBar = (String)request.getAttribute("navBar");
+	String menuBar =(String)request.getAttribute("menuBar");
 	
+	//각 업적에 대한 보상 List
 	String atList = (String)request.getAttribute("atList");
 	String reList = (String)request.getAttribute("reList");
 	String alList = (String)request.getAttribute("alList");
 	String shList = (String)request.getAttribute("shList");
-
-
 %>
 <!DOCTYPE html>
 
@@ -75,57 +76,8 @@
 				<div class="app-brand demo">
 					<%= logo %>
 				</div>
-
 				<div class="menu-inner-shadow"></div>
-
-				<ul class="menu-inner py-1">
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">목표를 얼마나 달성하셨나요?</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item active"><a href="/my_achievements.do"
-						class="menu-link"> <i
-							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
-							<div data-i18n="Tables">나의 업적 확인</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">작성글을 확인해 봅시다.</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item" style=""><a href="javascript:void(0)"
-						class="menu-link menu-toggle"> <i
-							class="menu-icon tf-icons bx bx-box"></i>
-							<div data-i18n="User interface">내 글 모아보기</div>
-					</a>
-						<ul class="menu-sub">
-							<li class="menu-item"><a href="myreview_list.do"
-								class="menu-link">
-									<div data-i18n="Accordion">독후감 나누기</div>
-							</a></li>
-							<li class="menu-item"><a href="/myalbum.do"
-								class="menu-link">
-									<div data-i18n="Badges">찔끔 챌린지</div>
-							</a></li>
-							<li class="menu-item"><a href="/myshare_list.do"
-								class="menu-link">
-									<div data-i18n="Buttons">나눔과 공유하기</div>
-							</a></li>
-						</ul></li>
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text"></span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/user_account_setting.do"
-						class="menu-link"> <i class='menu-icon bx bx-book-open'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
-							<div data-i18n="Tables">개인 정보 수정</div>
-					</a></li>
-				</ul>
+				<%=menuBar %>
 			</aside>
 			<!-- / Menu -->
 

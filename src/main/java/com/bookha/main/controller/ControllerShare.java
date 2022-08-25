@@ -22,6 +22,7 @@ import com.bookha.main.dto.DTOShareComment;
 import com.bookha.main.dto.DTOShareTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelLogoHtml;
+import com.bookha.model.ModelMenuBar;
 import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelNoticeList;
 import com.bookha.model.ModelProfileHtml;
@@ -135,13 +136,18 @@ public class ControllerShare {
 		String NoticeList = no.NoticeList(nolists);
 		mv.addObject("NoticeList", NoticeList );
 		
-		//Navbar Model
+		//상단 Navbar Model
 		DTOUser userSetting = new DTOUser();
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		userSetting = daoUser.userSetting(session_user_num);
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("share");
+		mv.addObject("menuBar", menuBar);
 		
 		mv.setViewName("share_board/board_list");
 		return mv;
@@ -236,12 +242,17 @@ public class ControllerShare {
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		mv.addObject("session_user_num", session_user_num);
 		
-		//Navbar Model
+		//상단 Navbar Model
 		DTOUser userSetting = new DTOUser();
 		userSetting = daoUser.userSetting(session_user_num);
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("share");
+		mv.addObject("menuBar", menuBar);
 		
 		mv.setViewName("share_board/board_write");
 		return mv;
@@ -293,10 +304,15 @@ public class ControllerShare {
 		DTOShareBoard to = dao.view(seq);
 		mv.addObject("to", to);
 		
-		//Navbar Model
+		//상단 Navbar Model
 		DTOUser userSetting = new DTOUser();
 		userSetting = daoUser.userSetting(session_user_num);
 		mv.addObject("user", userSetting);
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("share");
+		mv.addObject("menuBar", menuBar);
 		
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
@@ -345,12 +361,17 @@ public class ControllerShare {
 		
 		this.user_role = daoUser.userSetting(session_user_num).getUser_role().toLowerCase();
 		
-		//Navbar Model
+		//상단 Navbar Model
 		DTOUser userSetting = new DTOUser();
 		userSetting = daoUser.userSetting(session_user_num);
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("share");
+		mv.addObject("menuBar", menuBar);
 		
 		DTOShareBoard to = dao.modify(seq);
 		to.setUser_num(session_user_num);

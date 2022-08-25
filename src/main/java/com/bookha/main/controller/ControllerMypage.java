@@ -28,6 +28,7 @@ import com.bookha.model.ModelAlbumList;
 import com.bookha.model.ModelCalendar;
 import com.bookha.model.ModelChangeProfile;
 import com.bookha.model.ModelLogoHtml;
+import com.bookha.model.ModelMenuBar;
 import com.bookha.model.ModelMyAchievements;
 import com.bookha.model.ModelMyPageProfile;
 import com.bookha.model.ModelNavBar;
@@ -85,6 +86,11 @@ public class ControllerMypage {
 		String listAt = modelAt.ModelCheckAt(daoMypage.listAt(session_user_num));
 		mv.addObject("listAt", listAt);
 		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.userMenuBar("");
+		mv.addObject("menuBar", menuBar);
+
 		mv.setViewName("mypage/my_attendance");
 		return mv;
 	}
@@ -121,6 +127,11 @@ public class ControllerMypage {
 		ModelNavBar model = new ModelNavBar();
 		String navBar = model.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.userMenuBar("myAchv");
+		mv.addObject("menuBar", menuBar);
 		
 		//출석 업적
 		ModelMyAchievements modelAchieve = new ModelMyAchievements();
@@ -171,6 +182,11 @@ public class ControllerMypage {
 		ModelNavBar model = new ModelNavBar();
 		String navBar = model.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.userMenuBar("mySetting");
+		mv.addObject("menuBar", menuBar);
 		
 		//프로필 변경 모델
 		ModelChangeProfile modelChangePf = new ModelChangeProfile();

@@ -23,6 +23,7 @@ import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelAlbumList;
 import com.bookha.model.ModelAlbumPageNavigation;
 import com.bookha.model.ModelLogoHtml;
+import com.bookha.model.ModelMenuBar;
 import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelNoticeList;
 
@@ -112,11 +113,17 @@ public class ControllerAlbum {
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
 		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("challenge");
+		mv.addObject("menuBar", menuBar);
+		
 		// notice list
 		DTOAdminBoard adto = new DTOAdminBoard();
 		ArrayList<DTOAdminBoard> nolists = new ArrayList<DTOAdminBoard>();
 		nolists = daoAdmin.nolist(adto);
 		
+		//공지게시판 list 영역 Model
 		ModelNoticeList no = new ModelNoticeList();
 		String NoticeList = no.NoticeList(nolists);
 		mv.addObject("NoticeList", NoticeList );
