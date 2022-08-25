@@ -264,9 +264,7 @@
 				return false;
 			}
 			
-			console.log(editor.getHTML());
-			
-			if(editor.getHTML() == '') {
+			if(editor.getHTML() == '<p><br></p>') {
 				toastr.error('본문을 입력해주세요.', '실패!');
 				return false;
 			}
@@ -389,7 +387,7 @@
 		    previewHighlight: false,
 		    height: '700px',
 		    // 사전입력 항목
-		    placeholder: '# line1 \n line2',
+		    //placeholder: 'Please enter text. 3333333333333333333333333333333333333333',
 		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 		    hooks: {
 		    	addImageBlobHook: (blob, callback) => {
@@ -428,7 +426,6 @@
 		    	}
 		    }
 		});
-		editor.setPlaceholder('<h1><br></h1>');
 	});
 </script>
 </head>
