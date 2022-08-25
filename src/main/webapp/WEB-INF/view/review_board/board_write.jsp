@@ -259,36 +259,36 @@
 		
 		$('#board_submit').on("click", function(e) {
 			if($('#defaultFormControlInput').val() == '') {
-				toastr.error('제목을 입력하세요.', '입력 오류!');
+				toastr.error('제목을 입력해주세요.', '실패!');
 				return false;
 			}
 			
 			console.log(editor.getHTML());
 			
 			if(editor.getHTML() == '') {
-				toastr.error('본문을 입력하세요.', '입력 오류!');
+				toastr.error('본문을 입력해주세요.', '실패!');
 				return false;
 			}
 			
 			for(let i=1; i<=6; i++) {
 				if(editor.getHTML().indexOf('<h' + i + '><br></h' + i + '>') != -1) {
-					toastr.error('소제목을 다시 확인하세요', '입력 오류!');
+					toastr.error('소제목을 확인해주세요', '실패!');
 					return false;
 				}
 			}
 			
 			if(tag_radio == '') {
-				toastr.error('해시태그를 선택하세요.', '선택 오류!');
+				toastr.error('해시태그를 선택해주세요.', '실패!');
 				return false;	
 			}
 			
 			if($("#query").val() == '') {
-				toastr.error('읽은 책을 검색하세요.', '입력 오류!');
+				toastr.error('책을 검색해주세요.', '실패!');
 				return false;	
 			}
 			
 			if($("input[name='bookRadio']").length == $("input[name='bookRadio']:not(:checked)").length) {
-				toastr.error('읽은 책을 선택하세요.', '선택 오류!');
+				toastr.error('책을 선택해주세요.', '실패!');
 				return false;
 			}
 			
@@ -420,7 +420,7 @@
 		           		error: function(e) {
 		           			//console.log('ajax 이미지 업로드 실패');
 		           			//console.log(e.abort([statusText]));
-		           			toastr.error('이미지 업로드가 실패하였습니다.', '입력 오류!');
+		           			toastr.error('이미지 업로드에 실패하였습니다.', '실패!');
 		           			callback('image_load_fail', '사진 대체 텍스트 입력');
 		           		}
 		           	});

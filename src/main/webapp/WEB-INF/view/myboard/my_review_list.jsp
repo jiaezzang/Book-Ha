@@ -144,7 +144,7 @@ $(document).ready(function() {
 			success: function(data) {
 				$("#listTable").html(data);
 // 				console.log(data);
-				//toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공');
+				//toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공!');
 				pageNavigation(hash_tag);
 			}
 		});

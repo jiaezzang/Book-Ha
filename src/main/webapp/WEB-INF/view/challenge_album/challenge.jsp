@@ -116,18 +116,18 @@
 		$('#write').on("click", function(){
 			//제목 미입력 시
 			if($("#writeSubject").val() == ""){
-				toastr.error('제목을 입력하세요.', '입력 오류!');
+				toastr.error('제목을 입력해주세요.', '실패!');
 				return false;
 			}
 	
 			//이미지 미등록 시 
 			if($("#formFile").val() == ""|| $("#formFile").val() == null){
-				toastr.error("이미지를 등록하세요.", "입력 오류!");
+				toastr.error("이미지를 등록해주세요.", "실패!");
 				return false;
 			} else {
 				let extension = $("#formFile").val().split( "." ).pop().toLowerCase();
 				if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
-					toastr.error("이미지 파일(jpg, jpeg, gif, png)을 입력하세요.", "입력 오류!");
+					toastr.error("이미지 파일(jpg, jpeg, gif, png)을 입력해주세요.", "실패!");
 					return false;
 				}
 			}
@@ -170,7 +170,7 @@
 	       					$("#modalCenter0").modal("hide");
 	       					//console.log("DB 추가 성공");
 	       					reload();
-	       					toastr.success('게시글이 작성되었습니다.', '등록 완료!');
+	       					toastr.success('게시글이 작성되었습니다.', '성공!');
 	       				},
 	       				error: function(error) {
 	       					//console.log("error : " + error);
@@ -193,18 +193,18 @@
 		$( "#modify" ).on("click", function(){
 			//제목 미입력 시
 			if($("#modifySubject").val() == ""){
-				toastr.error('제목을 입력하세요.', '입력 오류!');
+				toastr.error('제목을 입력해주세요.', '실패!');
 				return false;
 			}
 	
 			//이미지 미등록 시 
 			if($("#formFile2").val() == ""|| $("#formFile2").val() == null){
-				toastr.error("이미지를 등록하세요.", "입력 오류!");
+				toastr.error("이미지를 등록해주세요.", "실패!");
 				return false;
 			} else {
-				let extension = $("#formFile2").val().split( "." ).pop();
+				let extension = $("#formFile2").val().split( "." ).pop().toLowerCase();
 				if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
-					toastr.error("이미지 파일(jpg, jpeg, gif, png)을 입력하세요.", "입력 오류!");
+					toastr.error("이미지 파일(jpg, jpeg, gif, png)을 등록해주세요.", "실패!");
 					return false;
 				}
 			}

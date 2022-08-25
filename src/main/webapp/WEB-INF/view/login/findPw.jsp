@@ -67,11 +67,11 @@ String logo = (String) request.getAttribute("logo");
       $(document).ready(function() {
         $("#findPwBtn").on("click", () => {
           if($("#email").val().length < 1) {
-            return alert("이메일을 입력해주세요.");
+            return toastr.error("이메일을 입력해주세요.", "실패!");
           }
 
           if($("#userPhone").val().length < 1) {
-              return toastr.error("연락처를 입력해주세요.", "입력 오류!");
+              return toastr.error("연락처를 입력해주세요.", "실패!");
            }
 
           findPw();
@@ -107,7 +107,7 @@ String logo = (String) request.getAttribute("logo");
           dataType:"text",
           success : function(result){
         	  if(result == "0") {
-                  return toastr.error("회원 정보가 존재하지 않습니다.", "실패!");
+                  return toastr.error("존재하지 않는 회원의 이메일입니다.", "실패!");
               } else if(result == "1") {
             	  $("#userPwShow").html("회원님의 비밀번호가 가입 시 작성했던 메일주소로 전송 되었습니다.<br />메일함을 확인해주세요.");
             	  $("#modalCenter").modal("show");

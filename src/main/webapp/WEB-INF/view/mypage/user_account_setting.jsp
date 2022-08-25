@@ -193,31 +193,31 @@ String pathKakao = (String)request.getAttribute("pathKakao");
         $('#update_accountBTN').on("click", function() {
 
           if($('#userId').val().trim() === ''){
-            return toastr.error('ID를 입력 해주세요.');
+            return toastr.error('이메일을 입력해주세요.', '실패!');
           }
 
           if('<%=pathKakao%>' != 'kakao' && $('.pw').val().trim() === ''){
-            return toastr.error('비밀번호를 입력 해주세요.');
+            return toastr.error('비밀번호를 입력해주세요.', '실패!');
           }
 
           if($("#alert-successNick").css("display") === "none" && $("#alert-dangerNick").css("display") === "none"){
         	   
           }else if($("#alert-successNick").css("display") === "none") {
              $("#nickName").css("border", "1px solid red");
-             return toastr.error("닉네임을 수정해주세요.");
+             return toastr.error("닉네임을 수정해주세요.", '실패!');
           }
 
           if($('#nickName').val().trim() === ''){
-            return toastr.error('닉네임을 입력 해주세요.');
+            return toastr.error('닉네임을 입력해주세요.', '실패!');
           }
 
           if($('#userPhone').val().trim() === ''){
-            return toastr.error('연락처를 입력 해주세요.');
+            return toastr.error('연락처를 입력해주세요.', '실패!');
           }
           
           if($('#alert-correctPhone').css('display') === 'inline-block'){
           	$('#userPhone').css('border', '1px solid red')
-              return toastr.error('올바른 형식의 연락처를 입력해주세요.');
+              return toastr.error('올바른 형식의 연락처를 입력해주세요.', '실패!');
           }
           update();
         })
@@ -249,7 +249,7 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 	            		window.location.href = "/user_account_setting.do";
 	          		},
 	          		error : function(jqXHR,textStatus,errorThrown){
-	            		alert("정보가 일치하지 않습니다.");
+	            		alert("정보가 일치하지 않습니다.", '실패!');
 	          		}
 	        	});
     	  	}
@@ -259,19 +259,19 @@ String pathKakao = (String)request.getAttribute("pathKakao");
       	$('#delete_accountBTN').on("click", function() {
 
 			if($('#deleteUserId').val().trim() != "<%=userSetting.getUser_mail()%>") {
-				return toastr.error('이메일을 올바르게 입력해주세요.');
+				return toastr.error('이메일을 올바르게 입력해주세요.', '실패!');
 			}
      		if($('#deleteUserId').val().trim() === ''){
-     			return toastr.error('이메일을 입력 해주세요.');
+     			return toastr.error('이메일을 입력해주세요.', '실패!');
         	}
 			if($('#deletePassword').val().trim() != "<%=userSetting.getUser_password()%>") {
-				return toastr.error('비밀번호를 올바르게 입력해주세요.');
+				return toastr.error('비밀번호를 올바르게 입력해주세요.', '실패!');
 			}
         	if($('#deletePassword').val().trim() === ''){
-        		return toastr.error('비밀번호를 입력 해주세요.');
+        		return toastr.error('비밀번호를 입력해주세요.', '실패!');
       		}
         	if(!$("#accountActivation").prop("checked")){
-        		return toastr.error('계정삭제를 원하신다면 체크해주세요.');
+        		return toastr.error('계정삭제에 동의해주세요.', '실패!');
         	}
         	
         	$('#deleteOk').modal('show');
@@ -280,7 +280,7 @@ String pathKakao = (String)request.getAttribute("pathKakao");
         //카카오 계정 삭제 시
       	$('#delete_kakaoAccountBTN').on("click", function() {
         	if(!$("#accountActivation").prop("checked")){
-        		return toastr.error('계정삭제를 원하신다면 체크해주세요.');
+        		return toastr.error('계정삭제에 동의해주세요.', '실패!');
         	}
         	
         	$('#deleteOk').modal('show');
@@ -340,7 +340,7 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 	//개인정보 수정 페이지 진입 시 비밀번호 확인 검사 모달
 	function checkPw(){
 		if($("#checkPw").val() == "" || $("#checkPw").val() == null){
-			toastr.error('비밀번호를 입력해주세요.', '입력 오류!');
+			toastr.error('비밀번호를 입력해주세요.', '실패!');
 			return false;
 		}
 		
@@ -358,9 +358,9 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 		   	success: function(data){
 		   		if(data == 1 ) {
 			   		$("#modalCenter").modal("hide");
-			   		toastr.success('비밀번호 확인 완료!', '작업 성공!');
+			   		toastr.success('비밀번호 확인 완료!', '성공!');
 		   		}else {
-		   	   		toastr.error('비밀번호를 정확히 입력해주세요.', '입력 오류!');
+		   	   		toastr.error('비밀번호를 올바르게 입력해주세요.', '실패!');
 		   	   		$("#checkPw").val("");
 		   		}
 		   	},
@@ -391,17 +391,17 @@ String pathKakao = (String)request.getAttribute("pathKakao");
 			success: function(data){
 				if(data == 1) {
 					$("#exLargeModal").modal("hide");
-					toastr.success('프로필 수정 완료!', '작업 성공!');
+					toastr.success('프로필이 수정되었습니다.', '성공!');
 					reloadNav();
 					reload();
 		
 				}else {
-		 					toastr.error('프로필 이미지를 선택해주세요.', '입력 오류!');
+		 					toastr.error('프로필 이미지를 선택해주세요.', '실패!');
 		 					$('input[name=profile]:checked').val("");
 				}
 			},
 			error: function(e) {
-				toastr.error('프로필 이미지를 선택해주세요.', '입력 오류!');
+				toastr.error('프로필 이미지를 선택해주세요.', '실패!');
 				$('input[name=profile]:checked').val("");
 			}
 		});

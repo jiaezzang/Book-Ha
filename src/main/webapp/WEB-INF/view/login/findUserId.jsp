@@ -19,7 +19,7 @@ String logo = (String) request.getAttribute("logo");
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>ID 찾기</title>
+    <title>이메일 찾기</title>
 
     <meta name="description" content="" />
 
@@ -67,11 +67,11 @@ String logo = (String) request.getAttribute("logo");
       $(document).ready(function() {
         $("#findIdBtn").on("click", () => {
           if($("#name").val().length < 1) {
-            return toastr.error("이름을 입력해주세요.", "입력 오류!");
+            return toastr.error("이름을 입력해주세요.", "실패!");
           }
 
           if($("#userPhone").val().length < 1) {
-            return toastr.error("연락처를 입력해주세요.", "입력 오류!");
+            return toastr.error("연락처를 입력해주세요.", "실패!");
           }
 
           findId();
@@ -108,7 +108,7 @@ String logo = (String) request.getAttribute("logo");
           dataType:"json",
           success : function(result){
             if(result.length < 1) {
-            	return toastr.error("회원 정보가 존재하지 않습니다.", "실패!");
+              return toastr.error("존재하지 않는 회원의 이메일입니다.", "실패!");
             }
 			let info = $("#name").val() + " 님은 <span style='color: #696CFF'>";
 			if(result[0].user_path == "kakao") {

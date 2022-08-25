@@ -72,12 +72,12 @@ String logo = (String) request.getAttribute("logo");
 		};
 		
 		if($("#username").val() == null || $("#username").val() == "") {
-			toastr.error("이메일을 확인해 주세요.", "입력 오류!");
+			toastr.error("이메일을 입력해주세요.", "실패!");
 			return false;
 		}
 		
 		if($("#password").val() == null || $("#password").val() == "") {
-			toastr.error("비밀번호를 확인해 주세요.", "입력 오류!");
+			toastr.error("비밀번호를 입력해주세요.", "실패!");
 			return false;
 		}
 
@@ -91,7 +91,7 @@ String logo = (String) request.getAttribute("logo");
 				window.location.href = "/login/mainpage";
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
-				toastr.error("올바르지 않은 정보입니다.", "입력 오류!");
+				toastr.error("올바르지 않은 회원정보입니다.", "실패!");
 			}
 		});
 	}

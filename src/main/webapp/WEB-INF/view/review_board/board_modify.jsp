@@ -326,35 +326,35 @@ request.setCharacterEncoding("UTF-8");
 		
 		$('#board_submit').on("click", function(e) {
 			if($('#defaultFormControlInput').val() == '') {
-				toastHtml('입력 오류!', '제목을 입력하세요.');
+				toastHtml('제목을 입력해주세요.', '실패!');
 				return false;
 			}
 			
 			if(editor.getHTML() == '') {
 				console.log(editor.getHTML());
-				toastHtml('입력 오류!', '본문을 입력하세요.');
+				toastHtml('본문을 입력해주세요.', '실패!');
 				return false;
 			}
 			
 			for(let i=1; i<=6; i++) {
 				if(editor.getHTML().indexOf('<h' + i + '><br></h' + i + '>') != -1) {
-					toastr.error('소제목을 다시 확인하세요', '입력 오류!');
+					toastr.error('소제목을 확인해주세요', '실패!');
 					return false;
 				}
 			}
 			
 			if(tag_radio == '') {
-				toastHtml('선택 오류!', '해시태그를 선택하세요.');
+				toastHtml('해시태그를 선택해주세요.', '실패!');
 				return false;	
 			}
 			
 			if($("#query").val() == '') {
-				toastHtml('입력 오류!', '읽은 책을 검색하세요.');
+				toastHtml('책을 검색해주세요.', '실패!');
 				return false;	
 			}
 			
 			if($("input[name='bookRadio']").length == $("input[name='bookRadio']:not(:checked)").length) {
-				toastHtml('선택 오류!', '읽은 책을 선택하세요.');
+				toastHtml('책을 선택해주세요.', '실패!');
 				return false;
 			}
 			

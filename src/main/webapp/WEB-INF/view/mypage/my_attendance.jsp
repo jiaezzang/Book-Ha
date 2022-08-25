@@ -170,9 +170,9 @@ document.addEventListener('DOMContentLoaded', function() {
 						});
 			    		 //$('#calendar').load(location.href+' #calendar');
 			    		 window.location.href = "/mypage.do";
-						toastr.success('출석체크 완료하였습니다.', '작업 성공!');
+						toastr.success('출석체크가 완료되었습니다.', '성공!');
 					} else {
-						toastr.error('이미 출석체크 하셨습니다.', '입력 오류!');
+						toastr.error('이미 출석체크가 완료되었습니다.', '실패!');
 					}
 				}
 			}
