@@ -101,7 +101,7 @@ String logo = (String) request.getAttribute("logo");
         };
 
         $.ajax({
-          url:"http://localhost:8080/findUserId",
+          url:"/findUserId",
           type: "post",
           contentType: "application/json; charset=utf-8",
           data : JSON.stringify(sendData),
@@ -110,7 +110,7 @@ String logo = (String) request.getAttribute("logo");
             if(result.length < 1) {
               return toastr.error("ID가 존재하지 않습니다.", "정보 오류!");
             }
-            console.log(result[0].user_path);
+
 			if(result[0].user_path == "kakao") {
 				$("#userIdShow").html($("#name").val() + "님은 <span style='color: #696CFF'>카카오</span>로 로그인하셨습니다.<br /><br />ID는 <span style='color: #696CFF'>" + result[0].user_mail + "</span>입니다.");
 			} else {
@@ -173,7 +173,7 @@ String logo = (String) request.getAttribute("logo");
       </div>
     </div>
     
-    <!-- Delete Account Modal -->
+    <!-- find id Modal -->
 	<div class="modal fade" id="modalCenter" tabindex="-1" data-bs-backdrop="static" style="display: none;" role="dialog">
 		<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
 			<div class="modal-content">
@@ -189,7 +189,7 @@ String logo = (String) request.getAttribute("logo");
 			</div>
 		</div>
 	</div>
-    <!--/ Delete Account Modal -->
+    <!--/ find id Modal -->
 
     <!-- / Content -->
 

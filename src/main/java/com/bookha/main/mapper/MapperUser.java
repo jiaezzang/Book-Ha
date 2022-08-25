@@ -22,7 +22,7 @@ public interface MapperUser {
 	
 	List<Map<String, String>> findUserId(DTOUser user);
 	
-	List<Map<String, String>> findPw(DTOUser user);
+	Map<String, String> findPw(DTOUser user);
 	
 	void deleteAccount(DTOUser user);
 	

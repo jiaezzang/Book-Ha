@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bookha.main.dao.DAOUser;
 import com.bookha.main.dto.DTOUser;
+import com.bookha.main.mail.MailSender;
 import com.bookha.model.ModelLogoHtml;
 
 
@@ -123,8 +124,32 @@ public class ControllerLogin {
 	}
 	
 	@PostMapping("/findPw")
-	public List<Map<String, String>> findPw(@RequestBody DTOUser user) {
+	public String findPw(@RequestBody DTOUser user) {
 		
-		return daoUser.findPw(user);
+		Map<String, String> map = daoUser.findPw(user);
+		
+		String toMail = map.get("user_mail");
+		String toName = map.get("user_name");
+		String subject = "Book-Ha 로그인";
+		String content = ""
+				+ "<h3>안녕하세요 Book-Ha 입니다.</h3>"
+				+ "<p>" + toName + "님,저희 서비스를 이용해 주심에 감사드리며,</p>"
+				+ "<p>요청하신 비밀번호를 가입 시 작성한 이메일을 통해 알려드립니다.</p>"
+				+ "<p>만약 잘못 수신된 이메일이라면 저희 Book-Ha 운영진에게 연락 부탁 드립니다.</p>"
+				+ "<p>감사합니다.</p>"
+				+ "<hr />"
+				+ "<p>" + toName + "님의 비밀번호는 [" + map.get("user_password") + "] 입니다.</p>";
+		
+		System.out.println("==============");
+		System.out.println(toMail);
+		System.out.println(toName);
+		System.out.println(subject);
+		System.out.println(content);
+		System.out.println("==============");
+		
+		MailSender mailSender = new MailSender();
+		mailSender.sendMail(toMail, toName, subject, content);
+		
+		return "1";
 	}
 }
