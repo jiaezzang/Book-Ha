@@ -153,7 +153,7 @@
 				return false;
 			}
 			
-			if(editor.getHTML() == '') {
+			if(editor.getHTML() == '<p><br></p>') {
 				toastr.error('본문을 입력하세요.', '입력 오류!');
 				return false;
 			}
@@ -217,7 +217,7 @@
 		    height: '700px',
 		    // 사전입력 항목
 		    initialValue: '',
-		    placeholder: '# 해시태그의 개수에 따라\n### 글자크기가 달라집니다. \n도구에서 H를 눌러보세요.\n\n',
+		    //placeholder: '# 해시태그의 개수에 따라\n### 글자크기가 달라집니다. \n도구에서 H를 눌러보세요.\n\n',
 		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 		    hooks: {
 		    	addImageBlobHook: (blob, callback) => {

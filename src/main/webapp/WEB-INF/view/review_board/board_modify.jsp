@@ -331,8 +331,7 @@ request.setCharacterEncoding("UTF-8");
 				return false;
 			}
 			
-			if(editor.getHTML() == '') {
-				console.log(editor.getHTML());
+			if(editor.getHTML() == '<p><br></p>') {
 				toastHtml('본문을 입력해주세요.', '실패!');
 				return false;
 			}
