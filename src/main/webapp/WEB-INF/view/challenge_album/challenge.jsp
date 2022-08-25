@@ -105,194 +105,197 @@
 
 <script>
 
-$(document).ready(function(){
-	$('#writeNew').on("click", function(){
-		$("#writeSubject").val("");
-		$("#formFile").val("");
-	});
-});
-
-$(document).ready(function(){
-	$('#write').on("click", function(){
-		//제목 미입력 시
-		if($("#writeSubject").val() == ""){
-			toastr.error('제목을 입력하세요.', '입력 오류!');
-			return false;
-		}
-
-		//이미지 미등록 시 
-		if($("#formFile").val() == ""|| $("#formFile").val() == null){
-			toastr.error("이미지를 등록하세요.", "입력 오류!");
-			return false;
-		} else {
-			let extension = $("#formFile").val().split( "." ).pop();
-			if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
-				toastr.error("이미지 파일(jpg, jpeg, gif, png)을 입력하세요.", "입력 오류!");
-				return false;
-			}
-		}
-		const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
-    	formData.append('image', $('#formFile')[0].files[0]);
-    	
-    	//console.log($('#formFile')[0].files[0]);
-    	//console.log(formData);
-		
-    	let url = '/images/';
-		$.ajax({
-       		type: 'POST',
-       		enctype: 'multipart/form-data',
-       		url: '/img_change.do',
-       		data: formData,
-       		dataType: 'json',
-       		processData: false,
-       		contentType: false,
-       		cache: false,
-       		timeout: 600000,
-       		success: function(data) {
-       			//console.log('ajax 이미지 업로드 성공');
-       			url += data.filename;
-       			//console.log(url);
-       			
-       			let DTO_Album_board = {
-       					"al_user_num" : <%=session_user_num%>,
-       					"al_subject" : $("#writeSubject").val(),
-       					"al_imgName" : data.filename
-       			}
-       			//console.log(DTO_Album_board);
-       			$.ajax({
-       				type: "POST",
-       				url: "album_write.do",
-       				data: JSON.stringify(DTO_Album_board),
-       				contentType: "application/json; charset=utf-8",
-       				dataType: "text",
-       				success: function(data){
-       					$("#modalCenter0").modal("hide");
-       					//console.log("DB 추가 성공");
-       					reload();
-       					toastr.success('게시글이 작성되었습니다.', '성공!');
-       				},
-       				error: function(error) {
-       					//console.log("error : " + error);
-       				}
-       			});
-       		}
-       	});
-	});
-});
-
-//modify
-let al_seq = 0;
-const modifyData = function(seq, subject){
-	al_seq = seq;
-	$("#modifySubject").val(subject);
-	$("#formFile2").val("");
-}
-
-$(document).ready(function(){
-	$( "#modify" ).on("click", function(){
-		//제목 미입력 시
-		if($("#modifySubject").val() == ""){
-			toastr.error('제목을 입력하세요.', '입력 오류!');
-			return false;
-		}
-
-		//이미지 미등록 시 
-		if($("#formFile2").val() == ""|| $("#formFile2").val() == null){
-			toastr.error("이미지를 등록하세요.", "입력 오류!");
-			return false;
-		} else {
-			let extension = $("#formFile2").val().split( "." ).pop();
-			if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
-				toastr.error("이미지 파일(jpg, jpeg, gif, png)을 입력하세요.", "입력 오류!");
-				return false;
-			}
-		}
-		const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
-    	formData.append('image', $('#formFile2')[0].files[0]);
-    	
-    	//console.log($('#formFile2')[0].files[0]);
-    	//console.log(formData);
-		
-    	let url = '/images/';
-		$.ajax({
-       		type: 'POST',
-       		enctype: 'multipart/form-data',
-       		url: '/img_change.do',
-       		data: formData,
-       		dataType: 'json',
-       		processData: false,
-       		contentType: false,
-       		cache: false,
-       		timeout: 600000,
-       		success: function(data) {
-       			//console.log('ajax 이미지 업로드 성공');
-       			url += data.filename;
-       			//console.log(url);
-       			
-       			let DTO_Album_board = {
-       					"al_user_num" : <%=session_user_num%>,
-       					"al_seq" : al_seq,
-       					"al_subject" : $("#modifySubject").val(),
-       					"al_imgName" : data.filename
-       			}
-       			//console.log(DTO_Album_board);
-       			$.ajax({
-       				type: "POST",
-       				url: "album_modify.do",
-       				data: JSON.stringify(DTO_Album_board),
-       				contentType: "application/json; charset=utf-8",
-       				dataType: "text",
-       				success: function(data){
-       					$("#modalCenter1").modal("hide");
-       					//console.log("DB 추가 성공");
-       					reload();
-       					toastr.success('게시글이 수정되었습니다.', '성공!');
-       				}
-       			});
-       		}
-       	});
-	});
-});
-
-//delete 
-let data = 0;
-const deleteData = function(al_seq){
-	data = al_seq;
-	//console.log("data : "+data)
-}
-$(document).ready(function(){
-	$('#delete').on("click", function(){
-		
-		let DTO_Album_board = {
-				"al_seq" : data
-		}
-		//console.log(DTO_Album_board);
-		$.ajax({
-			type: "POST",
-			url: "album_delete.do",
-			data: JSON.stringify(DTO_Album_board),
-			contentType: "application/json; charset=utf-8",
-			dataType: "text",
-			success: function(data){
-				$("#modalCenter2").modal("hide");
-				//console.log(data);
-				reload();
-				toastr.success('게시글이 삭제되었습니다.', '성공!');
-			}
+	$(document).ready(function(){
+		$('#writeNew').on("click", function(){
+			$("#writeSubject").val("");
+			$("#formFile").val("");
 		});
 	});
-});
-
-const reload = function(){
-	$.ajax({
-		type: 'POST',
-		url: "album_reload.do",
-		datatype: "text",
-		success: function(data){
-			$("#albumContents").html(data);
-		}
+	
+	$(document).ready(function(){
+		$('#write').on("click", function(){
+			//제목 미입력 시
+			if($("#writeSubject").val() == ""){
+				toastr.error('제목을 입력하세요.', '입력 오류!');
+				return false;
+			}
+	
+			//이미지 미등록 시 
+			if($("#formFile").val() == ""|| $("#formFile").val() == null){
+				toastr.error("이미지를 등록하세요.", "입력 오류!");
+				return false;
+			} else {
+				let extension = $("#formFile").val().split( "." ).pop().toLowerCase();
+				if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
+					toastr.error("이미지 파일(jpg, jpeg, gif, png)을 입력하세요.", "입력 오류!");
+					return false;
+				}
+			}
+			
+			const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
+	    	formData.append('image', $('#formFile')[0].files[0]);
+	    	
+	    	//console.log($('#formFile')[0].files[0]);
+	    	//console.log(formData);
+			
+	    	let url = '/images/';
+			$.ajax({
+	       		type: 'POST',
+	       		enctype: 'multipart/form-data',
+	       		url: '/img_change.do',
+	       		data: formData,
+	       		dataType: 'json',
+	       		processData: false,
+	       		contentType: false,
+	       		cache: false,
+	       		timeout: 600000,
+	       		success: function(data) {
+	       			//console.log('ajax 이미지 업로드 성공');
+	       			url += data.filename;
+	       			//console.log(url);
+	       			
+	       			let DTO_Album_board = {
+	       					"al_user_num" : <%=session_user_num%>,
+	       					"al_subject" : $("#writeSubject").val(),
+	       					"al_imgName" : data.filename
+	       			}
+	       			//console.log(DTO_Album_board);
+	       			$.ajax({
+	       				type: "POST",
+	       				url: "album_write.do",
+	       				data: JSON.stringify(DTO_Album_board),
+	       				contentType: "application/json; charset=utf-8",
+	       				dataType: "text",
+	       				success: function(data){
+	       					$("#modalCenter0").modal("hide");
+	       					//console.log("DB 추가 성공");
+	       					reload();
+	       					toastr.success('게시글이 작성되었습니다.', '등록 완료!');
+	       				},
+	       				error: function(error) {
+	       					//console.log("error : " + error);
+	       				}
+	       			});
+	       		}
+	       	});
+		});
 	});
-}
+	
+	//modify
+	let al_seq = 0;
+	const modifyData = function(seq, subject){
+		al_seq = seq;
+		$("#modifySubject").val(subject);
+		$("#formFile2").val("");
+	}
+	
+	$(document).ready(function(){
+		$( "#modify" ).on("click", function(){
+			//제목 미입력 시
+			if($("#modifySubject").val() == ""){
+				toastr.error('제목을 입력하세요.', '입력 오류!');
+				return false;
+			}
+	
+			//이미지 미등록 시 
+			if($("#formFile2").val() == ""|| $("#formFile2").val() == null){
+				toastr.error("이미지를 등록하세요.", "입력 오류!");
+				return false;
+			} else {
+				let extension = $("#formFile2").val().split( "." ).pop();
+				if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
+					toastr.error("이미지 파일(jpg, jpeg, gif, png)을 입력하세요.", "입력 오류!");
+					return false;
+				}
+			}
+			
+			const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
+	    	formData.append('image', $('#formFile2')[0].files[0]);
+	    	
+	    	//console.log($('#formFile2')[0].files[0]);
+	    	//console.log(formData);
+			
+	    	let url = '/images/';
+			$.ajax({
+	       		type: 'POST',
+	       		enctype: 'multipart/form-data',
+	       		url: '/img_change.do',
+	       		data: formData,
+	       		dataType: 'json',
+	       		processData: false,
+	       		contentType: false,
+	       		cache: false,
+	       		timeout: 600000,
+	       		success: function(data) {
+	       			//console.log('ajax 이미지 업로드 성공');
+	       			url += data.filename;
+	       			//console.log(url);
+	       			
+	       			let DTO_Album_board = {
+	       					"al_user_num" : <%=session_user_num%>,
+	       					"al_seq" : al_seq,
+	       					"al_subject" : $("#modifySubject").val(),
+	       					"al_imgName" : data.filename
+	       			}
+	       			//console.log(DTO_Album_board);
+	       			$.ajax({
+	       				type: "POST",
+	       				url: "album_modify.do",
+	       				data: JSON.stringify(DTO_Album_board),
+	       				contentType: "application/json; charset=utf-8",
+	       				dataType: "text",
+	       				success: function(data){
+	       					$("#modalCenter1").modal("hide");
+	       					//console.log("DB 추가 성공");
+	       					reload();
+	       					toastr.success('게시글이 수정되었습니다.', '성공!');
+	       				}
+	       			});
+	       		}
+	       	});
+		});
+	});
+	
+	//delete 
+	let data = 0;
+	const deleteData = function(al_seq){
+		data = al_seq;
+		//console.log("data : "+data)
+	}
+	$(document).ready(function(){
+		$('#delete').on("click", function(){
+			
+			let DTO_Album_board = {
+					"al_seq" : data
+			}
+			//console.log(DTO_Album_board);
+			$.ajax({
+				type: "POST",
+				url: "album_delete.do",
+				data: JSON.stringify(DTO_Album_board),
+				contentType: "application/json; charset=utf-8",
+				dataType: "text",
+				success: function(data){
+					$("#modalCenter2").modal("hide");
+					//console.log(data);
+					reload();
+					toastr.success('게시글이 삭제되었습니다.', '성공!');
+				}
+			});
+		});
+	});
+	
+	//파일 수정, 삭제, 등록 후 새로 불러올 앨범의 List 페이지
+	const reload = function(){
+		$.ajax({
+			type: 'POST',
+			url: "album_reload.do",
+			datatype: "text",
+			success: function(data){
+				$("#albumContents").html(data);
+			}
+		});
+	}
 	
 </script>
 </head>
