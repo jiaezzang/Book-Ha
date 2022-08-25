@@ -71,7 +71,7 @@ String logo = (String) request.getAttribute("logo");
           }
 
           if($("#userPhone").val().length < 1) {
-            return toastr.error("전화번호를 입력해주세요.", "입력 오류!");
+            return toastr.error("연락처를 입력해주세요.", "입력 오류!");
           }
 
           findId();
@@ -108,19 +108,20 @@ String logo = (String) request.getAttribute("logo");
           dataType:"json",
           success : function(result){
             if(result.length < 1) {
-              return toastr.error("ID가 존재하지 않습니다.", "정보 오류!");
+            	return toastr.error("회원 정보가 존재하지 않습니다.", "실패!");
             }
-
+			let info = $("#name").val() + " 님은 <span style='color: #696CFF'>";
 			if(result[0].user_path == "kakao") {
-				$("#userIdShow").html($("#name").val() + "님은 <span style='color: #696CFF'>카카오</span>로 로그인하셨습니다.<br /><br />ID는 <span style='color: #696CFF'>" + result[0].user_mail + "</span>입니다.");
+				info += "카카오";
 			} else {
-				$("#userIdShow").html($("#name").val() + "님은 <span style='color: #696CFF'>Book-Ha</span>로 로그인하셨습니다.<br /><br />ID는 <span style='color: #696CFF'>" + result[0].user_mail + "</span>입니다.");
+				info += "Book-Ha";
 			}
-            
+			info += "</span>로 회원가입하셨습니다.<br /><br />" + $("#name").val() + " 님의 이메일은 <span style='color: #696CFF'>" + result[0].user_mail + "</span> 입니다.";
+			$("#userIdShow").html(info);
             $("#modalCenter").modal("show");
           },
           error : function(jqXHR,textStatus,errorThrown){
-        	  toastr.error("서버와의 통신에 오류가 발생하였습니다.", "통신 오류!");
+        	  toastr.error("서버와의 통신을 실패하였습니다.", "실패!");
           }
         });
       }
@@ -147,15 +148,15 @@ String logo = (String) request.getAttribute("logo");
               </div>
               <!-- /Logo -->
               <h4 class="mb-2">ID 찾기 🔒</h4>
-              <p class="mb-4">가입 시 작성했던 이름과 전화번호를 입력해 주세요 </p>
+              <p class="mb-4">가입 시 작성했던 이름과 연락처를 입력해 주세요 </p>
               <!-- <form id="formAuthentication" class="mb-3" action="index.html" method="POST"> -->
                 <div class="mb-3">
                   <label for="id" class="form-label" style="font-size: 20px; font-weight: bold;">이름</label>
                   <input type="text" id="name" class="form-control" name="name" placeholder="이름을 입력해주세요" autofocus />
                 </div>
                 <div class="mb-3">
-                  <label for="userPhone" class="form-label" style="font-size: 20px; font-weight: bold;">전화번호</label><br>
-                  <input type="text" id="userPhone" class="form-control" name="userPhone" placeholder="가입했던 전화번호를 입력해주세요" autofocus />
+                  <label for="userPhone" class="form-label" style="font-size: 20px; font-weight: bold;">연락처</label><br>
+                  <input type="text" id="userPhone" class="form-control" name="userPhone" placeholder="연락처를 입력해주세요" autofocus />
                   <span id="alert-correctPhone" style="display:none; color:#d92742;">&nbsp;&nbsp;올바른 형식의 연락처를 입력해주세요.</span>
                 </div>
                 <button id="findIdBtn" class="btn btn-primary d-grid w-100">ID 찾기</button>
@@ -175,10 +176,10 @@ String logo = (String) request.getAttribute("logo");
     
     <!-- find id Modal -->
 	<div class="modal fade" id="modalCenter" tabindex="-1" data-bs-backdrop="static" style="display: none;" role="dialog">
-		<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+		<div class="modal-dialog modal-dialog-centered modal-m" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="exampleModalLabel4" style="color: #696CFF">아이디 찾기</h4>
+					<h4 class="modal-title" id="exampleModalLabel4" style="color: #696CFF">이메일 찾기</h4>
 				</div>
 				<div class="modal-body">
 					<p id="userIdShow"></p>
