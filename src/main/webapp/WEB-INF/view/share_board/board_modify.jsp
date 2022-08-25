@@ -179,8 +179,7 @@
 				return false;
 			}
 			
-			if(editor.getHTML() == '') {
-				console.log(editor.getHTML());
+			if(editor.getHTML() == '<p><br></p>') {
 				toastHtml('입력 오류!', '본문을 입력하세요.');
 				return false;
 			}
