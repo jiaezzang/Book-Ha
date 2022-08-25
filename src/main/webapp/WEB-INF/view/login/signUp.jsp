@@ -179,52 +179,52 @@ String logo = (String) request.getAttribute("logo");
         $('#signBtn').on('click', function() {
           if($('#alert-successId').css('display') === 'none') {
             $('#userId').css('border', '1px solid red');
-            return toastr.error("이미 존재하거나 올바르지 않은 형식의 이메일입니다.");
+            return toastr.error('이미 존재하거나 올바르지 않은 형식의 이메일입니다.', '실패!');
           }
 
           if($('#userId').val().trim() === ''){
         	$('#userId').css('border', '1px solid red');
-            return toastr.error('이메일을 입력해주세요.');
+            return toastr.error('이메일을 입력해주세요.', '실패!');
           }
 
           if($('#password1').val().trim() === ''){
         	$('#password1').css('border', '1px solid red');
             $('#password2').css('border', '1px solid red');
-            return toastr.error('비밀번호를 입력해주세요.');
+            return toastr.error('비밀번호를 입력해주세요.', '실패!');
           }
           
           if($('#alert-success').css('display') === 'none'){
           	$('#password1').css('border', '1px solid red');
           	$('#password2').css('border', '1px solid red');
-          	return toastr.error('비밀번호를 정확히 입력해주세요.');
+          	return toastr.error('비밀번호를 정확히 입력해주세요.', '실패!');
           }
 
           if($('#userName').val().trim() === ''){
-            return toastr.error('이름을 입력해주세요.');
+            return toastr.error('이름을 입력해주세요.', '실패!');
           }
 
           if($('#alert-successNick').css('display') === 'none') {
             $('#userNickname').css('border', '1px solid red');
-            return toastr.error('이미 존재하는 닉네임입니다.');
+            return toastr.error('이미 존재하는 닉네임입니다.', '실패!');
           }
 
           if($('#userNickname').val().trim() === ''){
         	$('#userNickname').css('border', '1px solid red');
-            return toastr.error('닉네임을 입력해주세요.');
+            return toastr.error('닉네임을 입력해주세요.', '실패!');
           }
 
           if($('#userPhone').val().trim() === ''){
         	$('#userPhone').css('border', '1px solid red');
-            return toastr.error('휴대전화번호를 입력해주세요.');
+            return toastr.error('연락처를 입력해주세요.', '실패!');
           }
           
           if($('#alert-correctPhone').css('display') === 'inline-block'){
         	$('#userPhone').css('border', '1px solid red')
-            return toastr.error('올바른 형식의 연락처를 입력해주세요.');
+            return toastr.error('올바른 형식의 연락처를 입력해주세요.', '실패!');
           }
 
           if(!$("#checkbox").prop("checked")){
-            return toastr.error('개인정보 정책에 동의 해주세요.');
+            return toastr.error('개인정보 정책에 동의해주세요.', '실패!');
           }
 
           signUp();

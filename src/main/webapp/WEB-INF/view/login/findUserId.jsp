@@ -67,11 +67,11 @@ String logo = (String) request.getAttribute("logo");
       $(document).ready(function() {
         $("#findIdBtn").on("click", () => {
           if($("#name").val().length < 1) {
-            return toastr.error("이름을 입력해주세요.", "입력 오류!");
+            return toastr.error("이름을 입력해주세요.", "실패!");
           }
 
           if($("#userPhone").val().length < 1) {
-            return toastr.error("전화번호를 입력해주세요.", "입력 오류!");
+            return toastr.error("연락처를 입력해주세요.", "실패!");
           }
 
           findId();
@@ -108,7 +108,7 @@ String logo = (String) request.getAttribute("logo");
           dataType:"json",
           success : function(result){
             if(result.length < 1) {
-              return toastr.error("ID가 존재하지 않습니다.", "정보 오류!");
+              return toastr.error("존재하지 않는 회원의 이메일입니다.", "실패!");
             }
             console.log(result[0].user_path);
 			if(result[0].user_path == "kakao") {

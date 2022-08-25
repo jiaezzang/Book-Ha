@@ -206,7 +206,7 @@ $(document).ready(function() {
 		let com_content = $("#reply-text-area").val();
 		
 		if(com_content == null || com_content == "") {
-			toastr.error('댓글이 입력되지 않았습니다.', '입력 오류!');
+			toastr.error('댓글을 작성해주세요.', '실패!');
 			return false;
 		}
 		
