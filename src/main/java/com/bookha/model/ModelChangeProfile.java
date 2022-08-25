@@ -329,7 +329,7 @@ public class ModelChangeProfile {
 					sbHtml.append("<input type='radio' name='profile' value='fruit_2.png'>");
 				}
 			} else if(index == 3) {
-				if(count < 50) {
+				if(count < 10) {
 					sbHtml.append("<input type='radio' name='profile' disabled>");
 				} else {
 					sbHtml.append("<input type='radio' name='profile' value='fruit_3.png'>");
