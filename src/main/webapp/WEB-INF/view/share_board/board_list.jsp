@@ -66,6 +66,10 @@
 .demo-inline-spacing {
 	margin: auto;
 }
+
+.buy-now .btn-buy-now:hover {
+	color: blue;
+}
 </style>
 
 <!-- Favicon -->
@@ -314,7 +318,7 @@
 	<!-- / Layout wrapper -->
 
 	<div class="buy-now">
-		<a href="./share_write.do"
+		<a href="./share_write.do" style="background-color: #f5f5f9;"
 			class="btn btn-outline-primary btn-buy-now">글 작성하기</a>
 	</div>
 
