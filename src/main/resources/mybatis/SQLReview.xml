@@ -28,6 +28,8 @@
         	r.re_seq = c.re_seq
         WHERE
         	r.re_hashtag like CONCAT(#{hash_tag}, '%')
+        AND
+        	r.re_subject like CONCAT('%', #{searchSubject}, '%')
         GROUP BY
         	c.re_seq, r.re_seq
         ORDER BY
@@ -36,13 +38,15 @@
         	#{skip}, #{recordPerPage}
     </select>
     
-    <select id="countBoard" parameterType="String" resultType="int">
+    <select id="countBoard" parameterType="com.bookha.main.dto.DTOReviewTotal" resultType="int">
 		SELECT
 			count(*)
 		FROM
 			review_board
 		WHERE
-        	re_hashtag like CONCAT(#{hashTag}, '%')
+        	re_hashtag like CONCAT(#{hash_tag}, '%')
+        AND
+        	re_subject like CONCAT('%', #{searchSubject}, '%')
 	</select>
     
     <select id="view" parameterType="int" resultType="com.bookha.main.dto.DTOReviewBoard">

@@ -76,9 +76,16 @@ public class ControllerReveiw {
 			hashTag = "#";
 		}
 		
+		// 제목 검색 전, 검색단어 전처리
+		String searchSubject = "";
+		if(request.getParameter("searchSubject") != null) {
+			searchSubject = request.getParameter("searchSubject");
+		}
+		
 		// 페이징 처리
 		DTOReviewTotal dto = new DTOReviewTotal();
 		dto.setHash_tag(hashTag);
+		dto.setSearchSubject(searchSubject);
 		int skip, cpage, blockPerPage, totalPage, totalRecord, startBlock, endBlock;
 		
 		// 1. 현재 페이지 수 가져오기
@@ -93,7 +100,7 @@ public class ControllerReveiw {
 		dto.setSkip(skip);
 		
 		// 3. 총 게시글 수 DB에서 가져오기
-		dto.setTotalRecord(dao.countBoard(hashTag));
+		dto.setTotalRecord(dao.countBoard(dto));
 		totalRecord = dto.getTotalRecord();
 		
 		// 4. 전체 페이지 수
@@ -146,7 +153,7 @@ public class ControllerReveiw {
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		userSetting = daoUser.userSetting(session_user_num);
 		ModelNavBar navModel = new ModelNavBar();
-		String navBar = navModel.navBar(userSetting);
+		String navBar = navModel.navBarSearch(userSetting);
 		mv.addObject("navBar", navBar);
 		
 		//좌측 Menu Model
@@ -158,8 +165,8 @@ public class ControllerReveiw {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/review_list_hashTag.do", method = RequestMethod.POST)
-	public String list_hashTag(@RequestBody DTOReviewBoard to, HttpServletRequest request) {
+	@RequestMapping(value = "/review_list_search.do", method = RequestMethod.POST)
+	public String list_search(@RequestBody DTOReviewTotal to, HttpServletRequest request) {
 		ArrayList<DTOReviewBoard> lists = new ArrayList<DTOReviewBoard>();
 		
 		// 해시태그 검색 전, 검색단어 전처리
@@ -169,9 +176,13 @@ public class ControllerReveiw {
 			hashTag = "#";
 		}
 		
+		// 제목 검색 전, 검색단어 전처리
+		String searchSubject = to.getSearchSubject();
+		
 		// 페이징 처리
 		DTOReviewTotal dto = new DTOReviewTotal();
 		dto.setHash_tag(hashTag);
+		dto.setSearchSubject(searchSubject);
 		int skip, cpage;
 		
 		// 1. 현재 페이지 수 가져오기
@@ -191,8 +202,7 @@ public class ControllerReveiw {
 	}
 	
 	@RequestMapping(value = "/review_list_pageNav.do", method = RequestMethod.POST)
-	public String list_pageNav(@RequestBody DTOReviewBoard to, HttpServletRequest request) {
-		ArrayList<DTOReviewBoard> lists = new ArrayList<DTOReviewBoard>();
+	public String list_pageNav(@RequestBody DTOReviewTotal to, HttpServletRequest request) {
 		
 		// 해시태그 검색 전, 검색단어 전처리
 		String hashTag = to.getHash_tag();
@@ -201,9 +211,13 @@ public class ControllerReveiw {
 			hashTag = "#";
 		}
 		
+		// 제목 검색 전, 검색단어 전처리
+		String searchSubject = to.getSearchSubject();
+		
 		// 페이징 처리
 		DTOReviewTotal dto = new DTOReviewTotal();
 		dto.setHash_tag(hashTag);
+		dto.setSearchSubject(searchSubject);
 		int skip, cpage, blockPerPage, totalPage, totalRecord, startBlock, endBlock;
 		
 		// 1. 현재 페이지 수 가져오기
@@ -215,7 +229,7 @@ public class ControllerReveiw {
 		dto.setSkip(skip);
 		
 		// 3. 총 게시글 수 DB에서 가져오기
-		dto.setTotalRecord(dao.countBoard(hashTag));
+		dto.setTotalRecord(dao.countBoard(dto));
 		totalRecord = dto.getTotalRecord();
 		
 		// 4. 전체 페이지 수
@@ -233,9 +247,6 @@ public class ControllerReveiw {
 			endBlock = totalPage;
 		}
 		dto.setEndBlock(endBlock);
-		
-		// 리스트 데이터 DB에서 가져오기
-		lists = dao.list(dto);
 		
 		ModelReviewPageNavigation navModel = new ModelReviewPageNavigation();
 		String nav = navModel.getPageNav(dto);

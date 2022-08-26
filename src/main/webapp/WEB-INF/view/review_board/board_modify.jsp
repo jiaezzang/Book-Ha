@@ -631,7 +631,7 @@ request.setCharacterEncoding("UTF-8");
 			href="javascript:void(0);"
 			class="btn btn-outline-primary btn-buy-now"
 			style="background-color: #f5f5f9"
-			id="board_submit">작성 완료</a>
+			id="board_submit">수정 완료</a>
 	</div>
 
 	<!-- Core JS -->

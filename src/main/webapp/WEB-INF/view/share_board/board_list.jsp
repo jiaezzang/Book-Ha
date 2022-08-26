@@ -66,6 +66,10 @@
 .demo-inline-spacing {
 	margin: auto;
 }
+
+.buy-now .btn-buy-now:hover {
+	color: blue;
+}
 </style>
 
 <!-- Favicon -->
@@ -112,35 +116,62 @@
 		$(document).on('click', '.btn-check', function() {
 			
 			let hash_tag = $(this).next().text();
+			let searchSubject = "";
 			
-			let DTOShareBoard = {
-				"hash_tag": hash_tag
+			let DTOShareTotal = {
+				"hash_tag": hash_tag,
+				"searchSubject": searchSubject
 			}
 			
 			$.ajax({
 				type: 'POST',
-				url: "/share_list_hashTag.do",
-				data: JSON.stringify(DTOShareBoard),
+				url: "/share_list_search.do",
+				data: JSON.stringify(DTOShareTotal),
 				contentType: "application/json; charset=UTF-8",
 				dataType: "text",
 				success: function(data) {
 					$("#listTable").html(data);
-					//toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공');
-					pageNavigation(hash_tag);
+					$('#searchSubject').val('');
+					pageNavigation(hash_tag, searchSubject);
 				}
 			});
 		});
+		
+		$(document).on('keyup', '#searchSubject', function() {
+			if(true) {
+				let hash_tag = $("input[name='btnradio']:checked").next().text();
+				let searchSubject = $('#searchSubject').val();
+				
+				let DTOReviewTotal = {
+					"hash_tag": hash_tag,
+					"searchSubject": searchSubject
+				}
+				
+				$.ajax({
+					type: 'POST',
+					url: "/share_list_search.do",
+					data: JSON.stringify(DTOReviewTotal),
+					contentType: "application/json; charset=UTF-8",
+					dataType: "text",
+					success: function(data) {
+						$("#listTable").html(data);
+						pageNavigation(hash_tag, searchSubject);
+					}
+				});
+			}
+		});
 	});
 	
-	const pageNavigation = function(hash_tag) {
-		let DTOShareBoard = {
-				"hash_tag": hash_tag
+	const pageNavigation = function(hash_tag, searchSubject) {
+		let DTOShareTotal = {
+			"hash_tag": hash_tag,
+			"searchSubject": searchSubject
 		}
 		
 		$.ajax({
 			type: "POST",
-			url: "/shre_list_pageNav.do",
-			data: JSON.stringify(DTOShareBoard),
+			url: "/share_list_pageNav.do",
+			data: JSON.stringify(DTOShareTotal),
 			contentType: "application/json; charset=UTF-8",
 			dataType: "text",
 			success: function(data) {
@@ -264,7 +295,7 @@
 									</tbody>
 								</table>
 							</div>
-							<div class="demo-inline-spacing">
+							<div id="pageNav" class="demo-inline-spacing">
 								<!-- Basic Pagination -->
 								<%=paging %>
 								<!--/ Basic Pagination -->
@@ -287,7 +318,7 @@
 	<!-- / Layout wrapper -->
 
 	<div class="buy-now">
-		<a href="./share_write.do"
+		<a href="./share_write.do" style="background-color: #f5f5f9;"
 			class="btn btn-outline-primary btn-buy-now">글 작성하기</a>
 	</div>
 

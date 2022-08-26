@@ -10,6 +10,7 @@ public class ModelReviewPageNavigation {
 	public String getPageNav(DTOReviewTotal dto) {
 		String model = "";
 		String hashTag = dto.getHash_tag().replaceAll("#", "%23");
+		String searchSubject = dto.getSearchSubject();
 		
 		// 네비게이션 시작태그
 		model += "<nav aria-label='Page navigation'>";
@@ -19,6 +20,7 @@ public class ModelReviewPageNavigation {
 		model += "<li class='page-item first'>";
 		model += "<a class='page-link' href='/review_list.do?cpage=1";
 		model += "&hashtag=" + hashTag;
+		model += "&searchSubject=" + searchSubject;
 		model += "'>";
 		model += "<i class='tf-icon bx bx-chevrons-left'></i></a></li>";
 		model += "<li class='page-item prev'>";
@@ -26,6 +28,7 @@ public class ModelReviewPageNavigation {
 			model += "<a class='page-link' href='/review_list.do";
 			model += "?cpage=" + (dto.getStartBlock() - 5);
 			model += "&hashtag=" + hashTag;
+			model += "&searchSubject=" + searchSubject;
 			model += "'>";
 		} else {
 			model += "<a class='page-link' href='javascript:void(0);";
@@ -43,6 +46,7 @@ public class ModelReviewPageNavigation {
 			model += "<a class='page-link' href='/review_list.do";
 			model += "?cpage=" + i;
 			model += "&hashtag=" + hashTag;
+			model += "&searchSubject=" + searchSubject;
 			model += "'>" + i + "</a></li>";
 		}
 		
@@ -52,6 +56,7 @@ public class ModelReviewPageNavigation {
 			model += "<a class='page-link' href='/review_list.do";
 			model += "?cpage=" + (dto.getEndBlock() + 1);
 			model += "&hashtag=" + hashTag;
+			model += "&searchSubject=" + searchSubject;
 			model += "'>";
 		} else {
 			model += "<a class='page-link' href='javascript:void(0);";
@@ -62,6 +67,7 @@ public class ModelReviewPageNavigation {
 		model += "<a class='page-link' href='/review_list.do";
 		model += "?cpage=" + dto.getTotalPage();
 		model += "&hashtag=" + hashTag;
+		model += "&searchSubject=" + searchSubject;
 		model += "'>";
 		model += "<i class='tf-icon bx bx-chevrons-right'></i></a></li>";
 		

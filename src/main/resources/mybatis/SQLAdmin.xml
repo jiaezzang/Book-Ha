@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bookha.main.mapper.MapperAdmin">
+
     <select id="list" parameterType="com.bookha.main.dto.DTOAdminTotal" resultType="com.bookha.main.dto.DTOAdminBoard">
         SELECT
         	tb.no_seq as seq,
@@ -210,6 +211,56 @@
 			tb.rowno
 		LIMIT
         	0, 5
+    </select>
+    
+    <select id="countDaily" resultType="com.bookha.main.dto.DTOAttendance">
+	    SELECT
+			date_format(at_login, '%Y.%m.%d') as date,
+	    	count(*) as cnt
+	    FROM
+	    	attendance
+	    WHERE 
+	    	date_format(at_login, '%Y.%m.%d') <![CDATA[>]]> last_day( curdate() - interval 1 month)
+	    AND
+	    	date_format(at_login, '%Y.%m.%d') <![CDATA[<=]]> curdate() 
+	    GROUP BY
+	    	date
+    </select>
+
+    <select id="countWeekly" resultType="com.bookha.main.dto.DTOAttendance">
+    	SELECT
+    		sub.start,
+    		sub.end,
+    		sub.date,
+    		sub.cnt
+    	FROM
+		    ( SELECT 
+				date_format(DATE_SUB(at_login, INTERVAL (DAYOFWEEK(at_login)-2) DAY), '%Y.%m.%d') as start,
+				date_format(DATE_SUB(at_login, INTERVAL (DAYOFWEEK(at_login)-8) DAY), '%Y.%m.%d') as end,
+				date_format(at_login, '%Y.%V') as date, 
+				count(*) as cnt
+			FROM 
+				attendance
+			WHERE
+				date_format(at_login, '%Y') = date_format(now(), '%Y')
+			GROUP BY 
+				date desc
+			LIMIT
+				0, 10 ) as sub
+		ORDER BY
+			date asc
+    </select>
+    
+    <select id="countMonthly" resultType="com.bookha.main.dto.DTOAttendance">
+    	SELECT
+			date_format(at_login, '%Y.%m') as date,
+			count(*) as cnt
+		FROM
+			attendance
+		WHERE
+			date_format(at_login, '%Y') = date_format(now(), '%Y')
+		GROUP BY 
+			date
     </select>
     
 </mapper>

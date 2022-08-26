@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bookha.main.dto.DTOAdminBoard;
 import com.bookha.main.dto.DTOAdminTotal;
+import com.bookha.main.dto.DTOAttendance;
 
 @Mapper
 @Repository
@@ -31,4 +32,11 @@ public interface MapperAdmin {
 	int deleteOk(DTOAdminBoard to);
 	
 	ArrayList<DTOAdminBoard> nolist(DTOAdminBoard to);
+	
+	// chart
+	ArrayList<DTOAttendance> countDaily(DTOAttendance cto);
+	
+	ArrayList<DTOAttendance> countWeekly(DTOAttendance cto);
+	
+	ArrayList<DTOAttendance> countMonthly(DTOAttendance cto);
 }

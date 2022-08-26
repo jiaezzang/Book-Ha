@@ -88,6 +88,9 @@
 /* 	bottom:20px; */
 /* 	right:20px; */
 /* } */
+.buy-now .btn-buy-now:hover {
+	color: blue;
+}
 </style>
 <!-- Helpers -->
 <script src="../assets/vendor/js/helpers.js"></script>
@@ -488,6 +491,7 @@
 
 	<div class="buy-now">
 		<a href="" class="btn btn-outline-primary btn-buy-now"
+			style="background-color: #f5f5f9;"
 			data-bs-toggle="modal" data-bs-target="#modalCenter0" id="writeNew">글 작성하기</a>
 	</div>
 

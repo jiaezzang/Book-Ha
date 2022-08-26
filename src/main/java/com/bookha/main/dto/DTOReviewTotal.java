@@ -26,6 +26,9 @@ public class DTOReviewTotal {
 	// 검색용 Hash tag
 	private String hash_tag;
 	
+	// 제목 검색용 문구
+	private String searchSubject;
+	
 	// skip
 	private int skip;
 	
@@ -45,6 +48,9 @@ public class DTOReviewTotal {
 		this.totalPage = 1;
 		// 전체 게시글 수
 		this.totalRecord = 0;
+		
+		// 검색 문구
+		this.searchSubject = "";
 		
 		// cpage
 		//인자값으로 to 외부에서 전달받음
