@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	String title = (String)request.getAttribute("title");
 	String setting = (String)request.getAttribute("setting");
 %>
 <!DOCTYPE html>
@@ -9,7 +10,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Startup Framework Inspired Pricing Table</title>
+	<title><%= title %></title>
 
 	<!-- Bootstrap -->
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
@@ -30,7 +31,7 @@
 				<img src="../assets/img/logo/logo2.png" title="Book-Ha!" />
 			</a>
 			<a href=<%=setting %> class="mypage">
-				<i class="bx bx-user-circle bx-md" style="color:#696cff; font-size:40px;"></i>
+				<i class="bx bx-user-circle bx-md" style="color:#696cff; font-size:45px !important;"></i>
 			</a>
 	</header>
 	<!-- Pricing Table Section -->

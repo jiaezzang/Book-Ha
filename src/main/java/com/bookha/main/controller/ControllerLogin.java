@@ -87,6 +87,10 @@ public class ControllerLogin {
 			setting = "/main.do";
 		}
 		
+		//타이틀
+		String title = "Book-Ha!";
+		mav.addObject("title", title);
+		
 		mav.addObject("setting", setting);
 		
 		mav.setViewName("home/home");
