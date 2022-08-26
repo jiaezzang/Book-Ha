@@ -27,7 +27,7 @@ public class DAOKakaoUser {
 		user.setUser_nickname(user.getUser_nickname());
 		user.setUser_phonenumber(user.getUser_phonenumber());
 		user.setUser_profile(user.getUser_profile());
-		user.setUser_self(null);
+		user.setUser_self("");
 		user.setUser_enterdate(user.getUser_enterdate());
 		user.setUser_final(user.getUser_final());
 		user.setUser_role(user.getUser_role());
@@ -35,4 +35,15 @@ public class DAOKakaoUser {
 		mapper_User.kakaoUserJoin(user);
 	}
 	
+	@Transactional
+	public int lastUserNum() {
+		
+		return mapper_User.lastUserNum();
+	}
+	
+	@Transactional
+	public int checkKakaoId(String user_mail) {
+		
+		return mapper_User.checkKakaoId(user_mail);
+	}
 }

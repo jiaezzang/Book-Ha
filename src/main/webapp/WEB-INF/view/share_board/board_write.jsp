@@ -8,6 +8,7 @@
 	String profile = (String) request.getAttribute("profile");
 	String logo = (String) request.getAttribute( "logo" );
 	String navBar = (String)request.getAttribute("navBar");
+	String menuBar =(String)request.getAttribute("menuBar");
 	
 	int session_user_num = (int)request.getAttribute("session_user_num");
 %>
@@ -152,7 +153,7 @@
 				return false;
 			}
 			
-			if(editor.getHTML() == '') {
+			if(editor.getHTML() == '<p><br></p>') {
 				toastr.error('본문을 입력하세요.', '입력 오류!');
 				return false;
 			}
@@ -216,7 +217,7 @@
 		    height: '700px',
 		    // 사전입력 항목
 		    initialValue: '',
-		    placeholder: '# 해시태그의 개수에 따라\n### 글자크기가 달라집니다. \n도구에서 H를 눌러보세요.\n\n',
+		    //placeholder: '# 해시태그의 개수에 따라\n### 글자크기가 달라집니다. \n도구에서 H를 눌러보세요.\n\n',
 		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 		    hooks: {
 		    	addImageBlobHook: (blob, callback) => {
@@ -273,57 +274,10 @@
 					<%=logo%>
 					<!-- /LOGO -->
 				</div>
-
 				<div class="menu-inner-shadow"></div>
-
-				<ul class="menu-inner py-1">
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/ranking.do" class="menu-link">
-							<i class='menu-icon bx bx-crown' style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">업적과 순위</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">책을 읽고 느낀점을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/review_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-book-open'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
-							<div data-i18n="Tables">독후감 나누기</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">하루하루 책을 읽어봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/album_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-photo-album'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-photo-album bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">찔끔 챌린지</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">다른 사람들과 책을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item active"><a href="/share_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-gift bx-tada'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-bx-gift bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">나눔과 공유하기</div>
-					</a></li>
-
-
-				</ul>
-			</aside>
+ 				<!-- menuBar Model -->
+				<%=menuBar %>
+				<!-- / menuBar Model -->			</aside>
 			<!-- / Menu -->
 
 			<!-- Layout container -->

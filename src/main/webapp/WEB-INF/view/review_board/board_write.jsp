@@ -7,6 +7,7 @@
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
 	String navBar = (String)request.getAttribute("navBar");
+	String menuBar = (String)request.getAttribute("menuBar");
 	
 	int session_user_num = (int)request.getAttribute("session_user_num");
 %>
@@ -107,6 +108,7 @@
 	font: bold;
 	color: #696CFF;
 }
+
 .buy-now .btn-buy-now:hover {
   color: blue;
 }
@@ -258,36 +260,34 @@
 		
 		$('#board_submit').on("click", function(e) {
 			if($('#defaultFormControlInput').val() == '') {
-				toastr.error('제목을 입력하세요.', '입력 오류!');
+				toastr.error('제목을 입력해주세요.', '실패!');
 				return false;
 			}
 			
-			console.log(editor.getHTML());
-			
-			if(editor.getHTML() == '') {
-				toastr.error('본문을 입력하세요.', '입력 오류!');
+			if(editor.getHTML() == '<p><br></p>') {
+				toastr.error('본문을 입력해주세요.', '실패!');
 				return false;
 			}
 			
 			for(let i=1; i<=6; i++) {
 				if(editor.getHTML().indexOf('<h' + i + '><br></h' + i + '>') != -1) {
-					toastr.error('소제목을 다시 확인하세요', '입력 오류!');
+					toastr.error('소제목을 확인해주세요', '실패!');
 					return false;
 				}
 			}
 			
 			if(tag_radio == '') {
-				toastr.error('해시태그를 선택하세요.', '선택 오류!');
+				toastr.error('해시태그를 선택해주세요.', '실패!');
 				return false;	
 			}
 			
 			if($("#query").val() == '') {
-				toastr.error('읽은 책을 검색하세요.', '입력 오류!');
+				toastr.error('책을 검색해주세요.', '실패!');
 				return false;	
 			}
 			
 			if($("input[name='bookRadio']").length == $("input[name='bookRadio']:not(:checked)").length) {
-				toastr.error('읽은 책을 선택하세요.', '선택 오류!');
+				toastr.error('책을 선택해주세요.', '실패!');
 				return false;
 			}
 			
@@ -387,7 +387,7 @@
 		    previewHighlight: false,
 		    height: '700px',
 		    // 사전입력 항목
-		    initialValue: '',
+		    //placeholder: 'Please enter text. 3333333333333333333333333333333333333333',
 		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 		    hooks: {
 		    	addImageBlobHook: (blob, callback) => {
@@ -419,14 +419,13 @@
 		           		error: function(e) {
 		           			//console.log('ajax 이미지 업로드 실패');
 		           			//console.log(e.abort([statusText]));
-		           			toastr.error('이미지 업로드가 실패하였습니다.', '입력 오류!');
+		           			toastr.error('이미지 업로드에 실패하였습니다.', '실패!');
 		           			callback('image_load_fail', '사진 대체 텍스트 입력');
 		           		}
 		           	});
 		    	}
 		    }
 		});
-		editor.setPlaceholder('<h1><br></h1>');
 	});
 </script>
 </head>
@@ -445,59 +444,10 @@
 					<%= logo %>
 					<!-- /LOGO -->
 				</div>
-
 				<div class="menu-inner-shadow"></div>
-
-				<ul class="menu-inner py-1">
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/ranking.do"
-						class="menu-link"> <i class='menu-icon bx bx-crown'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">업적과 순위</div>
-					</a></li>
-
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">책을 읽고 느낀점을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item active"><a href="/review_list.do"
-						class="menu-link"> <i
-							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
-							<!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
-							<div data-i18n="Tables">독후감 나누기</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">하루하루 책을 읽어봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/album_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-photo-album'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-photo-album bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">찔끔 챌린지</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">다른 사람들과 책을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/share_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-gift'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-bx-gift bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">나눔과 공유하기</div>
-					</a></li>
-
-
-				</ul>
+				<!-- menuBar Model -->
+				<%=menuBar %>
+				<!-- / menuBar Model -->
 			</aside>
 			<!-- / Menu -->
 

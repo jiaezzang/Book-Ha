@@ -25,9 +25,9 @@ public class DAOReviewBoard implements MapperReview {
 	}
 	
 	@Override
-	public int countBoard(String hashTag) {
+	public int countBoard(DTOReviewTotal dto) {
 		// TODO Auto-generated method stub
-		return mapper.countBoard(hashTag);
+		return mapper.countBoard(dto);
 	}
 
 	@Override

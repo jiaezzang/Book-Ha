@@ -36,5 +36,7 @@ public interface MapperMyPage {
 	
 	String reloadPf(int user_num);
 	
+	String pathKakao(int user_num);
+	
 }
 	

@@ -53,7 +53,7 @@
 		FROM
 			user
 		WHERE
-			user_num = ${user_num} and user_password = ${user_password}
+			user_num = ${user_num} and user_password = "${user_password}"
 	</select>
 	
 	
@@ -111,6 +111,15 @@
 				share_board
 			WHERE
 				sh_num = ${user_num}
+	</select>
+	
+	<select id="pathKakao" parameterType="int" resultType="String">
+			SELECT
+				user_path
+			FROM
+				user
+			WHERE
+				user_num = ${user_num}
 	</select>
 
 </mapper>

@@ -10,6 +10,7 @@
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
 	String navBar = (String)request.getAttribute("navBar");
+	String menuBar = (String)request.getAttribute("menuBar");
 	
 	String NoticeList = (String)request.getAttribute( "NoticeList" );
 	String reviewTable = (String)request.getAttribute("reviewTable");
@@ -71,6 +72,10 @@
 .demo-inline-spacing {
 	margin: auto;
 }
+
+.buy-now .btn-buy-now:hover {
+	color: blue;
+}
 </style>
 
 <!-- Favicon -->
@@ -118,42 +123,66 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	$(document).on('click', '.btn-check', function() {
-		//console.log($(this).next().text());
-		
 		let hash_tag = $(this).next().text();
+		let searchSubject = ""
 		
-		let DTO_Review_Board = {
-			"hash_tag": hash_tag
+		let DTOReviewTotal = {
+			"hash_tag": hash_tag,
+			"searchSubject": searchSubject
 		}
-		//console.log(DTO_Review_Board);
 		
 		$.ajax({
 			type: 'POST',
-			url: "/review_list_hashTag.do",
-			data: JSON.stringify(DTO_Review_Board),
+			url: "/review_list_search.do",
+			data: JSON.stringify(DTOReviewTotal),
 			contentType: "application/json; charset=UTF-8",
 			dataType: "text",
 			success: function(data) {
 				$("#listTable").html(data);
-// 				console.log(data);
-				//toastr.success('HASH TAG가 [' + hash_tag + '](으)로 변경되었습니다.', '성공');
-				pageNavigation(hash_tag);
+				$('#searchSubject').val('');
+				pageNavigation(hash_tag, searchSubject);
 			}
 		});
 	});
+	
+	$(document).on('keyup', '#searchSubject', function() {
+		if(true) {
+			
+			let hash_tag = $("input[name='btnradio']:checked").next().text();
+			let searchSubject = $('#searchSubject').val();
+			
+			let DTOReviewTotal = {
+				"hash_tag": hash_tag,
+				"searchSubject": searchSubject
+			}
+			
+			$.ajax({
+				type: 'POST',
+				url: "/review_list_search.do",
+				data: JSON.stringify(DTOReviewTotal),
+				contentType: "application/json; charset=UTF-8",
+				dataType: "text",
+				success: function(data) {
+					$("#listTable").html(data);
+					pageNavigation(hash_tag, searchSubject);
+				}
+			});
+		}
+		
+	});
 });
 
-const pageNavigation = function(hash_tag) {
-	//console.log(hash_tag);
+const pageNavigation = function(hash_tag, searchSubject) {
 	
-	let DTO_Review_Board = {
-		"hash_tag": hash_tag
+	let DTOReviewTotal = {
+		"hash_tag": hash_tag,
+		"searchSubject": searchSubject
 	}
 	
 	$.ajax({
 		type: 'POST',
 		url: "/review_list_pageNav.do",
-		data: JSON.stringify(DTO_Review_Board),
+		data: JSON.stringify(DTOReviewTotal),
 		contentType: "application/json; charset=UTF-8",
 		dataType: "text",
 		success: function(data) {
@@ -179,55 +208,9 @@ const pageNavigation = function(hash_tag) {
 				</div>
 
 				<div class="menu-inner-shadow"></div>
-
-				<ul class="menu-inner py-1">
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/ranking.do" class="menu-link">
-							<i class='menu-icon bx bx-crown' style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">업적과 순위</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">책을 읽고 느낀점을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item active"><a href="/review_list.do"
-						class="menu-link"> <i
-							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
-							<!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
-							<div data-i18n="Tables">독후감 나누기</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">하루하루 책을 읽어봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/album_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-photo-album'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-photo-album bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">찔끔 챌린지</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">다른 사람들과 책을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/share_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-gift'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-bx-gift bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">나눔과 공유하기</div>
-					</a></li>
-
-
-				</ul>
+				<!-- menuBar Model -->
+				<%=menuBar %>
+				<!-- / menuBar Model -->
 			</aside>
 			<!-- / Menu -->
 
@@ -352,7 +335,7 @@ const pageNavigation = function(hash_tag) {
 	<!-- / Layout wrapper -->
 
 	<div class="buy-now">
-		<a href="./review_write.do"
+		<a href="./review_write.do" style="background-color: #f5f5f9;"
 			class="btn btn-outline-primary btn-buy-now">글 작성하기</a>
 	</div>
 

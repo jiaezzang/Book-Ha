@@ -15,7 +15,8 @@
 	        user_self,
 	        user_enterdate,
 	        user_final,
-	        user_role
+	        user_role,
+	        user_path
         )
         VALUES(
 	        #{user_mail},
@@ -27,7 +28,8 @@
 	        #{user_self},
 	        now(),
 	        now(),
-	        #{user_role}
+	        #{user_role},
+	        null
         );
     </insert>
     
@@ -43,7 +45,8 @@
 	        user_self,
 	        user_enterdate,
 	        user_final,
-	        user_role
+	        user_role,
+	        user_path
         )
         VALUES(
 	        #{user_mail},
@@ -55,7 +58,8 @@
 	        #{user_self},
 	        now(),
 	        now(),
-	        #{user_role}
+	        #{user_role},
+	        "kakao"
         );
     </insert>
     
@@ -63,6 +67,12 @@
         delete from user     
         where
 	        user_mail = #{user_mail} and user_password = #{user_password}
+    </delete>
+    
+    <delete id="deleteKakaoAccount" parameterType="com.bookha.main.dto.DTOUser">
+        delete from user     
+        where
+	        user_mail = #{user_mail} and user_path = "kakao"
     </delete>
     
     <update id="updateAccount" parameterType="com.bookha.main.dto.DTOUser">
@@ -93,16 +103,21 @@
          where user_nickname = #{user_nickname};
     </select>
     
-<!--     <select id="findUserId" parameterType="com.bookha.main.dto.DTOUser" resultType="map"> -->
-<!--         select user_mail -->
-<!--           from user -->
-<!--          where user_name = #{user_name} and user_phonenumber = #{user_phonenumber}; -->
-<!--     </select> -->
-
+    <select id="findUserId" parameterType="com.bookha.main.dto.DTOUser" resultType="map">
+        select user_mail, user_path
+          from user
+         where user_name = #{user_name} and user_phonenumber = #{user_phonenumber};
+    </select>
+    
+    <select id="findPw" parameterType="com.bookha.main.dto.DTOUser" resultType="map">
+        select user_mail, user_path, user_name, user_password
+          from user
+         where user_mail = #{user_mail} and user_phonenumber = #{user_phonenumber};
+    </select>
     
     <select id="userSetting" parameterType="int" resultType="com.bookha.main.dto.DTOUser">
         select 
-        	user_profile, user_mail, user_phonenumber, user_self, user_nickname, user_role, user_name
+        	user_profile, user_mail, user_password, user_phonenumber, user_self, user_nickname, user_role, user_name
           from user
          where user_num = #{user_num}
     </select>
@@ -141,5 +156,25 @@
     		user 
     	WHERE 
     		user_mail = #{user_mail}
+    </select>
+    
+    <select id="checkKakaoId" parameterType="String" resultType="int">
+    	SELECT 
+    		user_num
+    	FROM 
+    		user 
+    	WHERE 
+    		user_mail = #{user_mail}
+    </select>
+    
+    <select id="lastUserNum" resultType="int">
+    	SELECT 
+    		user_num
+    	FROM 
+    		user 
+    	ORDER BY 
+    		user_num DESC
+    	LIMIT
+    		0, 1
     </select>
 </mapper>

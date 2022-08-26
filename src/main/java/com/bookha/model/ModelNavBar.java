@@ -86,7 +86,7 @@ public class ModelNavBar {
 		sbHtml.append("<div class='navbar-nav align-items-center'>");
 		sbHtml.append("<div class='nav-item d-flex align-items-center'>");
 		sbHtml.append("<i class='bx bx-search fs-4 lh-0'></i> <input type='text'");
-		sbHtml.append("class='form-control border-0 shadow-none'");
+		sbHtml.append("class='form-control border-0 shadow-none' id='searchSubject'");
 		sbHtml.append("placeholder='Search...' aria-label='Search...' />");
 		sbHtml.append("</div>");
 		sbHtml.append("</div>");

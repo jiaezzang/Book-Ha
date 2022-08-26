@@ -146,7 +146,7 @@
 				return false;
 			}
 			
-			if(editor.getHTML() == '') {
+			if(editor.getHTML() == '<p><br></p>') {
 				toastr.error('본문을 입력하세요.', '입력 오류!');
 				return false;
 			}

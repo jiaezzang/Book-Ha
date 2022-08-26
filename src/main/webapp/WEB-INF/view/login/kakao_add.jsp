@@ -5,6 +5,8 @@ request.setCharacterEncoding("UTF-8");
 
 String title = (String) request.getAttribute("title");
 String logo = (String) request.getAttribute("logo");
+String email = (String) request.getAttribute("email");
+String name = (String) request.getAttribute("name");
 
 %>
 <!DOCTYPE html>
@@ -68,6 +70,8 @@ String logo = (String) request.getAttribute("logo");
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script src="../js/toastr.js"></script>
+	
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	
     <script type="text/javascript">
 
@@ -143,7 +147,8 @@ String logo = (String) request.getAttribute("logo");
 	    
 	    //휴대폰 번호 정규식 검사
 		$("#userPhone").keyup(function(){
-			phoneNo()
+			$("#userPhone").val( $("#userPhone").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
+			
       		var text = $("#userPhone").val().trim();
 
       		var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
@@ -156,54 +161,48 @@ String logo = (String) request.getAttribute("logo");
   		});
 
         $('#signBtn').on("click", function() {
-			if($('#alert-successId').css('display') === 'none') {
-				$('#userId').css('border', '1px solid red');
-				return toastr.error("이미 존재하는 이메일입니다.");
-			}
+// 			if($('#alert-successId').css('display') === 'none') {
+// 				$('#userId').css('border', '1px solid red');
+// 				return toastr.error("이미 존재하는 이메일입니다.", "실패!");
+// 			}
 
 			if($('#userId').val().trim() === ''){
 				$('#userId').css('border', '1px solid red');
-				return toastr.error('이메일을 입력 해주세요.');
+				return toastr.error('이메일을 입력해주세요.', '실패!');
 			}
       
 			if($('#userName').val().trim() === ''){
 				$('#userName').css('border', '1px solid red');
-            	return toastr.error('이름을 입력 해주세요.');
+            	return toastr.error('이름을 입력해주세요.', '실패!');
           	}
 
 	        if($('#alert-successNick').css('display') === 'none') {
 	        	$('#userNickname').css('border', '1px solid red');
-	        	return toastr.error('이미 존재하는 닉네임입니다.');
+	        	return toastr.error('이미 존재하는 닉네임입니다.', '실패!');
 	        }
 
           	if($('#userNickname').val().trim() === ''){
           		$('#userNickname').css('border', '1px solid red');
-           		return toastr.error('닉네임을 입력 해주세요.');
+           		return toastr.error('닉네임을 입력해주세요.', '실패!');
           	}
 
           	if($('#userPhone').val().trim() === ''){
           		$('#userPhone').css('border', '1px solid red');
-            	return toastr.error('휴대전화번호를 입력 해주세요.');
+            	return toastr.error('연락처를 입력해주세요.', '실패!');
           	}
             
             if($('#alert-correctPhone').css('display') === 'inline-block'){
           	$('#userPhone').css('border', '1px solid red')
-              return toastr.error('올바른 형식의 연락처를 입력해주세요.');
+              return toastr.error('올바른 형식의 연락처를 입력해주세요.', '실패!');
             }
         
           	if(!$("#checkbox").prop("checked")){
-            	return toastr.error('개인정보 정책에 동의 해주세요.');
+            	return toastr.error('개인정보 정책에 동의해주세요.', '실패!');
           	}
 
           	signUp();
         })
      });
-
-      function phoneNo() {
-        $("#userPhone").on("keyup", () => {
-          $("#userPhone").val( $("#userPhone").val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") );
-        });
-      }
 
       function signUp() {
         let sendData = {
@@ -221,8 +220,6 @@ String logo = (String) request.getAttribute("logo");
           user_role: "user"
         };
         
-        console.log(sendData);
-
         $.ajax({
           url:"http://localhost:8080/kakaoUser/userInfo",
           type: "post",
@@ -230,7 +227,7 @@ String logo = (String) request.getAttribute("logo");
           data : JSON.stringify(sendData),
           dataType:"json",
           success : function(result){
-            window.location.href = "/";
+            window.location.href = "/login/mainpage";
           },
           error : function(jqXHR,textStatus,errorThrown){
           }
@@ -264,19 +261,18 @@ String logo = (String) request.getAttribute("logo");
              <!-- <form id="formAuthentication" class="mb-3" action="/signUp" method="POST"> -->
                 <div class="mb-3">
                   <label for="userId" class="form-label">E-mail</label>
-                  <input type="text" class="form-control" id="userId" name="userId" placeholder="E-mail"/>
+                  <input type="text" class="form-control" id="userId" name="userId" placeholder="E-mail" value="<%= email %>" readonly=""/>
                   <span id="alert-successId" style="display:none; color:#696cff;">&nbsp;&nbsp;사용 가능한 이메일입니다.</span>
 				  <span id="alert-dangerId" style="display:none; color:#d92742;">&nbsp;&nbsp;이미 사용중인 이메일입니다.</span>
 				  <span id="alert-correctId" style="display:none; color:#d92742;">&nbsp;&nbsp;이메일 형식을 올바르게 입력해주세요.</span>
                 </div>
                 <div class="mb-3">
                   <label for="userName" class="form-label">이름</label>
-                  <input type="text" class="form-control" id="userName" name="userName" placeholder="이름" />
+                  <input type="text" class="form-control" id="userName" name="userName" placeholder="이름" value="<%= name %>" readonly=""/>
                 </div>
                 <div class="mb-3">
                   <label for="userNickname" class="form-label">닉네임</label>
                   <input type="text" class="form-control" id="userNickname" name="userNickname" placeholder="닉네임" />
-                  <span id="kakaoChkSameNickname" style="float: right; margin: 5px 0px 0px 0px; color: #5f61e6;">중복검사</span>
 				  <span id="alert-successNick" style="display:none; color:#696cff;">&nbsp;&nbsp;사용 가능한 닉네임입니다.</span>
 				  <span id="alert-dangerNick" style="display:none; color:#d92742;">&nbsp;&nbsp;이미 사용중인 닉네임입니다.</span> 
                 </div>

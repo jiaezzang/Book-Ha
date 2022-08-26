@@ -8,6 +8,7 @@ request.setCharacterEncoding("UTF-8");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
 	String navBar = (String)request.getAttribute("navBar");
+	String menuBar = (String)request.getAttribute("menuBar");
 	
 	int session_user_num = (int)request.getAttribute("session_user_num");
 	
@@ -326,35 +327,34 @@ request.setCharacterEncoding("UTF-8");
 		
 		$('#board_submit').on("click", function(e) {
 			if($('#defaultFormControlInput').val() == '') {
-				toastHtml('입력 오류!', '제목을 입력하세요.');
+				toastHtml('제목을 입력해주세요.', '실패!');
 				return false;
 			}
 			
-			if(editor.getHTML() == '') {
-				console.log(editor.getHTML());
-				toastHtml('입력 오류!', '본문을 입력하세요.');
+			if(editor.getHTML() == '<p><br></p>') {
+				toastHtml('본문을 입력해주세요.', '실패!');
 				return false;
 			}
 			
 			for(let i=1; i<=6; i++) {
 				if(editor.getHTML().indexOf('<h' + i + '><br></h' + i + '>') != -1) {
-					toastr.error('소제목을 다시 확인하세요', '입력 오류!');
+					toastr.error('소제목을 확인해주세요', '실패!');
 					return false;
 				}
 			}
 			
 			if(tag_radio == '') {
-				toastHtml('선택 오류!', '해시태그를 선택하세요.');
+				toastHtml('해시태그를 선택해주세요.', '실패!');
 				return false;	
 			}
 			
 			if($("#query").val() == '') {
-				toastHtml('입력 오류!', '읽은 책을 검색하세요.');
+				toastHtml('책을 검색해주세요.', '실패!');
 				return false;	
 			}
 			
 			if($("input[name='bookRadio']").length == $("input[name='bookRadio']:not(:checked)").length) {
-				toastHtml('선택 오류!', '읽은 책을 선택하세요.');
+				toastHtml('책을 선택해주세요.', '실패!');
 				return false;
 			}
 			
@@ -517,59 +517,10 @@ request.setCharacterEncoding("UTF-8");
 					<%= logo %>
 					<!-- /LOGO -->
 				</div>
-
 				<div class="menu-inner-shadow"></div>
-
-				<ul class="menu-inner py-1">
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">당신의 순위는 어디일까요?</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/ranking.do"
-						class="menu-link"> <i class='menu-icon bx bx-crown'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-crown bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">업적과 순위</div>
-					</a></li>
-
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">책을 읽고 느낀점을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item active"><a href="/review_list.do"
-						class="menu-link"> <i
-							class='menu-icon bx bx-book-open bx-tada' style='color: #646363'></i>
-							<!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
-							<div data-i18n="Tables">독후감 나누기</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">하루하루 책을 읽어봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/album_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-photo-album'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-photo-album bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">찔끔 챌린지</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">다른 사람들과 책을 나눠봐요!</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/share_list.do"
-						class="menu-link"> <i class='menu-icon bx bx-gift'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-bx-gift bx-tada' style='color:#646363' ></i> -->
-							<div data-i18n="Tables">나눔과 공유하기</div>
-					</a></li>
-
-
-				</ul>
+				<!-- menuBar Model -->
+				<%=menuBar %>
+				<!-- / menuBar Model -->
 			</aside>
 			<!-- / Menu -->
 

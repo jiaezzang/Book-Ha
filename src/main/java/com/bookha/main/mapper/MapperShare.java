@@ -16,7 +16,7 @@ public interface MapperShare {
 	// Board
 	ArrayList<DTOShareBoard> list(DTOShareTotal dto);
 	
-	int countBoard(String hashTag);
+	int countBoard(DTOShareTotal dto);
 	
 	DTOShareBoard view(int seq);
 	

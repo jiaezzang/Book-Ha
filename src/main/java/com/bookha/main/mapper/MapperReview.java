@@ -15,7 +15,7 @@ public interface MapperReview {
 	// Board
 	ArrayList<DTOReviewBoard> list(DTOReviewTotal dto);
 	
-	int countBoard(String hashTag);
+	int countBoard(DTOReviewTotal dto);
 	
 	DTOReviewBoard view(int seq);
 	

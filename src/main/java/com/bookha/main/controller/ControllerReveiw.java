@@ -23,6 +23,7 @@ import com.bookha.main.dto.DTOReviewComment;
 import com.bookha.main.dto.DTOReviewTotal;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelLogoHtml;
+import com.bookha.model.ModelMenuBar;
 import com.bookha.model.ModelNavBar;
 import com.bookha.model.ModelNoticeList;
 import com.bookha.model.ModelProfileHtml;
@@ -75,9 +76,16 @@ public class ControllerReveiw {
 			hashTag = "#";
 		}
 		
+		// 제목 검색 전, 검색단어 전처리
+		String searchSubject = "";
+		if(request.getParameter("searchSubject") != null) {
+			searchSubject = request.getParameter("searchSubject");
+		}
+		
 		// 페이징 처리
 		DTOReviewTotal dto = new DTOReviewTotal();
 		dto.setHash_tag(hashTag);
+		dto.setSearchSubject(searchSubject);
 		int skip, cpage, blockPerPage, totalPage, totalRecord, startBlock, endBlock;
 		
 		// 1. 현재 페이지 수 가져오기
@@ -92,7 +100,7 @@ public class ControllerReveiw {
 		dto.setSkip(skip);
 		
 		// 3. 총 게시글 수 DB에서 가져오기
-		dto.setTotalRecord(dao.countBoard(hashTag));
+		dto.setTotalRecord(dao.countBoard(dto));
 		totalRecord = dto.getTotalRecord();
 		
 		// 4. 전체 페이지 수
@@ -140,20 +148,25 @@ public class ControllerReveiw {
 		String NoticeList = no.NoticeList(nolists);
 		mv.addObject("NoticeList", NoticeList );
 		
-		//Navbar Model
+		//상단 Navbar Model
 		DTOUser userSetting = new DTOUser();
 		int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 		userSetting = daoUser.userSetting(session_user_num);
 		ModelNavBar navModel = new ModelNavBar();
-		String navBar = navModel.navBar(userSetting);
+		String navBar = navModel.navBarSearch(userSetting);
 		mv.addObject("navBar", navBar);
 		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("review");
+		mv.addObject("menuBar", menuBar);
 		mv.setViewName("review_board/board_list");
+		
 		return mv;
 	}
 	
-	@RequestMapping(value = "/review_list_hashTag.do", method = RequestMethod.POST)
-	public String list_hashTag(@RequestBody DTOReviewBoard to, HttpServletRequest request) {
+	@RequestMapping(value = "/review_list_search.do", method = RequestMethod.POST)
+	public String list_search(@RequestBody DTOReviewTotal to, HttpServletRequest request) {
 		ArrayList<DTOReviewBoard> lists = new ArrayList<DTOReviewBoard>();
 		
 		// 해시태그 검색 전, 검색단어 전처리
@@ -163,9 +176,13 @@ public class ControllerReveiw {
 			hashTag = "#";
 		}
 		
+		// 제목 검색 전, 검색단어 전처리
+		String searchSubject = to.getSearchSubject();
+		
 		// 페이징 처리
 		DTOReviewTotal dto = new DTOReviewTotal();
 		dto.setHash_tag(hashTag);
+		dto.setSearchSubject(searchSubject);
 		int skip, cpage;
 		
 		// 1. 현재 페이지 수 가져오기
@@ -185,8 +202,7 @@ public class ControllerReveiw {
 	}
 	
 	@RequestMapping(value = "/review_list_pageNav.do", method = RequestMethod.POST)
-	public String list_pageNav(@RequestBody DTOReviewBoard to, HttpServletRequest request) {
-		ArrayList<DTOReviewBoard> lists = new ArrayList<DTOReviewBoard>();
+	public String list_pageNav(@RequestBody DTOReviewTotal to, HttpServletRequest request) {
 		
 		// 해시태그 검색 전, 검색단어 전처리
 		String hashTag = to.getHash_tag();
@@ -195,9 +211,13 @@ public class ControllerReveiw {
 			hashTag = "#";
 		}
 		
+		// 제목 검색 전, 검색단어 전처리
+		String searchSubject = to.getSearchSubject();
+		
 		// 페이징 처리
 		DTOReviewTotal dto = new DTOReviewTotal();
 		dto.setHash_tag(hashTag);
+		dto.setSearchSubject(searchSubject);
 		int skip, cpage, blockPerPage, totalPage, totalRecord, startBlock, endBlock;
 		
 		// 1. 현재 페이지 수 가져오기
@@ -209,7 +229,7 @@ public class ControllerReveiw {
 		dto.setSkip(skip);
 		
 		// 3. 총 게시글 수 DB에서 가져오기
-		dto.setTotalRecord(dao.countBoard(hashTag));
+		dto.setTotalRecord(dao.countBoard(dto));
 		totalRecord = dto.getTotalRecord();
 		
 		// 4. 전체 페이지 수
@@ -227,9 +247,6 @@ public class ControllerReveiw {
 			endBlock = totalPage;
 		}
 		dto.setEndBlock(endBlock);
-		
-		// 리스트 데이터 DB에서 가져오기
-		lists = dao.list(dto);
 		
 		ModelReviewPageNavigation navModel = new ModelReviewPageNavigation();
 		String nav = navModel.getPageNav(dto);
@@ -260,10 +277,16 @@ public class ControllerReveiw {
 		userSetting = daoUser.userSetting(to.getUser_num());
 		mv.addObject("user", userSetting);
 		
-		//Navbar Model
+		//상단 Navbar Model
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("review");
+		mv.addObject("menuBar", menuBar);
+		mv.setViewName("review_board/board_list");
 		
 		ModelProfileHtml profile = new ModelProfileHtml();
 		this.user_role = daoUser.userSetting(session_user_num).getUser_role().toLowerCase();
@@ -308,12 +331,18 @@ public class ControllerReveiw {
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
-		//Navbar Model
+		//상단 Navbar Model
 		DTOUser userSetting = new DTOUser();
 		userSetting = daoUser.userSetting(session_user_num);
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("review");
+		mv.addObject("menuBar", menuBar);
+		mv.setViewName("review_board/board_list");
 		
 		DTOReviewBoard to = dao.modify(seq);
 		to.setUser_num(session_user_num);
@@ -383,12 +412,18 @@ public class ControllerReveiw {
 		ModelLogoHtml logo = new ModelLogoHtml();
 		mv.addObject("logo", logo.getLogo().toString());
 		
-		//Navbar Model
+		//상단 Navbar Model
 		DTOUser userSetting = new DTOUser();
 		userSetting = daoUser.userSetting(session_user_num);
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
-		mv.addObject("navBar", navBar);
+		mv.addObject("navBar", navBar);		
+		
+		//좌측 Menu Model
+		ModelMenuBar menuModel = new ModelMenuBar();
+		String menuBar = menuModel.menuBar("review");
+		mv.addObject("menuBar", menuBar);
+		mv.setViewName("review_board/board_list");
 		
 		mv.setViewName("review_board/board_write");
 		return mv;

@@ -22,9 +22,11 @@ public interface MapperUser {
 	
 	List<Map<String, String>> findUserId(DTOUser user);
 	
-	List<Map<String, String>> findPw(DTOUser user);
+	Map<String, String> findPw(DTOUser user);
 	
 	void deleteAccount(DTOUser user);
+	
+	void deleteKakaoAccount(DTOUser user);
 	
 	void updateAccount(DTOUser user);
 	
@@ -37,4 +39,8 @@ public interface MapperUser {
 	public int checkNickname(String user_nickname);
 	
 	public int checkId(String user_mail);
+	
+	public int checkKakaoId(String user_mail);
+	
+	public int lastUserNum();
 }

@@ -52,6 +52,12 @@ String logo = (String) request.getAttribute("logo");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Toastr -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="../js/toastr.js"></script>
+	
 <script>
 	$(document).ready(function() {
 		$("#signIn").on("click", function() {
@@ -64,6 +70,16 @@ String logo = (String) request.getAttribute("logo");
 			user_mail : $("#username").val(),
 			user_password : $("#password").val()
 		};
+		
+		if($("#username").val() == null || $("#username").val() == "") {
+			toastr.error("이메일을 입력해주세요.", "실패!");
+			return false;
+		}
+		
+		if($("#password").val() == null || $("#password").val() == "") {
+			toastr.error("비밀번호를 입력해주세요.", "실패!");
+			return false;
+		}
 
 		$.ajax({
 			url : "http://localhost:8080/signIn.do",
@@ -75,7 +91,7 @@ String logo = (String) request.getAttribute("logo");
 				window.location.href = "/login/mainpage";
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
-				alert("Id 또는 PASSWORD를 확인해 주세요.");
+				toastr.error("올바르지 않은 회원정보입니다.", "실패!");
 			}
 		});
 	}
@@ -165,28 +181,70 @@ String logo = (String) request.getAttribute("logo");
 		Kakao.init("f0e137541dcef23154b82f7c348b087a");
 
 		function kakaoLogin() {
-			if (!Kakao.Auth.getAccessToken()) {
-				
+			
+			// 카카오 로그인 토큰 호출
+			if (Kakao.Auth.getAccessToken()) {
 				Kakao.Auth.loginForm({
 					success : function(result) {
 						Kakao.Auth.setAccessToken(result.access_token);
-						location.href = "/kakaoUser/kakao_add";
+						Kakao.API.request({
+							url: '/v2/user/me',
+							success: function(res) {
+								let email = res.kakao_account.email;
+								let name = res.kakao_account.profile.nickname;
+								
+								let DTOUser = {
+										"user_mail": email,
+										"user_name": name
+								}
+								
+								$.ajax({
+									type: 'POST',
+									url: "/kakaoUser/kakao_user_check",
+									data: JSON.stringify(DTOUser),
+									contentType: "application/json; charset=UTF-8",
+									dataType: "text",
+									success: function(result) {
+										if(result == "1") {
+											window.location.href = "/login/mainpage";
+										} else {
+											let f = document.createElement('form');
+											
+											let obj1;
+											obj1 = document.createElement('input');
+											obj1.setAttribute('type', 'hidden');
+											obj1.setAttribute('name', 'email');
+											obj1.setAttribute('value', email);
+											
+											let obj2;
+											obj2 = document.createElement('input');
+											obj2.setAttribute('type', 'hidden');
+											obj2.setAttribute('name', 'name');
+											obj2.setAttribute('value', name);
+											
+											f.appendChild(obj1);
+											f.appendChild(obj2);
+											
+											f.setAttribute('method', 'post');
+											f.setAttribute('action', '/kakaoUser/kakao_add');
+											document.body.appendChild(f);
+											f.submit();
+										}
+									}
+								});
+							},
+							fail: function(error) {
+								console.log(error);
+								toastr.error("Kakao에서 값을 불러오지 못했습니다.", "연결 오류!");
+							}
+			    		});
 					},
 					fail : function(err) {
 						console.log(JSON.stringify(err));
+						toastr.error("Kakao와 연결을 실패하였습니다.", "연결 오류!");
 					}
 				});
 			} else {
-				console.log("kakao login");
-				Kakao.Auth.login({
-					success: function(authObj) {
-						Kakao.Auth.setAccessToken(authObj.access_token);
-						location.href = "/kakaoUser/kakao_add";
-					},
-					fail: function(err) {
-						alert(JSON.stringify(err))
-					},
-			    });
 				return;
 			}
 		}
