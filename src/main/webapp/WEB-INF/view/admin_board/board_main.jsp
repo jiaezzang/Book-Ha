@@ -178,11 +178,7 @@
 						}
 					}
 				});
-			}//success
-			//updateChart() {
-			//	if( this.myChart) this.myChart.destroy();
-			//	this.fillData();
-			//}
+			}
 		});
 	}
 	
@@ -210,8 +206,9 @@
 					if(parseInt(now) < parseInt(next)) {
 						if(check != data[i].start.substring(5,7)) {
 							xList.push([data[i].start.substring(8), data[i].start.substring(5,7)+"월"]);
+						} else{
+							xList.push(data[i].start.substring(8));
 						}
-						xList.push(data[i].start.substring(8));
 					} else{
 						xList.push(data[i].start.substring(8));
 					}
@@ -223,7 +220,7 @@
 				let startday = data[data.length - 1].start;
 				let endday = data[data.length - 1].end;
 				$('#standard').text( startday + " ~ " + endday );
-				
+
 				//그래프 그리기
 				new Chart(document.getElementById('myChart'), {
 					type: 'line',
@@ -251,9 +248,6 @@
 						}
 					}
 				});
-			},//success
-			error: function() {
-				alert("오류!");
 			}
 		});
 	}
@@ -305,9 +299,6 @@
 						}
 					}
 				});
-			},//success
-			error: function() {
-				alert("오류!");
 			}
 		});
 	}
