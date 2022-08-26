@@ -72,6 +72,10 @@
 .demo-inline-spacing {
 	margin: auto;
 }
+
+.buy-now .btn-buy-now:hover {
+	color: blue;
+}
 </style>
 
 <!-- Favicon -->
