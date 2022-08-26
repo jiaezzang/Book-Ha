@@ -270,7 +270,7 @@
 				}
 				
 				let today = data[data.length - 1].date;
-				$('#standard').text(  );
+				$('#standard').text( today );
 				
 				//그래프 그리기
 				new Chart(document.getElementById('myChart'), {
