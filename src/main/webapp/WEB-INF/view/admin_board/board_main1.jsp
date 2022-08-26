@@ -1,21 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-<%@page import="java.util.ArrayList"%>
-
-<%@page import="com.bookha.main.dto.DTOAttendance"%>
-
 <%
-	request.setCharacterEncoding("UTF-8");
-	
-	String title = (String) request.getAttribute("title");
-	String profile = (String) request.getAttribute("profile");
-	String logo = (String) request.getAttribute("logo");
-	String navBar = (String)request.getAttribute("navBar");
-	
-	
-	
-	int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
+request.setCharacterEncoding("UTF-8");
+
+String title = (String) request.getAttribute("title");
+String profile = (String) request.getAttribute("profile");
+String logo = (String) request.getAttribute("logo");
 %>
 <!DOCTYPE html>
 
@@ -91,230 +81,6 @@
 <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 <script src="../assets/js/config.js"></script>
-
-<!-- jQuery UI CDN -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-	$(document).ready(function() {
-		
-		getDaily();
-		
-		// 일간
-		$('#btnradio1').on('click',function() {
-			
-			getDaily();
-		});
-		
-		// 주간
-		$('#btnradio2').on('click',function() {
-		
-			getWeekly();
-		});
-		
-		// 월간
-		$('#btnradio3').on('click',function() {
-			
-			getMonthly();
-		});
-		
-		
-	});
-	
-	
-	let data = 0;
-	const getDaily = function() {
-		
-		const today = new Date();
-		let day_array = ['일','월','화','수','목','금','토'];
-		const day = today.getDay();
-		
-		let xList = [];
-		let dataList = [];
-		
-		$.ajax({
-			type: "POST",
-			url: "/getdaily.do",
-			dataType: "json",
-			success: function(data){
-				
-				for( let i=0; i<data.length; i++ ) {
-					if( data[i].date.substring(8) == 01 ) {
-						xList.push([data[i].date.substring(8), data[i].date.substring(5,7)+"월"]);
-					} else {
-						xList.push(data[i].date.substring(8));
-					}
-					dataList.push(data[i].cnt-1);
-				}
-				
-				let today = data[data.length-1].date + " " + day_array[day];
-				$('#standard').text( today );
-				
-				
-				//그래프 그리기
-				new Chart(document.getElementById('myChart'), {
-					type: 'line',
-					data: {
-						labels: xList,
-						datasets: [{
-							backgroundColor : 'transparent',
-							borderColor : "#696cff",
-							data: dataList
-						}]
-					},
-					options : {
-						legend : {
-							display : false
-						},
-						scales: {
-							yAxes: [{
-								// y축
-								ticks: {
-									min: 0,
-									stepSize: 10,
-									max: 80
-								}
-							}]
-						}
-					}
-				});
-			}//success
-			//updateChart() {
-			//	if( this.myChart) this.myChart.destroy();
-			//	this.fillData();
-			//}
-		});
-	}
-	
-	const getWeekly = function() {
-		let xList = [];
-		let dataList = [];
-		
-		$.ajax({
-			type: "POST",
-			url: "/getweekly.do",
-			dataType: "json",
-			success: function(data){
-				let check = "";
-				
-				for( let i=0; i<data.length; i++ ) {
-					let j = i + 1;
-					
-					let now = data[i].start.substring(8);
-					
-					let next = "32";
-					if(j < data.length) {
-						next = data[j].start.substring(8)
-					}
-					
-					if(parseInt(now) < parseInt(next)) {
-						if(check != data[i].start.substring(5,7)) {
-							xList.push([data[i].start.substring(8), data[i].start.substring(5,7)+"월"]);
-						}
-						xList.push(data[i].start.substring(8));
-					} else{
-						xList.push(data[i].start.substring(8));
-					}
-					
-					check = data[i].start.substring(5,7);
-					dataList.push(data[i].cnt-1);
-				}
-				
-				let startday = data[data.length - 1].start;
-				let endday = data[data.length - 1].end;
-				$('#standard').text( startday + " ~ " + endday );
-				
-				//그래프 그리기
-				new Chart(document.getElementById('myChart'), {
-					type: 'line',
-					data: {
-						labels: xList,
-						datasets: [{
-							backgroundColor : 'transparent',
-							borderColor : "#696cff",
-							data: dataList
-						}]
-					},
-					options : {
-						legend : {
-							display : false
-						},
-						scales: {
-							yAxes: [{
-								// y축
-								ticks: {
-									min: 0,
-									stepSize: 20,
-									max: 150
-								}
-							}]
-						}
-					}
-				});
-			},//success
-			error: function() {
-				alert("오류!");
-			}
-		});
-	}
-	
-	const getMonthly = function() {
-		let xList = [];
-		let dataList = [];
-		
-		$.ajax({
-			type: "POST",
-			url: "/getmonthly.do",
-			dataType: "json",
-			success: function(data){
-				
-				for( let i=0; i<data.length; i++ ) {
-					xList.push(data[i].date.substring(5));
-					
-					dataList.push(data[i].cnt-1);
-					//console.log(data[i].cnt-1);
-				}
-				
-				let today = data[data.length - 1].date;
-				$('#standard').text(  );
-				
-				//그래프 그리기
-				new Chart(document.getElementById('myChart'), {
-					type: 'line',
-					data: {
-						labels: xList,
-						datasets: [{
-							backgroundColor : 'transparent',
-							borderColor : "#696cff",
-							data: dataList
-						}]
-					},
-					options : {
-						legend : {
-							display : false
-						},
-						scales: {
-							yAxes: [{
-								// y축
-								ticks: {
-									min: 0,
-									stepSize: 30,
-									max: 300
-								}
-							}]
-						}
-					}
-				});
-			},//success
-			error: function() {
-				alert("오류!");
-			}
-		});
-	}
-	
-	
-</script>
-
 </head>
 
 <body>
@@ -381,7 +147,31 @@
 			<!-- Layout container -->
 			<div class="layout-page">
 				<!-- Navbar -->
-				<%=navBar %>
+
+				<nav
+					class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+					id="layout-navbar">
+					<div
+						class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+						<a class="nav-item nav-link px-0 me-xl-4"
+							href="javascript:void(0)"> <i class="bx bx-menu bx-sm"></i>
+						</a>
+					</div>
+
+					<div class="navbar-nav-right d-flex align-items-center"
+						id="navbar-collapse">
+
+						<!-- /Search -->
+
+						<ul class="navbar-nav flex-row align-items-center ms-auto">
+
+							<!-- User -->
+							<%=profile%>
+							<!--/ User -->
+						</ul>
+					</div>
+				</nav>
+
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
@@ -403,24 +193,24 @@
 							<h3 class="card-header">
 
 								<div class="tab_graph">
-									<div class="btn-group" role="group" aria-label="Basic radio toggle button group" id="btngroup">
-										<input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked="" autocomplete="off">
-										<label class="btn btn-outline-primary" for="btnradio1">일간</label>
-										
-										<input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-										<label class="btn btn-outline-primary" for="btnradio2">주간</label>
-										
-										<input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-										<label class="btn btn-outline-primary" for="btnradio3">월간</label>
+									<div class="btn-group" role="group"
+										aria-label="Basic radio toggle button group">
+										<input type="radio" class="btn-check" name="btnradio"
+											id="btnradio1" checked="" autocomplete="off"> <label
+											class="btn btn-outline-primary" for="btnradio1">일간</label> <input
+											type="radio" class="btn-check" name="btnradio" id="btnradio2"
+											autocomplete="off"> <label
+											class="btn btn-outline-primary" for="btnradio2">주간</label> <input
+											type="radio" class="btn-check" name="btnradio" id="btnradio3"
+											autocomplete="off"> <label
+											class="btn btn-outline-primary" for="btnradio3">월간</label>
 									</div>
 								</div>
-								
-								<div id="standard">
+
 								<!-- 일간: YYYY.MM.DD d -->
 								<!-- 주간: YYYY.MM.DD ~ YYYY.MM.DD -->
 								<!-- 월간: YYYY.MM -->
-								<strong></strong>
-								</div>
+								<strong>2022.08.06 토</strong>
 							</h3>
 							<br />
 							<br />
@@ -431,7 +221,37 @@
 									<canvas id="myChart"></canvas>
 								</div>
 								<script>
-								
+									const ctx = document.getElementById(
+											'myChart').getContext('2d');
+									const chart = new Chart(
+											ctx,
+											{
+												// 차트 종류
+												type : 'line',
+
+												// 차트를 그릴 데이터
+												data : {
+													// x축 값
+													// id="btnradio1" 일간:1~30(31)
+													// id="btnradio2" 주간: 이번주를 마지막으로 10주
+													// id="btnradio3" 월간: 1~12
+													labels : [ '1', '2', '3',
+															'4', '5', '6',
+															'...', '30' ],
+													datasets : [ {
+														backgroundColor : 'transparent',
+														borderColor : "#696cff",
+														// 방문자 수
+														data : [ 0, 10, 5, 2,
+																20, 30, 45 ]
+													} ]
+												},
+												options : {
+													legend : {
+														display : false
+													}
+												}
+											});
 								</script>
 							</div>
 							<br /> <br />
@@ -442,6 +262,32 @@
 					</div>
 					<!-- /Content -->
 				</div>
+
+				<!-- Footer -->
+<!-- 				<footer class="content-footer footer bg-footer-theme"> -->
+<!-- 					<div -->
+<!-- 						class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"> -->
+<!-- 						<div class="mb-2 mb-md-0"> -->
+<!-- 							© -->
+<!-- 							<script> -->
+<!--  						           document.write(new Date().getFullYear()); -->
+<!-- 							</script> -->
+<!-- 							, made with ❤️ by <a href="https://themeselection.com" -->
+<!-- 								target="_blank" class="footer-link fw-bolder">ThemeSelection</a> -->
+<!-- 						</div> -->
+<!-- 						<div> -->
+<!-- 							<a href="https://themeselection.com/license/" -->
+<!-- 								class="footer-link me-4" target="_blank">License</a> <a -->
+<!-- 								href="https://themeselection.com/" target="_blank" -->
+<!-- 								class="footer-link me-4">More Themes</a> <a -->
+<!-- 								href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" -->
+<!-- 								target="_blank" class="footer-link me-4">Documentation</a> <a -->
+<!-- 								href="https://github.com/themeselection/sneat-html-admin-template-free/issues" -->
+<!-- 								target="_blank" class="footer-link me-4">Support</a> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 				</footer> -->
+				<!-- / Footer -->
 
 				<div class="content-backdrop fade"></div>
 			</div>

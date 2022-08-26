@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,6 +17,7 @@ import com.bookha.main.dao.DAOAdminBoard;
 import com.bookha.main.dao.DAOUser;
 import com.bookha.main.dto.DTOAdminBoard;
 import com.bookha.main.dto.DTOAdminTotal;
+import com.bookha.main.dto.DTOAttendance;
 import com.bookha.main.dto.DTOUser;
 import com.bookha.model.ModelAdminList;
 import com.bookha.model.ModelAdminPageNavigation;
@@ -33,7 +36,7 @@ public class ControllerAdmin {
 	
 	@Autowired
 	private DAOUser daoUser;
-
+	
 	@RequestMapping(value = "/list.do")
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
@@ -139,8 +142,13 @@ public class ControllerAdmin {
 		ModelNavBar navModel = new ModelNavBar();
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
-		
-		mv.setViewName("admin_board/board_main");
+
+		String auth = userSetting.getUser_role();
+		if( !auth.equals("admin") ) {
+			mv.setViewName("error/error.do");
+		} else {
+			mv.setViewName("admin_board/board_main");
+		}
 		return mv;
 	}
 		
@@ -172,7 +180,12 @@ public class ControllerAdmin {
 		String navBar = navModel.navBar(userSetting);
 		mv.addObject("navBar", navBar);
 		
-		mv.setViewName("admin_board/board_write");
+		String auth = userSetting.getUser_role();
+		if( !auth.equals("admin") ) {
+			mv.setViewName("error/error.do");
+		} else {
+			mv.setViewName("admin_board/board_write");
+		}
 		return mv;
 	}
 	
@@ -362,6 +375,34 @@ public class ControllerAdmin {
 		
 		mv.setViewName("admin_board/board_notice");
 		return mv;
+	}
+	
+	// chart
+	@RequestMapping(value = "/getdaily.do", method = RequestMethod.POST)
+	public ArrayList<DTOAttendance> dailyData() {
+		
+		DTOAttendance cto = new DTOAttendance();		
+		dao.countDaily(cto);
+		
+		return dao.countDaily(cto);
+	}
+	
+	@RequestMapping(value = "/getweekly.do", method = RequestMethod.POST)
+	public ArrayList<DTOAttendance> weeklyData() {
+		
+		DTOAttendance cto = new DTOAttendance();
+		dao.countWeekly(cto);
+		
+		return dao.countWeekly(cto);
+	}
+	
+	@RequestMapping(value = "getmonthly.do", method = RequestMethod.POST)
+	public ArrayList<DTOAttendance> monthlyData() {
+		
+		DTOAttendance cto = new DTOAttendance();
+		dao.countMonthly(cto);
+		
+		return dao.countMonthly(cto);
 	}
 	
 }

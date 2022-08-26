@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bookha.main.dto.DTOAdminBoard;
 import com.bookha.main.dto.DTOAdminTotal;
+import com.bookha.main.dto.DTOAttendance;
 import com.bookha.main.mapper.MapperAdmin;
 
 import lombok.RequiredArgsConstructor;
@@ -109,6 +110,26 @@ public class DAOAdminBoard implements MapperAdmin {
 	public ArrayList<DTOAdminBoard> nolist(DTOAdminBoard to) {
 		// TODO Auto-generated method stub
 		return mapper.nolist(to);
+	}
+
+	// chart
+	
+	@Override
+	public ArrayList<DTOAttendance> countDaily(DTOAttendance cto) {
+		// TODO Auto-generated method stub
+		return mapper.countDaily(cto);
+	}
+
+	@Override
+	public ArrayList<DTOAttendance> countWeekly(DTOAttendance cto) {
+		// TODO Auto-generated method stub
+		return mapper.countWeekly(cto);
+	}
+
+	@Override
+	public ArrayList<DTOAttendance> countMonthly(DTOAttendance cto) {
+		// TODO Auto-generated method stub
+		return mapper.countMonthly(cto);
 	}
 
 }
