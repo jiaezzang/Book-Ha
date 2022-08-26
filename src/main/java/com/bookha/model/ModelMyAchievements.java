@@ -341,7 +341,7 @@ public class ModelMyAchievements {
 					sbHtml.append( 5 + "/5");
 				}
 			} else if(index == 3) {
-				if(count < 50) {
+				if(count < 10) {
 					sbHtml.append( count + "/10");
 				} else {
 					sbHtml.append( 10 + "/10");
