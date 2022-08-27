@@ -39,9 +39,7 @@ import com.bookha.model.ModelSharePageNavigation;
 
 @RestController
 public class ControllerMypage {
-	
-	private String title = "마이 페이지";
-	
+
 	@Autowired
 	private DAOUser dao;
 
@@ -55,6 +53,7 @@ public class ControllerMypage {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
+		String title = "출석 체크";
 		mv.addObject("title", title);
 		
 		ModelProfileHtml profile = new ModelProfileHtml();
@@ -109,6 +108,7 @@ public class ControllerMypage {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
+		String title = "나의 업적 확인";
 		mv.addObject("title", title);
 		
 		ModelProfileHtml profile = new ModelProfileHtml();
@@ -163,6 +163,7 @@ public class ControllerMypage {
 		ModelAndView mv = new ModelAndView();
 		//mv.addObject("msg", "get");
 		
+		String title = "개인 정보 수정";
 		mv.addObject("title", title);
 		
 		ModelProfileHtml profile = new ModelProfileHtml();

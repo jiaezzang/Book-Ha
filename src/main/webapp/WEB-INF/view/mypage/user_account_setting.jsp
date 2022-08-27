@@ -382,33 +382,37 @@
 	
 	//프로필 변경 완료 시 
 	function changePfOk(){
-	  	let DTOUser = {
-			"user_profile" : $('input[name=profile]:checked').val(),
-			"user_num" : <%=session_user_num%>
-		}
-		$.ajax({
-			type: "POST",
-			url: "change_pf.do",
-			data: JSON.stringify(DTOUser),
-			contentType: "application/json; charset=utf-8",
-			dataType: "text",
-			success: function(data){
-				if(data == 1) {
-					$("#exLargeModal").modal("hide");
-					toastr.success('프로필이 수정되었습니다.', '성공!');
-					reloadNav();
-					reload();
-		
-				}else {
-		 					toastr.error('프로필 이미지를 선택해주세요.', '실패!');
-		 					$('input[name=profile]:checked').val("");
-				}
-			},
-			error: function(e) {
-				toastr.error('프로필 이미지를 선택해주세요.', '실패!');
-				$('input[name=profile]:checked').val("");
+		if($('input[name=profile]:checked').val() != null || $('input[name=profile]:checked').val() == ""){
+		  	let DTOUser = {
+				"user_profile" : $('input[name=profile]:checked').val(),
+				"user_num" : <%=session_user_num%>
 			}
-		});
+			$.ajax({
+				type: "POST",
+				url: "change_pf.do",
+				data: JSON.stringify(DTOUser),
+				contentType: "application/json; charset=utf-8",
+				dataType: "text",
+				success: function(data){
+					if(data == 1) {
+						$("#exLargeModal").modal("hide");
+						toastr.success('프로필이 수정되었습니다.', '성공!');
+						reloadNav();
+						reload();
+			
+					}else {
+			 					toastr.error('프로필 이미지를 선택해주세요.', '실패!');
+			 					$('input[name=profile]:checked').val("");
+					}
+				},
+				error: function(e) {
+					toastr.error('프로필 이미지를 선택해주세요.', '실패!');
+					$('input[name=profile]:checked').val("");
+				}
+			});
+		} else {
+			toastr.error('프로필 이미지를 선택해주세요.', '실패!');
+		}
 	}
 	        
 	//프로필 변경 완료 시 다시 로드 될 프로필 이미지 영역
