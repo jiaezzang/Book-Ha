@@ -20,7 +20,6 @@
 	String subject = to.getSubject();
 	String content = to.getContent();
 	String hash_tag = to.getHash_tag();
-	//int user_num = to.getUser_num();
 	
 	String btnradio1 = "";
 	String btnradio2 = "";
@@ -208,7 +207,6 @@
 			obj2.setAttribute('type', 'hidden');
 			obj2.setAttribute('name', 'user_num');
 			obj2.setAttribute('value', <%=session_user_num %>);
-			/* obj2.setAttribute('value', 4); */
 			
 			let obj3;
 			obj3 = document.createElement('input');
@@ -245,8 +243,6 @@
 		    // 이미지가 Base64 형식으로 입력되는 것 가로채주는 옵션
 		    hooks: {
 		    	addImageBlobHook: (blob, callback) => {
-		    		// blob : Java Script 파일 객체
-		    		//console.log(blob);
 		    		
 		    		const formData = new FormData();
 		        	formData.append('image', blob);
@@ -263,7 +259,6 @@
 		           		cache: false,
 		           		timeout: 600000,
 		           		success: function(data) {
-		           			//console.log('ajax 이미지 업로드 성공');
 		           			url += data.filename;
 		           			
 		           			// callback : 에디터(마크다운 편집기)에 표시할 텍스트, 뷰어에는 imageUrl 주소에 저장된 사진으로 나옴
@@ -271,9 +266,6 @@
 		           			callback(url, '사진 대체 텍스트 입력');
 		           		},
 		           		error: function(e) {
-		           			//console.log('ajax 이미지 업로드 실패');
-		           			//console.log(e.abort([statusText]));
-		           			
 		           			callback('image_load_fail', '사진 대체 텍스트 입력');
 		           		}
 		           	});

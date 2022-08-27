@@ -31,7 +31,6 @@
 	int afterSeq = to2.getSeq();
 	String afterSubject = to2.getSubject();
 	
-	//System.out.println( to2.getRowno() );
 %>
 <!DOCTYPE html>
 
