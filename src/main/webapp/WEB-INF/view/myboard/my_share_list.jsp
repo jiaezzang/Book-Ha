@@ -9,21 +9,21 @@
 	String title = (String)request.getAttribute( "title" );
 	String profile = (String)request.getAttribute( "profile" );
 	String logo = (String)request.getAttribute( "logo" );
-	/*
-	String navBar = (String)request.getAttribute("navBar");
 	
-	String NoticeList = (String)request.getAttribute( "NoticeList" );
+	String navBar = (String)request.getAttribute("navBar");
+	String menuBar =(String)request.getAttribute("menuBar");
+	
 	String listTable = (String)request.getAttribute( "listTable" );
 	
 	String paging = (String)request.getAttribute("paging");
 	String hashTag = (String)request.getAttribute("hashTag");
-	*/
+
 	String btnradio0 = "";
 	String btnradio1 = "";
 	String btnradio2 = "";
 	String btnradio3 = "";
 	String btnradio4 = "";
-	/*
+	
 	if(hashTag.equals("# 전체")) {
 		btnradio0 = "checked";
 	} else if(hashTag.equals("# 나눔")) {
@@ -35,7 +35,7 @@
 	} else if(hashTag.equals("# 빌려줘")) {
 		btnradio4 = "checked";
 	} 
-*/
+
 %>
 <!DOCTYPE html>
 
@@ -66,6 +66,12 @@
 .demo-inline-spacing {
 	margin: auto;
 }
+
+.bg-menu-theme .menu-sub>.menu-item.active>.menu-link:not(.menu-toggle) {
+    background-color: #696cff !important;
+    border: 3px solid #e7e7ff !important;
+}
+
 </style>
 
 <!-- Favicon -->
@@ -119,7 +125,7 @@
 			
 			$.ajax({
 				type: 'POST',
-				url: "/share_list_hashTag.do",
+				url: "/myshare_list_hashTag.do",
 				data: JSON.stringify(DTOShareBoard),
 				contentType: "application/json; charset=UTF-8",
 				dataType: "text",
@@ -139,7 +145,7 @@
 		
 		$.ajax({
 			type: "POST",
-			url: "/shre_list_pageNav.do",
+			url: "/myshre_list_pageNav.do",
 			data: JSON.stringify(DTOShareBoard),
 			contentType: "application/json; charset=UTF-8",
 			dataType: "text",
@@ -167,62 +173,16 @@
 				</div>
 
 				<div class="menu-inner-shadow"></div>
-
-				<ul class="menu-inner py-1">
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">목표를 얼마나 달성하셨나요?</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/my_achievements.do"
-						class="menu-link"> <i
-							class='menu-icon bx bx-book-open' style='color: #646363'></i>
-							<div data-i18n="Tables">나의 업적 확인</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">작성글을 확인해 봅시다.</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item active" style=""><a href="javascript:void(0)"
-						class="menu-link menu-toggle"> <i
-							class="menu-icon tf-icons bx bx-box bx-tada"></i>
-							<div data-i18n="User interface">내 글 모아보기</div>
-					</a>
-						<ul class="menu-sub">
-							<li class="menu-item"><a href="myreview_list.do"
-								class="menu-link">
-									<div data-i18n="Accordion">독후감 나누기</div>
-							</a></li>
-							<li class="menu-item"><a href="/myalbum.do"
-								class="menu-link">
-									<div data-i18n="Badges">찔끔 챌린지</div>
-							</a></li>
-							<li class="menu-item"><a href="/myshare_list.do"
-								class="menu-link">
-									<div data-i18n="Buttons">나눔과 공유하기</div>
-							</a></li>
-						</ul></li>
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text"></span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/user_account_setting.do"
-						class="menu-link"> <i class='menu-icon bx bx-book-open'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
-							<div data-i18n="Tables">개인 정보 수정</div>
-					</a></li>
-				</ul>
+				<!-- menuBar Model -->
+				<%=menuBar %>
+				<!-- / menuBar Model -->
 			</aside>
 			<!-- / Menu -->
 
 			<!-- Layout container -->
 			<div class="layout-page">
 				<!-- Navbar -->
-				<%-- <%=navBar %> --%>
+				<%=navBar %>
 				<!-- / Navbar -->
 
 				<!-- Content wrapper -->
@@ -289,14 +249,14 @@
 									</thead>
 									<tbody class="table-border-bottom-0" id="listTable">
 										<!-- share_board list -->
-										<%-- <%=listTable %> --%>
+										<%=listTable %>
 										<!-- /share_board list -->
 									</tbody>
 								</table>
 							</div>
 							<div class="demo-inline-spacing">
 								<!-- Basic Pagination -->
-								<%-- <%=paging %> --%>
+								<%=paging %>
 								<!--/ Basic Pagination -->
 							</div>
 						</div>
