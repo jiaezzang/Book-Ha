@@ -88,6 +88,20 @@
 /* 	bottom:20px; */
 /* 	right:20px; */
 /* } */
+.buy-now2 .btn-buy-now2 {
+	position: fixed;
+	bottom: 3rem;
+	right: 9rem;
+	z-index: 999999;
+	box-shadow: 0 1px 10px 1px #696cff;
+	margin-right: 10px
+}
+
+.buy-now2 .btn-buy-now2:hover {
+	box-shadow: none;
+	color: blue;
+}
+
 .buy-now .btn-buy-now:hover {
 	color: blue;
 }
@@ -489,10 +503,14 @@
 	</div>
 	<!-- / Layout wrapper -->
 
-	<div class="buy-now">
-		<a href="" class="btn btn-outline-primary btn-buy-now"
+	<div class="buy-now2">
+		<a href="" class="btn btn-outline-primary btn-buy-now2"
 			style="background-color: #f5f5f9;"
 			data-bs-toggle="modal" data-bs-target="#modalCenter0" id="writeNew">글 작성하기</a>
+	</div>
+	<div class="buy-now">
+		<a href="./myalbum_list.do" style="background-color: #f5f5f9;"
+			class="btn btn-outline-primary btn-buy-now">마이리스트</a>
 	</div>
 
 	<!-- Core JS -->
