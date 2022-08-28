@@ -10,11 +10,10 @@
 	String title = (String)request.getAttribute("title");
 	String profile = (String)request.getAttribute("profile");
 	String logo = (String)request.getAttribute("logo");
-	/*
+	
 	DTOAlbumBoard dto = (DTOAlbumBoard)request.getAttribute("dto");
 	DTOAlbumTotal totalLists = (DTOAlbumTotal)request.getAttribute("totalLists");
 	
-	String NoticeList = (String)request.getAttribute( "NoticeList" );
 	String albumlist = (String)request.getAttribute("albumlist");
 	System.out.println(albumlist);
 	
@@ -22,8 +21,8 @@
 	
 	int session_user_num = Integer.parseInt(String.valueOf(session.getAttribute("user_num")));
 	String navBar = (String)request.getAttribute("navBar");
+	String menuBar =(String)request.getAttribute("menuBar");
 	
-	*/
 %>
 <!DOCTYPE html>
 
@@ -106,81 +105,6 @@
  
 <script>
 
-$(document).ready(function(){
-	$('#writeNew').on("click", function(){
-		$("#writeSubject").val("");
-		$("#formFile").val("");
-	});
-});
-
-$(document).ready(function(){
-	$('#write').on("click", function(){
-		//제목 미입력 시
-		if($("#writeSubject").val() == ""){
-			toastr.error('제목을 입력해주세요.', '실패!');
-			return false;
-		}
-
-		//이미지 미등록 시 
-		if($("#formFile").val() == ""|| $("#formFile").val() == null){
-			toastr.error('이미지를 등록해주세요.', '실패!');
-			return false;
-		} else {
-			let extension = $("#formFile").val().split( "." ).pop().toLowerCase();
-			if( extension != "png" && extension != "jpg" && extension != "gif" && extension != "jpeg" ){
-				toastr.error("이미지 파일(jpg, jpeg, gif, png)을 등록해주세요.", "실패!");
-				return false;
-			}
-		}
-		const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
-    	formData.append('image', $('#formFile')[0].files[0]);
-    	
-    	//console.log($('#formFile')[0].files[0]);
-    	//console.log(formData);
-		
-    	let url = '/images/';
-		$.ajax({
-       		type: 'POST',
-       		enctype: 'multipart/form-data',
-       		url: '/img_change.do',
-       		data: formData,
-       		dataType: 'json',
-       		processData: false,
-       		contentType: false,
-       		cache: false,
-       		timeout: 600000,
-       		success: function(data) {
-       			//console.log('ajax 이미지 업로드 성공');
-       			url += data.filename;
-       			//console.log(url);
-       			
-       			let DTO_Album_board = {
-       					"al_user_num" : <%-- <%=session_user_num%> --%>,
-       					"al_subject" : $("#writeSubject").val(),
-       					"al_imgName" : data.filename
-       			}
-       			//console.log(DTO_Album_board);
-       			$.ajax({
-       				type: "POST",
-       				url: "album_write.do",
-       				data: JSON.stringify(DTO_Album_board),
-       				contentType: "application/json; charset=utf-8",
-       				dataType: "text",
-       				success: function(data){
-       					$("#modalCenter0").modal("hide");
-       					//console.log("DB 추가 성공");
-       					reload();
-       					toastr.success('게시글이 작성되었습니다.', '성공!');
-       				},
-       				error: function(error) {
-       					//console.log("error : " + error);
-       				}
-       			});
-       		}
-       	});
-	});
-});
-
 //modify
 let al_seq = 0;
 const modifyData = function(seq, subject){
@@ -211,9 +135,6 @@ $(document).ready(function(){
 		const formData = new FormData(); //가상의 form생성(js내부에서 돌아가는 form 객체)
     	formData.append('image', $('#formFile2')[0].files[0]);
     	
-    	//console.log($('#formFile2')[0].files[0]);
-    	//console.log(formData);
-		
     	let url = '/images/';
 		$.ajax({
        		type: 'POST',
@@ -231,7 +152,7 @@ $(document).ready(function(){
        			//console.log(url);
        			
        			let DTO_Album_board = {
-       					"al_user_num" : <%-- <%=session_user_num%> --%>,
+       					"al_user_num" : <%=session_user_num%>,
        					"al_seq" : al_seq,
        					"al_subject" : $("#modifySubject").val(),
        					"al_imgName" : data.filename
@@ -287,7 +208,7 @@ $(document).ready(function(){
 const reload = function(){
 	$.ajax({
 		type: 'POST',
-		url: "album_reload.do",
+		url: "myalbum_reload.do",
 		datatype: "text",
 		success: function(data){
 			$("#albumContents").html(data);
@@ -311,56 +232,9 @@ const reload = function(){
 				</div>
 
 				<div class="menu-inner-shadow"></div>
-
-				<ul class="menu-inner py-1">
-
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">목표를 얼마나 달성하셨나요?</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/my_achievements.do"
-						class="menu-link"> <i
-							class='menu-icon bx bx-book-open' style='color: #646363'></i>
-							<div data-i18n="Tables">나의 업적 확인</div>
-					</a></li>
-
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text">작성글을 확인해 봅시다.</span></li>
-
-					<!-- Tables -->
-					<li class="menu-item active" style=""><a href="javascript:void(0)"
-						class="menu-link menu-toggle"> <i
-							class="menu-icon tf-icons bx bx-box bx-tada"></i>
-							<div data-i18n="User interface">내 글 모아보기</div>
-					</a>
-						<ul class="menu-sub">
-							<li class="menu-item"><a href="myreview_list.do"
-								class="menu-link">
-									<div data-i18n="Accordion">독후감 나누기</div>
-							</a></li>
-							<li class="menu-item"><a href="/myalbum.do"
-								class="menu-link">
-									<div data-i18n="Badges">찔끔 챌린지</div>
-							</a></li>
-							<li class="menu-item"><a href="/myshare_list.do"
-								class="menu-link">
-									<div data-i18n="Buttons">나눔과 공유하기</div>
-							</a></li>
-						</ul></li>
-					<!-- Forms & Tables -->
-					<li class="menu-header small text-uppercase"><span
-						class="menu-header-text"></span></li>
-
-					<!-- Tables -->
-					<li class="menu-item"><a href="/user_account_setting.do"
-						class="menu-link"> <i class='menu-icon bx bx-book-open'
-							style='color: #646363'></i> <!-- <i class='menu-icon bx bx-book-open' style='color:#646363'  ></i> -->
-							<div data-i18n="Tables">개인 정보 수정</div>
-					</a></li>
-				</ul>
+				<!-- menuBar Model -->
+				<%=menuBar %>
+				<!-- / menuBar Model -->
 			</aside>
 			<!-- / Menu -->
 
@@ -368,7 +242,7 @@ const reload = function(){
 			<div class="layout-page" id="albumlayout">
 				<!-- Navbar -->
 
-				<%-- <%=navBar %> --%>
+				<%=navBar %>
 
 				<!-- / Navbar -->
 
@@ -389,13 +263,13 @@ const reload = function(){
 
 							<div class="row row-cols-4 row-cols-md-4 g-4 mb-4" id="albumContents">
 							
-									<%-- <%= albumlist %> --%>	
+									<%= albumlist %>	
 								
 							</div>
 							
 							<!-- 페이징 -->
 							<div class="demo-inline-spacing" style="display:flex; justify-content: center;">
-							<%-- <%= nav %> --%>
+							<%= nav %>
 							</div>
 							<!-- /페이징 -->
 							
@@ -408,40 +282,7 @@ const reload = function(){
 				
 				<!-- Modal -->
 				<!--  Write Modal  -->
-				<div class="modal fade" id="modalCenter0" tabindex="-1"
-					style="display: none;" aria-hidden="true" role="dialog">
-					<div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="modalCenterTitle">글 작성하기</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<div class="row">
-									<div class="col mb-3">
-										<label for="writeSubject" class="form-label">제목</label> <input
-											type="text" id="writeSubject" class="form-control"
-											placeholder="Title">
-									</div>
-								</div>
-								<!-- 사진업로드  -->
-								<div class="row g-2">
-									<div>
-										<label for="formFile" class="form-label">사진</label> 
-										<input class="form-control" type="file" name="upload" id="formFile" accept=".gif, .jpg, .png, .jpeg">
-									</div>
-								</div>
-								<!-- /사진업로드 -->
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-outline-secondary"
-									data-bs-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-primary" id="write">등록</button>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 				<!--  Write Modal  -->
 
 				<!--  Modify Modal  -->

@@ -35,6 +35,8 @@ public class DTOReviewTotal {
 	private ArrayList<DTOReviewBoard> board;
 	private ArrayList<DTOReviewComment> comment;
 	
+	private int user_num;
+	
 	public DTOReviewTotal() {
 		// TODO Auto-generated constructor stub
 		

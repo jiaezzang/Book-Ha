@@ -97,34 +97,27 @@
 
 <script>
 	$(document).ready(function() {
-		
 		getDaily();
 		
 		// 일간
-		$('#btnradio1').on('click',function() {
-			
+		$('#btnradio1').on('click',function() {	
 			getDaily();
 		});
 		
 		// 주간
 		$('#btnradio2').on('click',function() {
-		
 			getWeekly();
 		});
 		
 		// 월간
-		$('#btnradio3').on('click',function() {
-			
+		$('#btnradio3').on('click',function() {		
 			getMonthly();
 		});
-		
-		
 	});
-	
 	
 	let data = 0;
 	const getDaily = function() {
-		
+
 		const today = new Date();
 		let day_array = ['일','월','화','수','목','금','토'];
 		const day = today.getDay();
@@ -152,7 +145,7 @@
 				
 				
 				//그래프 그리기
-				new Chart(document.getElementById('myChart'), {
+				myChart = new Chart(document.getElementById('myChart'), {
 					type: 'line',
 					data: {
 						labels: xList,
@@ -183,6 +176,7 @@
 	}
 	
 	const getWeekly = function() {
+
 		let xList = [];
 		let dataList = [];
 		
@@ -221,8 +215,10 @@
 				let endday = data[data.length - 1].end;
 				$('#standard').text( startday + " ~ " + endday );
 
+				
+				
 				//그래프 그리기
-				new Chart(document.getElementById('myChart'), {
+				myChart = new Chart(document.getElementById('myChart'), {
 					type: 'line',
 					data: {
 						labels: xList,
@@ -253,6 +249,7 @@
 	}
 	
 	const getMonthly = function() {
+
 		let xList = [];
 		let dataList = [];
 		
@@ -272,8 +269,9 @@
 				let today = data[data.length - 1].date;
 				$('#standard').text( today );
 				
+				
 				//그래프 그리기
-				new Chart(document.getElementById('myChart'), {
+				myChart = new Chart(document.getElementById('myChart'), {
 					type: 'line',
 					data: {
 						labels: xList,
@@ -405,12 +403,7 @@
 										<label class="btn btn-outline-primary" for="btnradio3">월간</label>
 									</div>
 								</div>
-								
 								<div id="standard">
-								<!-- 일간: YYYY.MM.DD d -->
-								<!-- 주간: YYYY.MM.DD ~ YYYY.MM.DD -->
-								<!-- 월간: YYYY.MM -->
-								<strong></strong>
 								</div>
 							</h3>
 							<br />
@@ -418,7 +411,7 @@
 
 							<!-- Hoverable Table rows -->
 							<div class="table-responsive text-nowrap">
-								<div class="container">
+								<div class="container" id="chartArea">
 									<canvas id="myChart"></canvas>
 								</div>
 								<script>

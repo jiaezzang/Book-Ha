@@ -24,6 +24,8 @@ public class DTOShareTotal {
 	private ArrayList<DTOShareBoard> board;
 	private ArrayList<DTOShareComment> comment;
 	
+	private int user_num;
+	
 	public DTOShareTotal() {
 		// TODO Auto-generated constructor stub
 		this.cpage = 1;
