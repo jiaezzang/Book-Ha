@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bookha.main.dto.DTOAlbumBoard;
+import com.bookha.main.dto.DTOAlbumTotal;
 import com.bookha.main.dto.DTOAttendance;
 import com.bookha.main.dto.DTOReviewBoard;
 import com.bookha.main.dto.DTOReviewTotal;
@@ -46,6 +48,18 @@ public class DAOMyBoard implements MapperMyBoard {
 	public int countMyreview(String hashTag) {
 		// TODO Auto-generated method stub
 		return mapper.countMyreview(hashTag);
+	}
+
+	@Override
+	public ArrayList<DTOAlbumBoard> myalbumList(DTOAlbumTotal ato) {
+		// TODO Auto-generated method stub
+		return mapper.myalbumList(ato);
+	}
+
+	@Override
+	public int countMyalbum() {
+		// TODO Auto-generated method stub
+		return mapper.countMyalbum();
 	}
 
 }

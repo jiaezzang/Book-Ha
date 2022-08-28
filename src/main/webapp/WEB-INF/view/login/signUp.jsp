@@ -254,7 +254,7 @@ String logo = (String) request.getAttribute("logo");
         };
 
         $.ajax({
-          url:"http://localhost:8080/signUp/new",
+          url:"/signUp/new",
           type: "post",
           contentType: "application/json; charset=utf-8",
           data : JSON.stringify(sendData),

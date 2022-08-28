@@ -22,7 +22,6 @@
 	DTOUser user = (DTOUser)request.getAttribute("user");
 	
 	String user_role = (String)request.getAttribute("user_role");
-	//System.out.println( user_role ); -> admin
 	
 	int user_num = to.getUser_num();
 	int seq = to.getSeq();
@@ -277,7 +276,6 @@
 			obj2.setAttribute('type', 'hidden');
 			obj2.setAttribute('name', 'user_num');
 			obj2.setAttribute('value', <%=session_user_num %>);
-			/* obj2.setAttribute('value', 4); */
 			
 			f.appendChild(obj1);
 			f.appendChild(obj2);

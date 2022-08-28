@@ -25,5 +25,6 @@ public class DTOMail {
 				+ "<hr />"
 				+ "<p>" + name + "님의 비밀번호는 [ <font size='4em' color='#696CFF'><strong>" + password + "</strong></font> ] 입니다.</p>"
 				+ "</body></html>";
+		this.content = name + "님의 비밀번호는 [" + password + "] 입니다.";
 	}
 }

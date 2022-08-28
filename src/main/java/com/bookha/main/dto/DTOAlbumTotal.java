@@ -29,6 +29,8 @@ public class DTOAlbumTotal {
 	// skip
 	private int skip;
 	
+	private int al_user_num;
+	
 	public DTOAlbumTotal() {
 		// TODO Auto-generated constructor stub
 		
