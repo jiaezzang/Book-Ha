@@ -82,7 +82,7 @@ String logo = (String) request.getAttribute("logo");
 		}
 
 		$.ajax({
-			url : "http://localhost:8080/signIn.do",
+			url : "/signIn.do",
 			type : "post",
 			contentType : "application/json; charset=utf-8",
 			data : JSON.stringify(sendData),
@@ -179,11 +179,11 @@ String logo = (String) request.getAttribute("logo");
 	<script src="../assets/js/main.js"></script>
 	<script>
 		Kakao.init("f0e137541dcef23154b82f7c348b087a");
-
+		
 		function kakaoLogin() {
 			
-			// 카카오 로그인 토큰 호출
-			if (Kakao.Auth.getAccessToken()) {
+// 			// 카카오 로그인 토큰 호출
+// 			if (!Kakao.Auth.getAccessToken()) {
 				Kakao.Auth.loginForm({
 					success : function(result) {
 						Kakao.Auth.setAccessToken(result.access_token);
@@ -244,9 +244,10 @@ String logo = (String) request.getAttribute("logo");
 						toastr.error("Kakao와 연결을 실패하였습니다.", "연결 오류!");
 					}
 				});
-			} else {
-				return;
-			}
+// 			} else {
+// 				console.log(Kakao.isInitialized());
+// 				return;
+// 			}
 		}
 	</script>
 

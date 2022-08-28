@@ -221,7 +221,7 @@ String name = (String) request.getAttribute("name");
         };
         
         $.ajax({
-          url:"http://localhost:8080/kakaoUser/userInfo",
+          url:"/kakaoUser/userInfo",
           type: "post",
           contentType: "application/json; charset=utf-8",
           data : JSON.stringify(sendData),
