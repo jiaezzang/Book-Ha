@@ -244,7 +244,7 @@
 	        	};
 	
 	        	$.ajax({
-	          		url:"http://localhost:8080/account/update",
+	          		url:"/account/update",
 	          		type: "post",
 	          		contentType: "application/json; charset=utf-8",
 	          		data : JSON.stringify(sendData),
@@ -300,7 +300,7 @@
 		    	user_password: $("#deletePassword").val()
 		    };
 		    $.ajax({
-		    	url:"http://localhost:8080/account/delete",
+		    	url:"/account/delete",
 		        type: "post",
 		        contentType: "application/json; charset=utf-8",
 		        data : JSON.stringify(sendData),
@@ -320,7 +320,7 @@
 			};
 	
 		    $.ajax({
-		    	url:"http://localhost:8080/account/delete_kakao",
+		    	url:"/account/delete_kakao",
 		        type: "post",
 		        contentType: "application/json; charset=utf-8",
 		        data : JSON.stringify(sendData),
